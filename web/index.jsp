@@ -16,13 +16,13 @@
     <form action="login" method="post">
         <table align="center" width="300" border="0" cellspacing="10" cellpadding="0">
             <tr>
-                <td align="right" class="dl">用户名：</td>
+                <td align="right" class="dl">username：</td>
                 <td width="200" align="center">
                     <input type="text" name="username" id="username">
                 </td>
             </tr>
             <tr>
-                <td align="right" class="dl">密码：</td>
+                <td align="right" class="dl">password：</td>
                 <td width="200" align="center">
                     <input type="password" name="password" id="password">
                 </td>
