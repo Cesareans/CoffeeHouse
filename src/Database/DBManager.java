@@ -38,18 +38,18 @@ public class DBManager {
             psm.close();
             con.close();
         } catch (Exception e) {
-            System.out.println("显示所有数据报错，原因："+e.getMessage());
+            e.printStackTrace();
         }
         return managerlist;
     }
 
-    // to be deleted.
+    //to be deleted
     public void setLocation(String ip)
     {
         connectSql="jdbc:mysql://"+ip+":3306/caffe";
     }
 
-    // to be deleted.
+    //to be deleted
     public void displayManagerInfo()
     {
         System.out.println("Managers' information");
@@ -116,8 +116,7 @@ public class DBManager {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
+
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,8 +144,7 @@ public class DBManager {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
+
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -162,7 +160,7 @@ public class DBManager {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sql = "delete from manager where mtel="+tel;
+            String sql = "delete from manager where mtel="+"'"+tel+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -170,8 +168,7 @@ public class DBManager {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
+
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -187,7 +184,7 @@ public class DBManager {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sql = "update manager set mtel="+newtel+" where mtel="+oldtel;
+            String sql = "update manager set mtel="+"'"+newtel+"'"+" where mtel="+"'"+oldtel+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -195,8 +192,7 @@ public class DBManager {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
+
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -212,7 +208,7 @@ public class DBManager {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sql = "update manager set mpassword="+newpassword+" where mtel="+tel;
+            String sql = "update manager set mpassword="+"'"+newpassword+"'"+" where mtel="+"'"+tel+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -220,8 +216,7 @@ public class DBManager {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
+
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -237,7 +232,7 @@ public class DBManager {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sql = "update manager set mname="+newname+" where mtel="+tel;
+            String sql = "update manager set mname="+"'"+newname+"'"+" where mtel="+"'"+tel+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -245,8 +240,7 @@ public class DBManager {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
+
             con.close();
         } catch (Exception e) {
             e.printStackTrace();

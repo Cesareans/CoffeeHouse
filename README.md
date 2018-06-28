@@ -90,6 +90,9 @@ public boolean updateMenuType(String serial,String newtype)
 public boolean updateMenuPictureUrl(String serial,String newUrl)
 更新餐品图片url
 
+public ArrayList<Menu> getTypeMenu(String type)
+根据类型筛选菜单
+
 ****************************************************************
 ****************************************************************
 

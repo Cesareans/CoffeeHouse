@@ -1,12 +1,11 @@
 package Database;
 
-import Entity.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-
+import Entity.*;
 public class DBMenu {
     private String url = "com.mysql.jdbc.Driver"; //加载驱动包
     private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
@@ -46,13 +45,13 @@ public class DBMenu {
         return menulist;
     }
 
-    // to be deleted.
+    //to be deleted
     public void setLocation(String ip)
     {
         connectSql="jdbc:mysql://"+ip+":3306/caffe";
     }
 
-    // to be deleted.
+    //to be deleted
     public void displayMenuInfo()
     {
         System.out.println("menu information");
@@ -77,7 +76,7 @@ public class DBMenu {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
-            String sqlInset = "insert into menu(serialnumber,name,price,qty,type) values(?, ?, ?, ?, ?,?)";
+            String sqlInset = "insert into menu(serialnumber,mname,price,qty,mtype,picture) values(?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(sqlInset);
             stmt.setString(1, serial);
             stmt.setString(2, name);
@@ -108,7 +107,7 @@ public class DBMenu {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
-            String sql = "delete from menu where serialnumber="+serial;
+            String sql = "delete from menu where serialnumber="+"'"+serial+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -133,7 +132,7 @@ public class DBMenu {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
-            String sql = "update menu set serialnumber="+newserial+" where serialnumber="+oldserial;
+            String sql = "update menu set serialnumber="+"'"+newserial+"'"+" where serialnumber="+"'"+oldserial+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -158,7 +157,7 @@ public class DBMenu {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
-            String sql = "update menu set name="+newname+" where serialnumber="+serial;
+            String sql = "update menu set mname="+"'"+newname+"'"+" where serialnumber="+"'"+serial+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -183,7 +182,7 @@ public class DBMenu {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
-            String sql = "update menu set price="+newprice+" where serialnumber="+serial;
+            String sql = "update menu set price="+"'"+newprice+"'"+" where serialnumber="+"'"+serial+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -191,8 +190,6 @@ public class DBMenu {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -208,7 +205,7 @@ public class DBMenu {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
-            String sql = "update menu set qty="+newqty+" where serialnumber="+serial;
+            String sql = "update menu set qty="+"'"+newqty+"'"+" where serialnumber="+"'"+serial+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -216,8 +213,6 @@ public class DBMenu {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -233,7 +228,7 @@ public class DBMenu {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
-            String sql = "update menu set type="+newtype+" where serialnumber="+serial;
+            String sql = "update menu set mtype="+"'"+newtype+"'"+" where serialnumber="+"'"+serial+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -241,8 +236,6 @@ public class DBMenu {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -258,7 +251,7 @@ public class DBMenu {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
-            String sql = "update menu set picture="+newUrl+" where serialnumber="+serial;
+            String sql = "update menu set picture="+"'"+newUrl+"'"+" where serialnumber="+"'"+serial+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -266,13 +259,42 @@ public class DBMenu {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
     }
+
+    public ArrayList<Menu> getTypeMenu(String type){
+        ArrayList<Menu> menulist = new ArrayList<Menu>();
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
+            psm = con.prepareStatement("select * from menu where mtype="+"'"+type+"'");
+            rs = psm.executeQuery();
+
+            while(rs.next()){
+                Menu u = new Menu();
+                u.setSerialNumber(rs.getString(1));
+                u.setName(rs.getString(2));
+                u.setPrice(rs.getDouble(3));
+                u.setQty(rs.getInt(4));
+                u.setType(rs.getString(5));
+                u.setPictureUrl(rs.getString(6));
+                menulist.add(u);
+            }
+            //关闭数据库连接
+            rs.close();
+            psm.close();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return menulist;
+    }
+
 
 }
