@@ -46,11 +46,13 @@ public class DBUser {
         return userlist;
     }
 
+    // to be deleted.
     public void setLocation(String ip)
     {
         connectSql="jdbc:mysql://"+ip+":3306/caffe";
     }
 
+    // to be deleted.
     public void displayUserInfo()
     {
         System.out.println("Users' information");
