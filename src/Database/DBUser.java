@@ -67,7 +67,7 @@ public class DBUser {
         }
     }
 
-    public boolean isSuccess(String tel,String key)
+    public boolean matchUser(String tel,String key)
     {
         boolean success = false;
         try {
