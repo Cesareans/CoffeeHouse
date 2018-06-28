@@ -46,11 +46,13 @@ public class DBUser {
         return userlist;
     }
 
+    //to be deleted
     public void setLocation(String ip)
     {
         connectSql="jdbc:mysql://"+ip+":3306/caffe";
     }
 
+    //to be deleted
     public void displayUserInfo()
     {
         System.out.println("Users' information");
@@ -117,8 +119,8 @@ public class DBUser {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
+            //rs.close();
+            //psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,8 +149,8 @@ public class DBUser {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
+           // rs.close();
+            //psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -172,8 +174,8 @@ public class DBUser {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
+            //rs.close();
+            //psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -189,7 +191,7 @@ public class DBUser {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sql = "update user set utel="+newtel+" where utel="+oldtel;
+            String sql = "update user set utel="+"'"+newtel+"'"+" where utel="+"'"+oldtel+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -197,8 +199,8 @@ public class DBUser {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
+            //rs.close();
+            //psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -214,7 +216,7 @@ public class DBUser {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sql = "update user set upassword="+newpassword+" where utel="+tel;
+            String sql = "update user set upassword="+"'"+newpassword+"'"+" where utel="+"'"+tel+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -222,8 +224,8 @@ public class DBUser {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
+           // rs.close();
+           // psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -239,7 +241,7 @@ public class DBUser {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sql = "update user set uname="+newname+" where utel="+tel;
+            String sql = "update user set uname="+"'"+newname+"'"+" where utel="+"'"+tel+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -247,8 +249,8 @@ public class DBUser {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
+           // rs.close();
+           // psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -264,7 +266,7 @@ public class DBUser {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sql = "update user set birthday="+birthday+" where utel="+tel;
+            String sql = "update user set birthday="+"'"+birthday+"'"+" where utel="+"'"+tel+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -272,8 +274,8 @@ public class DBUser {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
+            //rs.close();
+            //psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -289,7 +291,7 @@ public class DBUser {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sql = "update user set email="+email+" where utel="+tel;
+            String sql = "update user set email="+"'"+email+"'"+" where utel="+"'"+tel+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -297,8 +299,8 @@ public class DBUser {
             else
                 result=false;
             //关闭数据库连接
-            rs.close();
-            psm.close();
+            //rs.close();
+            //psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
