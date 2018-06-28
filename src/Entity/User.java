@@ -1,4 +1,4 @@
-package User;
+package Entity;
 
 public class User {
     private String tel;
