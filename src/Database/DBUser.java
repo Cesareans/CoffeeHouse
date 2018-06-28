@@ -1,12 +1,12 @@
-package User;
+package Database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-
-public class DB_user {
+import Entity.*;
+public class DBUser {
 
     private String url = "com.mysql.jdbc.Driver"; //加载驱动包
     private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
@@ -17,7 +17,7 @@ public class DB_user {
     private ResultSet rs = null;
 
     //采用集合的方法，返回数据集合
-    private ArrayList<User> getAllUsers(){
+    public ArrayList<User> getAllUsers(){
         ArrayList<User> userlist = new ArrayList<User>();
         try {
             //加载驱动包
@@ -41,13 +41,19 @@ public class DB_user {
             psm.close();
             con.close();
         } catch (Exception e) {
-            System.out.println("显示所有数据报错，原因："+e.getMessage());
+            e.printStackTrace();
         }
         return userlist;
     }
 
+    public void setLocation(String ip)
+    {
+        connectSql="jdbc:mysql://"+ip+":3306/caffe";
+    }
+
     public void displayUserInfo()
     {
+        System.out.println("Users' information");
         System.out.printf("%-14s%-14s%-14s%-14s%-14s\n","Tel","Password","Name","Birthday","Email");
         System.out.println("-----------------------------------------------------------------------------");
         ArrayList<User> list = getAllUsers();
@@ -88,7 +94,7 @@ public class DB_user {
             psm.close();
             con.close();
         } catch (Exception e) {
-            System.out.println("显示所有数据报错，原因："+e.getMessage());
+            e.printStackTrace();
         }
         return success;
     }
@@ -115,7 +121,7 @@ public class DB_user {
             psm.close();
             con.close();
         } catch (Exception e) {
-            System.out.println("显示所有数据报错，原因："+e.getMessage());
+            e.printStackTrace();
         }
         return result;
     }
@@ -145,7 +151,7 @@ public class DB_user {
             psm.close();
             con.close();
         } catch (Exception e) {
-            System.out.println("显示所有数据报错，原因："+e.getMessage());
+            e.printStackTrace();
         }
         return result;
     }
@@ -170,7 +176,7 @@ public class DB_user {
             psm.close();
             con.close();
         } catch (Exception e) {
-            System.out.println("显示所有数据报错，原因："+e.getMessage());
+            e.printStackTrace();
         }
         return result;
     }
@@ -195,7 +201,7 @@ public class DB_user {
             psm.close();
             con.close();
         } catch (Exception e) {
-            System.out.println("显示所有数据报错，原因："+e.getMessage());
+            e.printStackTrace();
         }
         return result;
     }
@@ -220,7 +226,7 @@ public class DB_user {
             psm.close();
             con.close();
         } catch (Exception e) {
-            System.out.println("显示所有数据报错，原因："+e.getMessage());
+            e.printStackTrace();
         }
         return result;
     }
@@ -245,7 +251,7 @@ public class DB_user {
             psm.close();
             con.close();
         } catch (Exception e) {
-            System.out.println("显示所有数据报错，原因："+e.getMessage());
+            e.printStackTrace();
         }
         return result;
     }
@@ -270,7 +276,7 @@ public class DB_user {
             psm.close();
             con.close();
         } catch (Exception e) {
-            System.out.println("显示所有数据报错，原因："+e.getMessage());
+            e.printStackTrace();
         }
         return result;
     }
@@ -295,7 +301,7 @@ public class DB_user {
             psm.close();
             con.close();
         } catch (Exception e) {
-            System.out.println("显示所有数据报错，原因："+e.getMessage());
+            e.printStackTrace();
         }
         return result;
     }
