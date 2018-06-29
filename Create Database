@@ -36,6 +36,16 @@ create table orders(
        orderDate datetime
        );
 
+create table cart(
+       orderSN varchar(11) primary key,
+       userTel varchar(11),
+       mealSerialNumber varchar(11),
+       mealName varchar(11),
+       mealPrice double,
+       qty int,
+       orderDate datetime
+       );
+
 alter table orders
 add constraint fk1 foreign key(mealSerialNumber) references menu(serialnumber) on delete set null;
 
@@ -47,6 +57,12 @@ add constraint fk3 foreign key(userTel) references user(utel) on delete cascade;
 
 alter table orders
 add constraint fk4 foreign key(userTel) references user(utel) on update cascade;
+
+alter table cart
+add constraint fk5 foreign key(mealSerialNumber) references menu(serialnumber) on delete set null on update cascade;
+
+alter table cart
+add constraint fk6 foreign key(userTel) references user(utel) on delete cascade on update cascade;
 
 insert into user values('18850516371','sxy234567','sxy','1998-02-25','719669212@qq.com');
 insert into user values('18850516372','hzy234568','hzy','1998-03-25','719669213@qq.com');
@@ -67,3 +83,8 @@ insert into orders values('0001','18850516371','001','chicken',10.2,2,'2018-06-2
 insert into orders values('0002','18850516371','002','beef',20.5,3,'2018-06-28');
 insert into orders values('0003','18850516373','001','chicken',10.2,1,'2018-06-27');
 insert into orders values('0004','18850516374','004','yogurt',8.7,2,'2018-06-25');
+
+insert into cart values('0001','18850516371','001','chicken',10.2,2,'2018-06-28');
+insert into cart values('0002','18850516371','002','beef',20.5,3,'2018-06-28');
+insert into cart values('0003','18850516373','001','chicken',10.2,1,'2018-06-27');
+insert into cart values('0004','18850516374','004','yogurt',8.7,2,'2018-06-25');
