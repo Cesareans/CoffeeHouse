@@ -210,8 +210,6 @@ public class DBHistoryOrders {
             String sql = "update orders set mealName="+"'"+newMealName+"'"+" where orderSN="+"'"+orderSN+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
-            System.out.println("HERE!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println(i);
             if(i==1)
                 result=true;
             else
