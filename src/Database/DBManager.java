@@ -116,7 +116,6 @@ public class DBManager {
             else
                 result=false;
             //关闭数据库连接
-
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -144,7 +143,6 @@ public class DBManager {
             else
                 result=false;
             //关闭数据库连接
-
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -168,7 +166,6 @@ public class DBManager {
             else
                 result=false;
             //关闭数据库连接
-
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -192,7 +189,6 @@ public class DBManager {
             else
                 result=false;
             //关闭数据库连接
-
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -216,7 +212,6 @@ public class DBManager {
             else
                 result=false;
             //关闭数据库连接
-
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
