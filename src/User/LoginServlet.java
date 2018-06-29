@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(name = "LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -23,16 +24,19 @@ public class LoginServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        Debug.log("username=" + username + "&password=" + password);
         if(username == null || password == null)
             return;
         if(username.equals("")|| password.equals(""))
             return;
 
+        PrintWriter pw = response.getWriter();
         DBUser dbUser = new DBUser();
         if(dbUser.matchUser(username , password)){
             LoginSession.startSessionWithCookie(request,response,username,password);
-            response.sendRedirect("getSession.jsp");
+            pw.write("success");
         }else{
+            pw.write("fail");
         }
     }
 }

@@ -1,21 +1,37 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script>
+    var xmlhttp;
     function submitToLogin() {
         console.log("prepare to login");
         var username = document.getElementById("username").value;
         if(username==null || username === "") {
             alert("用户名不能为空");
             document.getElementById("username").focus();
-            return false;
+            return;
         }
         var password = document.getElementById("password").value;
         if(password == null || password===""){
             alert("密码不能为空");
             document.getElementById("password").focus();
-            return false;
+            return;
         }
-        document.loginForm.action = "loginServlet";
-        document.loginForm.submit();
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = checkLogin;
+        xmlhttp.open("post" , "loginServlet" , true);
+        xmlhttp.setRequestHeader("Content-Type" , "application/x-www-form-urlencoded");
+        xmlhttp.send("username=" + username + "&password=" + password);
+    }
+    function checkLogin() {
+        console.log("xmlhttp.readyState = " + xmlhttp.readyState + " &&  xmlhttp.status = " + xmlhttp.status);
+        console.log(xmlhttp.responseText);
+        if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+            var response = xmlhttp.responseText;
+            if(response == null || response === "fail"){
+                document.getElementById("return").innerHTML = "<font color=\"red\">登陆失败，请重试</font>";
+            }else if(response ==="success") {
+                window.location="index.jsp";
+            }
+        }
     }
     function submitToRegister() {
         document.loginForm.method="GET";
@@ -61,11 +77,9 @@
                 </td>
             </tr>
             <tr>
-                <div id="return">
-                    <td>
-
-                    </td>
-                </div>
+                <td colspan="2">
+                    <div id="return"></div>
+                </td>
             </tr>
         </table>
     </form>
