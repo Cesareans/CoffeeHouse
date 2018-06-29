@@ -11,7 +11,7 @@
 <body>
     <h1 align="center">注册</h1>
     <hr>
-    <form action="register" method="post">
+    <form action="registerServlet" method="post">
         <table align="center" width="300" border="0" cellspacing="10" cellpadding="0">
             <tr>
                 <td align="right" class="dl">用户名：</td>

@@ -1,23 +1,23 @@
-<%@ page import="Debug.Debug" %>
-<%@ page import="javax.swing.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script>
-    function login() {
+    function submitToLogin() {
+        console.log("prepare to login");
         var username = document.getElementById("username").value;
         if(username==null || username === "") {
             alert("用户名不能为空");
             document.getElementById("username").focus();
-            return;
+            return false;
         }
         var password = document.getElementById("password").value;
         if(password == null || password===""){
             alert("密码不能为空");
             document.getElementById("password").focus();
-            return;
+            return false;
         }
+        document.loginForm.action = "loginServlet";
         document.loginForm.submit();
     }
-    function register() {
+    function submitToRegister() {
         document.loginForm.method="GET";
         document.loginForm.action="register.jsp";
         document.loginForm.submit();
@@ -30,7 +30,7 @@
   <body>
     <h1 align="center">登陆</h1>
     <hr>
-    <form action="login" name="loginForm" method="post" id="loginForm">
+    <form name="loginForm" method="post" id="loginForm">
         <table  width="300" align="center" border="0" cellspacing="10" cellpadding="0">
             <tr>
                 <td width="30%" align="right">
@@ -51,10 +51,10 @@
                     <table width="200" align="center">
                         <tr>
                             <td width="50%" align="center">
-                                <button onclick="login()" name="submitBtn">登陆</button>
+                                <button onclick="submitToLogin()" name="loginBtn">登陆</button>
                             </td>
                             <td width="50%" align="center">
-                                <button onclick="register()" name="registerBtn">注册</button>
+                                <button onclick="submitToRegister()" name="registerBtn">注册</button>
                             </td>
                         </tr>
                     </table>
