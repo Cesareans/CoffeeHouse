@@ -1,8 +1,8 @@
 # CoffeeHouse
 Created For Java In Semester
 
-*****************************************
-*****************************************
+************************************************************************
+************************************************************************
 DBUser:
 
 属性说明：
@@ -16,7 +16,6 @@ user共有五个属性：
 接口说明：
 public void setLocation(String ip)
 默认为本机（如果不调用此函数的话）
-
 
 public void displayUserInfo()
 显示所有用户信息
@@ -54,8 +53,8 @@ public boolean existUserName(String uname)
 public boolean existUserTel(String utel)
 是否已存在电话为utel的用户 存在：true 不存在：false
 
-****************************************************************
-****************************************************************
+************************************************************************
+************************************************************************
 
 DBMenu:
 
@@ -103,8 +102,11 @@ public boolean updateMenuPictureUrl(String serial,String newUrl)
 public boolean updateMenuSales(String serial,int newsale)
 更新餐品的销量
 
-****************************************************************
-****************************************************************
+public Menu getMeal(String mealSN)
+获取餐品号为mealSN的餐品
+
+************************************************************************
+************************************************************************
 
 DBManager:
 
@@ -138,7 +140,45 @@ public boolean updatePassword(String tel,String newpassword)
 public boolean updateManagerName(String tel,String newname)
 更新 电话号码为tel的管理员的名字为newname
 
+************************************************************************
+************************************************************************
 
+DBHistoryOrders:
+
+属性说明：
+1.orderSN: 订单号
+2.user： 用户电话号码
+3.mealSerialNumber：餐品号
+4.mealName：订单下单时刻餐品的名字
+5.mealPrice：订单下单时刻单价
+6.qty：用户购买件数
+7.date：下单时间 格式：****-**-** **：**：**.*
+
+接口说明：
+public ArrayList<Order> getAllOrders()
+获取全部历史订单（所有用户）
+
+public ArrayList<Order> getUserOrders(String usertel)
+获取电话号码为userTel的用户的历史订单
+
+public boolean insertNewOrder(String orderSN,String user,String mealSerialNumber,int qty,String date)
+插入新的历史订单记录，参数：订单号，用户电话号，餐品号，购买数量，日期
+备注：下单时刻的餐品名称及价格自动生成
+
+public boolean deleteOrder(String orderSN)
+删除订单号为orderSN的历史订单记录
+
+public boolean updateOrderQty(String orderSN,int newQty)
+更新订单号为orderSN的订单的购买数量为newQty
+
+public boolean updateOrderDate(String orderSN,String newdate)
+更新订单号为orderSN的订单的购买日期为newdate
+
+备注说明：
+1.订单号一旦生成不可更改
+2.当用户信息修改时，历史订单中的用户信息会随之更改
+3.当餐品号更改时，历史订单中的餐品号会自动随之修改
+4.餐品名称以及餐品单价一旦生成，不可更改
 
 
 

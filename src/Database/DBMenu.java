@@ -295,4 +295,33 @@ public class DBMenu {
         }
         return menulist;
     }
+
+    public Menu getMeal(String mealSN)
+    {
+        Menu u = new Menu();
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
+            psm = con.prepareStatement("select * from menu where serialnumber="+"'"+mealSN+"'");
+            rs = psm.executeQuery();
+
+            while(rs.next()){
+                u.setSerialNumber(rs.getString(1));
+                u.setName(rs.getString(2));
+                u.setPrice(rs.getDouble(3));
+                u.setQty(rs.getInt(4));
+                u.setType(rs.getString(5));
+                u.setPictureUrl(rs.getString(6));
+            }
+            //关闭数据库连接
+            rs.close();
+            psm.close();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return u;
+    }
 }
