@@ -119,8 +119,6 @@ public class DBUser {
             else
                 result=false;
             //关闭数据库连接
-            //rs.close();
-            //psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -149,8 +147,6 @@ public class DBUser {
             else
                 result=false;
             //关闭数据库连接
-           // rs.close();
-            //psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -174,8 +170,6 @@ public class DBUser {
             else
                 result=false;
             //关闭数据库连接
-            //rs.close();
-            //psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -199,8 +193,6 @@ public class DBUser {
             else
                 result=false;
             //关闭数据库连接
-            //rs.close();
-            //psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -224,8 +216,6 @@ public class DBUser {
             else
                 result=false;
             //关闭数据库连接
-           // rs.close();
-           // psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -249,8 +239,6 @@ public class DBUser {
             else
                 result=false;
             //关闭数据库连接
-           // rs.close();
-           // psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -273,9 +261,7 @@ public class DBUser {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            //rs.close();
-            //psm.close();
+
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -298,9 +284,6 @@ public class DBUser {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            //rs.close();
-            //psm.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -308,5 +291,52 @@ public class DBUser {
         return result;
     }
 
+    public boolean existUserName(String uname)
+    {
+        boolean result=false;
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+            psm = con.prepareStatement("select * from user where uname="+uname);
+            rs = psm.executeQuery();
+            if(rs.next())
+                result=true;
+            else
+                result=false;
+            //关闭数据库连接
+            rs.close();
+            psm.close();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public boolean existUserTel(String utel)
+    {
+        boolean result=false;
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+            psm = con.prepareStatement("select * from user where utel="+utel);
+            rs = psm.executeQuery();
+            if(rs.next())
+                result=true;
+            else
+                result=false;
+            //关闭数据库连接
+            rs.close();
+            psm.close();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
 

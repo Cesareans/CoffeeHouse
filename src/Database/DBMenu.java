@@ -57,7 +57,7 @@ public class DBMenu {
         System.out.println("menu information");
         System.out.printf("%-14s%-14s%-14s%-14s%-14s\n","Serial number","Name","Price","Quantity","Type");
         System.out.println("-----------------------------------------------------------------------------");
-        ArrayList<Menu> list = getAllmenu();
+        ArrayList<Menu> list = getTypeMenu("meat");
         if(list.size() == 0){
             System.out.println("暂无数据");
         }else{
@@ -295,6 +295,4 @@ public class DBMenu {
         }
         return menulist;
     }
-
-
 }

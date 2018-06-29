@@ -48,6 +48,12 @@ public boolean updateUserBirthday(String tel,String birthday)
 public boolean updateUserEmail(String tel,String email)
 修改/设置 电话号码为tel的用户的邮箱改为email
 
+public boolean existUserName(String uname)
+是否存在名字为uname的用户 存在：true 不存在：false
+
+public boolean existUserTel(String utel)
+是否已存在电话为utel的用户 存在：true 不存在：false
+
 ****************************************************************
 ****************************************************************
 
@@ -59,6 +65,7 @@ DBMenu:
 3.price：餐品价格
 4.qty：餐品库存
 5.type：餐品类型
+6.sales:餐品销量，默认为0
 6.pictureUrl：餐品图片的URL
 
 
@@ -66,8 +73,11 @@ DBMenu:
 public ArrayList<Menu> getAllmenu()
 获取菜单全部信息
 
+public ArrayList<Menu> getTypeMenu(String type)
+获取所有类型为type的菜品
+
 public boolean insertNewmenu(String serial,String name,double price,int qty,String type,String pictureUrl)
-插入 新的一条菜单记录：餐品号，餐品名，单价，库存，类型，图片URL
+插入 新的一条菜单记录：餐品号，餐品名，单价，库存，类型，图片URL，销量默认为0
 
 public boolean deleteMenu(String serial)
 删除餐品号为serial的菜单记录
@@ -90,8 +100,8 @@ public boolean updateMenuType(String serial,String newtype)
 public boolean updateMenuPictureUrl(String serial,String newUrl)
 更新餐品图片url
 
-public ArrayList<Menu> getTypeMenu(String type)
-根据类型筛选菜单
+public boolean updateMenuSales(String serial,int newsale)
+更新餐品的销量
 
 ****************************************************************
 ****************************************************************
