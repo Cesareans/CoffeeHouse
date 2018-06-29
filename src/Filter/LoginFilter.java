@@ -1,5 +1,7 @@
 package Filter;
 
+import Debug.Debug;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -13,8 +15,9 @@ public class LoginFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+        Debug.log("LoginFilter");
         String uri = ((HttpServletRequest) req).getRequestURI();
-        if(uri.endsWith("index.jsp") || uri.endsWith("login.jsp") || uri.endsWith("register.jsp")){
+        if(uri.endsWith("index.jsp") || uri.endsWith("loginPage.jsp") || uri.endsWith("registerPage.jsp")){
             chain.doFilter(req, resp);
             return;
         }
@@ -26,13 +29,13 @@ public class LoginFilter implements Filter {
         HttpSession session = ((HttpServletRequest) req).getSession();
         String username = ((String) session.getAttribute("username"));
         if(username == null){
-            ((HttpServletResponse) resp).sendRedirect("login.jsp");
+            ((HttpServletResponse) resp).sendRedirect("loginPage.jsp");
         }
+
         chain.doFilter(req, resp);
     }
 
     public void init(FilterConfig config) throws ServletException {
-
     }
 
 }

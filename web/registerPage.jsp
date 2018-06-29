@@ -1,4 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<script>
+    function checkName() {
+
+    }
+</script>
 <html>
 <head>
     <title>注册</title>

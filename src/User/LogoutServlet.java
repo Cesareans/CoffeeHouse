@@ -10,10 +10,14 @@ import java.io.IOException;
 @WebServlet(name = "LogoutServlet")
 public class LogoutServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        processRequest(request,response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        processRequest(request,response);
+    }
+    private void processRequest(HttpServletRequest request , HttpServletResponse response) throws  ServletException , IOException{
+        request.getSession().removeAttribute("username");
+        request.getSession().removeAttribute("password");
     }
 }

@@ -932,7 +932,7 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="234" parent="227" name="name">
+    <column id="234" parent="227" name="mname">
       <Position>2</Position>
       <DataType>varchar(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
@@ -947,44 +947,49 @@
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="237" parent="227" name="type">
+    <column id="237" parent="227" name="mtype">
       <Position>5</Position>
       <DataType>varchar(30)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="238" parent="227" name="PRIMARY">
+    <column id="238" parent="227" name="picture">
+      <Position>6</Position>
+      <DataType>varchar(100)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="239" parent="227" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>serialnumber</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="239" parent="228" name="utel">
+    <column id="240" parent="228" name="utel">
       <Position>1</Position>
       <DataType>varchar(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="240" parent="228" name="upassword">
+    <column id="241" parent="228" name="upassword">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="241" parent="228" name="uname">
+    <column id="242" parent="228" name="uname">
       <Position>3</Position>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="242" parent="228" name="birthday">
+    <column id="243" parent="228" name="birthday">
       <Position>4</Position>
       <DataType>date|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="243" parent="228" name="email">
+    <column id="244" parent="228" name="email">
       <Position>5</Position>
       <DataType>varchar(30)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="244" parent="228" name="PRIMARY">
+    <key id="245" parent="228" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>utel</ColNames>
       <Primary>1</Primary>

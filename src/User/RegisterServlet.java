@@ -28,13 +28,11 @@ public class RegisterServlet extends HttpServlet {
         if(regUsername.equals("") || regPassword.equals(""))
             return;
 
-
-
         DBUser dbUser = new DBUser();
         dbUser.insertNewUser(regUsername , regPassword);
 
         LoginSession.startSession(request,regUsername,regPassword);
 
-        response.sendRedirect("userinfo.jsp");
+        response.sendRedirect("getSession.jsp");
     }
 }
