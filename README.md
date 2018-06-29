@@ -180,6 +180,33 @@ public boolean updateOrderDate(String orderSN,String newdate)
 3.当餐品号更改时，历史订单中的餐品号会自动随之修改
 4.餐品名称以及餐品单价一旦生成，不可更改
 
+************************************************************************
+************************************************************************
 
+DBCart:
+
+属性说明：
+1.orderSN: 订单号
+2.user： 用户电话号码
+3.mealSerialNumber：餐品号
+4.qty：用户购买件数
+5.date：下单时间 格式：****-**-** **：**：**.*
+
+接口说明：
+
+public ArrayList<Order> getUserOrders(String usertel)
+获取电话号码为userTel的用户的订单
+
+public boolean insertNewOrder(String orderSN,String user,String mealSerialNumber,int qty,String date)
+插入新的订单记录，参数：订单号，用户电话号，餐品号，购买数量，日期
+
+public boolean deleteOrder(String orderSN)
+删除订单号为orderSN的订单记录
+
+public boolean updateOrderQty(String orderSN,int newQty)
+更新订单号为orderSN的订单的购买数量为newQty
+
+public boolean updateOrderDate(String orderSN,String newdate)
+更新订单号为orderSN的订单的购买日期为newdate
 
 

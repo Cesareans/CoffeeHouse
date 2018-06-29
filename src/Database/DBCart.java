@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import Entity.*;
-public class DBHistoryOrders {
+public class DBCart {
     private String url = "com.mysql.jdbc.Driver"; //加载驱动包
     private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
     private String sqlUser = "root"; //数据库账号
@@ -15,37 +15,7 @@ public class DBHistoryOrders {
     private PreparedStatement psm = null;
     private ResultSet rs = null;
 
-    public ArrayList<Order> getAllOrders(){
-        ArrayList<Order> userlist = new ArrayList<Order>();
-        try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            psm = con.prepareStatement("select * from orders");
-            rs = psm.executeQuery();
-            while(rs.next()){
-                Order u = new Order();
-                u.setOrderSN(rs.getString(1));
-                u.setUser(rs.getString(2));
-                u.setMealSerialNumber(rs.getString(3));
-                u.setMealName(rs.getString(4));
-                u.setMealPrice(rs.getDouble(5));
-                u.setQty(rs.getInt(6));
-                u.setDate(rs.getString(7));
-                userlist.add(u);
-            }
-            //关闭数据库连接
-            rs.close();
-            psm.close();
-            con.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return userlist;
-    }
-
-    public ArrayList<Order> getUserOrders(String usertel){
+    public ArrayList<Order> getUserCart(String usertel){
         ArrayList<Order> userlist = new ArrayList<Order>();
         try {
             //加载驱动包
@@ -87,7 +57,7 @@ public class DBHistoryOrders {
         System.out.println("History orders' list");
         System.out.printf("%-14s%-14s%-14s%-14s%-14s%-14s%-14s\n","OrderSN","UserTel","MealSN","MealName","MealPrice","Quantity","Date");
         System.out.println("-----------------------------------------------------------------------------");
-        ArrayList<Order> list = getAllOrders();
+        ArrayList<Order> list = getUserCart("18750516372");
         if(list.size() == 0){
             System.out.println("暂无数据");
         }else{
@@ -120,10 +90,6 @@ public class DBHistoryOrders {
                 result=false;
             //关闭数据库连接
             con.close();
-            DBMenu m =new DBMenu();
-            Menu menu = m.getMeal(mealSerialNumber);
-            updateOrderMealName(orderSN,menu.getName());
-            updateOrderMealPrice(orderSN,menu.getPrice());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -199,51 +165,4 @@ public class DBHistoryOrders {
         return result;
     }
 
-    private boolean updateOrderMealName(String orderSN,String newMealName)
-    {
-        boolean result =false;
-        try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sql = "update orders set mealName="+"'"+newMealName+"'"+" where orderSN="+"'"+orderSN+"'";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            int i = stmt.executeUpdate();
-            System.out.println("HERE!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println(i);
-            if(i==1)
-                result=true;
-            else
-                result=false;
-            //关闭数据库连接
-            con.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    private boolean updateOrderMealPrice(String orderSN,double newMealPrice)
-    {
-        boolean result =false;
-        try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sql = "update orders set mealPrice="+"'"+newMealPrice+"'"+" where orderSN="+"'"+orderSN+"'";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            int i = stmt.executeUpdate();
-            if(i==1)
-                result=true;
-            else
-                result=false;
-            //关闭数据库连接
-            con.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
 }

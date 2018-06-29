@@ -1,0 +1,69 @@
+create database caffe;
+drop table orders;
+drop table menu;
+drop table user;
+drop table manager;
+
+
+create table menu(
+       serialnumber varchar(11) primary key,
+       mname varchar(11),
+       price numeric(6,0),
+       qty int,
+       mtype varchar(30),
+       sales int,
+       picture varchar(100));
+
+create table user(
+       utel varchar(11) primary key,
+       upassword varchar(20) not null,
+       uname varchar(20) unique,
+       birthday date,
+       email varchar(30));
+
+create table manager(
+       mtel varchar(11) primary key,
+       mpassword varchar(20) not null,
+       mname varchar(20));
+
+create table orders(
+       orderSN varchar(11) primary key,
+       userTel varchar(11),
+       mealSerialNumber varchar(11),
+       mealName varchar(11),
+       mealPrice double,
+       qty int,
+       orderDate datetime
+       );
+
+alter table orders
+add constraint fk1 foreign key(mealSerialNumber) references menu(serialnumber) on delete set null;
+
+alter table orders
+add constraint fk2 foreign key(mealSerialNumber) references menu(serialnumber) on update cascade;
+
+alter table orders
+add constraint fk3 foreign key(userTel) references user(utel) on delete cascade;
+
+alter table orders
+add constraint fk4 foreign key(userTel) references user(utel) on update cascade;
+
+insert into user values('18850516371','sxy234567','sxy','1998-02-25','719669212@qq.com');
+insert into user values('18850516372','hzy234568','hzy','1998-03-25','719669213@qq.com');
+insert into user values('18850516373','yjb234569','yjb','1998-04-25','719669214@qq.com');
+insert into user values('18850516374','lyj234566','lyj','1998-05-25','719669215@qq.com');
+
+insert into manager values('18850516311','sx234567','a');
+insert into manager values('18850516321','ab234567','b');
+insert into manager values('18850516331','al134567','c');
+insert into manager values('18850516341','sq234567','d');
+
+insert into menu values('001','chicken',10.2,30,'meat',0,null);
+insert into menu values('002','beef',20.5,30,'meat',0,null);
+insert into menu values('003','apple',5.6,30,'fruit',0,null);
+insert into menu values('004','yogurt',8.7,30,'drinks',0,null);
+
+insert into orders values('0001','18850516371','001','chicken',10.2,2,'2018-06-28');
+insert into orders values('0002','18850516371','002','beef',20.5,3,'2018-06-28');
+insert into orders values('0003','18850516373','001','chicken',10.2,1,'2018-06-27');
+insert into orders values('0004','18850516374','004','yogurt',8.7,2,'2018-06-25');
