@@ -1,6 +1,7 @@
 package Check;
 
 import Database.DBUser;
+import Debug.Debug;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "CheckUsernameServlet")
-public class CheckUsernameServlet extends HttpServlet {
+@WebServlet(name = "CheckTelServlet")
+public class CheckTelServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request,response);
     }
@@ -20,8 +21,14 @@ public class CheckUsernameServlet extends HttpServlet {
         processRequest(request,response);
     }
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws  ServletException , IOException{
-        String username = request.getParameter("username");
+        String usertel = request.getParameter("usertel");
         DBUser dbUser = new DBUser();
-
+        PrintWriter pw = response.getWriter();
+        Debug.log(usertel + ":" + dbUser.existUserName(usertel));
+        if(usertel == null || usertel.equals("") || dbUser.existUserName(usertel))
+            pw.write("false");
+        else
+            pw.write("true");
+        pw.close();
     }
 }

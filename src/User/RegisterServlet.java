@@ -1,6 +1,7 @@
 package User;
 
 import Database.DBUser;
+import Debug.Debug;
 import Session.LoginSession;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,18 +21,18 @@ public class RegisterServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException{
-        String regUsername = request.getParameter("username");
+        String regUsertel = request.getParameter("usertel");
         String regPassword = request.getParameter("password");
 
-        if(regUsername==null || regPassword == null)
+        if(regUsertel==null || regPassword == null)
             return;
-        if(regUsername.equals("") || regPassword.equals(""))
+        if(regUsertel.equals("") || regPassword.equals(""))
             return;
 
         DBUser dbUser = new DBUser();
-        dbUser.insertNewUser(regUsername , regPassword);
+        Debug.log(dbUser.insertNewUser(regUsertel , regPassword)?"true":"false");
 
-        LoginSession.startSession(request,regUsername,regPassword);
+        LoginSession.startSession(request,regUsertel,regPassword);
 
         response.sendRedirect("getSession.jsp");
     }

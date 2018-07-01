@@ -98,6 +98,7 @@ public class DBUser {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return success;
     }
 

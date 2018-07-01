@@ -22,21 +22,22 @@ public class LoginServlet extends HttpServlet {
         processRequest(request , response);
     }
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
+        String usertel = request.getParameter("usertel");
         String password = request.getParameter("password");
-        Debug.log("username=" + username + "&password=" + password);
-        if(username == null || password == null)
+        Debug.log("usertel=" + usertel + "&password=" + password);
+        if(usertel == null || password == null)
             return;
-        if(username.equals("")|| password.equals(""))
+        if(usertel.equals("")|| password.equals(""))
             return;
 
         PrintWriter pw = response.getWriter();
         DBUser dbUser = new DBUser();
-        if(dbUser.matchUser(username , password)){
-            LoginSession.startSessionWithCookie(request,response,username,password);
+        if(dbUser.matchUser(usertel , password)){
+            LoginSession.startSessionWithCookie(request,response,usertel,password);
             pw.write("success");
         }else{
             pw.write("fail");
         }
+        pw.close();
     }
 }
