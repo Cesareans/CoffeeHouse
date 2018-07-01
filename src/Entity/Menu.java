@@ -6,6 +6,7 @@ public class Menu {
     private double price;
     private String type;
     private int qty;
+    private int sales;
     private String pictureUrl;
 
     public Menu()
@@ -15,16 +16,18 @@ public class Menu {
         price=0;
         type="";
         qty=0;
+        sales=0;
         pictureUrl="";
     }
 
-    public Menu(String serialNumber,String name,double price,String type,int qty,String pictureUrl)
+    public Menu(String serialNumber, String name, double price, String type, int qty, int sales, String pictureUrl)
     {
         this.serialNumber=serialNumber;
         this.name = name;
         this.price = price;
         this.qty=qty;
         this.type = type;
+        this.sales=sales;
         this.pictureUrl=pictureUrl;
     }
 
@@ -42,6 +45,10 @@ public class Menu {
 
     public void setQty(int qty) {
         this.qty = qty;
+    }
+
+    public void setSales(int sales) {
+        this.sales = sales;
     }
 
     public void setType(String type) {
@@ -66,6 +73,10 @@ public class Menu {
 
     public int getQty() {
         return qty;
+    }
+
+    public int getSales() {
+        return sales;
     }
 
     public String getType() {

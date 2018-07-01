@@ -1,9 +1,6 @@
 package Database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import Entity.*;
 public class DBManager {
@@ -33,12 +30,19 @@ public class DBManager {
 
                 managerlist.add(m);
             }
-            //关闭数据库连接
-            rs.close();
-            psm.close();
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                rs.close();
+                psm.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
         return managerlist;
     }
@@ -89,11 +93,17 @@ public class DBManager {
             }
 
             //关闭数据库连接
-            rs.close();
-            psm.close();
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            try {
+                rs.close();
+                psm.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return success;
     }
@@ -115,10 +125,15 @@ public class DBManager {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -142,10 +157,16 @@ public class DBManager {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -165,10 +186,16 @@ public class DBManager {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -188,16 +215,21 @@ public class DBManager {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
 
-    public boolean updatePassword(String tel,String newpassword)
-    {
+    public boolean updatePassword(String tel,String newpassword) throws SQLException {
         boolean result =false;
         try {
             //加载驱动包
@@ -211,10 +243,12 @@ public class DBManager {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            con.close();
         }
         return result;
     }
@@ -234,13 +268,49 @@ public class DBManager {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
 
-            con.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
+
+    public boolean existManagerName(String name) throws SQLException {
+        boolean result=false;
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
+            psm = con.prepareStatement("select * from manager where mname="+"'"+name+"'");
+            rs = psm.executeQuery();
+            if(rs.next())
+                result=true;
+            else
+                result=false;
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                rs.close();
+                psm.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return result;
+    }
+
 
 }

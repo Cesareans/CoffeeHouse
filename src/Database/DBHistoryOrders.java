@@ -1,9 +1,6 @@
 package Database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import Entity.*;
 public class DBHistoryOrders {
@@ -35,12 +32,19 @@ public class DBHistoryOrders {
                 u.setDate(rs.getString(7));
                 userlist.add(u);
             }
-            //关闭数据库连接
-            rs.close();
-            psm.close();
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                rs.close();
+                psm.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
         return userlist;
     }
@@ -65,12 +69,19 @@ public class DBHistoryOrders {
                 u.setDate(rs.getString(7));
                 userlist.add(u);
             }
-            //关闭数据库连接
-            rs.close();
-            psm.close();
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                rs.close();
+                psm.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
         return userlist;
     }
@@ -118,14 +129,20 @@ public class DBHistoryOrders {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
+
             DBMenu m =new DBMenu();
             Menu menu = m.getMeal(mealSerialNumber);
             updateOrderMealName(orderSN,menu.getName());
             updateOrderMealPrice(orderSN,menu.getPrice());
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -145,10 +162,16 @@ public class DBHistoryOrders {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -168,10 +191,16 @@ public class DBHistoryOrders {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -191,10 +220,16 @@ public class DBHistoryOrders {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -214,10 +249,16 @@ public class DBHistoryOrders {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -237,10 +278,16 @@ public class DBHistoryOrders {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }

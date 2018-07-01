@@ -1,6 +1,5 @@
 package User;
 
-import Database.DBUser;
 import Session.LoginSession;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
