@@ -20,7 +20,7 @@ public class Menu {
         pictureUrl="";
     }
 
-    public Menu(String serialNumber, String name, double price, String type, int qty, int sales, String pictureUrl)
+    public Menu(String serialNumber,String name,double price,String type,int qty,int sales,String pictureUrl)
     {
         this.serialNumber=serialNumber;
         this.name = name;

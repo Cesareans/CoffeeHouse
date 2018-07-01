@@ -20,7 +20,7 @@ public class Order {
         date="";
     }
 
-    public Order(String orderSN, String user, String mealSerialNumber, String mealName, double mealPrice, String date, int qty)
+    public Order(String orderSN,String user, String mealSerialNumber, String mealName,double mealPrice,String date, int qty)
     {
         this.orderSN=orderSN;
         this.user=user;
