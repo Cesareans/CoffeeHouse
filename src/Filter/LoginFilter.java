@@ -17,7 +17,7 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         String uri = ((HttpServletRequest) req).getRequestURI();
         Debug.log(uri);
-        if(uri.endsWith("index.jsp") || uri.endsWith("login.html") || uri.endsWith("register.html") || uri.endsWith("/")){
+        if(uri.endsWith("index.jsp") || uri.endsWith("login.jsp") || uri.endsWith("register.html") || uri.endsWith("/")){
             chain.doFilter(req, resp);
             return;
         }
@@ -31,7 +31,7 @@ public class LoginFilter implements Filter {
         String usertel = ((String) session.getAttribute("usertel"));
         if(usertel == null){
             Debug.log("Redirect to Login.");
-            ((HttpServletResponse) resp).sendRedirect("login.html");
+            ((HttpServletResponse) resp).sendRedirect("login.jsp");
         }
 
         chain.doFilter(req, resp);

@@ -24,8 +24,7 @@ public class CheckTelServlet extends HttpServlet {
         String usertel = request.getParameter("usertel");
         DBUser dbUser = new DBUser();
         PrintWriter pw = response.getWriter();
-        Debug.log(usertel + ":" + dbUser.existUserName(usertel));
-        if(usertel == null || usertel.equals("") || dbUser.existUserName(usertel))
+        if(usertel == null || usertel.equals("") || dbUser.existUserTel(usertel))
             pw.write("false");
         else
             pw.write("true");

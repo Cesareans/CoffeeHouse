@@ -1,11 +1,19 @@
-<!--<%@ page contentType="text/html;charset=UTF-8" language="java" %>-->
-
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%
+    Cookie[] cookies = request.getCookies();
+    String usertel ="",password = "";
+    for(Cookie cookie:cookies){
+        if(cookie.getName().equals("usertel"))
+            usertel = cookie.getValue();
+        else if(cookie.getName().equals("password"))
+            password = cookie.getValue();
+    }
+%>
 <script src="JS/jquery.min.js"></script>
 <script>
+
     $(function(){
-       $("#loginBtn").click(function(){
+       $("#loginBtn").bind("click" , function(){
            var usertel = document.getElementById("usertel").value;
            if(usertel==null || usertel === "") {
                alert("用户名不能为空");
@@ -24,7 +32,7 @@
                    "usertel":usertel,
                    "password":password
                },
-               success:function (result) {//问题：提交过去之后，没有返回，直到提交下一次的ajax请求，前一个才返回
+               success:function (result) {
                    console.log("success");
                    if(result == null || result === "fail"){
                        $("#return").html("<font color=\"red\">登陆失败，请重试</font>");
@@ -34,12 +42,10 @@
                }
            });
        });
+       $("#registerBtn").bind("click" , function () {
+            window.location.assign("register.html");
+        });
     });
-    function submitToRegister() {
-        document.loginForm.method="GET";
-        document.loginForm.action="register.jsp";
-        document.loginForm.submit();
-    }
 </script>
 
 <html>
@@ -54,13 +60,13 @@
             <tr>
                 <td width="30%" align="right">用户名：</td>
                 <td width="70%" align="center">
-                    <input size="30%" type="text" name="usertel" id="usertel">
+                    <input size="30%" type="text" name="usertel" id="usertel" value="<%=usertel%>">
                 </td>
             </tr>
             <tr>
                 <td width="30%" align="right">密码：</td>
                 <td width="70%" align="center">
-                    <input size="30%" type="password" name="password" id="password">
+                    <input size="30%" type="password" name="password" id="password" value="<%=password%>">
                 </td>
             </tr>
             <tr>
@@ -68,17 +74,17 @@
                     <table width="200" align="center">
                         <tr>
                             <td width="50%" align="center">
-                                <button name="loginBtn" id="loginBtn">登陆</button>
+                                <button type="button" name="loginBtn" id="loginBtn">登陆</button>
                             </td>
                             <td width="50%" align="center">
-                                <button name="registerBtn" id="registerBtn">注册</button>
+                                <button type="button" name="registerBtn" id="registerBtn">注册</button>
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
             <tr>
-                <td colspan="2">
+                <td colspan="2" align="center">
                     <div id="return"></div>
                 </td>
             </tr>
@@ -86,3 +92,4 @@
     </form>
   </body>
 </html>
+
