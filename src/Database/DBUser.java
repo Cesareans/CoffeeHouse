@@ -1,10 +1,12 @@
+package Database;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import Entity.*;
 public class DBUser {
 
-    private String url = "com.mysql.jdbc.Driver"; //加载驱动包
+    private static String url = "com.mysql.jdbc.Driver"; //加载驱动包
     private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
     private String sqlUser = "root"; //数据库账号
     private String sqlPasswd = "admin"; //你的数据库密码
@@ -12,12 +14,17 @@ public class DBUser {
     private PreparedStatement psm = null;
     private ResultSet rs = null;
 
+    static {
+        try {
+            Class.forName(url);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     //采用集合的方法，返回数据集合
     public ArrayList<User> getAllUsers(){
         ArrayList<User> userlist = new ArrayList<User>();
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             psm = con.prepareStatement("select * from user");
@@ -75,8 +82,6 @@ public class DBUser {
     {
         boolean success = false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "select * from user where utel like "+tel;
@@ -113,8 +118,6 @@ public class DBUser {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sqlInset = "insert into user(utel,upassword) values(?, ?)";
@@ -146,8 +149,6 @@ public class DBUser {
         if(existUserTel(tel))
             return false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sqlInset = "insert into user(utel,upassword,uname,birthday,email) values(?, ?, ?, ?, ?)";
@@ -180,8 +181,6 @@ public class DBUser {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "delete from user where utel="+tel;
@@ -209,8 +208,6 @@ public class DBUser {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update user set utel="+"'"+newtel+"'"+" where utel="+"'"+oldtel+"'";
@@ -238,8 +235,6 @@ public class DBUser {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update user set upassword="+"'"+newpassword+"'"+" where utel="+"'"+tel+"'";
@@ -267,8 +262,6 @@ public class DBUser {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update user set uname="+"'"+newname+"'"+" where utel="+"'"+tel+"'";
@@ -296,8 +289,6 @@ public class DBUser {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update user set birthday="+"'"+birthday+"'"+" where utel="+"'"+tel+"'";
@@ -326,8 +317,6 @@ public class DBUser {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update user set email="+"'"+email+"'"+" where utel="+"'"+tel+"'";
@@ -355,8 +344,6 @@ public class DBUser {
     {
         boolean result=false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             psm = con.prepareStatement("select * from user where uname="+"'"+uname+"'");
@@ -385,8 +372,6 @@ public class DBUser {
     {
         boolean result=false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             psm = con.prepareStatement("select * from user where utel="+"'"+utel+"'");

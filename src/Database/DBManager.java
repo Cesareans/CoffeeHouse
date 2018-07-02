@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import Entity.*;
 
 public class DBManager {
-    private String url = "com.mysql.jdbc.Driver"; //加载驱动包
+    private static String url = "com.mysql.jdbc.Driver"; //加载驱动包
     private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
     private String sqlManager = "root"; //数据库账号
     private String sqlPasswd = "admin"; //你的数据库密码
@@ -12,11 +12,16 @@ public class DBManager {
     private PreparedStatement psm = null;
     private ResultSet rs = null;
 
+    static {
+        try {
+            Class.forName(url);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     public ArrayList<Manager> getAllManagers(){
         ArrayList<Manager> managerlist = new ArrayList<Manager>();
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
             psm = con.prepareStatement("select * from manager");
@@ -74,8 +79,6 @@ public class DBManager {
     {
         boolean success = false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
             String sql = "select * from manager where mtel like "+tel;
@@ -112,8 +115,6 @@ public class DBManager {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
             String sqlInset = "insert into manager(mtel,mpassword) values(?, ?)";
@@ -142,8 +143,6 @@ public class DBManager {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
             String sqlInset = "insert into manager(mtel,mpassword,mname) values(?, ?, ?)";
@@ -175,8 +174,6 @@ public class DBManager {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
             String sql = "delete from manager where mtel="+"'"+tel+"'";
@@ -204,8 +201,6 @@ public class DBManager {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
             String sql = "update manager set mtel="+"'"+newtel+"'"+" where mtel="+"'"+oldtel+"'";
@@ -232,8 +227,6 @@ public class DBManager {
     public boolean updatePassword(String tel,String newpassword) throws SQLException {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
             String sql = "update manager set mpassword="+"'"+newpassword+"'"+" where mtel="+"'"+tel+"'";
@@ -257,8 +250,6 @@ public class DBManager {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
             String sql = "update manager set mname="+"'"+newname+"'"+" where mtel="+"'"+tel+"'";
@@ -285,8 +276,6 @@ public class DBManager {
     public boolean existManagerName(String name) throws SQLException {
         boolean result=false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
             psm = con.prepareStatement("select * from manager where mname="+"'"+name+"'");
