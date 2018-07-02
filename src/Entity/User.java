@@ -1,5 +1,4 @@
 package Entity;
-
 public class User {
     private String tel;
     private String uname;

@@ -1,10 +1,6 @@
-package Database;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import Entity.*;
 public class DBUser {
 
@@ -36,12 +32,18 @@ public class DBUser {
                 u.setEmail(rs.getString(5));
                 userlist.add(u);
             }
-            //关闭数据库连接
-            rs.close();
-            psm.close();
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                rs.close();
+                psm.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return userlist;
     }
@@ -91,14 +93,19 @@ public class DBUser {
                     success=false;
             }
 
-            //关闭数据库连接
-            rs.close();
-            psm.close();
-            con.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }finally {
+            //关闭数据库连接
+            try {
+                rs.close();
+                psm.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
+        }
         return success;
     }
 
@@ -119,10 +126,16 @@ public class DBUser {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -130,6 +143,8 @@ public class DBUser {
     public boolean insertNewUser(String tel,String password,String name,String birthday,String email)
     {
         boolean result =false;
+        if(existUserTel(tel))
+            return false;
         try {
             //加载驱动包
             Class.forName(url);
@@ -147,10 +162,16 @@ public class DBUser {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -170,10 +191,16 @@ public class DBUser {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -193,10 +220,16 @@ public class DBUser {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -216,10 +249,16 @@ public class DBUser {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -239,10 +278,16 @@ public class DBUser {
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -263,9 +308,16 @@ public class DBUser {
             else
                 result=false;
 
-            con.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
         return result;
     }
@@ -285,9 +337,16 @@ public class DBUser {
                 result=true;
             else
                 result=false;
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -300,18 +359,24 @@ public class DBUser {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            psm = con.prepareStatement("select * from user where uname="+uname);
+            psm = con.prepareStatement("select * from user where uname="+"'"+uname+"'");
             rs = psm.executeQuery();
             if(rs.next())
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            rs.close();
-            psm.close();
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                rs.close();
+                psm.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
@@ -324,20 +389,28 @@ public class DBUser {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            psm = con.prepareStatement("select * from user where utel="+utel);
+            psm = con.prepareStatement("select * from user where utel="+"'"+utel+"'");
             rs = psm.executeQuery();
             if(rs.next())
                 result=true;
             else
                 result=false;
-            //关闭数据库连接
-            rs.close();
-            psm.close();
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                rs.close();
+                psm.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
         return result;
     }
+
 }
 

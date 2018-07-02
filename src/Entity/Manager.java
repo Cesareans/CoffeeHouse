@@ -1,5 +1,4 @@
 package Entity;
-
 public class Manager {
     private String tel;
     private String password;
