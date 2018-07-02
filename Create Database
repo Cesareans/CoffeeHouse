@@ -56,7 +56,7 @@ alter table cart
 add constraint fk3 foreign key(mealSerialNumber) references menu(serialnumber) on delete set null on update cascade;
 
 alter table cart
-add constraint fk4 foreign key(userTel) references user(utel) on delete cascade on delete set null on update cascade;
+add constraint fk4 foreign key(userTel) references user(utel) on delete cascade on update cascade;
 
 insert into user values('18850516371','sxy234567','sxy','1998-02-25','719669212@qq.com');
 insert into user values('18850516372','hzy234568','hzy','1998-03-25','719669213@qq.com');
