@@ -1,4 +1,5 @@
 create database caffe;
+drop table cart;
 drop table orders;
 drop table menu;
 drop table user;
@@ -22,9 +23,9 @@ create table user(
        email varchar(30));
 
 create table manager(
-       mtel varchar(11) primary key,
-       mpassword varchar(20) not null,
-       mname varchar(20));
+       admin varchar(11) primary key,
+       mpassword varchar(20) not null
+      );
 
 create table orders(
        orderSN varchar(11) primary key,

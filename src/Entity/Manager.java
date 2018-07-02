@@ -1,44 +1,35 @@
 package Entity;
+
 public class Manager {
-    private String tel;
+    private String admin;
     private String password;
-    private String name;
 
     public Manager()
     {
-        tel="";
+        admin="";
         password="";
-        name="";
     }
 
-    public Manager(String tel,String password,String name)
+    public Manager(String admin, String password, String name)
     {
-        this.tel=tel;
+        this.admin=admin;
         this.password=password;
-        this.name=name;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setAdmin(String admin) {
+        this.admin = admin;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTel() {
-        return tel;
+    public String getAdmin() {
+        return admin;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public String getName() {
-        return name;
-    }
 }
