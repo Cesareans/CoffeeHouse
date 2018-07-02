@@ -5,19 +5,27 @@ import java.util.ArrayList;
 import Entity.*;
 
 public class DBCart {
-    private String url = "com.mysql.jdbc.Driver"; //加载驱动包
-    private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
-    private String sqlUser = "root"; //数据库账号
-    private String sqlPasswd = "admin"; //你的数据库密码
+    private static String url = "com.mysql.jdbc.Driver"; //加载驱动包
+    private static String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
+    private static String sqlUser = "root"; //数据库账号
+    private static String sqlPasswd = "admin"; //你的数据库密码
     private Connection con = null;
     private PreparedStatement psm = null;
     private ResultSet rs = null;
 
+    static {
+        try {
+            Class.forName(url);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public ArrayList<Order> getUserCart(String usertel){
         ArrayList<Order> userlist = new ArrayList<Order>();
         try {
-            //加载驱动包
-            Class.forName(url);
+
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             psm = con.prepareStatement("select * from orders where userTel="+usertel);
@@ -76,8 +84,6 @@ public class DBCart {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sqlInset = "insert into orders(orderSN,userTel,mealSerialNumber,qty,orderDate) values(?, ?, ?, ?, ?)";
@@ -110,8 +116,6 @@ public class DBCart {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "delete from orders where orderSN="+orderSN;
@@ -139,8 +143,6 @@ public class DBCart {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update orders set qty="+"'"+newQty+"'"+" where orderSN="+"'"+orderSN+"'";
@@ -168,8 +170,6 @@ public class DBCart {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update orders set orderDate="+"'"+newdate+"'"+" where orderSN="+"'"+orderSN+"'";
