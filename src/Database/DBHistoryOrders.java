@@ -1,34 +1,39 @@
 package Database;
+
+import com.sun.jmx.remote.util.OrderClassLoaders;
+
 import java.sql.*;
 import java.util.ArrayList;
 import Entity.*;
 
-public class DBManager {
+public class DBHistoryOrders {
     private String url = "com.mysql.jdbc.Driver"; //加载驱动包
     private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
-    private String sqlManager = "root"; //数据库账号
+    private String sqlUser = "root"; //数据库账号
     private String sqlPasswd = "admin"; //你的数据库密码
     private Connection con = null;
     private PreparedStatement psm = null;
     private ResultSet rs = null;
 
-    public ArrayList<Manager> getAllManagers(){
-        ArrayList<Manager> managerlist = new ArrayList<Manager>();
+    public ArrayList<Order> getAllOrders(){
+        ArrayList<Order> userlist = new ArrayList<Order>();
         try {
             //加载驱动包
             Class.forName(url);
             //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            psm = con.prepareStatement("select * from manager");
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+            psm = con.prepareStatement("select * from orders");
             rs = psm.executeQuery();
-
             while(rs.next()){
-                Manager m = new Manager();
-                m.setTel(rs.getString(1));
-                m.setPassword(rs.getString(2));
-                m.setName(rs.getString(3));
-
-                managerlist.add(m);
+                Order u = new Order();
+                u.setOrderSN(rs.getString(1));
+                u.setUser(rs.getString(2));
+                u.setMealSerialNumber(rs.getString(3));
+                u.setMealName(rs.getString(4));
+                u.setMealPrice(rs.getDouble(5));
+                u.setQty(rs.getInt(6));
+                u.setDate(rs.getString(7));
+                userlist.add(u);
             }
 
         } catch (Exception e) {
@@ -44,7 +49,44 @@ public class DBManager {
             }
 
         }
-        return managerlist;
+        return userlist;
+    }
+
+    public ArrayList<Order> getUserOrders(String usertel){
+        ArrayList<Order> userlist = new ArrayList<Order>();
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+            psm = con.prepareStatement("select * from orders where userTel="+usertel);
+            rs = psm.executeQuery();
+            while(rs.next()){
+                Order u = new Order();
+                u.setOrderSN(rs.getString(1));
+                u.setUser(rs.getString(2));
+                u.setMealSerialNumber(rs.getString(3));
+                u.setMealName(rs.getString(4));
+                u.setMealPrice(rs.getDouble(5));
+                u.setQty(rs.getInt(6));
+                u.setDate(rs.getString(7));
+                userlist.add(u);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                rs.close();
+                psm.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return userlist;
     }
 
     //to be deleted
@@ -54,77 +96,47 @@ public class DBManager {
     }
 
     //to be deleted
-    public void displayManagerInfo()
+    public void displayOrderInfo()
     {
-        System.out.println("Managers' information");
-        System.out.printf("%-14s%-14s%-14s\n","Tel","Password","Name");
-        System.out.println("--------------------------------------------------------");
-        ArrayList<Manager> list = getAllManagers();
+        System.out.println("History orders' list");
+        System.out.printf("%-14s%-14s%-14s%-14s%-14s%-14s%-14s\n","OrderSN","UserTel","MealSN","MealName","MealPrice","Quantity","Date");
+        System.out.println("-----------------------------------------------------------------------------");
+        ArrayList<Order> list = getAllOrders();
         if(list.size() == 0){
             System.out.println("暂无数据");
         }else{
-            for(Manager u: list){  //遍历集合数据
-                System.out.printf("%-14s%-14s%-14s\n",u.getTel(),u.getPassword(),u.getName());
+            for(Order u: list){  //遍历集合数据
+                System.out.printf("%-14s%-14s%-14s%-14s%-14f%-14d%-14s\n",u.getOrderSN(),u.getUser(),u.getMealSerialNumber(),u.getMealName(),u.getMealPrice(),u.getQty(),u.getDate());
             }
-            System.out.println("--------------------------------------------------------");
+            System.out.println("-----------------------------------------------------------------------------");
         }
     }
 
-    public boolean matchManager(String tel,String key)
-    {
-        boolean success = false;
-        try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sql = "select * from manager where mtel like "+tel;
-            psm = con.prepareStatement(sql);
-            rs = psm.executeQuery();
-            if(!rs.next())
-                success=false;
-            else
-            {
-                String password = rs.getString(2);
-                if(password.equals(key))
-                    success=true;
-                else
-                    success=false;
-            }
-
-            //关闭数据库连接
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            try {
-                rs.close();
-                psm.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return success;
-    }
-
-    public boolean insertNewManager(String tel,String password)
+    public boolean insertNewOrder(String orderSN,String user,String mealSerialNumber,int qty,String date)
     {
         boolean result =false;
         try {
             //加载驱动包
             Class.forName(url);
             //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sqlInset = "insert into manager(mtel,mpassword) values(?, ?)";
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+            String sqlInset = "insert into orders(orderSN,userTel,mealSerialNumber,qty,orderDate) values(?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(sqlInset);
-            stmt.setString(1, tel);
-            stmt.setString(2, password);
+            stmt.setString(1, orderSN);
+            stmt.setString(2, user);
+            stmt.setString(3, mealSerialNumber);
+            stmt.setInt(4, qty);
+            stmt.setString(5, date);
             int i = stmt.executeUpdate();
             if(i==1)
                 result=true;
             else
                 result=false;
+
+            DBMenu m =new DBMenu();
+            Menu menu = m.getMeal(mealSerialNumber);
+            updateOrderMealName(orderSN,menu.getName());
+            updateOrderMealPrice(orderSN,menu.getPrice());
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
@@ -138,48 +150,15 @@ public class DBManager {
         return result;
     }
 
-    public boolean insertNewManager(String tel,String password,String name)
+    public boolean deleteOrder(String orderSN)
     {
         boolean result =false;
         try {
             //加载驱动包
             Class.forName(url);
             //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sqlInset = "insert into manager(mtel,mpassword,mname) values(?, ?, ?)";
-            PreparedStatement stmt = con.prepareStatement(sqlInset);
-            stmt.setString(1, tel);
-            stmt.setString(2, password);
-            stmt.setString(3, name);
-
-            int i = stmt.executeUpdate();
-            if(i==1)
-                result=true;
-            else
-                result=false;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
-    }
-
-    public boolean deleteManager(String tel)
-    {
-        boolean result =false;
-        try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sql = "delete from manager where mtel="+"'"+tel+"'";
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+            String sql = "delete from orders where orderSN="+orderSN;
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -200,15 +179,15 @@ public class DBManager {
         return result;
     }
 
-    public boolean updateTel(String oldtel,String newtel)
+    public boolean updateOrderQty(String orderSN,int newQty)
     {
         boolean result =false;
         try {
             //加载驱动包
             Class.forName(url);
             //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sql = "update manager set mtel="+"'"+newtel+"'"+" where mtel="+"'"+oldtel+"'";
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+            String sql = "update orders set qty="+"'"+newQty+"'"+" where orderSN="+"'"+orderSN+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -229,39 +208,15 @@ public class DBManager {
         return result;
     }
 
-    public boolean updatePassword(String tel,String newpassword) throws SQLException {
-        boolean result =false;
-        try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sql = "update manager set mpassword="+"'"+newpassword+"'"+" where mtel="+"'"+tel+"'";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            int i = stmt.executeUpdate();
-            if(i==1)
-                result=true;
-            else
-                result=false;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            con.close();
-        }
-        return result;
-    }
-
-    public boolean updateManagerName(String tel,String newname)
+    public boolean updateOrderDate(String orderSN,String newdate)
     {
         boolean result =false;
         try {
             //加载驱动包
             Class.forName(url);
             //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sql = "update manager set mname="+"'"+newname+"'"+" where mtel="+"'"+tel+"'";
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+            String sql = "update orders set orderDate="+"'"+newdate+"'"+" where orderSN="+"'"+orderSN+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -282,35 +237,61 @@ public class DBManager {
         return result;
     }
 
-    public boolean existManagerName(String name) throws SQLException {
-        boolean result=false;
+    private boolean updateOrderMealName(String orderSN,String newMealName)
+    {
+        boolean result =false;
         try {
             //加载驱动包
             Class.forName(url);
             //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            psm = con.prepareStatement("select * from manager where mname="+"'"+name+"'");
-            rs = psm.executeQuery();
-            if(rs.next())
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+            String sql = "update orders set mealName="+"'"+newMealName+"'"+" where orderSN="+"'"+orderSN+"'";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            int i = stmt.executeUpdate();
+            if(i==1)
                 result=true;
             else
                 result=false;
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
+            //关闭数据库连接
             try {
-                rs.close();
-                psm.close();
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
         return result;
     }
 
+    private boolean updateOrderMealPrice(String orderSN,double newMealPrice)
+    {
+        boolean result =false;
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+            String sql = "update orders set mealPrice="+"'"+newMealPrice+"'"+" where orderSN="+"'"+orderSN+"'";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            int i = stmt.executeUpdate();
+            if(i==1)
+                result=true;
+            else
+                result=false;
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
 }
