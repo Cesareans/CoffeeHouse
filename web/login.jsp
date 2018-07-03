@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<script src="JS/jquery.min.js"></script>
-<link href="CSS/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet">
-<script src="JS/bootstrap.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<link href="css/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet">
+<script src="js/bootstrap.min.js"></script>
 
 <%
     Cookie[] cookies = request.getCookies();
@@ -79,7 +79,7 @@
                     <table width="200" align="center">
                         <tr>
                             <td width="50%" align="center">
-                                <button type="button" name="loginBtn" id="loginBtn" class="btn btn-success">登陆</button>
+                                <button type="button" name="loginBtn" id="loginBtn" class="btn btn-success">登录</button>
                             </td>
                             <td width="50%" align="center">
                                 <button type="button" name="registerBtn" id="registerBtn" class="btn btn-success">注册</button>

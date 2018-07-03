@@ -1,14 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<script src="JS/jquery.min.js"></script>
-<link href="CSS/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet">
-<script src="JS/bootstrap.min.js"></script>
-
+<script src="./JS/jquery.min.js"></script>
+<link href="./CSS/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet">
+<script src="./JS/bootstrap.min.js"></script>
 <style>
     body{
         padding-top: 70px;
     }
 </style>
-
 <html>
 <head>
     <title>欢迎光临</title>

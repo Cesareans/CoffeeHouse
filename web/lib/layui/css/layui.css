@@ -113,6 +113,7 @@ a cite{font-style: normal; *cursor:pointer;}
 /* 原始 */.layui-btn-primary{border: 1px solid #C9C9C9; background-color: #fff; color: #555;}
 .layui-btn-primary:hover{border-color: #009688; color: #333}
 /* 百搭 */.layui-btn-normal{background-color: #1E9FFF;}
+/* 暖灰 */.layui-btn-warmgray{background-color: #caa777;}
 /* 暖色 */.layui-btn-warm{background-color: #F7B824;}
 /* 警告 */.layui-btn-danger{background-color: #FF5722;}
 /* 禁用 */.layui-btn-disabled,.layui-btn-disabled:hover,.layui-btn-disabled:active{border: 1px solid #e6e6e6; background-color: #FBFBFB; color: #C9C9C9; cursor: not-allowed; opacity: 1;}
@@ -141,7 +142,7 @@ a cite{font-style: normal; *cursor:pointer;}
 .layui-input-block, .layui-input-inline{position: relative;}
 .layui-input-block{margin-left: 110px; min-height: 36px;}
 .layui-input-inline{display: inline-block; vertical-align: middle;}
-.layui-form-item .layui-input-inline{float: left; width: 190px; margin-right: 10px;}
+.layui-form-item .layui-input-inline{float: left; width: 190px; margin-right: 0px;}
 .layui-form-text .layui-input-inline{width: auto;}
 
 /* 分割块 */.layui-form-mid{position: relative; float: left; display: block; padding: 8px 0; line-height: 20px; margin-right: 10px;}
@@ -199,7 +200,7 @@ a cite{font-style: normal; *cursor:pointer;}
 .layui-radio-disbaled i{color: #e2e2e2 !important;}
 
 /* 表单方框风格 */.layui-form-pane .layui-form-label{width: 80px; padding: 8px 15px; line-height: 20px; border: 1px solid #e6e6e6; border-radius: 2px 0 0 2px; text-align: center; background-color: #FBFBFB; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
-.layui-form-pane .layui-input-inline{margin-left: -1px;}
+.layui-form-pane .layui-input-inline{margin-left: 0px;}
 .layui-form-pane .layui-input-block{margin-left: 112px; left: -1px;}
 .layui-form-pane .layui-input{border-radius: 0 2px 2px 0;}
 .layui-form-pane .layui-form-text .layui-form-label{float: none; width: 100%; border-right: 1px solid #e6e6e6; border-radius: 2px; box-sizing: border-box!important; text-align: left;}

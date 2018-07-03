@@ -8,6 +8,26 @@
     </welcome-file-list>
 
 
+    <!--Admin-->
+    <servlet>
+        <servlet-name>AdminLoginSerlvet</servlet-name>
+        <servlet-class>Admin.AdminLoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminLoginSerlvet</servlet-name>
+        <url-pattern>/adminLogin</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminLogoutServlet</servlet-name>
+        <servlet-class>Admin.AdminLogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminLogoutServlet</servlet-name>
+        <url-pattern>/adminLogout</url-pattern>
+    </servlet-mapping>
+
+    <!--User-->
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>User.LoginServlet</servlet-class>
@@ -42,5 +62,6 @@
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
         <url-pattern>*.jsp</url-pattern>
+        <url-pattern>*.html</url-pattern>
     </filter-mapping>
 </web-app>

@@ -23,18 +23,18 @@ public class AdminLoginServlet extends HttpServlet {
         processRequest(request , response);
     }
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
-        String admin = request.getParameter("admin");
+        String adminName = request.getParameter("adminName");
         String password = request.getParameter("password");
-        Debug.log("admin=" + admin + "&password=" + password);
-        if(admin == null || password == null)
+        Debug.log("adminName=" + adminName + "&password=" + password);
+        if(adminName == null || password == null)
             return;
-        if(admin.equals("")|| password.equals(""))
+        if(adminName.equals("")|| password.equals(""))
             return;
 
         PrintWriter pw = response.getWriter();
-        DBAdmin dbManager = new DBAdmin();
-        if(dbManager.matchAdmin(admin , password)){
-            AdminLoginSession.startSession(request,admin,password);
+        DBManager dbManager = new DBManager();
+        if(dbManager.matchManager(adminName , password)){
+            AdminLoginSession.startSession(request,adminName,password);
             pw.write("success");
         }else{
             pw.write("fail");
