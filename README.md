@@ -106,10 +106,10 @@ public boolean updateMenuSales(String serial,int newsale)
 ****************************************************************
 ****************************************************************
 
-DBManager:
+DBAdmin:
 
 属性说明：
-1.admin：管理员口令 pk
+1.adminName：管理员口令 pk
 2.password：密码 not null
 
 接口说明：

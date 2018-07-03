@@ -1,16 +1,16 @@
 package Entity;
 
-public class Manager {
+public class Admin {
     private String admin;
     private String password;
 
-    public Manager()
+    public Admin()
     {
         admin="";
         password="";
     }
 
-    public Manager(String admin, String password, String name)
+    public Admin(String admin, String password, String name)
     {
         this.admin=admin;
         this.password=password;

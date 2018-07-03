@@ -1,6 +1,5 @@
 package User;
 
-import Database.DBUser;
 import Debug.Debug;
 import Session.LoginSession;
 
