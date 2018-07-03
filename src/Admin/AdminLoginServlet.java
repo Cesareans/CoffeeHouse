@@ -1,6 +1,9 @@
-package User;
+package Admin;
 
+import Database.DBManager;
+import Database.DBUser;
 import Debug.Debug;
+import User.LoginSession;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "LoginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "AdminLoginServlet")
+public class AdminLoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request , response);
     }
@@ -20,18 +23,18 @@ public class LoginServlet extends HttpServlet {
         processRequest(request , response);
     }
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
-        String usertel = request.getParameter("usertel");
+        String admin = request.getParameter("admin");
         String password = request.getParameter("password");
-        Debug.log("usertel=" + usertel + "&password=" + password);
-        if(usertel == null || password == null)
+        Debug.log("admin=" + admin + "&password=" + password);
+        if(admin == null || password == null)
             return;
-        if(usertel.equals("")|| password.equals(""))
+        if(admin.equals("")|| password.equals(""))
             return;
 
         PrintWriter pw = response.getWriter();
-        DBUser dbUser = new DBUser();
-        if(dbUser.matchUser(usertel , password)){
-            LoginSession.startSessionWithCookie(request,response,usertel,password);
+        DBManager dbManager = new DBManager();
+        if(dbManager.matchManager(admin , password)){
+            AdminLoginSession.startSession(request,admin,password);
             pw.write("success");
         }else{
             pw.write("fail");
