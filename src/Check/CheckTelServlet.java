@@ -1,8 +1,5 @@
 package Check;
 
-import Database.DBUser;
-import Debug.Debug;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

@@ -106,37 +106,31 @@ public boolean updateMenuSales(String serial,int newsale)
 ****************************************************************
 ****************************************************************
 
-DBManager:
+DBAdmin:
 
 属性说明：
-1.tel：管理员电话 pk
-2.name：管理员姓名
-3.password：密码 not null
+1.adminName：管理员口令 pk
+2.password：密码 not null
 
 接口说明：
 public ArrayList<Manager> getAllManagers()
 获取全部管理员信息
 
-public boolean matchManager(String tel,String key)
+public boolean matchManager(String admin,String key)
 管理员是否登录成功
 
-public boolean insertNewManager(String tel,String password)
+public boolean insertNewManager(String admin,String password)
 插入新的管理员
 
-public boolean insertNewManager(String tel,String password,String name)
-插入新的管理员
+public boolean deleteManager(String admin)
+删除口令为admin的管理员信息
 
-public boolean deleteManager(String tel)
-删除电话为tel的管理员信息
+public boolean updateTel(String oldadmin,String newadmin
+更新 原电话号码为oldadmin的管理员的电话号码为newadmin
 
-public boolean updateTel(String oldtel,String newtel)
-更新 原电话号码为oldtel的管理员的电话号码为newtel
+public boolean updatePassword(String admin,String newpassword)
+更新 口令为admin的管理员的密码为newpassword
 
-public boolean updatePassword(String tel,String newpassword)
-更新 电话号码为tel的管理员的密码为newpassword
-
-public boolean updateManagerName(String tel,String newname)
-更新 电话号码为tel的管理员的名字为newname
 
 
 

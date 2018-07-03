@@ -1,8 +1,9 @@
 create database caffe;
+drop table cart;
 drop table orders;
 drop table menu;
 drop table user;
-drop table manager;
+drop table Admin;
 
 
 create table menu(
@@ -19,12 +20,15 @@ create table user(
        upassword varchar(20) not null,
        uname varchar(20) unique,
        birthday date,
-       email varchar(30));
+       email varchar(30),
+       registerTime datetime,
+       isactivate bool,
+       gender varchar(10));
 
-create table manager(
-       mtel varchar(11) primary key,
-       mpassword varchar(20) not null,
-       mname varchar(20));
+create table Admin(
+       adminName varchar(11) primary key,
+       mpassword varchar(20) not null
+       );
 
 create table orders(
        orderSN varchar(11) primary key,
@@ -58,15 +62,15 @@ add constraint fk3 foreign key(mealSerialNumber) references menu(serialnumber) o
 alter table cart
 add constraint fk4 foreign key(userTel) references user(utel) on delete cascade on update cascade;
 
-insert into user values('18850516371','sxy234567','sxy','1998-02-25','719669212@qq.com');
-insert into user values('18850516372','hzy234568','hzy','1998-03-25','719669213@qq.com');
-insert into user values('18850516373','yjb234569','yjb','1998-04-25','719669214@qq.com');
-insert into user values('18850516374','lyj234566','lyj','1998-05-25','719669215@qq.com');
+insert into user values('18850516371','sxy234567','sxy','1998-02-25','719669212@qq.com','2018-07-01',true,'male');
+insert into user values('18850516372','hzy234568','hzy','1998-03-25','719669213@qq.com','2018-07-01',true,'female');
+insert into user values('18850516373','yjb234569','yjb','1998-04-25','719669214@qq.com','2018-07-01',true,'male');
+insert into user values('18850516374','lyj234566','lyj','1998-05-25','719669215@qq.com','2018-07-01',false,'female');
 
-insert into manager values('18850516311','sx234567','a');
-insert into manager values('18850516321','ab234567','b');
-insert into manager values('18850516331','al134567','c');
-insert into manager values('18850516341','sq234567','d');
+insert into Admin values('18850516311','sx234567');
+insert into Admin values('18850516321','ab234567');
+insert into Admin values('18850516331','al134567');
+insert into Admin values('18850516341','sq234567');
 
 insert into menu values('001','chicken',10.2,30,'meat',0,null);
 insert into menu values('002','beef',20.5,30,'meat',0,null);

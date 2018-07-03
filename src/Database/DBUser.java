@@ -1,12 +1,13 @@
 package Database;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 import Entity.*;
 public class DBUser {
 
-    private static String url = "com.mysql.jdbc.Driver"; //加载驱动包
+    private String url = "com.mysql.jdbc.Driver"; //加载驱动包
     private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
     private String sqlUser = "root"; //数据库账号
     private String sqlPasswd = "admin"; //你的数据库密码
@@ -14,17 +15,12 @@ public class DBUser {
     private PreparedStatement psm = null;
     private ResultSet rs = null;
 
-    static {
-        try {
-            Class.forName(url);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
     //采用集合的方法，返回数据集合
     public ArrayList<User> getAllUsers(){
         ArrayList<User> userlist = new ArrayList<User>();
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             psm = con.prepareStatement("select * from user");
@@ -37,6 +33,9 @@ public class DBUser {
                 u.setUname(rs.getString(3));
                 u.setBirthday(rs.getString(4));
                 u.setEmail(rs.getString(5));
+                u.setRegisterTime(rs.getString(6));
+                u.setIsactivate(rs.getBoolean(7));
+                u.setGender(rs.getString(8));
                 userlist.add(u);
             }
 
@@ -56,23 +55,17 @@ public class DBUser {
     }
 
     //to be deleted
-    public void setLocation(String ip)
-    {
-        connectSql="jdbc:mysql://"+ip+":3306/caffe";
-    }
-
-    //to be deleted
     public void displayUserInfo()
     {
         System.out.println("Users' information");
-        System.out.printf("%-14s%-14s%-14s%-14s%-14s\n","Tel","Password","Name","Birthday","Email");
+        System.out.printf("%-14s%-14s%-14s%-14s%-14s%-14s%-14s%-14s\n","Tel","Password","Name","Birthday","Email","ReTime","isActivate","gender");
         System.out.println("-----------------------------------------------------------------------------");
         ArrayList<User> list = getAllUsers();
         if(list.size() == 0){
             System.out.println("暂无数据");
         }else{
             for(User u: list){  //遍历集合数据
-                System.out.printf("%-14s%-14s%-14s%-14s%-14s\n",u.getTel(),u.getUpassword(),u.getUname(),u.getBirthday(),u.getEmail());
+                System.out.printf("%-14s%-14s%-14s%-14s%-14s%-14s%-14s%-14s\n",u.getTel(),u.getUpassword(),u.getUname(),u.getBirthday(),u.getEmail(),u.getRegisterTime(),u.isActivate(),u.getGender());
             }
             System.out.println("-----------------------------------------------------------------------------");
         }
@@ -82,6 +75,8 @@ public class DBUser {
     {
         boolean success = false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "select * from user where utel like "+tel;
@@ -118,12 +113,18 @@ public class DBUser {
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sqlInset = "insert into user(utel,upassword) values(?, ?)";
+            String sqlInset = "insert into user(utel,upassword,registerTime,isactivate) values(?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(sqlInset);
+            String registerTime = GetNowDate();
             stmt.setString(1, tel);
             stmt.setString(2, password);
+            stmt.setString(3, registerTime);
+            stmt.setBoolean(4, true);
+
             int i = stmt.executeUpdate();
             if(i==1)
                 result=true;
@@ -143,21 +144,26 @@ public class DBUser {
         return result;
     }
 
-    public boolean insertNewUser(String tel,String password,String name,String birthday,String email)
+    public boolean insertNewUser(String tel,String password,String name,String birthday,String email,boolean isactivate, String gender)
     {
         boolean result =false;
         if(existUserTel(tel))
             return false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sqlInset = "insert into user(utel,upassword,uname,birthday,email) values(?, ?, ?, ?, ?)";
+            String sqlInset = "insert into user(utel,upassword,uname,birthday,email) values(?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(sqlInset);
             stmt.setString(1, tel);
             stmt.setString(2, password);
             stmt.setString(3, name);
             stmt.setString(4, birthday);
             stmt.setString(5, email);
+            stmt.setBoolean(6, isactivate);
+            stmt.setString(7, gender);
+
             int i = stmt.executeUpdate();
             if(i==1)
                 result=true;
@@ -181,6 +187,8 @@ public class DBUser {
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "delete from user where utel="+tel;
@@ -208,6 +216,8 @@ public class DBUser {
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update user set utel="+"'"+newtel+"'"+" where utel="+"'"+oldtel+"'";
@@ -235,6 +245,8 @@ public class DBUser {
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update user set upassword="+"'"+newpassword+"'"+" where utel="+"'"+tel+"'";
@@ -262,6 +274,8 @@ public class DBUser {
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update user set uname="+"'"+newname+"'"+" where utel="+"'"+tel+"'";
@@ -289,6 +303,8 @@ public class DBUser {
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update user set birthday="+"'"+birthday+"'"+" where utel="+"'"+tel+"'";
@@ -317,9 +333,69 @@ public class DBUser {
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update user set email="+"'"+email+"'"+" where utel="+"'"+tel+"'";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            int i = stmt.executeUpdate();
+            if(i==1)
+                result=true;
+            else
+                result=false;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public boolean updateGender(String tel,String newgender)
+    {
+        boolean result =false;
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+            String sql = "update user set gender="+"'"+newgender+"'"+" where utel="+"'"+tel+"'";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            int i = stmt.executeUpdate();
+            if(i==1)
+                result=true;
+            else
+                result=false;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public boolean updateActivate(String tel,boolean ac)
+    {
+        boolean result =false;
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+            String sql = "update user set isactivate="+"'"+ac+"'"+" where utel="+"'"+tel+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -344,6 +420,8 @@ public class DBUser {
     {
         boolean result=false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             psm = con.prepareStatement("select * from user where uname="+"'"+uname+"'");
@@ -372,6 +450,8 @@ public class DBUser {
     {
         boolean result=false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             psm = con.prepareStatement("select * from user where utel="+"'"+utel+"'");
@@ -397,5 +477,12 @@ public class DBUser {
         return result;
     }
 
+    private String GetNowDate(){
+        String temp_str="";
+        Date dt = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        temp_str=sdf.format(dt);
+        return temp_str;
+    }
 }
 

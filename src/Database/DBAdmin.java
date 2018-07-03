@@ -1,39 +1,32 @@
 package Database;
+
 import java.sql.*;
 import java.util.ArrayList;
 import Entity.*;
-
-public class DBManager {
-    private static String url = "com.mysql.jdbc.Driver"; //加载驱动包
+public class DBAdmin {
+    private String url = "com.mysql.jdbc.Driver"; //加载驱动包
     private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
-    private String sqlManager = "root"; //数据库账号
+    private String sqlAdmin = "root"; //数据库账号
     private String sqlPasswd = "admin"; //你的数据库密码
     private Connection con = null;
     private PreparedStatement psm = null;
     private ResultSet rs = null;
 
-    static {
+    public ArrayList<Admin> getAllAdmins(){
+        ArrayList<Admin> Adminlist = new ArrayList<Admin>();
         try {
+            //加载驱动包
             Class.forName(url);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-    public ArrayList<Manager> getAllManagers(){
-        ArrayList<Manager> managerlist = new ArrayList<Manager>();
-        try {
             //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            psm = con.prepareStatement("select * from manager");
+            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
+            psm = con.prepareStatement("select * from admin");
             rs = psm.executeQuery();
 
             while(rs.next()){
-                Manager m = new Manager();
-                m.setTel(rs.getString(1));
+                Admin m = new Admin();
+                m.setAdmin(rs.getString(1));
                 m.setPassword(rs.getString(2));
-                m.setName(rs.getString(3));
-
-                managerlist.add(m);
+                Adminlist.add(m);
             }
 
         } catch (Exception e) {
@@ -49,39 +42,35 @@ public class DBManager {
             }
 
         }
-        return managerlist;
+        return Adminlist;
     }
 
     //to be deleted
-    public void setLocation(String ip)
+    public void displayAdminInfo()
     {
-        connectSql="jdbc:mysql://"+ip+":3306/caffe";
-    }
-
-    //to be deleted
-    public void displayManagerInfo()
-    {
-        System.out.println("Managers' information");
-        System.out.printf("%-14s%-14s%-14s\n","Tel","Password","Name");
+        System.out.println("Admins' information");
+        System.out.printf("%-14s%-14s\n","Admin","Password");
         System.out.println("--------------------------------------------------------");
-        ArrayList<Manager> list = getAllManagers();
+        ArrayList<Admin> list = getAllAdmins();
         if(list.size() == 0){
             System.out.println("暂无数据");
         }else{
-            for(Manager u: list){  //遍历集合数据
-                System.out.printf("%-14s%-14s%-14s\n",u.getTel(),u.getPassword(),u.getName());
+            for(Admin u: list){  //遍历集合数据
+                System.out.printf("%-14s%-14s\n",u.getAdmin(),u.getPassword());
             }
             System.out.println("--------------------------------------------------------");
         }
     }
 
-    public boolean matchManager(String tel,String key)
+    public boolean matchAdmin(String adminName,String key)
     {
         boolean success = false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sql = "select * from manager where mtel like "+tel;
+            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
+            String sql = "select * from admin where adminName like "+adminName;
             psm = con.prepareStatement(sql);
             rs = psm.executeQuery();
             if(!rs.next())
@@ -111,15 +100,48 @@ public class DBManager {
         return success;
     }
 
-    public boolean insertNewManager(String tel,String password)
+    public boolean existAdmin(String adminName)
+    {
+        boolean result = false;
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
+            String sql = "select * from admin where adminName like "+adminName;
+            psm = con.prepareStatement(sql);
+            rs = psm.executeQuery();
+            if(rs.next())
+                result=true;
+            else
+                result=false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                rs.close();
+                psm.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+
+
+    public boolean insertNewAdmin(String adminName,String password)
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sqlInset = "insert into manager(mtel,mpassword) values(?, ?)";
+            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
+            String sqlInset = "insert into admin(adminName,mpassword) values(?, ?)";
             PreparedStatement stmt = con.prepareStatement(sqlInset);
-            stmt.setString(1, tel);
+            stmt.setString(1, adminName);
             stmt.setString(2, password);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -139,44 +161,16 @@ public class DBManager {
         return result;
     }
 
-    public boolean insertNewManager(String tel,String password,String name)
+
+    public boolean deleteAdmin(String adminName)
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sqlInset = "insert into manager(mtel,mpassword,mname) values(?, ?, ?)";
-            PreparedStatement stmt = con.prepareStatement(sqlInset);
-            stmt.setString(1, tel);
-            stmt.setString(2, password);
-            stmt.setString(3, name);
-
-            int i = stmt.executeUpdate();
-            if(i==1)
-                result=true;
-            else
-                result=false;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
-    }
-
-    public boolean deleteManager(String tel)
-    {
-        boolean result =false;
-        try {
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sql = "delete from manager where mtel="+"'"+tel+"'";
+            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
+            String sql = "delete from admin where adminName="+"'"+adminName+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -197,13 +191,15 @@ public class DBManager {
         return result;
     }
 
-    public boolean updateTel(String oldtel,String newtel)
+    public boolean updateAdmin(String oldadmin,String newadmin)
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sql = "update manager set mtel="+"'"+newtel+"'"+" where mtel="+"'"+oldtel+"'";
+            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
+            String sql = "update Admin set adminName="+"'"+newadmin+"'"+" where adminName="+"'"+oldadmin+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -224,12 +220,14 @@ public class DBManager {
         return result;
     }
 
-    public boolean updatePassword(String tel,String newpassword) throws SQLException {
+    public boolean updatePassword(String adminName,String newpassword) throws SQLException {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sql = "update manager set mpassword="+"'"+newpassword+"'"+" where mtel="+"'"+tel+"'";
+            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
+            String sql = "update Admin set mpassword="+"'"+newpassword+"'"+" where adminName="+"'"+adminName+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -245,61 +243,5 @@ public class DBManager {
         }
         return result;
     }
-
-    public boolean updateManagerName(String tel,String newname)
-    {
-        boolean result =false;
-        try {
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            String sql = "update manager set mname="+"'"+newname+"'"+" where mtel="+"'"+tel+"'";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            int i = stmt.executeUpdate();
-            if(i==1)
-                result=true;
-            else
-                result=false;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
-    }
-
-    public boolean existManagerName(String name) throws SQLException {
-        boolean result=false;
-        try {
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlManager,sqlPasswd);
-            psm = con.prepareStatement("select * from manager where mname="+"'"+name+"'");
-            rs = psm.executeQuery();
-            if(rs.next())
-                result=true;
-            else
-                result=false;
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            try {
-                rs.close();
-                psm.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        }
-        return result;
-    }
-
 
 }
