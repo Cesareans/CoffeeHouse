@@ -1,4 +1,4 @@
-package Session;
+package User;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
