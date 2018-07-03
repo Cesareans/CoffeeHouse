@@ -1,9 +1,7 @@
 package Admin;
 
-import Database.DBManager;
-import Database.DBUser;
+import Database.DBAdmin;
 import Debug.Debug;
-import User.LoginSession;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,8 +30,8 @@ public class AdminLoginServlet extends HttpServlet {
             return;
 
         PrintWriter pw = response.getWriter();
-        DBManager dbManager = new DBManager();
-        if(dbManager.matchManager(adminName , password)){
+        DBAdmin dbManager = new DBAdmin();
+        if(dbManager.matchAdmin(adminName , password)){
             AdminLoginSession.startSession(request,adminName,password);
             pw.write("success");
         }else{
