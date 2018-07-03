@@ -113,23 +113,27 @@ DBAdmin:
 2.password：密码 not null
 
 接口说明：
-public ArrayList<Manager> getAllManagers()
-获取全部管理员信息
+public ArrayList<Admin> getAllAdmins()
+获取所有管理员信息
 
-public boolean matchManager(String admin,String key)
-管理员是否登录成功
+public boolean matchAdmin(String adminName,String key)
+判断管理员是否登陆成功
 
-public boolean insertNewManager(String admin,String password)
-插入新的管理员
+public boolean existAdmin(String adminName)
+判断该管理员是否存在
 
-public boolean deleteManager(String admin)
-删除口令为admin的管理员信息
+public boolean insertNewAdmin(String adminName,String password)
+插入新管理员
 
-public boolean updateTel(String oldadmin,String newadmin
-更新 原电话号码为oldadmin的管理员的电话号码为newadmin
+public boolean deleteAdmin(String adminName)
+删除管理员
 
-public boolean updatePassword(String admin,String newpassword)
-更新 口令为admin的管理员的密码为newpassword
+public boolean updateAdmin(String oldadmin,String newadmin)
+更新管理员名字
+
+public boolean updatePassword(String adminName,String newpassword)
+更新管理员密码
+
 
 
 

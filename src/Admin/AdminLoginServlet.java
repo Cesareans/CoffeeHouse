@@ -1,6 +1,6 @@
 package Admin;
 
-import Database.DBManager;
+import Database.DBAdmin;
 import Database.DBUser;
 import Debug.Debug;
 import User.LoginSession;
@@ -32,8 +32,8 @@ public class AdminLoginServlet extends HttpServlet {
             return;
 
         PrintWriter pw = response.getWriter();
-        DBManager dbManager = new DBManager();
-        if(dbManager.matchManager(admin , password)){
+        DBAdmin dbManager = new DBAdmin();
+        if(dbManager.matchAdmin(admin , password)){
             AdminLoginSession.startSession(request,admin,password);
             pw.write("success");
         }else{
