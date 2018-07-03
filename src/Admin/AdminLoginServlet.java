@@ -1,6 +1,6 @@
 package Admin;
 
-import Database.DBAdmin;
+import Database.DBManager;
 import Database.DBUser;
 import Debug.Debug;
 import User.LoginSession;
