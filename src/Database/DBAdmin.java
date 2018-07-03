@@ -70,7 +70,7 @@ public class DBAdmin {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
-            String sql = "select * from admin where adminName like "+adminName;
+            String sql = "select * from admin where adminName like "+"'"+adminName+"'";
             psm = con.prepareStatement(sql);
             rs = psm.executeQuery();
             if(!rs.next())
@@ -108,7 +108,7 @@ public class DBAdmin {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
-            String sql = "select * from admin where adminName like "+adminName;
+            String sql = "select * from admin where adminName like "+"'"+adminName+"'";
             psm = con.prepareStatement(sql);
             rs = psm.executeQuery();
             if(rs.next())

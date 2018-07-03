@@ -1,5 +1,6 @@
 package User;
 
+import Database.DBUser;
 import Debug.Debug;
 import Database.DBUser;
 import javax.servlet.ServletException;
