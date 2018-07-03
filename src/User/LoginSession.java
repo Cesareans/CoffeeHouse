@@ -1,9 +1,6 @@
 package User;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 
 public class LoginSession {
     public static void startSessionWithCookie(HttpServletRequest request , HttpServletResponse response, String usertel , String password){
@@ -21,5 +18,10 @@ public class LoginSession {
         HttpSession session = request.getSession();
         session.setAttribute("usertel" , usertel);
         session.setAttribute("password" , password);
+    }
+    public static void terminateSession(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        session.removeAttribute("usertel");
+        session.removeAttribute("password");
     }
 }

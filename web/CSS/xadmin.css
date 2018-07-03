@@ -8,14 +8,12 @@
 a{
 	text-decoration: none;
 }
-html{
+html,body{
 	width: 100%;
-}
-body{
-	width: 100%;
-	background-color: #54364a;
-    background-image: url(../images/a.jpg);
-    background-repeat: no-repeat;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: #54364a url(../images/a.jpg) no-repeat;
     background-size: cover;
     color: #ffffff;
 }
@@ -109,19 +107,19 @@ body{
 	color: #fff;
 	text-align: center;
 	line-height: 80px;
-	background: #4390EE url() 0 0 no-repeat;
+	background: #4390EE 0 0 no-repeat;
 }
 .bg-changer .bg-out{
 	width: 100%;
 	height: 900px;
-	background: red url() 0 0 no-repeat;
+	background: red 0 0 no-repeat;
 	opacity: 0;
 	display: none;
 }
 /*登录样式*/
 .login-logo{
 	width: 100%;
-	padding-top: 70px;
+	padding-top: 10px;
 	height: 50px;
 }
 .login-logo h1{
@@ -131,7 +129,7 @@ body{
 }
 .login-box{
 	width: 310px;
-	height: 350px;
+	height: 284px;
 	padding: 20px 15px 15px;
     background-color: rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255,255,255, 0.3);
@@ -167,7 +165,7 @@ body{
 	line-height: 14px;
 }
 .layui-form-item .login-inline{
-	width: 245px;
+	width: 254px;
 	/*margin-left: 60px;*/
 	/*background-color: rgba(0, 0, 0, 0.25);*/
 }
@@ -214,7 +212,7 @@ body{
     margin-right: -15px;
     text-align: center;
     margin-top: 20px;
-    padding: 19px 20px 20px;
+    padding: 19px 20px 5px;
 }
 
 .forgot {
@@ -284,6 +282,7 @@ body{
 	display: table;
 	position: relative;
 	width: 100%;
+    min-height: calc(100vh - 71px - 41px);
 }
 .wrapper .left-nav{
 	background-color: rgba(0, 0, 0, 0.20);
@@ -370,16 +369,23 @@ xblock{
   float: right;
 }
 
+.loginFooter{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    line-height: 41px;
+    background-color: rgba(0, 0, 0, 0.25);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    text-align: center;
+}
 .footer{
 	width: 100%;
+    line-height: 41px;
 	background-color: rgba(0, 0, 0, 0.25);
 	border-top: 1px solid rgba(255, 255, 255, 0.2);
-	line-height: 41px;
 	color: #fff;
-	/*padding-left: 10px;*/
-}
-.footer .copyright{
-	margin-left: 10px;
+    text-align: center;
 }
 
 

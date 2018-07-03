@@ -17,7 +17,7 @@ public class AdminLogoutServlet extends HttpServlet {
         processRequest(request,response);
     }
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws  ServletException , IOException{
-        request.getSession().removeAttribute("usertel");
-        request.getSession().removeAttribute("password");
+        AdminLoginSession.terminateSession(request);
+        response.sendRedirect("/admin-login.html");
     }
 }
