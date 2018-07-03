@@ -28,7 +28,7 @@ public class DBCart {
 
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            psm = con.prepareStatement("select * from orders where userTel="+usertel);
+            psm = con.prepareStatement("select * from orders where userTel="+"'"+usertel+"'");
             rs = psm.executeQuery();
             while(rs.next()){
                 Order u = new Order();
@@ -113,7 +113,7 @@ public class DBCart {
         try {
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sql = "delete from orders where orderSN="+orderSN;
+            String sql = "delete from orders where orderSN="+"'"+orderSN+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)

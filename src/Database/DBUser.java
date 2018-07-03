@@ -79,7 +79,7 @@ public class DBUser {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sql = "select * from user where utel like "+tel;
+            String sql = "select * from user where utel like "+"'"+tel+"'";
             psm = con.prepareStatement(sql);
             rs = psm.executeQuery();
             if(!rs.next())
@@ -191,7 +191,7 @@ public class DBUser {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sql = "delete from user where utel="+tel;
+            String sql = "delete from user where utel="+"'"+tel+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
