@@ -1,11 +1,12 @@
 package Entity;
+
 public class Order {
     private String orderSN;
     private String user;
     private String mealSerialNumber;
     private String mealName;
     private double mealPrice;
-    private int qty;
+    private int quantity;
     private String date;
 
     public Order()
@@ -15,11 +16,11 @@ public class Order {
         mealSerialNumber="";
         mealName="";
         mealPrice=0;
-        qty=0;
+        quantity =0;
         date="";
     }
 
-    public Order(String orderSN,String user, String mealSerialNumber, String mealName,double mealPrice,String date, int qty)
+    public Order(String orderSN,String user, String mealSerialNumber, String mealName,double mealPrice,String date, int quantity)
     {
         this.orderSN=orderSN;
         this.user=user;
@@ -27,7 +28,7 @@ public class Order {
         this.mealPrice=mealPrice;
         this.mealName=mealName;
         this.date=date;
-        this.qty=qty;
+        this.quantity = quantity;
     }
 
     public void setOrderSN(String orderSN) {
@@ -46,8 +47,8 @@ public class Order {
         this.mealSerialNumber = mealSerialNumber;
     }
 
-    public void setQty(int qty) {
-        this.qty = qty;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public void setDate(String date) {
@@ -66,8 +67,8 @@ public class Order {
         return mealSerialNumber;
     }
 
-    public int getQty() {
-        return qty;
+    public int getQuantity() {
+        return quantity;
     }
 
     public String getDate() {

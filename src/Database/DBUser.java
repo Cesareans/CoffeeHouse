@@ -29,8 +29,8 @@ public class DBUser {
             while(rs.next()){
                 User u = new User();
                 u.setTel(rs.getString(1));
-                u.setUpassword(rs.getString(2));
-                u.setUname(rs.getString(3));
+                u.setPassword(rs.getString(2));
+                u.setName(rs.getString(3));
                 u.setBirthday(rs.getString(4));
                 u.setEmail(rs.getString(5));
                 u.setRegisterTime(rs.getString(6));
@@ -65,7 +65,7 @@ public class DBUser {
             System.out.println("暂无数据");
         }else{
             for(User u: list){  //遍历集合数据
-                System.out.printf("%-14s%-14s%-14s%-14s%-14s%-14s%-14s%-14s\n",u.getTel(),u.getUpassword(),u.getUname(),u.getBirthday(),u.getEmail(),u.getRegisterTime(),u.isActivate(),u.getGender());
+                System.out.printf("%-14s%-14s%-14s%-14s%-14s%-14s%-14s%-14s\n",u.getTel(),u.getPassword(),u.getName(),u.getBirthday(),u.getEmail(),u.getRegisterTime(),u.isIsactivate(),u.getGender());
             }
             System.out.println("-----------------------------------------------------------------------------");
         }
@@ -154,15 +154,17 @@ public class DBUser {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sqlInset = "insert into user(utel,upassword,uname,birthday,email) values(?, ?, ?, ?, ?, ?, ?)";
+            String sqlInset = "insert into user(utel,upassword,uname,birthday,email,registerTime,isactivate,gender) values(?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(sqlInset);
             stmt.setString(1, tel);
             stmt.setString(2, password);
             stmt.setString(3, name);
             stmt.setString(4, birthday);
             stmt.setString(5, email);
-            stmt.setBoolean(6, isactivate);
-            stmt.setString(7, gender);
+            String registerTime = GetNowDate();
+            stmt.setString(6, registerTime);
+            stmt.setBoolean(7, isactivate);
+            stmt.setString(8, gender);
 
             int i = stmt.executeUpdate();
             if(i==1)

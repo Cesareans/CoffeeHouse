@@ -1,10 +1,11 @@
 package Entity;
+
 public class Menu {
     private String serialNumber;
     private String name;
     private double price;
     private String type;
-    private int qty;
+    private int quantity;
     private int sales;
     private String pictureUrl;
 
@@ -14,17 +15,17 @@ public class Menu {
         name="";
         price=0;
         type="";
-        qty=0;
+        quantity =0;
         sales=0;
         pictureUrl="";
     }
 
-    public Menu(String serialNumber,String name,double price,String type,int qty,int sales,String pictureUrl)
+    public Menu(String serialNumber, String name, double price, String type, int quantity, int sales, String pictureUrl)
     {
         this.serialNumber=serialNumber;
         this.name = name;
         this.price = price;
-        this.qty=qty;
+        this.quantity = quantity;
         this.type = type;
         this.sales=sales;
         this.pictureUrl=pictureUrl;
@@ -42,8 +43,8 @@ public class Menu {
         this.price = price;
     }
 
-    public void setQty(int qty) {
-        this.qty = qty;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public void setSales(int sales) {
@@ -70,8 +71,8 @@ public class Menu {
         return price;
     }
 
-    public int getQty() {
-        return qty;
+    public int getQuantity() {
+        return quantity;
     }
 
     public int getSales() {

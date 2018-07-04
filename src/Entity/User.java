@@ -1,8 +1,9 @@
 package Entity;
+
 public class User {
     private String tel;
-    private String uname;
-    private String upassword;
+    private String name;
+    private String password;
     private String email;
     private String birthday;
     private String registerTime;
@@ -12,8 +13,8 @@ public class User {
     public User()
     {
         tel="";
-        uname="";
-        upassword="";
+        name ="";
+        password ="";
         email="";
         birthday="";
         registerTime="";
@@ -21,11 +22,11 @@ public class User {
         gender="male";
     }
 
-    public User(String tel,String uname,String upassword,String registerTime,boolean isactivate,String gender)
+    public User(String tel, String name, String password, String registerTime, boolean isactivate, String gender)
     {
         this.tel = tel;
-        this.uname = uname;
-        this.upassword = upassword;
+        this.name = name;
+        this.password = password;
         this.registerTime=registerTime;
         this.isactivate=isactivate;
         this.gender=gender;
@@ -40,16 +41,16 @@ public class User {
         return tel;
     }
 
-    public void setUname(String uname) {
-        this.uname = uname;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getUname() {
-        return uname;
+    public String getName() {
+        return name;
     }
 
-    public void setUpassword(String upassword) {
-        this.upassword = upassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setGender(String gender) {
@@ -72,12 +73,12 @@ public class User {
         return registerTime;
     }
 
-    public boolean isActivate() {
+    public boolean isIsactivate() {
         return isactivate;
     }
 
-    public String getUpassword() {
-        return upassword;
+    public String getPassword() {
+        return password;
     }
 
     public void setEmail(String email) {

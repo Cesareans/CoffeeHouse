@@ -10,7 +10,7 @@ public class Admin {
         password="";
     }
 
-    public Admin(String admin, String password, String name)
+    public Admin(String admin,String password,String name)
     {
         this.admin=admin;
         this.password=password;
