@@ -28,7 +28,7 @@ public class DBHistoryOrders {
                 u.setMealSerialNumber(rs.getString(3));
                 u.setMealName(rs.getString(4));
                 u.setMealPrice(rs.getDouble(5));
-                u.setQty(rs.getInt(6));
+                u.setQuantity(rs.getInt(6));
                 u.setDate(rs.getString(7));
                 userlist.add(u);
             }
@@ -65,7 +65,7 @@ public class DBHistoryOrders {
                 u.setMealSerialNumber(rs.getString(3));
                 u.setMealName(rs.getString(4));
                 u.setMealPrice(rs.getDouble(5));
-                u.setQty(rs.getInt(6));
+                u.setQuantity(rs.getInt(6));
                 u.setDate(rs.getString(7));
                 userlist.add(u);
             }
@@ -87,6 +87,12 @@ public class DBHistoryOrders {
     }
 
     //to be deleted
+    public void setLocation(String ip)
+    {
+        connectSql="jdbc:mysql://"+ip+":3306/caffe";
+    }
+
+    //to be deleted
     public void displayOrderInfo()
     {
         System.out.println("History orders' list");
@@ -97,7 +103,7 @@ public class DBHistoryOrders {
             System.out.println("暂无数据");
         }else{
             for(Order u: list){  //遍历集合数据
-                System.out.printf("%-14s%-14s%-14s%-14s%-14f%-14d%-14s\n",u.getOrderSN(),u.getUser(),u.getMealSerialNumber(),u.getMealName(),u.getMealPrice(),u.getQty(),u.getDate());
+                System.out.printf("%-14s%-14s%-14s%-14s%-14f%-14d%-14s\n",u.getOrderSN(),u.getUser(),u.getMealSerialNumber(),u.getMealName(),u.getMealPrice(),u.getQuantity(),u.getDate());
             }
             System.out.println("-----------------------------------------------------------------------------");
         }

@@ -1,10 +1,10 @@
 package Database;
+
 import java.sql.*;
 import java.util.ArrayList;
 import Entity.*;
-
 public class DBMenu {
-    private static String url = "com.mysql.jdbc.Driver"; //加载驱动包
+    private String url = "com.mysql.jdbc.Driver"; //加载驱动包
     private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
     private String sqlmenu = "root"; //数据库账号
     private String sqlPasswd = "admin"; //你的数据库密码
@@ -12,16 +12,11 @@ public class DBMenu {
     private PreparedStatement psm = null;
     private ResultSet rs = null;
 
-    static {
-        try {
-            Class.forName(url);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
     public ArrayList<Menu> getAllmenu(){
         ArrayList<Menu> menulist = new ArrayList<Menu>();
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
             psm = con.prepareStatement("select * from menu");
@@ -32,7 +27,7 @@ public class DBMenu {
                 u.setSerialNumber(rs.getString(1));
                 u.setName(rs.getString(2));
                 u.setPrice(rs.getDouble(3));
-                u.setQty(rs.getInt(4));
+                u.setQuantity(rs.getInt(4));
                 u.setType(rs.getString(5));
                 u.setSales(rs.getInt(6));
                 u.setPictureUrl(rs.getString(7));
@@ -56,6 +51,12 @@ public class DBMenu {
     }
 
     //to be deleted
+    public void setLocation(String ip)
+    {
+        connectSql="jdbc:mysql://"+ip+":3306/caffe";
+    }
+
+    //to be deleted
     public void displayMenuInfo()
     {
         System.out.println("menu information");
@@ -66,7 +67,7 @@ public class DBMenu {
             System.out.println("暂无数据");
         }else{
             for(Menu u: list){  //遍历集合数据
-                System.out.printf("%-14s%-14s%-14f%-14d%-14s%-14d\n",u.getSerialNumber(),u.getName(),u.getPrice(),u.getQty(),u.getType(),u.getSales());
+                System.out.printf("%-14s%-14s%-14f%-14d%-14s%-14d\n",u.getSerialNumber(),u.getName(),u.getPrice(),u.getQuantity(),u.getType(),u.getSales());
             }
             System.out.println("-----------------------------------------------------------------------------");
         }
@@ -76,6 +77,8 @@ public class DBMenu {
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
             String sqlInset = "insert into menu(serialnumber,mname,price,qty,mtype,picture) values(?, ?, ?, ?, ?, ?)";
@@ -115,6 +118,8 @@ public class DBMenu {
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
             String sql = "delete from menu where serialnumber="+"'"+serial+"'";
@@ -142,6 +147,8 @@ public class DBMenu {
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
             String sql = "update menu set serialnumber="+"'"+newserial+"'"+" where serialnumber="+"'"+oldserial+"'";
@@ -169,6 +176,8 @@ public class DBMenu {
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
             String sql = "update menu set mname="+"'"+newname+"'"+" where serialnumber="+"'"+serial+"'";
@@ -196,6 +205,8 @@ public class DBMenu {
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
             String sql = "update menu set price="+"'"+newprice+"'"+" where serialnumber="+"'"+serial+"'";
@@ -223,6 +234,8 @@ public class DBMenu {
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
             String sql = "update menu set qty="+"'"+newqty+"'"+" where serialnumber="+"'"+serial+"'";
@@ -250,6 +263,8 @@ public class DBMenu {
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
             String sql = "update menu set sales="+"'"+newsale+"'"+" where serialnumber="+"'"+serial+"'";
@@ -277,6 +292,8 @@ public class DBMenu {
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
             String sql = "update menu set mtype="+"'"+newtype+"'"+" where serialnumber="+"'"+serial+"'";
@@ -304,6 +321,8 @@ public class DBMenu {
     {
         boolean result =false;
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
             String sql = "update menu set picture="+"'"+newUrl+"'"+" where serialnumber="+"'"+serial+"'";
@@ -324,6 +343,8 @@ public class DBMenu {
     public ArrayList<Menu> getTypeMenu(String type){
         ArrayList<Menu> menulist = new ArrayList<Menu>();
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
             psm = con.prepareStatement("select * from menu where mtype="+"'"+type+"'");
@@ -334,7 +355,7 @@ public class DBMenu {
                 u.setSerialNumber(rs.getString(1));
                 u.setName(rs.getString(2));
                 u.setPrice(rs.getDouble(3));
-                u.setQty(rs.getInt(4));
+                u.setQuantity(rs.getInt(4));
                 u.setType(rs.getString(5));
                 u.setPictureUrl(rs.getString(6));
                 menulist.add(u);
@@ -360,6 +381,8 @@ public class DBMenu {
     {
         Menu u = new Menu();
         try {
+            //加载驱动包
+            Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
             psm = con.prepareStatement("select * from menu where serialnumber="+"'"+mealSN+"'");
@@ -369,7 +392,7 @@ public class DBMenu {
                 u.setSerialNumber(rs.getString(1));
                 u.setName(rs.getString(2));
                 u.setPrice(rs.getDouble(3));
-                u.setQty(rs.getInt(4));
+                u.setQuantity(rs.getInt(4));
                 u.setType(rs.getString(5));
                 u.setPictureUrl(rs.getString(6));
             }
