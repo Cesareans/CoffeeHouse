@@ -23,7 +23,7 @@ public class LoginFilter implements Filter {
                 return;
             }
             HttpSession session = ((HttpServletRequest) req).getSession();
-            String admin = ((String) session.getAttribute("admin"));
+            String admin = ((String) session.getAttribute("adminName"));
             if(admin == null){
                 Debug.log("Redirect to Admin Login.");
                 ((HttpServletResponse) resp).sendRedirect("admin-login.html");
