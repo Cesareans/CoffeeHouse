@@ -6,28 +6,33 @@ Created For Java In Semester
 DBUser:
 
 属性说明：
-user共有五个属性：
+user共有8个属性：
 1.tel：pk
 2.password：not null
 3.name
 4.birthday:****-**-**格式
 5.email
-
+6.registerTime：yyyy-MM-dd HH:mm:ss格式
+7.isactivate：boolean
+8.gender：性别 female/male
 接口说明：
-public void setLocation(String ip)
-默认为本机（如果不调用此函数的话）
 
+public ArrayList<User> getAllUsers()
+获取所有用户信息
 
-public void displayUserInfo()
-显示所有用户信息
-
-public boolean matchUser(String tel,String key)
+public boolean  matchUser(String tel,String key)
 判断登陆是否成功
+
+public boolean existUserName(String uname)
+判断用户名是否已存在
+
+public boolean existUserTel(String utel)
+判断电话是否已存在
 
 public boolean insertNewUser(String tel,String password)
 插入 新用户
 
-public boolean insertNewUser(String tel,String password,String name,String birthday,String email)
+public boolean insertNewUser(String tel,String password,String name,String birthday,String email,boolean isactivate, String gender)
 插入 新用户
 
 public boolean deleteUser(String tel)
@@ -48,11 +53,12 @@ public boolean updateUserBirthday(String tel,String birthday)
 public boolean updateUserEmail(String tel,String email)
 修改/设置 电话号码为tel的用户的邮箱改为email
 
-public boolean existUserName(String uname)
-是否存在名字为uname的用户 存在：true 不存在：false
+public boolean updateGender(String tel,String newgender)
+修改/设置 电话号码为tel的用户的性别改为newgender
 
-public boolean existUserTel(String utel)
-是否已存在电话为utel的用户 存在：true 不存在：false
+public boolean updateActivate(String tel,boolean ac)
+修改/设置 电话号码为tel的用户的激活状态
+
 
 ****************************************************************
 ****************************************************************
@@ -133,6 +139,77 @@ public boolean updateAdmin(String oldadmin,String newadmin)
 
 public boolean updatePassword(String adminName,String newpassword)
 更新管理员密码
+
+****************************************************************
+****************************************************************
+DBHistoryOrder:
+
+属性说明：
+1.orderSN: 订单号
+2.user： 用户电话号码
+3.mealSerialNumber：餐品号
+4.mealName：订单下单时刻餐品的名字
+5.mealPrice：订单下单时刻单价
+6.qty：用户购买件数
+7.date：下单时间 格式：****-**-** **：**：**.* 
+
+接口说明：
+public ArrayList<Order> getAllOrders()
+获取全部历史订单（所有用户）
+
+public ArrayList<Order> getUserOrders(String usertel)
+获取电话号码为userTel的用户的历史订单
+
+public boolean insertNewOrder(String orderSN,String user,String mealSerialNumber,int qty,String date)
+插入新的历史订单记录，参数：订单号，用户电话号，餐品号，购买数量，日期
+备注：下单时刻的餐品名称及价格自动生成
+
+public boolean deleteOrder(String orderSN)
+删除订单号为orderSN的历史订单记录
+
+public boolean updateOrderQty(String orderSN,int newQty)
+更新订单号为orderSN的订单的购买数量为newQty
+
+public boolean updateOrderDate(String orderSN,String newdate)
+更新订单号为orderSN的订单的购买日期为newdate
+
+备注说明：
+1.订单号一旦生成不可更改
+2.当用户信息修改时，历史订单中的用户信息会随之更改
+3.当餐品号更改时，历史订单中的餐品号会自动随之修改
+4.餐品名称以及餐品单价一旦生成，不可更改
+
+
+****************************************************************
+****************************************************************
+
+DBOrder:
+
+属性说明：
+1.orderSN: 订单号
+2.user： 用户电话号码
+3.mealSerialNumber：餐品号
+4.qty：用户购买件数
+5.date：下单时间 格式：****-**-** **：**：**.* 
+
+接口说明：
+public ArrayList<Order> getUserCart(String usertel)
+获取电话号码为usertel的用户的购物车所有信息
+
+public boolean insertNewOrder(String orderSN,String user,String mealSerialNumber,int qty,String date)
+像购物车中插入新物品
+
+public boolean deleteOrder(String orderSN)
+插入新订单
+
+public boolean updateOrderQty(String orderSN,int newQty)
+更新订单号为orderSN的订单的购买数量为newQty
+
+public boolean updateOrderDate(String orderSN,String newdate)
+更新订单号为orderSN的订单的购买日期为newdate
+
+
+
 
 
 
