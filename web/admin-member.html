@@ -1,7 +1,5 @@
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="Entity.User" %>
-<%@ page import="Database.DBUser" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!doctype html>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon"/>
@@ -10,15 +8,28 @@
 <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
 <script type="text/javascript" src="JS/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
-<script src="lib/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript" src="JS/xadmin.js"></script>
+<script src="lib/layui/layui.js" charset="utf-8"></script>
 
 <script>
-
+    var user={name:"",gender:"",tel:"",password:"",email:"",registerTime:"",isactivate:""};
+    var start = 0;
+    var count = 10;
+    var userInfoTable;
     $(function () {
-        $("#delSelectedBtn").bind("click", delSelected());
-        $("#addUserBtn").bind("click", addUser("添加用户", "admin-member-add", 640, 480));
-
+        userInfoTable = $("#userInfoTable");
+        $.ajax({
+            url:"/adminUserQuery",
+            data:{
+                "start":start,
+                "count":count
+            },
+            success:function (data) {
+                showJSONUser(data);
+            }
+        });
+        $("#addUserBtn").bind("click", addUser);
+        $("#delSelectedBtn").bind("click", delSelected);
     });
     layui.use(["laydate"], function () {
         var laydate = layui.laydate;
@@ -49,14 +60,41 @@
         });
     });
 
+    function showJSONUser(data) {
+        var users = $.parseJSON(data).userList;
+        userInfoTable.html("");
+        for(var i in users){
+            if(!users.hasOwnProperty(i)) continue;
+            //checkbox,用户名,性别,电话号码,密码,邮箱,创建时间,状态,操作
+            userInfoTable.append(
+                "<tr>"
+                + "<td><input type=\"checkbox\" value=\"1\" name=\"\"></td>"
+                + "<td>" + users[i].name + "</td>"
+                + "<td>" + users[i].gender + "</td>"
+                + "<td>" + users[i].tel + "</td>"
+                + "<td>" + users[i].password + "</td>"
+                + "<td>" + users[i].email + "</td>"
+                + "<td>" + users[i].registerTime + "</td>"
+                + "<td class=\"td-status\"><span class=\"layui-btn layui-btn-normal layui-btn-mini\">已启用</span></td>"
+                + "<td class=\"td-manage\">"
+                + "<a style=\"text-decoration:none\" onclick=\"disableUser(this,'10001')\" href=\"javascript:;\"title=\"停用\"><i class=\"layui-icon\">&#xe601;</i></a>"
+                + "<a title=\"编辑\" href=\"javascript:;\" onclick=\"editUser('编辑','member-edit.html','4','','510')\"class=\"ml-5\" style=\"text-decoration:none\"><i class=\"layui-icon\">&#xe642;</i></a>"
+                + "<a style=\"text-decoration:none\"onclick=\"member_password('修改密码','member-password.html','10001','600','400')\"href=\"javascript:;\" title=\"修改密码\"><i class=\"layui-icon\">&#xe631;</i></a>"
+                + "<a title=\"删除\" href=\"javascript:;\" onclick=\"delUser(this,'1')\"style=\"text-decoration:none\"><i class=\"layui-icon\">&#xe640;</i></a>"
+                + "</td>"
+                + "</tr>"
+            );
+        }
+    }
+
     function delSelected() {
-        layer.confirm('确认要删除吗？', function (index) {
+        layer.confirm('确认要删除吗?', function (index) {
             layer.msg('删除成功', {icon: 1});
         });
     }
 
-    function addUser(title, url, w, h) {
-        x_admin_show(title, url, w, h);
+    function addUser() {
+        x_admin_show("添加用户", "admin-member-add.html", 640, 480);
     }
 
     function showUser(title, url, id, w, h) {
@@ -95,11 +133,6 @@
         });
     }
 </script>
-<%
-    int count = 5;
-    DBUser dbUser = new DBUser();
-    ArrayList<User> userList = dbUser.getAllUsers();//未考虑效率
-%>
 
 <html lang="en">
 <head>
@@ -134,7 +167,7 @@
                 </li>
                 <!-- 用户管理 -->
                 <li class="list">
-                    <a href="admin-member.jsp">
+                    <a href="admin-member.html">
                         <i class="iconfont">&#xe70b;</i>用户管理
                     </a>
                 </li>
@@ -186,8 +219,7 @@
             </form>
             <!--操作栏-->
             <xblock>
-                <button id="addUserBtn" name="addUserBtn" class="layui-btn"><i class="layui-icon">&#xe608;</i>添加
-                </button>
+                <button id="addUserBtn" name="addUserBtn" class="layui-btn"><i class="layui-icon">&#xe608;</i>添加</button>
                 <button id="delSelectedBtn" name="delSelectedBtn" class="layui-btn layui-btn-danger"><i
                         class="layui-icon">&#xe640;</i>删除
                 </button>
@@ -209,61 +241,6 @@
                 </tr>
                 </thead>
                 <tbody id="userInfoTable">
-                <%
-                    for (User user : userList) {
-                %>
-                <tr>
-                    <td>
-                        <input type="checkbox" value="1" name="">
-                    </td>
-                    <td>
-                        <u style="cursor:pointer" onclick="showUser('张三','member-show.html','10001','360','400')">
-                            <%=user.getUname()%>
-                        </u>
-                    </td>
-                    <td>
-                        <%=user.getGender()%>
-                    </td>
-                    <td>
-                        <%=user.getTel()%>
-                    </td>
-                    <td>
-                        <%=user.getUpassword()%>
-                    </td>
-                    <td>
-                        <%=user.getEmail()%>
-                    </td>
-                    <td>
-                        <%=user.getRegisterTime()%>
-                    </td>
-                    <td class="td-status">
-                            <span class="layui-btn layui-btn-normal layui-btn-mini">
-                                已启用
-                            </span>
-                    </td>
-                    <td class="td-manage">
-                        <a style="text-decoration:none" onclick="disableUser(this,'10001')" href="javascript:;"
-                           title="停用">
-                            <i class="layui-icon">&#xe601;</i>
-                        </a>
-                        <a title="编辑" href="javascript:;" onclick="editUser('编辑','member-edit.html','4','','510')"
-                           class="ml-5" style="text-decoration:none">
-                            <i class="layui-icon">&#xe642;</i>
-                        </a>
-                        <a style="text-decoration:none"
-                           onclick="member_password('修改密码','member-password.html','10001','600','400')"
-                           href="javascript:;" title="修改密码">
-                            <i class="layui-icon">&#xe631;</i>
-                        </a>
-                        <a title="删除" href="javascript:;" onclick="delUser(this,'1')"
-                           style="text-decoration:none">
-                            <i class="layui-icon">&#xe640;</i>
-                        </a>
-                    </td>
-                </tr>
-                <%
-                    }
-                %>
                 </tbody>
             </table>
         </div>
