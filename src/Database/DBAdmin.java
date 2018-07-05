@@ -1,8 +1,8 @@
 package Database;
-
+import Entity.*;
 import java.sql.*;
 import java.util.ArrayList;
-import Entity.*;
+
 public class DBAdmin {
     private String url = "com.mysql.jdbc.Driver"; //加载驱动包
     private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库

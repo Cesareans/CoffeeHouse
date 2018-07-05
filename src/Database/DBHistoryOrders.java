@@ -1,8 +1,8 @@
 package Database;
-
+import Entity.*;
 import java.sql.*;
 import java.util.ArrayList;
-import Entity.*;
+
 public class DBHistoryOrders {
     private String url = "com.mysql.jdbc.Driver"; //加载驱动包
     private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
@@ -19,18 +19,35 @@ public class DBHistoryOrders {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            psm = con.prepareStatement("select * from orders");
+            psm = con.prepareStatement("select distinct orderSN from orders");
             rs = psm.executeQuery();
+            ArrayList<String> orderSNs = new ArrayList<String>();
             while(rs.next()){
-                Order u = new Order();
-                u.setOrderSN(rs.getString(1));
-                u.setUser(rs.getString(2));
-                u.setMealSerialNumber(rs.getString(3));
-                u.setMealName(rs.getString(4));
-                u.setMealPrice(rs.getDouble(5));
-                u.setQuantity(rs.getInt(6));
-                u.setDate(rs.getString(7));
-                userlist.add(u);
+                String s=rs.getString(1);
+                orderSNs.add(s);
+            }
+            for(String o:orderSNs)
+            {
+                Order order = new Order();
+                order.setOrderSN(o);
+                psm = con.prepareStatement("select * from orders where orderSN="+"'"+o+"'");
+                rs = psm.executeQuery();
+                while(rs.next())
+                {
+                    OrderItem u = new OrderItem();
+                    String orderSN=rs.getString(1);
+                    String user=rs.getString(2);
+                    u.setMealSerialNumber(rs.getString(3));
+                    u.setMealName(rs.getString(4));
+                    u.setMealPrice(rs.getDouble(5));
+                    u.setQuantity(rs.getInt(6));
+                    String date=rs.getString(7);
+                    order.setOrderSN(orderSN);
+                    order.setUser(user);
+                    order.setDate(date);
+                    order.addItem(u);
+                }
+                userlist.add(order);
             }
 
         } catch (Exception e) {
@@ -44,7 +61,6 @@ public class DBHistoryOrders {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
         return userlist;
     }
@@ -56,18 +72,35 @@ public class DBHistoryOrders {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            psm = con.prepareStatement("select * from orders where userTel="+"'"+usertel+"'");
+            psm = con.prepareStatement("select distinct orderSN from orders where userTel="+"'"+usertel+"'");
             rs = psm.executeQuery();
+            ArrayList<String> orderSNs = new ArrayList<String>();
             while(rs.next()){
-                Order u = new Order();
-                u.setOrderSN(rs.getString(1));
-                u.setUser(rs.getString(2));
-                u.setMealSerialNumber(rs.getString(3));
-                u.setMealName(rs.getString(4));
-                u.setMealPrice(rs.getDouble(5));
-                u.setQuantity(rs.getInt(6));
-                u.setDate(rs.getString(7));
-                userlist.add(u);
+                String s=rs.getString(1);
+                orderSNs.add(s);
+            }
+            for(String o:orderSNs)
+            {
+                Order order = new Order();
+                order.setOrderSN(o);
+                psm = con.prepareStatement("select * from orders where orderSN="+"'"+o+"'");
+                rs = psm.executeQuery();
+                while(rs.next())
+                {
+                    OrderItem u = new OrderItem();
+                    String orderSN=rs.getString(1);
+                    String user=rs.getString(2);
+                    u.setMealSerialNumber(rs.getString(3));
+                    u.setMealName(rs.getString(4));
+                    u.setMealPrice(rs.getDouble(5));
+                    u.setQuantity(rs.getInt(6));
+                    String date=rs.getString(7);
+                    order.setOrderSN(orderSN);
+                    order.setUser(user);
+                    order.setDate(date);
+                    order.addItem(u);
+                }
+                userlist.add(order);
             }
 
         } catch (Exception e) {
@@ -81,29 +114,22 @@ public class DBHistoryOrders {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
         return userlist;
-    }
-
-    //to be deleted
-    public void setLocation(String ip)
-    {
-        connectSql="jdbc:mysql://"+ip+":3306/caffe";
     }
 
     //to be deleted
     public void displayOrderInfo()
     {
         System.out.println("History orders' list");
-        System.out.printf("%-14s%-14s%-14s%-14s%-14s%-14s%-14s\n","OrderSN","UserTel","MealSN","MealName","MealPrice","Quantity","Date");
+        //System.out.printf("%-14s%-14s%-14s%-14s%-14s%-14s%-14s\n","OrderSN","UserTel","MealSN","MealName","MealPrice","Quantity","Date");
         System.out.println("-----------------------------------------------------------------------------");
         ArrayList<Order> list = getAllOrders();
         if(list.size() == 0){
             System.out.println("暂无数据");
         }else{
             for(Order u: list){  //遍历集合数据
-                System.out.printf("%-14s%-14s%-14s%-14s%-14f%-14d%-14s\n",u.getOrderSN(),u.getUser(),u.getMealSerialNumber(),u.getMealName(),u.getMealPrice(),u.getQuantity(),u.getDate());
+                u.displayOrder();
             }
             System.out.println("-----------------------------------------------------------------------------");
         }
@@ -132,8 +158,8 @@ public class DBHistoryOrders {
 
             DBMenu m =new DBMenu();
             Menu menu = m.getMeal(mealSerialNumber);
-            updateOrderMealName(orderSN,menu.getName());
-            updateOrderMealPrice(orderSN,menu.getPrice());
+            updateOrderMealName(orderSN,mealSerialNumber,menu.getName());
+            updateOrderMealPrice(orderSN,mealSerialNumber,menu.getPrice());
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
@@ -176,7 +202,8 @@ public class DBHistoryOrders {
         return result;
     }
 
-    public boolean updateOrderQty(String orderSN,int newQty)
+
+    public boolean updateOrderQty(String orderSN,String mealSerialNumber,int newQty)
     {
         boolean result =false;
         try {
@@ -184,7 +211,7 @@ public class DBHistoryOrders {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sql = "update orders set qty="+"'"+newQty+"'"+" where orderSN="+"'"+orderSN+"'";
+            String sql = "update orders set qty="+"'"+newQty+"'"+" where orderSN="+"'"+orderSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -205,7 +232,7 @@ public class DBHistoryOrders {
         return result;
     }
 
-    public boolean updateOrderDate(String orderSN,String newdate)
+    public boolean updateOrderDate(String orderSN,String mealSerialNumber,String newdate)
     {
         boolean result =false;
         try {
@@ -213,7 +240,7 @@ public class DBHistoryOrders {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sql = "update orders set orderDate="+"'"+newdate+"'"+" where orderSN="+"'"+orderSN+"'";
+            String sql = "update orders set orderDate="+"'"+newdate+"'"+" where orderSN="+"'"+orderSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -234,7 +261,7 @@ public class DBHistoryOrders {
         return result;
     }
 
-    private boolean updateOrderMealName(String orderSN,String newMealName)
+    private boolean updateOrderMealName(String orderSN,String mealSerialNumber, String newMealName)
     {
         boolean result =false;
         try {
@@ -242,7 +269,7 @@ public class DBHistoryOrders {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sql = "update orders set mealName="+"'"+newMealName+"'"+" where orderSN="+"'"+orderSN+"'";
+            String sql = "update orders set mealName="+"'"+newMealName+"'"+" where orderSN="+"'"+orderSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -263,7 +290,7 @@ public class DBHistoryOrders {
         return result;
     }
 
-    private boolean updateOrderMealPrice(String orderSN,double newMealPrice)
+    private boolean updateOrderMealPrice(String orderSN,String mealSerialNumber, double newMealPrice)
     {
         boolean result =false;
         try {
@@ -271,7 +298,36 @@ public class DBHistoryOrders {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
-            String sql = "update orders set mealPrice="+"'"+newMealPrice+"'"+" where orderSN="+"'"+orderSN+"'";
+            String sql = "update orders set mealPrice="+"'"+newMealPrice+"'"+" where orderSN="+"'"+orderSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            int i = stmt.executeUpdate();
+            if(i==1)
+                result=true;
+            else
+                result=false;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public boolean updateOrderMSN(String mealSerialNumber, String newMSN)
+    {
+        boolean result =false;
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+            String sql = "update orders set mealSerialNumber="+"'"+newMSN+"'"+" where mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)

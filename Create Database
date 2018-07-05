@@ -31,33 +31,29 @@ create table Admin(
        );
 
 create table orders(
-       orderSN varchar(11) primary key,
+       orderSN varchar(11),
        userTel varchar(11),
        mealSerialNumber varchar(11),
        mealName varchar(11),
        mealPrice double,
        qty int,
-       orderDate datetime
+       orderDate datetime,
+       primary key (orderSN,mealSerialNumber)
        );
 
 create table cart(
-       orderSN varchar(11) primary key,
+       orderSN varchar(11),
        userTel varchar(11),
        mealSerialNumber varchar(11),
        mealName varchar(11),
        mealPrice double,
        qty int,
-       orderDate datetime
+       orderDate datetime,
+       primary key (orderSN,mealSerialNumber)
        );
 
 alter table orders
-add constraint fk1 foreign key(mealSerialNumber) references menu(serialnumber) on delete set null  on update cascade;
-
-alter table orders
 add constraint fk2 foreign key(userTel) references user(utel) on delete cascade on update cascade;
-
-alter table cart
-add constraint fk3 foreign key(mealSerialNumber) references menu(serialnumber) on delete set null on update cascade;
 
 alter table cart
 add constraint fk4 foreign key(userTel) references user(utel) on delete cascade on update cascade;
@@ -78,11 +74,11 @@ insert into menu values('003','apple',5.6,30,'fruit',0,null);
 insert into menu values('004','yogurt',8.7,30,'drinks',0,null);
 
 insert into orders values('0001','18850516371','001','chicken',10.2,2,'2018-06-28');
-insert into orders values('0002','18850516371','002','beef',20.5,3,'2018-06-28');
+insert into orders values('0001','18850516371','002','beef',20.5,3,'2018-06-28');
 insert into orders values('0003','18850516373','001','chicken',10.2,1,'2018-06-27');
 insert into orders values('0004','18850516374','004','yogurt',8.7,2,'2018-06-25');
 
-insert into cart values('0001','18850516371','001','chicken',10.2,2,'2018-06-28');
-insert into cart values('0002','18850516371','002','beef',20.5,3,'2018-06-28');
-insert into cart values('0003','18850516373','001','chicken',10.2,1,'2018-06-27');
-insert into cart values('0004','18850516374','004','yogurt',8.7,2,'2018-06-25');
+insert into cart values('0001','18850516372','001','chicken',10.2,2,'2018-06-28');
+insert into cart values('0001','18850516372','002','beef',20.5,3,'2018-06-28');
+insert into cart values('0002','18850516371','001','chicken',10.2,1,'2018-06-27');
+insert into cart values('0001','18850516372','004','yogurt',8.7,2,'2018-06-25');
