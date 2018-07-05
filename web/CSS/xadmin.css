@@ -17,6 +17,15 @@ html,body{
     background-size: cover;
     color: #ffffff;
 }
+.html-innerFrame,.body-innerFrame{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: #54364a url(../images/k.jpg) no-repeat;
+    background-size: cover;
+    color: #ffffff;
+}
 /*layer弹出层背景设置*/
 
 .layui-layer{
@@ -195,8 +204,8 @@ html,body{
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
-.layui-input::-webkit-input-placeholder, .layui-textarea::-webkit-input-placeholder, .layui-select::-webkit-input-placeholder { color:#fff; }
-.layui-input::-moz-placeholder, .layui-textarea::-moz-placeholder, .layui-select::-moz-placeholder { color:#fff; }
+.layui-input::-webkit-input-placeholder, .layui-textarea::-webkit-input-placeholder, .layui-select::-webkit-input-placeholder { color: #aaaaaa; }
+.layui-input::-moz-placeholder, .layui-textarea::-moz-placeholder, .layui-select::-moz-placeholder { color:#aaaaaa; }
 
 
 .login-title {
