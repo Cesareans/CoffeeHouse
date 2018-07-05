@@ -12,14 +12,14 @@
 <script src="lib/layui/layui.js" charset="utf-8"></script>
 
 <script>
-    var user = {name: "", gender: "", tel: "", password: "", email: "", registerTime: "", isactivate: ""};
+    var user = {name: "", gender: "", tel: "", birthday:"" ,password: "", email: "", registerTime: "", isactivate: ""};
     var start = 0;
     var count = 10;
     var userInfoTable;
     $(function () {
         userInfoTable = $("#userInfoTable");
         $.ajax({
-            url: "/adminUserQuery",
+            url: "/adminQueryUser",
             data: {
                 "start": start,
                 "count": count
@@ -71,6 +71,7 @@
                 + "<td><input type=\"checkbox\" value=\"1\" name=\"\"></td>"
                 + "<td>" + users[i].name + "</td>"
                 + "<td>" + users[i].gender + "</td>"
+                +"<td>" + users[i].birthday + "</td>"
                 + "<td>" + users[i].tel + "</td>"
                 + "<td>" + users[i].password + "</td>"
                 + "<td>" + users[i].email + "</td>"
@@ -96,7 +97,7 @@
     function addUser() {
         layer.open({
             type: 2,
-            area: ['480px', '640px'],
+            area: ['420px', '450px'],
             fix: false, //不固定
             maxmin: true,
             shadeClose: true,
@@ -242,6 +243,7 @@
                     <th><input type="checkbox"></th>
                     <th>用户名</th>
                     <th>性别</th>
+                    <th>生日</th>
                     <th>电话号码</th>
                     <th>密码</th>
                     <th>邮箱</th>

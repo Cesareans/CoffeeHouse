@@ -12,53 +12,110 @@
 <script src="./lib/layui/layui.js" charset="utf-8"></script>
 
 <script>
+    $(function () {
+        $("#addBtn").bind("click" , function () {
+            $.ajax({
+                url:"/adminAddUser",
+
+            })
+        });
+        $("#cancelBtn").bind("click" , function () {
+
+        })
+    });
     layui.use("form", function () {
         var form = layui.form;
     })
 </script>
 
 <!--Inner Frame HTML-->
+<style>
+    .innerTable{
+        width: 100%;
+    }
+    .innerTable tr{
+        transition: all .3s;
+        -webkit-transition: all .3s;
+    }
+    .innerTable tr:hover{
+        background-color: rgba(0,0,0,0.4);
+    }
+    .innerTable td{
+        padding-right: 40px;
+        border: none;
+    }
+    .innerTable td[item="button"]{
+        padding-right: 0;
+    }
+
+</style>
 <html lang="en" class="html-innerFrame">
 <head>
 </head>
 <body class="body-innerFrame">
 <div class="innerWrapper">
     <form class="layui-form">
-        <div class="layui-form-item" style="align-content: center">
-            <label for="username" class="layui-form-label">用户：</label>
-            <div class="layui-input-inline">
-                <input id="username" name="username" type="text" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="gender" class="layui-form-label">性别：</label>
-            <div class="layui-input-inline">
-                <input id="gender" name="gender" type="text" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="telephone" class="layui-form-label">电话：</label>
-            <div class="layui-input-inline">
-                <input id="telephone" name="telephone" type="text" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="password" class="layui-form-label">密码：</label>
-            <div class="layui-input-inline">
-                <input id="password" name="password" type="text" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="email" class="layui-form-label">邮箱：</label>
-            <div class="layui-input-inline">
-                <input id="email" name="email" type="text" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn" type="button">增加</button>
-            </div>
-        </div>
+        <table class="innerTable">
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label for="username" class="layui-form-label">用户：</label>
+                        <div class="layui-input-block">
+                            <input id="username" name="username" type="text" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label for="gender" class="layui-form-label">性别：</label>
+                        <div class="layui-input-block">
+                            <input id="gender" name="gender" type="text" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label for="telephone" class="layui-form-label">电话：</label>
+                        <div class="layui-input-block">
+                            <input id="telephone" name="telephone" type="text" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label for="password" class="layui-form-label">密码：</label>
+                        <div class="layui-input-block">
+                            <input id="password" name="password" type="text" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label for="email" class="layui-form-label">邮箱：</label>
+                        <div class="layui-input-block">
+                            <input id="email" name="email" type="text" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td align="center" item="button">
+                    <div style="margin-top: 15px;margin-bottom: 15px">
+                        <button id="addBtn" name="addBtn" class="layui-btn" type="button">增加</button>
+                        <button id="cancelBtn" name="cancelBtn" class="layui-btn layui-btn-danger" type="button">取消</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </form>
 </div>
 </body>

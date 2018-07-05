@@ -20,7 +20,6 @@ html,body{
 .html-innerFrame,.body-innerFrame{
     width: 100%;
     height: 100%;
-    margin: 0;
     padding: 0;
     background: #54364a url(../images/k.jpg) no-repeat;
     background-size: cover;

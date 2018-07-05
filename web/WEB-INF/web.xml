@@ -27,13 +27,22 @@
         <url-pattern>/adminLogout</url-pattern>
     </servlet-mapping>
 
+    <!--CRUD-->
     <servlet>
-        <servlet-name>UserQueryServlet</servlet-name>
-        <servlet-class>Admin.UserManage.UserQueryServlet</servlet-class>
+        <servlet-name>QueryUserServlet</servlet-name>
+        <servlet-class>Admin.UserManage.QueryUserServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>UserQueryServlet</servlet-name>
-        <url-pattern>/adminUserQuery</url-pattern>
+        <servlet-name>QueryUserServlet</servlet-name>
+        <url-pattern>/adminQueryUser</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddUserServlet</servlet-name>
+        <servlet-class>Admin.UserManage.AddUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddUserServlet</servlet-name>
+        <url-pattern>/adminAddUser</url-pattern>
     </servlet-mapping>
 
     <!--UserServlet-->
