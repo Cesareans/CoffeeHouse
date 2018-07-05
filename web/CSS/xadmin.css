@@ -289,7 +289,7 @@ html,body{
 	display: table;
 	position: relative;
 	width: 100%;
-    min-height: calc(100vh - 71px - 41px);
+    min-height: calc(100vh - 72px - 41px);
 }
 .wrapper .left-nav{
 	background-color: rgba(0, 0, 0, 0.20);
@@ -363,9 +363,12 @@ html,body{
 	/*background: red url() 0 0 no-repeat;*/
 }
 
-.innerFrame{
+.innerWrapper{
     display: table;
-
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: auto;
 }
 
 xblock{
@@ -393,7 +396,7 @@ xblock{
 }
 .footer{
 	width: 100%;
-    line-height: 41px;
+    line-height: 40px;
 	background-color: rgba(0, 0, 0, 0.25);
 	border-top: 1px solid rgba(255, 255, 255, 0.2);
 	color: #fff;

@@ -12,19 +12,19 @@
 <script src="lib/layui/layui.js" charset="utf-8"></script>
 
 <script>
-    var user={name:"",gender:"",tel:"",password:"",email:"",registerTime:"",isactivate:""};
+    var user = {name: "", gender: "", tel: "", password: "", email: "", registerTime: "", isactivate: ""};
     var start = 0;
     var count = 10;
     var userInfoTable;
     $(function () {
         userInfoTable = $("#userInfoTable");
         $.ajax({
-            url:"/adminUserQuery",
-            data:{
-                "start":start,
-                "count":count
+            url: "/adminUserQuery",
+            data: {
+                "start": start,
+                "count": count
             },
-            success:function (data) {
+            success: function (data) {
                 showJSONUser(data);
             }
         });
@@ -63,8 +63,8 @@
     function showJSONUser(data) {
         var users = $.parseJSON(data).userList;
         userInfoTable.html("");
-        for(var i in users){
-            if(!users.hasOwnProperty(i)) continue;
+        for (var i in users) {
+            if (!users.hasOwnProperty(i)) continue;
             //checkbox,用户名,性别,电话号码,密码,邮箱,创建时间,状态,操作
             userInfoTable.append(
                 "<tr>"
@@ -94,7 +94,16 @@
     }
 
     function addUser() {
-        x_admin_show("添加用户", "admin-member-add.html", 640, 480);
+        layer.open({
+            type: 2,
+            area: ['480px', '640px'],
+            fix: false, //不固定
+            maxmin: true,
+            shadeClose: true,
+            shade:0,
+            title: "新增用户",
+            content: "admin-member-add.html"
+        });
     }
 
     function showUser(title, url, id, w, h) {
@@ -219,7 +228,8 @@
             </form>
             <!--操作栏-->
             <xblock>
-                <button id="addUserBtn" name="addUserBtn" class="layui-btn"><i class="layui-icon">&#xe608;</i>添加</button>
+                <button id="addUserBtn" name="addUserBtn" class="layui-btn"><i class="layui-icon">&#xe608;</i>添加
+                </button>
                 <button id="delSelectedBtn" name="delSelectedBtn" class="layui-btn layui-btn-danger"><i
                         class="layui-icon">&#xe640;</i>删除
                 </button>
