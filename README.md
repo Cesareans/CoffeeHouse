@@ -167,11 +167,11 @@ public boolean insertNewOrder(String orderSN,String user,String mealSerialNumber
 public boolean deleteOrder(String orderSN)
 删除订单号为orderSN的历史订单记录
 
-public boolean updateOrderQty(String orderSN,int newQty)
-更新订单号为orderSN的订单的购买数量为newQty
+public boolean updateOrderQty(String orderSN,String mealSerialNumber,int newQty)
+更新订单号为orderSN,餐品号为mealSerialNumber的订单的购买数量为newQty
 
-public boolean updateOrderDate(String orderSN,String newdate)
-更新订单号为orderSN的订单的购买日期为newdate
+public boolean updateOrderDate(String orderSN,String mealSerialNumber,String newdate)
+更新订单号为orderSN，餐品号为mealSerialNumber的订单的购买日期为newdate
 
 备注说明：
 1.订单号一旦生成不可更改
@@ -183,7 +183,7 @@ public boolean updateOrderDate(String orderSN,String newdate)
 ****************************************************************
 ****************************************************************
 
-DBOrder:
+DBCart:
 
 属性说明：
 1.orderSN: 订单号
@@ -200,13 +200,13 @@ public boolean insertNewOrder(String orderSN,String user,String mealSerialNumber
 像购物车中插入新物品
 
 public boolean deleteOrder(String orderSN)
-插入新订单
+删除订单号为orderSN的订单
 
-public boolean updateOrderQty(String orderSN,int newQty)
-更新订单号为orderSN的订单的购买数量为newQty
+public boolean updateOrderQty(String orderSN,String mealSerialNumber,int newQty)
+更新订单号为orderSN,餐品号为mealSerialNumber的订单的购买数量为newQty
 
-public boolean updateOrderDate(String orderSN,String newdate)
-更新订单号为orderSN的订单的购买日期为newdate
+public boolean updateOrderDate(String orderSN,String mealSerialNumber,String newdate)
+更新订单号为orderSN,餐品号为mealSerialNumber的订单的购买日期为newdate
 
 
 

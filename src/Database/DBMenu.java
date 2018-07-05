@@ -126,7 +126,14 @@ public class DBMenu {
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
+            {
                 result=true;
+                DBHistoryOrders h = new DBHistoryOrders();
+                h.updateOrderMSN(serial,null);
+                DBCart c =new DBCart();
+                c.deleteOrderMSN(serial);
+            }
+
             else
                 result=false;
 
@@ -155,7 +162,13 @@ public class DBMenu {
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
+            {
                 result=true;
+                DBCart c=new DBCart();
+                c.updateOrderMSN(oldserial,newserial);
+                DBHistoryOrders h = new DBHistoryOrders();
+                h.updateOrderMSN(oldserial,newserial);
+            }
             else
                 result=false;
 

@@ -16,7 +16,7 @@ public class Cart {
         date="";
     }
 
-    public Cart(String orderSN,String user, String mealSerialNumber, String date, int quantity)
+    public Cart(String orderSN, String user, String mealSerialNumber, String date, int quantity)
     {
         this.orderSN=orderSN;
         this.user=user;

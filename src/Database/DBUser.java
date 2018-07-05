@@ -1,10 +1,10 @@
 package Database;
-
+import Entity.*;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import Entity.*;
+
 public class DBUser {
 
     private String url = "com.mysql.jdbc.Driver"; //加载驱动包
