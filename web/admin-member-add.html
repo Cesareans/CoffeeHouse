@@ -2,7 +2,7 @@
 <meta charset="UTF-8">
 <title>后台登录-X-admin1.1</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
+<link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon"/>
 <link rel="stylesheet" href="./CSS/font.css">
 <link rel="stylesheet" href="./CSS/xadmin.css">
 <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
@@ -11,84 +11,112 @@
 <script type="text/javascript" src="./JS/xadmin.js"></script>
 <script src="./lib/layui/layui.js" charset="utf-8"></script>
 
+<script>
+    $(function () {
+        $("#addBtn").bind("click" , function () {
+            $.ajax({
+                url:"/adminAddUser",
+
+            })
+        });
+        $("#cancelBtn").bind("click" , function () {
+
+        })
+    });
+    layui.use("form", function () {
+        var form = layui.form;
+    })
+</script>
+
 <!--Inner Frame HTML-->
-<html lang="en">
+<style>
+    .innerTable{
+        width: 100%;
+    }
+    .innerTable tr{
+        transition: all .3s;
+        -webkit-transition: all .3s;
+    }
+    .innerTable tr:hover{
+        background-color: rgba(0,0,0,0.4);
+    }
+    .innerTable td{
+        padding-right: 40px;
+        border: none;
+    }
+    .innerTable td[item="button"]{
+        padding-right: 0;
+    }
+
+</style>
+<html lang="en" class="html-innerFrame">
 <head>
 </head>
-<body>
-    <!-- 中部开始 -->
-    <div class="wrapper">
-        <!-- 右侧主体开始 -->
-        <div class="page-content">
-          <div class="content">
-            <!-- 右侧内容框架，更改从这里开始 -->
-            <form class="layui-form">
+<body class="body-innerFrame">
+<div class="innerWrapper">
+    <form class="layui-form">
+        <table class="innerTable">
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label for="username" class="layui-form-label">用户：</label>
+                        <div class="layui-input-block">
+                            <input id="username" name="username" type="text" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label for="gender" class="layui-form-label">性别：</label>
+                        <div class="layui-input-block">
+                            <input id="gender" name="gender" type="text" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label for="telephone" class="layui-form-label">电话：</label>
+                        <div class="layui-input-block">
+                            <input id="telephone" name="telephone" type="text" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label for="password" class="layui-form-label">密码：</label>
+                        <div class="layui-input-block">
+                            <input id="password" name="password" type="text" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label for="email" class="layui-form-label">邮箱：</label>
+                        <div class="layui-input-block">
+                            <input id="email" name="email" type="text" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
 
-                <div class="layui-form-item">
-                    <label for="L_email" class="layui-form-label">
-                        <span class="x-red">*</span>邮箱
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="L_email" name="email" required="" lay-verify="email"
-                        autocomplete="off" class="layui-input">
+                </td>
+            </tr>
+            <tr>
+                <td align="center" item="button">
+                    <div style="margin-top: 15px;margin-bottom: 15px">
+                        <button id="addBtn" name="addBtn" class="layui-btn" type="button">增加</button>
+                        <button id="cancelBtn" name="cancelBtn" class="layui-btn layui-btn-danger" type="button">取消</button>
                     </div>
-                    <div class="layui-form-mid layui-word-aux">
-                        <span class="x-red">*</span>将会成为您唯一的登入名
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="L_username" class="layui-form-label">
-                        <span class="x-red">*</span>昵称
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="L_username" name="username" required="" lay-verify="nikename"
-                        autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="L_pass" class="layui-form-label">
-                        <span class="x-red">*</span>密码
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="password" id="L_pass" name="pass" required="" lay-verify="pass"
-                        autocomplete="off" class="layui-input">
-                    </div>
-                    <div class="layui-form-mid layui-word-aux">
-                        6到16个字符
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="L_repass" class="layui-form-label">
-                        <span class="x-red">*</span>确认密码
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
-                        autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label for="L_repass" class="layui-form-label">
-                    </label>
-                    <button  class="layui-btn" lay-filter="add" lay-submit="">
-                        增加
-                    </button>
-                </div>
-            </form>
-            <!-- 右侧内容框架，更改从这里结束 -->
-          </div>
-        </div>
-        <!-- 右侧主体结束 -->
-    </div>
-    <!-- 中部结束 -->
-    <script>
-    //百度统计可去掉
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-      var s = document.getElementsByTagName("script")[0]; 
-      s.parentNode.insertBefore(hm, s);
-    })();
-    </script>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
 </body>
 </html>

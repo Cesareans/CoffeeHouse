@@ -17,6 +17,14 @@ html,body{
     background-size: cover;
     color: #ffffff;
 }
+.html-innerFrame,.body-innerFrame{
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background: #54364a url(../images/k.jpg) no-repeat;
+    background-size: cover;
+    color: #ffffff;
+}
 /*layer弹出层背景设置*/
 
 .layui-layer{
@@ -182,10 +190,8 @@ html,body{
 
 .layui-form-pane .layui-input,.layui-form-pane .layui-textarea,.layui-form-pane .layui-select{
 	background-color: rgba(0, 0, 0, 0.25);
-	border-radius: 6px;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+    border-radius: 0 6px 6px 0;
     color: #fff;
 }
 .layui-input:focus, .layui-textarea:focus, .layui-select:focus {
@@ -195,8 +201,9 @@ html,body{
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
-.layui-input::-webkit-input-placeholder, .layui-textarea::-webkit-input-placeholder, .layui-select::-webkit-input-placeholder { color:#fff; }
-.layui-input::-moz-placeholder, .layui-textarea::-moz-placeholder, .layui-select::-moz-placeholder { color:#fff; }
+/*input框内placeholder颜色设置*/
+.layui-input::-webkit-input-placeholder, .layui-textarea::-webkit-input-placeholder, .layui-select::-webkit-input-placeholder { color: #aaaaaa; }
+.layui-input::-moz-placeholder, .layui-textarea::-moz-placeholder, .layui-select::-moz-placeholder { color:#aaaaaa; }
 
 
 .login-title {
@@ -236,7 +243,6 @@ html,body{
     white-space: nowrap;
     vertical-align: middle;
     cursor: pointer;
-    border: 1px solid transparent;
     border-radius: 4px;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -245,7 +251,7 @@ html,body{
     user-select: none;
     color: #ffffff;
     background-color: rgba(240, 173, 78, 0.55);
-    border-color: #eea236;
+    border: 1px solid #eea236;
     margin:0 auto;
 }
 
@@ -282,7 +288,7 @@ html,body{
 	display: table;
 	position: relative;
 	width: 100%;
-    min-height: calc(100vh - 71px - 41px);
+    min-height: calc(100vh - 72px - 41px);
 }
 .wrapper .left-nav{
 	background-color: rgba(0, 0, 0, 0.20);
@@ -356,6 +362,14 @@ html,body{
 	/*background: red url() 0 0 no-repeat;*/
 }
 
+.innerWrapper{
+    display: table;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}
+
 xblock{
     display: block;
     margin-bottom: 10px;
@@ -381,7 +395,7 @@ xblock{
 }
 .footer{
 	width: 100%;
-    line-height: 41px;
+    line-height: 40px;
 	background-color: rgba(0, 0, 0, 0.25);
 	border-top: 1px solid rgba(255, 255, 255, 0.2);
 	color: #fff;

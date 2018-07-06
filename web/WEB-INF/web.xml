@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
     <welcome-file-list>
-        <welcome-file>admin-login.html</welcome-file>
+        <welcome-file>admin-member.html</welcome-file>
     </welcome-file-list>
 
 
@@ -27,13 +27,22 @@
         <url-pattern>/adminLogout</url-pattern>
     </servlet-mapping>
 
+    <!--CRUD-->
     <servlet>
-        <servlet-name>UserQueryServlet</servlet-name>
-        <servlet-class>Admin.UserManage.UserQueryServlet</servlet-class>
+        <servlet-name>QueryUserServlet</servlet-name>
+        <servlet-class>Admin.UserManage.QueryUserServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>UserQueryServlet</servlet-name>
-        <url-pattern>/adminUserQuery</url-pattern>
+        <servlet-name>QueryUserServlet</servlet-name>
+        <url-pattern>/adminQueryUser</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddUserServlet</servlet-name>
+        <servlet-class>Admin.UserManage.AddUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddUserServlet</servlet-name>
+        <url-pattern>/adminAddUser</url-pattern>
     </servlet-mapping>
 
     <!--UserServlet-->
@@ -64,7 +73,7 @@
         <url-pattern>/checkTel</url-pattern>
     </servlet-mapping>
 
-    <!--Filter-->
+    <!--Filter
     <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>Filter.LoginFilter</filter-class>
@@ -73,5 +82,5 @@
         <filter-name>LoginFilter</filter-name>
         <url-pattern>*.jsp</url-pattern>
         <url-pattern>*.html</url-pattern>
-    </filter-mapping>
+    </filter-mapping>-->
 </web-app>

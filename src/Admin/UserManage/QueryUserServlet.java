@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "UserQueryServlet")
-public class UserQueryServlet extends HttpServlet {
+@WebServlet(name = "QueryUserServlet")
+public class QueryUserServlet extends HttpServlet {
     private final int defaultCount = 10;
     private ArrayList<User> userList;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
