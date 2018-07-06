@@ -1,6 +1,5 @@
 <!doctype html>
 <meta charset="UTF-8">
-<title>后台登录-X-admin1.1</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon"/>
 <link rel="stylesheet" href="./CSS/font.css">
@@ -9,23 +8,98 @@
 <script type="text/javascript" src="./JS/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
 <script type="text/javascript" src="./JS/xadmin.js"></script>
-<script src="./lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
 
 <script>
     $(function () {
-        $("#addBtn").bind("click" , function () {
-            $.ajax({
-                url:"/adminAddUser",
+        layui.use(["form","laydate","layer"], function () {
+            var form = layui.form,
+                laydate = layui.laydate,
+                layer = layui.layer;
 
+            $("#birthday").bind("click" , function () {
+                var birthday = {
+                    min: "1900-01-01 00:00:00",
+                    max: laydate.now(),
+                    istoday: false,
+                    elem:this
+                };
+                laydate(birthday);
+            });
+            $("#addBtn").bind("click" , function () {
+                if(validate()) {
+                    $.ajax({
+                        type:"post",
+                        url:"/adminAddUser",
+                        data:$("#userForm").serialize(),
+                        success:function (result) {
+                            console.log(result);
+                            if(result === "success")
+                                layer.tips("新增用户成功","#addBtn",{tips:1, end:closeFrame});
+                            else
+                                layer.tips("新增用户失败","#addBtn",{tips:1});
+                        }
+                    });
+                }
+            });
+            $("#cancelBtn").bind("click" , function () {
+                closeFrame();
             })
         });
-        $("#cancelBtn").bind("click" , function () {
-
-        })
     });
-    layui.use("form", function () {
-        var form = layui.form;
-    })
+    function closeFrame() {
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        parent.layer.close(index); //再执行关闭
+    }
+    function validate() {
+        var result = true;
+        layui.use(["layer"], function () {
+            var layer = layui.layer;
+            var userame = document.getElementById("username");
+            if(userame.value == null || userame.value === "") {
+                layer.tips("请输入管理员名" , "#username" , {tips:3});
+                userame.focus();
+                result = false;
+                return;
+            }
+            var gender = document.getElementById("gender");
+            if(gender.value == null || gender.value === "") {
+                layer.tips("请输入性别" , "#gender" , {tips:3});
+                gender.focus();
+                result = false;
+                return;
+            }
+            var birthday = document.getElementById("birthday");
+            if(birthday.value == null || birthday.value === "") {
+                layer.tips("请输入生日" , "#birthday" , {tips:3});
+                birthday.focus();
+                result = false;
+                return;
+            }
+            var telephone = document.getElementById("telephone");
+            if(telephone.value == null || telephone.value === "") {
+                layer.tips("请输入电话" , "#telephone" , {tips:3});
+                telephone.focus();
+                result = false;
+                return;
+            }
+            var password = document.getElementById("password");
+            if(password.value == null || password.value === "") {
+                layer.tips("请输入密码" , "#password" , {tips:3});
+                password.focus();
+                result = false;
+                return;
+            }
+            var email = document.getElementById("email");
+            if(email.value == null || email.value === "") {
+                layer.tips("请输入邮箱" , "#email" , {tips:3});
+                email.focus();
+                result = false;
+            }
+        });
+        return result;
+    }
+
 </script>
 
 <!--Inner Frame HTML-->
@@ -54,7 +128,7 @@
 </head>
 <body class="body-innerFrame">
 <div class="innerWrapper">
-    <form class="layui-form">
+    <form class="layui-form" id="userForm">
         <table class="innerTable">
             <tr>
                 <td>
@@ -72,6 +146,16 @@
                         <label for="gender" class="layui-form-label">性别：</label>
                         <div class="layui-input-block">
                             <input id="gender" name="gender" type="text" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label for="birthday" class="layui-form-label">生日：</label>
+                        <div class="layui-input-block">
+                            <input id="birthday" name="birthday" type="text" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </td>
