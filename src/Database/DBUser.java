@@ -1,10 +1,10 @@
 package Database;
-import Entity.*;
+
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
+import Entity.*;
 public class DBUser {
 
     private String url = "com.mysql.jdbc.Driver"; //加载驱动包
@@ -144,7 +144,7 @@ public class DBUser {
         return result;
     }
 
-    public boolean insertNewUser(String tel,String password,String name,String birthday,String email,boolean isactivate, String gender)
+    public boolean insertNewUser(String tel,String password,String name,String birthday,String email,String gender)
     {
         boolean result =false;
         if(existUserTel(tel))
@@ -163,8 +163,50 @@ public class DBUser {
             stmt.setString(5, email);
             String registerTime = GetNowDate();
             stmt.setString(6, registerTime);
-            stmt.setBoolean(7, isactivate);
+            stmt.setBoolean(7, true);
             stmt.setString(8, gender);
+
+            int i = stmt.executeUpdate();
+            if(i==1)
+                result=true;
+            else
+                result=false;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public boolean insertNewUser(User u)
+    {
+        boolean result =false;
+        if(existUserTel(u.getTel()))
+            return false;
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+            String sqlInset = "insert into user(utel,upassword,uname,birthday,email,registerTime,isactivate,gender) values(?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt = con.prepareStatement(sqlInset);
+            stmt.setString(1, u.getTel());
+            stmt.setString(2, u.getPassword());
+            stmt.setString(3, u.getName());
+            stmt.setString(4, u.getBirthday());
+            stmt.setString(5, u.getEmail());
+            String registerTime = GetNowDate();
+            stmt.setString(6, GetNowDate());
+            u.setRegisterTime(GetNowDate());
+            stmt.setBoolean(7,true);
+            stmt.setString(8, u.getGender());
 
             int i = stmt.executeUpdate();
             if(i==1)

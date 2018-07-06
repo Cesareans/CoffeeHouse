@@ -114,6 +114,43 @@ public class DBMenu {
         return result;
     }
 
+    public boolean insertNewmenu(Menu menu)
+    {
+        boolean result =false;
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
+            String sqlInset = "insert into menu(serialnumber,mname,price,qty,mtype,picture,sales) values(?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt = con.prepareStatement(sqlInset);
+            stmt.setString(1, menu.getSerialNumber());
+            stmt.setString(2, menu.getName());
+            stmt.setDouble(3, menu.getPrice());
+            stmt.setInt(4, menu.getQuantity());
+            stmt.setString(5, menu.getType());
+            stmt.setString(6,menu.getPictureUrl());
+            stmt.setInt(7, 0);
+            int i = stmt.executeUpdate();
+
+            if(i==1)
+                result=true;
+            else
+                result=false;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
     public boolean deleteMenu(String serial)
     {
         boolean result =false;

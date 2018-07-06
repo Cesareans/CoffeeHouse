@@ -1,8 +1,8 @@
 package Database;
-import Entity.*;
+
 import java.sql.*;
 import java.util.ArrayList;
-
+import Entity.*;
 public class DBAdmin {
     private String url = "com.mysql.jdbc.Driver"; //加载驱动包
     private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
@@ -160,6 +160,37 @@ public class DBAdmin {
         }
         return result;
     }
+
+    public boolean insertNewAdmin(Admin a)
+    {
+        boolean result =false;
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
+            String sqlInset = "insert into admin(adminName,mpassword) values(?, ?)";
+            PreparedStatement stmt = con.prepareStatement(sqlInset);
+            stmt.setString(1, a.getAdmin());
+            stmt.setString(2, a.getPassword());
+            int i = stmt.executeUpdate();
+            if(i==1)
+                result=true;
+            else
+                result=false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
 
 
     public boolean deleteAdmin(String adminName)
