@@ -1,6 +1,5 @@
 package Admin;
 
-import Database.DBAdmin;
 import Debug.Debug;
 
 import javax.servlet.ServletException;

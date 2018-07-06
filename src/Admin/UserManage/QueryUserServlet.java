@@ -1,6 +1,5 @@
 package Admin.UserManage;
 
-import Database.DBUser;
 import Entity.User;
 import com.alibaba.fastjson.JSON;
 
