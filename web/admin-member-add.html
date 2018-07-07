@@ -75,7 +75,6 @@
                         url: "/adminAddUser",
                         data: $("#userForm").serialize(),
                         success: function (result) {
-                            console.log(result);
                             if (result === "success")
                                 layer.tips("新增用户成功", "#addBtn", {tips: 1, time:2000 , end: closeFrame});
                             else

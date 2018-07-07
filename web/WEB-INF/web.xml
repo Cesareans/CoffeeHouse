@@ -44,6 +44,14 @@
         <servlet-name>AddUserServlet</servlet-name>
         <url-pattern>/adminAddUser</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteUserServlet</servlet-name>
+        <servlet-class>Admin.UserManage.DeleteUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteUserServlet</servlet-name>
+        <url-pattern>/adminDeleteUser</url-pattern>
+    </servlet-mapping>
 
     <!--UserServlet-->
     <servlet>
