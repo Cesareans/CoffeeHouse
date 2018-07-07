@@ -1,7 +1,7 @@
 package User;
 
 import Database.DBUser;
-import Debug.Debug;
+import DebugUtil.Debug;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

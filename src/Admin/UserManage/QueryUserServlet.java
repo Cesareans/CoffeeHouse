@@ -1,6 +1,7 @@
 package Admin.UserManage;
 
 import Database.DBUser;
+import DebugUtil.Debug;
 import Entity.User;
 import com.alibaba.fastjson.JSON;
 
@@ -27,17 +28,28 @@ public class QueryUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request,response);
     }
-    private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException{
-        if(userList == null){
-            DBUser dbUser = new DBUser();
-            userList = dbUser.getAllUsers();//未考虑效率
-        }
 
+    private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException{
+        DBUser dbUser = new DBUser();
+        userList = dbUser.getAllUsers();//未考虑效率
+        int page , limit;
+        page = Integer.parseInt(request.getParameter("page"));
+        limit = Integer.parseInt(request.getParameter("limit"));
         Map<String , Object> jsonMap = new HashMap<>();
-        jsonMap.put("userList" , userList);
+        jsonMap.put("code" , 0);
+        jsonMap.put("msg" , "");
+        jsonMap.put("count" , userList.size());
+        jsonMap.put("data" , getUsers(page,limit));
         response.setContentType("text/html;charset=utf-8");
+
         PrintWriter pw = response.getWriter();
         pw.write(JSON.toJSONString(jsonMap));
         pw.close();
+    }
+    private List<User> getUsers(int page , int limit){
+        if(page*limit > userList.size())
+            return userList.subList((page-1)*limit , userList.size());
+        else
+            return userList.subList((page-1)*limit , page*limit);
     }
 }

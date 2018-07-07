@@ -1,4 +1,4 @@
-package Debug;
+package DebugUtil;
 
 public class Debug {
     public static void log(String message) {

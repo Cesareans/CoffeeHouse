@@ -1,44 +1,60 @@
 <!doctype html>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
-<link rel="stylesheet" href="CSS/font.css">
-<link rel="stylesheet" href="CSS/xadmin.css">
-<link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
-<script type="text/javascript" src="JS/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
-<script type="text/javascript" src="JS/xadmin.js"></script>
-<script src="lib/layui/layui.js" charset="utf-8"></script>
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
+
+<link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon" />
+<link rel="stylesheet" href="./CSS/font.css">
+<link rel="stylesheet" href="./CSS/xadmin.css">
+<script type="text/javascript" src="./JS/jquery.min.js"></script>
+<script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="./JS/xadmin.js"></script>
 
 <script>
+    var loginBtn;
+    var adminNameInput;
+    var passwordInput;
     $(function  () {
-        $("#loginBtn").bind("click" , function () {
+        loginBtn = $("#loginBtn");
+        adminNameInput = $("#adminName");
+        passwordInput = $("#password");
+
+        loginBtn.bind("click" , function () {
             ajaxLogin();
         });
         $(document).bind("keyup" , function (e) {
             if(e.keyCode === 13){
                 var onFocus = document.activeElement;
-                if(onFocus.id === "adminName")
-                    $("#password").focus();
-                else
+                if(onFocus.id === "adminName") {
+                    var adminName = adminNameInput.val();
+                    if(adminName == null || adminName === "") {
+                        layer.tips("请输入管理员名" , "#adminName");
+                        adminNameInput.focus();
+                    }else
+                        passwordInput.focus();
+                }
+                else {
                     ajaxLogin();
+                }
             }
         })
     });
     function ajaxLogin() {
-        var adminName = document.getElementById("adminName").value;
+        var adminName = adminNameInput.val();
         if(adminName == null || adminName === "") {
             layer.tips("请输入管理员名" , "#adminName");
-            document.getElementById("adminName").focus();
+            adminNameInput.focus();
             return;
         }
-        var password = document.getElementById("password").value;
+        var password = passwordInput.val();
         if(password == null || password===""){
             layer.tips("请输入密码" , "#password");
-            document.getElementById("password").focus();
+            passwordInput.focus();
             return;
         }
         $.ajax({
+            type:"post",
             url:"/adminLogin",
             data:{
                 "adminName":adminName,
@@ -50,8 +66,14 @@
                 else if(result === "fail")
                     layer.tips("密码错误" , "#password");
                 else
-                    layer.tips("未知错误" , "#password");
-
+                    layer.msg("未知错误" , {icon:2, time:2000} , function(){
+                        passwordInput.val("");
+                    });
+            },
+            error:function () {
+                layer.msg("未知错误" , {icon:2, time:2000} , function(){
+                    passwordInput.val("");
+                });
             }
         });
     }
@@ -59,54 +81,20 @@
 
 <html lang="en">
 <head>
-    <title>管理员后台</title>
+    <title>Sisyphus-Admin</title>
 </head>
-<body>
-    <!--占位符，这样的代码看起来很丑，但没有别的办法-->
-    <div><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></div>
-    <div class="login-box">
-        <form class="layui-form layui-form-pane" action="">
-            <div class="login-logo"><h1>管理员登录</h1></div>
-            <div class="layui-form-item">
-                <label class="layui-form-label login-form"><i class="iconfont">&#xe6b8;</i></label>
-                <div class="layui-input-inline login-inline">
-                  <input type="text" name="adminName" id="adminName" placeholder="请输入你的帐号" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label login-form"><i class="iconfont">&#xe82b;</i></label>
-                <div class="layui-input-inline login-inline">
-                  <input type="password" name="password" id="password" placeholder="请输入你的密码" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="form-actions">
-                <button class="layui-btn layui-btn-warmgray" type="button" id="loginBtn" name="loginBtn">登录</button>
-                <div class="forgot"><a href="#" class="forgot">忘记帐号或者密码</a></div>
-            </div>
+<body class="login-bg">
+    <div class="login layui-anim layui-anim-up">
+        <div class="message">Sisyphus-Admin</div>
+        <div id="darkbannerwrap"></div>
+        
+        <form method="post" class="layui-form" >
+            <input type="text" name="adminName" id="adminName" placeholder="请输入你的管理员名" autocomplete="off" class="layui-input">
+            <hr class="hr15">
+            <input type="password" name="password" id="password" placeholder="请输入你的密码" autocomplete="off" class="layui-input">
+            <hr class="hr15">
+            <input type="button" name="loginBtn" id="loginBtn" value="登录" style="width:100%;" >
         </form>
-    </div>
-    <div class="loginFooter">
-        <div>Copyright ©2018 Sisyphus. All Rights Reserved.</div>
-    </div>
-	<div class="bg-changer">
-        <div class="swiper-container changer-list">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"><img class="item" src="./images/a.jpg" alt=""></div>
-                <div class="swiper-slide"><img class="item" src="./images/b.jpg" alt=""></div>
-                <div class="swiper-slide"><img class="item" src="./images/c.jpg" alt=""></div>
-                <div class="swiper-slide"><img class="item" src="./images/d.jpg" alt=""></div>
-                <div class="swiper-slide"><img class="item" src="./images/e.jpg" alt=""></div>
-                <div class="swiper-slide"><img class="item" src="./images/f.jpg" alt=""></div>
-                <div class="swiper-slide"><img class="item" src="./images/g.jpg" alt=""></div>
-                <div class="swiper-slide"><img class="item" src="./images/h.jpg" alt=""></div>
-                <div class="swiper-slide"><img class="item" src="./images/i.jpg" alt=""></div>
-                <div class="swiper-slide"><img class="item" src="./images/j.jpg" alt=""></div>
-                <div class="swiper-slide"><img class="item" src="./images/k.jpg" alt=""></div>
-                <div class="swiper-slide"><span class="reset">初始化</span></div>
-            </div>
-        </div>
-        <div class="bg-out"></div>
-        <div id="changer-set"><i class="iconfont">&#xe696;</i></div>   
     </div>
 </body>
 </html>

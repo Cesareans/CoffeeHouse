@@ -1,5 +1,8 @@
 package Admin.UserManage;
 
+import Database.DBUser;
+import Entity.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,15 +21,20 @@ public class AddUserServlet extends HttpServlet {
         processRequest(request,response);
     }
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException{
-        String username = request.getParameter("username");
-        String gender = request.getParameter("gender");
-        String birthday = request.getParameter("birthday");
-        String telephone = request.getParameter("telephone");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
+        DBUser dbUser = new DBUser();
+        User user = new User();
+        user.setName(request.getParameter("username"));
+        user.setGender(request.getParameter("gender"));
+        user.setBirthday(request.getParameter("birthday"));
+        user.setTel(request.getParameter("telephone"));
+        user.setPassword(request.getParameter("password"));
+        user.setEmail(request.getParameter("email"));
 
         PrintWriter pw = response.getWriter();
-        pw.write("success");
+        if(dbUser.insertNewUser(user))
+            pw.write("success");
+        else
+            pw.write("fail");
         pw.close();
     }
 }

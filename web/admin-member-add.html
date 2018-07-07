@@ -1,98 +1,135 @@
 <!doctype html>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon"/>
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/>
+
+<link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon"/>
 <link rel="stylesheet" href="./CSS/font.css">
 <link rel="stylesheet" href="./CSS/xadmin.css">
-<link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
 <script type="text/javascript" src="./JS/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
-<script type="text/javascript" src="./JS/xadmin.js"></script>
 <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="./JS/xadmin.js"></script>
+
+<style>
+    .layui-form-label{
+        width:60px;
+        padding: 9px 0;
+        text-align: center;
+    }
+    .layui-input-block{
+        margin-left: 60px;
+    }
+</style>
 
 <script>
-    $(function () {
-        layui.use(["form","laydate","layer"], function () {
-            var form = layui.form,
-                laydate = layui.laydate,
-                layer = layui.layer;
+    layui.use(['form', 'layer'], function () {
+        $ = layui.jquery;
+        var form = layui.form
+            , layer = layui.layer;
 
-            $("#birthday").bind("click" , function () {
-                var birthday = {
-                    min: "1900-01-01 00:00:00",
-                    max: laydate.now(),
-                    istoday: false,
-                    elem:this
-                };
-                laydate(birthday);
+        //自定义验证规则
+        form.verify({
+            nikename: function (value) {
+                if (value.length < 5) {
+                    return '昵称至少得5个字符啊';
+                }
+            }
+            , pass: [/(.+){6,12}$/, '密码必须6到12位']
+            , repass: function (value) {
+                if ($('#L_pass').val() != $('#L_repass').val()) {
+                    return '两次密码不一致';
+                }
+            }
+        });
+
+        //监听提交
+        form.on('submit(add)', function (data) {
+            console.log(data);
+            //发异步，把数据提交给php
+            layer.alert("增加成功", {icon: 6}, function () {
+                // 获得frame索引
+                var index = parent.layer.getFrameIndex(window.name);
+                //关闭当前frame
+                parent.layer.close(index);
             });
-            $("#addBtn").bind("click" , function () {
-                if(validate()) {
+            return false;
+        });
+
+
+    });
+</script>
+<script>
+    $(function () {
+        layui.use(["form", "laydate", "layer"], function () {
+            var form = layui.form, laydate = layui.laydate, layer = layui.layer;
+
+            laydate.render({
+                elem:"#birthday",
+                showBottom:false
+            });
+            $("#addBtn").bind("click", function () {
+                if (validate()) {
                     $.ajax({
-                        type:"post",
-                        url:"/adminAddUser",
-                        data:$("#userForm").serialize(),
-                        success:function (result) {
+                        type: "post",
+                        url: "/adminAddUser",
+                        data: $("#userForm").serialize(),
+                        success: function (result) {
                             console.log(result);
-                            if(result === "success")
-                                layer.tips("新增用户成功","#addBtn",{tips:1, end:closeFrame});
+                            if (result === "success")
+                                layer.tips("新增用户成功", "#addBtn", {tips: 1, time:2000 , end: closeFrame});
                             else
-                                layer.tips("新增用户失败","#addBtn",{tips:1});
+                                layer.tips("新增用户失败", "#addBtn", {tips: 1,time:2000 });
                         }
                     });
                 }
             });
-            $("#cancelBtn").bind("click" , function () {
+            $("#cancelBtn").bind("click", function () {
                 closeFrame();
             })
         });
     });
+
     function closeFrame() {
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
         parent.layer.close(index); //再执行关闭
     }
+
     function validate() {
         var result = true;
         layui.use(["layer"], function () {
             var layer = layui.layer;
             var userame = document.getElementById("username");
-            if(userame.value == null || userame.value === "") {
-                layer.tips("请输入管理员名" , "#username" , {tips:3});
+            if (userame.value == null || userame.value === "") {
+                layer.tips("请输入用户名", "#username", {tips: 3});
                 userame.focus();
                 result = false;
                 return;
             }
-            var gender = document.getElementById("gender");
-            if(gender.value == null || gender.value === "") {
-                layer.tips("请输入性别" , "#gender" , {tips:3});
-                gender.focus();
-                result = false;
-                return;
-            }
             var birthday = document.getElementById("birthday");
-            if(birthday.value == null || birthday.value === "") {
-                layer.tips("请输入生日" , "#birthday" , {tips:3});
+            if (birthday.value == null || birthday.value === "") {
+                layer.tips("请输入生日", "#birthday", {tips: 3});
                 birthday.focus();
                 result = false;
                 return;
             }
             var telephone = document.getElementById("telephone");
-            if(telephone.value == null || telephone.value === "") {
-                layer.tips("请输入电话" , "#telephone" , {tips:3});
+            if (telephone.value == null || telephone.value === "") {
+                layer.tips("请输入电话", "#telephone", {tips: 3});
                 telephone.focus();
                 result = false;
                 return;
             }
             var password = document.getElementById("password");
-            if(password.value == null || password.value === "") {
-                layer.tips("请输入密码" , "#password" , {tips:3});
+            if (password.value == null || password.value === "") {
+                layer.tips("请输入密码", "#password", {tips: 3});
                 password.focus();
                 result = false;
                 return;
             }
             var email = document.getElementById("email");
-            if(email.value == null || email.value === "") {
-                layer.tips("请输入邮箱" , "#email" , {tips:3});
+            if (email.value == null || email.value === "") {
+                layer.tips("请输入邮箱", "#email", {tips: 3});
                 email.focus();
                 result = false;
             }
@@ -102,104 +139,55 @@
 
 </script>
 
-<!--Inner Frame HTML-->
-<style>
-    .innerTable{
-        width: 100%;
-    }
-    .innerTable tr{
-        transition: all .3s;
-        -webkit-transition: all .3s;
-    }
-    .innerTable tr:hover{
-        background-color: rgba(0,0,0,0.4);
-    }
-    .innerTable td{
-        padding-right: 40px;
-        border: none;
-    }
-    .innerTable td[item="button"]{
-        padding-right: 0;
-    }
-
-</style>
-<html lang="en" class="html-innerFrame">
+<html>
 <head>
+    <title>Sisyphus-Admin</title>
 </head>
-<body class="body-innerFrame">
-<div class="innerWrapper">
-    <form class="layui-form" id="userForm">
-        <table class="innerTable">
-            <tr>
-                <td>
-                    <div class="layui-form-item">
-                        <label for="username" class="layui-form-label">用户：</label>
-                        <div class="layui-input-block">
-                            <input id="username" name="username" type="text" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="layui-form-item">
-                        <label for="gender" class="layui-form-label">性别：</label>
-                        <div class="layui-input-block">
-                            <input id="gender" name="gender" type="text" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="layui-form-item">
-                        <label for="birthday" class="layui-form-label">生日：</label>
-                        <div class="layui-input-block">
-                            <input id="birthday" name="birthday" type="text" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="layui-form-item">
-                        <label for="telephone" class="layui-form-label">电话：</label>
-                        <div class="layui-input-block">
-                            <input id="telephone" name="telephone" type="text" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="layui-form-item">
-                        <label for="password" class="layui-form-label">密码：</label>
-                        <div class="layui-input-block">
-                            <input id="password" name="password" type="text" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="layui-form-item">
-                        <label for="email" class="layui-form-label">邮箱：</label>
-                        <div class="layui-input-block">
-                            <input id="email" name="email" type="text" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
 
-                </td>
-            </tr>
-            <tr>
-                <td align="center" item="button">
-                    <div style="margin-top: 15px;margin-bottom: 15px">
-                        <button id="addBtn" name="addBtn" class="layui-btn" type="button">增加</button>
-                        <button id="cancelBtn" name="cancelBtn" class="layui-btn layui-btn-danger" type="button">取消</button>
-                    </div>
-                </td>
-            </tr>
-        </table>
+<body>
+<div class="x-body layui-anim layui-anim-up">
+    <form class="layui-form layui-form-pane" id="userForm">
+        <div class="layui-form-item">
+            <label for="username" class="layui-form-label">用户：</label>
+            <div class="layui-input-block">
+                <input id="username" name="username" type="text" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="gender" value="男" title="男">
+                <input type="radio" name="gender" value="女" title="女">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="birthday" class="layui-form-label">生日：</label>
+            <div class="layui-input-block">
+                <input id="birthday" name="birthday" type="text" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="telephone" class="layui-form-label">电话：</label>
+            <div class="layui-input-block">
+                <input id="telephone" name="telephone" type="text" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="email" class="layui-form-label">邮箱：</label>
+            <div class="layui-input-block">
+                <input id="email" name="email" type="text" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="password" class="layui-form-label">密码：</label>
+            <div class="layui-input-block">
+                <input id="password" name="password" type="text" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-bottom: 0;text-align: center">
+            <button id="addBtn" name="addBtn" class="layui-btn" type="button">增加</button>
+            <button id="cancelBtn" name="cancelBtn" class="layui-btn layui-btn-danger" type="button">取消</button>
+        </div>
     </form>
 </div>
 </body>
