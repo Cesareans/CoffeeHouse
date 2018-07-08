@@ -12,61 +12,24 @@
 <script type="text/javascript" src="./JS/xadmin.js"></script>
 
 <style>
-    .layui-form-label{
-        width:60px;
+    .layui-form-label {
+        width: 60px;
         padding: 9px 0;
         text-align: center;
     }
-    .layui-input-block{
+
+    .layui-input-block {
         margin-left: 60px;
     }
 </style>
-
-<script>
-    layui.use(['form', 'layer'], function () {
-        $ = layui.jquery;
-        var form = layui.form
-            , layer = layui.layer;
-
-        //自定义验证规则
-        form.verify({
-            nikename: function (value) {
-                if (value.length < 5) {
-                    return '昵称至少得5个字符啊';
-                }
-            }
-            , pass: [/(.+){6,12}$/, '密码必须6到12位']
-            , repass: function (value) {
-                if ($('#L_pass').val() != $('#L_repass').val()) {
-                    return '两次密码不一致';
-                }
-            }
-        });
-
-        //监听提交
-        form.on('submit(add)', function (data) {
-            console.log(data);
-            //发异步，把数据提交给php
-            layer.alert("增加成功", {icon: 6}, function () {
-                // 获得frame索引
-                var index = parent.layer.getFrameIndex(window.name);
-                //关闭当前frame
-                parent.layer.close(index);
-            });
-            return false;
-        });
-
-
-    });
-</script>
 <script>
     $(function () {
         layui.use(["form", "laydate", "layer"], function () {
             var form = layui.form, laydate = layui.laydate, layer = layui.layer;
 
             laydate.render({
-                elem:"#birthday",
-                showBottom:false
+                elem: "#birthday",
+                showBottom: false
             });
             $("#addBtn").bind("click", function () {
                 if (validate()) {
@@ -76,9 +39,9 @@
                         data: $("#userForm").serialize(),
                         success: function (result) {
                             if (result === "success")
-                                layer.tips("新增用户成功", "#addBtn", {tips: 1, time:2000 , end: closeFrame});
+                                layer.tips("新增用户成功", "#addBtn", {tips: 1, time: 2000, end: closeFrame});
                             else
-                                layer.tips("新增用户失败", "#addBtn", {tips: 1,time:2000 });
+                                layer.tips("新增用户失败", "#addBtn", {tips: 1, time: 2000});
                         }
                     });
                 }
@@ -89,51 +52,32 @@
         });
     });
 
+    function validate() {
+        return verifyRequire([
+            {id: "#username", msg: "用户名"},
+            {id: "#birthday", msg: "生日"},
+            {id: "#telephone", msg: "电话"},
+            {id: "#email", msg: "邮箱"},
+            {id: "#password", msg: "密码"}
+        ]);
+    }
+
+    function verifyRequire(array) {
+        for (var i in array) {
+            if (!array.hasOwnProperty(i)) continue;
+            var elem = $(array[i].id);
+            if (elem.val() == null || elem.val() === "") {
+                layer.tips("请输入"+array[i].msg, array[i].id, {tips: 3});
+                elem.focus();
+                return false;
+            }
+        }
+        return true;
+    }
+
     function closeFrame() {
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
         parent.layer.close(index); //再执行关闭
-    }
-
-    function validate() {
-        var result = true;
-        layui.use(["layer"], function () {
-            var layer = layui.layer;
-            var userame = document.getElementById("username");
-            if (userame.value == null || userame.value === "") {
-                layer.tips("请输入用户名", "#username", {tips: 3});
-                userame.focus();
-                result = false;
-                return;
-            }
-            var birthday = document.getElementById("birthday");
-            if (birthday.value == null || birthday.value === "") {
-                layer.tips("请输入生日", "#birthday", {tips: 3});
-                birthday.focus();
-                result = false;
-                return;
-            }
-            var telephone = document.getElementById("telephone");
-            if (telephone.value == null || telephone.value === "") {
-                layer.tips("请输入电话", "#telephone", {tips: 3});
-                telephone.focus();
-                result = false;
-                return;
-            }
-            var password = document.getElementById("password");
-            if (password.value == null || password.value === "") {
-                layer.tips("请输入密码", "#password", {tips: 3});
-                password.focus();
-                result = false;
-                return;
-            }
-            var email = document.getElementById("email");
-            if (email.value == null || email.value === "") {
-                layer.tips("请输入邮箱", "#email", {tips: 3});
-                email.focus();
-                result = false;
-            }
-        });
-        return result;
     }
 
 </script>
@@ -155,7 +99,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">性别：</label>
             <div class="layui-input-block">
-                <input type="radio" name="gender" value="男" title="男">
+                <input type="radio" name="gender" value="男" title="男" checked>
                 <input type="radio" name="gender" value="女" title="女">
             </div>
         </div>
