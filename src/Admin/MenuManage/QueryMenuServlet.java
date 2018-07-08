@@ -1,7 +1,9 @@
-package Admin.UserManage;
+package Admin.MenuManage;
 
+import Database.DBMenu;
 import Database.DBUser;
 import DebugUtil.Debug;
+import Entity.Menu;
 import Entity.User;
 import com.alibaba.fastjson.JSON;
 
@@ -17,9 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "QueryUserServlet")
-public class QueryUserServlet extends HttpServlet {
-    ArrayList<User> userList;
+@WebServlet(name = "QueryMenuServlet")
+public class QueryMenuServlet extends HttpServlet {
+    ArrayList<Menu> menuList;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request,response);
     }
@@ -27,17 +29,16 @@ public class QueryUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request,response);
     }
-
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException{
-        DBUser dbUser = new DBUser();
-        userList= dbUser.getAllUsers();//未考虑效率
+        DBMenu dbMenu = new DBMenu();
+        menuList = dbMenu.getAllmenu();//未考虑效率
         int page , limit;
         page = Integer.parseInt(request.getParameter("page"));
         limit = Integer.parseInt(request.getParameter("limit"));
         Map<String , Object> jsonMap = new HashMap<>();
         jsonMap.put("code" , 0);
         jsonMap.put("msg" , "");
-        jsonMap.put("count" , userList.size());
+        jsonMap.put("count" , menuList.size());
         jsonMap.put("data" , getUsers(page,limit));
         response.setContentType("text/html;charset=utf-8");
 
@@ -45,10 +46,10 @@ public class QueryUserServlet extends HttpServlet {
         pw.write(JSON.toJSONString(jsonMap));
         pw.close();
     }
-    private List<User> getUsers(int page , int limit){
-        if(page*limit > userList.size())
-            return userList.subList((page-1)*limit , userList.size());
+    private List<Menu> getUsers(int page , int limit){
+        if(page*limit > menuList.size())
+            return menuList.subList((page-1)*limit , menuList.size());
         else
-            return userList.subList((page-1)*limit , page*limit);
+            return menuList.subList((page-1)*limit , page*limit);
     }
 }

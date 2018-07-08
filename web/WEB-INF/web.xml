@@ -27,7 +27,7 @@
         <url-pattern>/adminLogout</url-pattern>
     </servlet-mapping>
 
-    <!--CRUD-->
+    <!--User CRUD-->
     <servlet>
         <servlet-name>QueryUserServlet</servlet-name>
         <servlet-class>Admin.UserManage.QueryUserServlet</servlet-class>
@@ -52,6 +52,16 @@
         <servlet-name>DeleteUserServlet</servlet-name>
         <url-pattern>/adminDeleteUser</url-pattern>
     </servlet-mapping>
+    <!--Menu CRUD-->
+    <servlet>
+        <servlet-name>QueryMenuServlet</servlet-name>
+        <servlet-class>Admin.MenuManage.QueryMenuServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QueryMenuServlet</servlet-name>
+        <url-pattern>/adminQueryMenu</url-pattern>
+    </servlet-mapping>
+
 
     <!--UserServlet-->
     <servlet>
