@@ -44,6 +44,9 @@ public boolean insertNewUser(String tel,String password,String name,String birth
 public boolean deleteUser(String tel)
 删除 电话为tel的用户
 
+public boolean updateUser(User u)
+更新用户信息，用户电话号码不可通过此方法更新
+
 public boolean updateTel(String oldtel,String newtel)
 修改 原来电话号码为oldtel的用户的电话号码为newtel
 
@@ -102,6 +105,9 @@ public boolean insertNewmenu(String serial,String name,double price,int qty,Stri
 
 public boolean deleteMenu(String serial)
 删除餐品号为serial的菜单记录
+
+public boolean updateMenu(Menu m)
+更新餐品信息，餐品号不可通过此方法更新
 
 public boolean updateSerial(String oldserial,String newserial)
 更新餐品号

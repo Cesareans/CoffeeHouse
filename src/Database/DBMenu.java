@@ -73,7 +73,7 @@ public class DBMenu {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
-            psm = con.prepareStatement("select * from menu where mname like '%"+name+"%' or uname like "+"'"+name+"%' or uname like '%"+name+"'");
+            psm = con.prepareStatement("select * from menu where mname like '%"+name+"%' or mname like "+"'"+name+"%' or mname like '%"+name+"'");
             rs = psm.executeQuery();
 
             while(rs.next()){
@@ -207,6 +207,8 @@ public class DBMenu {
     public boolean insertNewmenu(Menu menu)
     {
         boolean result =false;
+        if(menu.getSerialNumber().equals(""))
+            return false;
         try {
             //加载驱动包
             Class.forName(url);
@@ -274,6 +276,18 @@ public class DBMenu {
                 e.printStackTrace();
             }
         }
+        return result;
+    }
+
+    public boolean updateMenu(Menu m)
+    {
+        boolean result =true;
+        updateMenuName(m.getSerialNumber(),m.getName());
+        updateMenuType(m.getSerialNumber(),m.getType());
+        updateMenuQty(m.getSerialNumber(),m.getQuantity());
+        updateMenuPrice(m.getSerialNumber(),m.getPrice());
+        updateMenuPictureUrl(m.getSerialNumber(),m.getPictureUrl());
+        updateMenuSales(m.getSerialNumber(),m.getSales());
         return result;
     }
 

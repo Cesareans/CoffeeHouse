@@ -332,6 +332,18 @@ public class DBUser {
         return result;
     }
 
+    public boolean updateUser(User u)
+    {
+        boolean result =true;
+        updateUserEmail(u.getTel(),u.getEmail());
+        updateUserBirthday(u.getTel(),u.getBirthday());
+        updatePassword(u.getTel(),u.getPassword());
+        updateGender(u.getTel(),u.getGender());
+        updateUserName(u.getTel(),u.getName());
+        updateActivate(u.getTel(),u.isIsactivate());
+        return result;
+    }
+
     public boolean updateTel(String oldtel,String newtel)
     {
         boolean result =false;
