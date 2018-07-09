@@ -50,6 +50,22 @@ public class DBMenu {
         return menulist;
     }
 
+    String getNewSN()
+    {
+        ArrayList<Menu> menulist = getAllmenu();
+        int SN=0;
+        for(int i=0;i<menulist.size();i++)
+        {
+            if(SN<Integer.valueOf(menulist.get(i).getSerialNumber()))
+                SN=Integer.valueOf(menulist.get(i).getSerialNumber());
+        }
+        SN++;
+        String sn=String.format("%04d",SN);
+        return sn;
+
+    }
+
+
     public ArrayList<Menu> getNamemenu(String name){
         ArrayList<Menu> menulist = new ArrayList<Menu>();
         try {
