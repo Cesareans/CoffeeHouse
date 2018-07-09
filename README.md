@@ -88,6 +88,9 @@ public ArrayList<Menu> getAllmenu()
 public Menu getSNmenu(String SN)
 获取SN号菜品的信息
 
+String getNewSN()
+获取一个新的序列号
+
 public ArrayList<Menu> getNamemenu(String name) 
 获取关键字为name的菜品信息
 
