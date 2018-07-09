@@ -54,13 +54,89 @@ public class DBUser {
         return userlist;
     }
 
+    public User getTelUsers(String tel){
+        User u = new User();
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+            psm = con.prepareStatement("select * from user where utel="+"'"+tel+"'");
+            rs = psm.executeQuery();
+
+            while(rs.next()){
+
+                u.setTel(rs.getString(1));
+                u.setPassword(rs.getString(2));
+                u.setName(rs.getString(3));
+                u.setBirthday(rs.getString(4));
+                u.setEmail(rs.getString(5));
+                u.setRegisterTime(rs.getString(6));
+                u.setIsactivate(rs.getBoolean(7));
+                u.setGender(rs.getString(8));
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                rs.close();
+                psm.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return u;
+    }
+
+    public ArrayList<User> getNameUsers(String name){
+        ArrayList<User> userlist = new ArrayList<User>();
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+            psm = con.prepareStatement("select * from user where uname like '%"+name+"%' or uname like "+"'"+name+"%' or uname like '%"+name+"'");
+            rs = psm.executeQuery();
+
+            while(rs.next()){
+                User u = new User();
+                u.setTel(rs.getString(1));
+                u.setPassword(rs.getString(2));
+                u.setName(rs.getString(3));
+                u.setBirthday(rs.getString(4));
+                u.setEmail(rs.getString(5));
+                u.setRegisterTime(rs.getString(6));
+                u.setIsactivate(rs.getBoolean(7));
+                u.setGender(rs.getString(8));
+                userlist.add(u);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                rs.close();
+                psm.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return userlist;
+    }
+
     //to be deleted
     public void displayUserInfo()
     {
         System.out.println("Users' information");
         System.out.printf("%-14s%-14s%-14s%-14s%-14s%-14s%-14s%-14s\n","Tel","Password","Name","Birthday","Email","ReTime","isActivate","gender");
         System.out.println("-----------------------------------------------------------------------------");
-        ArrayList<User> list = getAllUsers();
+        ArrayList<User> list = getNameUsers("s");
         if(list.size() == 0){
             System.out.println("暂无数据");
         }else{
