@@ -1,5 +1,7 @@
 package Admin.UserManage;
 
+import Database.DBUser;
+import DebugUtil.Debug;
 import Entity.User;
 import com.alibaba.fastjson.JSON;
 
@@ -17,8 +19,7 @@ import java.util.Map;
 
 @WebServlet(name = "QueryUserServlet")
 public class QueryUserServlet extends HttpServlet {
-    private final int defaultCount = 10;
-    private ArrayList<User> userList;
+    ArrayList<User> userList;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request,response);
     }
@@ -26,36 +27,28 @@ public class QueryUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request,response);
     }
-    private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException{
-        int start;
-        int count;
-        try {
-            start = Integer.parseInt(((String) request.getAttribute("start")));
-            count = Integer.parseInt((String) request.getAttribute("count"));
-        }catch (Exception ex) {
-            start = 0;
-            count = defaultCount;
-        }
-        if(start == 0 || userList == null){
-            DBUser dbUser = new DBUser();
-            userList = dbUser.getAllUsers();//未考虑效率
-        }
 
+    private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException{
+        DBUser dbUser = new DBUser();
+        userList= dbUser.getAllUsers();//未考虑效率
+        int page , limit;
+        page = Integer.parseInt(request.getParameter("page"));
+        limit = Integer.parseInt(request.getParameter("limit"));
         Map<String , Object> jsonMap = new HashMap<>();
-        jsonMap.put("userList" , userList);
+        jsonMap.put("code" , 0);
+        jsonMap.put("msg" , "");
+        jsonMap.put("count" , userList.size());
+        jsonMap.put("data" , getUsers(page,limit));
         response.setContentType("text/html;charset=utf-8");
+
         PrintWriter pw = response.getWriter();
         pw.write(JSON.toJSONString(jsonMap));
         pw.close();
     }
-    private List<User> getUsers(int start , int count){
-        if(start < 0)
-            start = 0;
-        if(start >= userList.size())
-            return null;
-        if(start + count > userList.size())
-            return userList.subList(start,userList.size());
+    private List<User> getUsers(int page , int limit){
+        if(page*limit > userList.size())
+            return userList.subList((page-1)*limit , userList.size());
         else
-            return userList.subList(start,start+count);
+            return userList.subList((page-1)*limit , page*limit);
     }
 }

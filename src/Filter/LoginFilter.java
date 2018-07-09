@@ -1,6 +1,6 @@
 package Filter;
 
-import Debug.Debug;
+import DebugUtil.Debug;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

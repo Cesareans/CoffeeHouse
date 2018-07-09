@@ -1,6 +1,7 @@
 package Admin;
 
-import Debug.Debug;
+import Database.DBAdmin;
+import DebugUtil.Debug;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
