@@ -32,21 +32,20 @@
             var laytpl = layui.laytpl,table = layui.table;
             table.on("tool(dataTable)" , function (col) {
                 var data = col.data;
-                console.log(data);
                 switch (col.event){
                     case "showMenuItem":
                         //TODO:showUser at user's personal info page with iframe
                         break;
                     case "editMenuItem":
-                        editMenuItem();
+                        editMenuItem(data.serialNumber);
                         break;
                     case "delMenuItem":
                         layer.confirm("即将删除餐品，请严肃确认操作", {
                             icon: 0,
                             btn: ["确认", "取消"]
                         }, function(){
-                            delMenuItem(data.tel);
-                            showUsersTable();
+                            delMenuItem(data.serialNumber);
+                            showMenuTable();
                         },function () {});
                         break;
                 }
@@ -61,17 +60,17 @@
                 }, function(){
                     for(var i in checkedData){
                         if(checkedData.hasOwnProperty(i)) {
-                            delMenuItem(checkedData[i].tel);
+                            delMenuItem(checkedData[i].serialNumber);
                         }
                     }
-                    showUsersTable();
+                    showMenuTable();
                 },function () {});
 
             });
         });
-        showUsersTable();
+        showMenuTable();
     });
-    function showUsersTable() {
+    function showMenuTable() {
         layui.use("table", function () {
             var table = layui.table;
             table.render({
@@ -90,51 +89,61 @@
                 cols: [[ //表头
                     {type:'checkbox'},
                     {field: 'serialNumber', title: '序号', sort: true},
-                    {field: 'name', title: '餐点名' , sort:true , width:150},
-                    {field: 'type', title: '类型', sort: true , width:150},
+                    {field: 'name', title: '餐点名' , sort:true},
+                    {field: 'type', title: '类型', sort: true},
                     {field: 'quantity', title: '库存', sort: true},
                     {field: 'price', title: '价格', sort: true},
                     {field: 'sales', title: '销量', sort: true},
-                    {title:'操作', fixed: 'right', width:150, align:'center', toolbar: '#TableUtilBar'}
+                    {title: '操作', fixed: 'right', width:150, align:'center', toolbar: '#TableUtilBar'}
                 ]]
             });
         });
     }
 
     function addMenuItem() {
+        var hasUpdated = true;
         layer.open({
             type: 2,
-            area: ['420px', '439px'],
+            area: ['420px', '333px'],
             fix: false,
             maxmin: false,
             shadeClose: false,
-            title: "新增用户",
-            content: "admin-member-add.html",
+            title: "新增餐点",
+            content: "admin-menu-update.jsp",
+            cancel:function(){
+                hasUpdated=false;
+            },
             end:function () {
-                showUsersTable();
+                if(hasUpdated)
+                    showMenuTable();
             }
         });
     }
-    function editMenuItem() {
+    function editMenuItem(serialNumber) {
+        var hasUpdated = true;
         layer.open({
             type: 2,
-            area: ['420px', '439px'],
+            area: ['420px', '333px'],
             fix: false,
             maxmin: false,
             shadeClose: false,
-            title: "编辑用户",
-            content: "admin-member-edit.html",
+            title: "编辑餐点",
+            content: "admin-menu-update.jsp?serialNumber=" + serialNumber,
+            cancel:function(){
+                hasUpdated=false;
+            },
             end:function () {
-                showUsersTable();
+                if(hasUpdated)
+                    showMenuTable();
             }
         });
     }
     function delMenuItem(serial) {
         $.ajax({
             type:"post",
-            url:"/adminDeleteUser",
+            url:"/adminDeleteMenu",
             data:{
-                "telephone":tel
+                "serialNumber":serial
             },
             success:function (result) {
                 if(result==="success")
