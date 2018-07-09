@@ -18,6 +18,12 @@
     .layui-table-page{
         text-align: center;
     }
+    .layui-form-onswitch em{
+        margin-left: 0;
+    }
+    .layui-form-item .layui-inline{
+        margin-bottom: 0;
+    }
 </style>
 
 <script type="text/html" id="TableUtilBar">
@@ -26,15 +32,34 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delMenuItem"><i class="layui-icon" style="margin-right: 0">&#xe640;</i></a>
 </script>
 <script>
+    var tableIns;
+    var isNameFilter;
+    var cancelFilterBtn;
+    var menuItemNameField;
+    var typeField;
+    var menuItemNameDiv;
+    var typeDiv;
     $(function () {
-        $("#addMenuItemBtn").bind("click", addMenuItem);
-        layui.use(["laytpl","table"], function () {
-            var laytpl = layui.laytpl,table = layui.table;
-            table.on("tool(dataTable)" , function (col) {
+        cancelFilterBtn = $("#cancelFilterBtn");
+        cancelFilterBtn.hide();
+        menuItemNameField = $("#menuItemName");
+        typeField = $("#type");
+        menuItemNameDiv = $("#menuItemNameDiv");
+        typeDiv = $("#typeDiv");
+
+        isNameFilter = $("#filterWay")[0].checked;
+        if(isNameFilter)
+            typeDiv.hide();
+        else
+            menuItemNameDiv.hide();
+
+        layui.use(["laytpl","table" , "form"], function () {
+            var laytpl = layui.laytpl, table = layui.table , form = layui.form;
+            table.on("tool(dataTable)", function (col) {
                 var data = col.data;
-                switch (col.event){
+                switch (col.event) {
                     case "showMenuItem":
-                        //TODO:showUser at user's personal info page with iframe
+                        //TODO:showMenuItem at menu's info page with iframe
                         break;
                     case "editMenuItem":
                         editMenuItem(data.serialNumber);
@@ -43,40 +68,75 @@
                         layer.confirm("即将删除餐品，请严肃确认操作", {
                             icon: 0,
                             btn: ["确认", "取消"]
-                        }, function(){
+                        }, function () {
                             delMenuItem(data.serialNumber);
                             showMenuTable();
-                        },function () {});
+                        }, function () {
+                        });
                         break;
                 }
             });
-            $("#delSelectedBtn").bind("click", function () {
-                var checkedData = table.checkStatus("dataTable").data;
-                if(checkedData.length <= 0)
-                    return;
-                layer.confirm("即将删除选中餐品，请严肃确认操作", {
-                    icon: 0,
-                    btn: ["确认", "取消"]
-                }, function(){
-                    for(var i in checkedData){
-                        if(checkedData.hasOwnProperty(i)) {
-                            delMenuItem(checkedData[i].serialNumber);
-                        }
-                    }
-                    showMenuTable();
-                },function () {});
-
-            });
+            form.on("switch(filterSwitch)" , function (data) {
+                isNameFilter = data.elem.checked;
+                if(isNameFilter){
+                    menuItemNameDiv.show();
+                    typeDiv.hide();
+                }else{
+                    menuItemNameDiv.hide();
+                    typeDiv.show();
+                }
+            })
         });
+
+        $("#searchBtn").bind("click" , function () {
+            if(isNameFilter)
+                doMenuNameFilter();
+            else
+                doMenuTypeFilter();
+        });
+        $("#addMenuItemBtn").bind("click", addMenuItem);
+        $("#delSelectedBtn").bind("click", function () {
+            var checkedData = table.checkStatus("dataTable").data;
+            if(checkedData.length <= 0)
+                return;
+            layer.confirm("即将删除选中餐品，请严肃确认操作", {
+                icon: 0,
+                btn: ["确认", "取消"]
+            }, function(){
+                for(var i in checkedData){
+                    if(checkedData.hasOwnProperty(i)) {
+                        delMenuItem(checkedData[i].serialNumber);
+                    }
+                }
+                showMenuTable();
+            },function () {});
+
+        });
+        cancelFilterBtn.bind("click" , function () {
+            if(isNameFilter){
+                menuItemNameField.val("");
+                showMenuTable();
+                cancelFilterBtn.hide();
+            }
+            else{
+                showMenuTable();
+                cancelFilterBtn.hide();
+            }
+        });
+        menuItemNameField.bind("keyup" , function (e) {
+            if(e.keyCode === 13){
+                doMenuNameFilter();
+            }
+        });
+
         showMenuTable();
     });
     function showMenuTable() {
         layui.use("table", function () {
             var table = layui.table;
-            table.render({
+            tableIns = table.render({
                 elem: '#dataTable',
                 height: "full-109",
-                url: '/adminQueryMenu',
                 skin:"nob",
                 even:true,
                 page: {
@@ -95,9 +155,30 @@
                     {field: 'price', title: '价格', sort: true},
                     {field: 'sales', title: '销量', sort: true},
                     {title: '操作', fixed: 'right', width:150, align:'center', toolbar: '#TableUtilBar'}
-                ]]
+                ]],
+                url: '/adminQueryMenu',
+                method:"post"
             });
         });
+    }
+    function doMenuNameFilter() {//TODO
+        var menuItemNameVal = menuItemNameField.val();
+        if(menuItemNameVal !== ""){
+            tableIns.reload({
+                where:{menuItemName:menuItemNameVal},
+                page:{curr:1}
+            });
+            cancelFilterBtn.show();
+        }
+    }
+    function doMenuTypeFilter() {
+        var typeVal = typeField.val();
+        console.log(tableIns);
+        tableIns.reload({
+            where:{type:typeVal},
+            page:{curr:1}
+        });
+        cancelFilterBtn.show();
     }
 
     function addMenuItem() {
@@ -162,9 +243,26 @@
 <body class="layui-anim layui-anim-up">
 <div class="x-body">
     <xblock>
-        <form class="layui-form" style="display: inline-block">
-            <input type="text" name="username" placeholder="请输入餐品名" autocomplete="off" class="layui-input" style="width: 150px;display: inline-block">
-            <button class="layui-btn"><i class="layui-icon">&#xe615;</i></button>
+        <form name="filterForm" id="filterForm" class="layui-form" style="display: inline-block" onkeydown="if(event.keyCode===13){return false;}">
+            <div class="layui-form-item" style="margin-bottom: 0">
+                <div class="layui-inline">
+                    <input name="filterWay" id="filterWay" type="checkbox" lay-skin="switch" lay-text="名称|类型" lay-filter="filterSwitch">
+                </div>
+                <div class="layui-inline" id="menuItemNameDiv">
+                    <input name="menuItemName" id="menuItemName" type="text" placeholder="请输入餐品名" autocomplete="off" class="layui-input" style="width: 188px;">
+                </div>
+                <div class="layui-inline" id="typeDiv">
+                    <select id="type" name="type">
+                        <option value="饮料">饮料</option>
+                        <option value="甜品">甜品</option>
+                        <option value="主食">主食</option>
+                    </select>
+                </div>
+                <div class="layui-inline">
+                    <button name="searchBtn" id="searchBtn" type="button" class="layui-btn"><i class="layui-icon">&#xe615;</i></button>
+                    <button name="cancelFilterBtn" id="cancelFilterBtn" type="button" class="layui-btn layui-btn-danger"><i class="layui-icon">&#x1006;</i></button>
+                </div>
+            </div>
         </form>
         <a class="layui-btn layui-btn-small" style="line-height:30px;padding:3px 18px;float:right;margin-left: 10px"
            href="javascript:location.replace(location.href);">

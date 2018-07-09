@@ -1,10 +1,7 @@
 package Admin.MenuManage;
 
 import Database.DBMenu;
-import Database.DBUser;
-import DebugUtil.Debug;
 import Entity.Menu;
-import Entity.User;
 import com.alibaba.fastjson.JSON;
 
 import javax.servlet.ServletException;
@@ -31,22 +28,40 @@ public class QueryMenuServlet extends HttpServlet {
     }
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException{
         DBMenu dbMenu = new DBMenu();
-        menuList = dbMenu.getAllmenu();//未考虑效率
+        String menuItemName = request.getParameter("menuItemName");
+        String type = request.getParameter("type");
+        String serialNumber = request.getParameter("serialNumber");
+        //未考虑效率
+        if(serialNumber != null){
+            menuList.clear();
+            menuList.add(dbMenu.getSNmenu(serialNumber));
+        } else if(type != null)
+            menuList=dbMenu.getTypeMenu(type);
+        else if(menuItemName != null)
+            menuList=dbMenu.getNamemenu(menuItemName);
+        else
+            menuList = dbMenu.getAllmenu();
+
         int page , limit;
-        page = Integer.parseInt(request.getParameter("page"));
-        limit = Integer.parseInt(request.getParameter("limit"));
+        try {
+            limit = Integer.parseInt(request.getParameter("limit"));
+            page = Integer.parseInt(request.getParameter("page"));
+        }catch (Exception ex){
+            limit = 1;
+            page = 1;
+        }
         Map<String , Object> jsonMap = new HashMap<>();
         jsonMap.put("code" , 0);
         jsonMap.put("msg" , "");
         jsonMap.put("count" , menuList.size());
-        jsonMap.put("data" , getUsers(page,limit));
+        jsonMap.put("data" , getMenuItems(page,limit));
         response.setContentType("text/html;charset=utf-8");
 
         PrintWriter pw = response.getWriter();
         pw.write(JSON.toJSONString(jsonMap));
         pw.close();
     }
-    private List<Menu> getUsers(int page , int limit){
+    private List<Menu> getMenuItems(int page , int limit){
         if(page*limit > menuList.size())
             return menuList.subList((page-1)*limit , menuList.size());
         else

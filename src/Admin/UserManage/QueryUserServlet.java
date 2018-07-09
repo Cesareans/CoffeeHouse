@@ -30,10 +30,25 @@ public class QueryUserServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException{
         DBUser dbUser = new DBUser();
-        userList= dbUser.getAllUsers();//未考虑效率
+        String telephone = request.getParameter("telephone");
+        String username = request.getParameter("username");
+        //未考虑效率
+        if(telephone!=null) {
+            userList.clear();
+            userList.add(dbUser.getTelUsers(telephone));
+        }else if(username != null)
+            userList = dbUser.getNameUsers(username);
+        else
+            userList = dbUser.getAllUsers();
         int page , limit;
-        page = Integer.parseInt(request.getParameter("page"));
-        limit = Integer.parseInt(request.getParameter("limit"));
+        try {
+            page = Integer.parseInt(request.getParameter("page"));
+            limit = Integer.parseInt(request.getParameter("limit"));
+        }catch (Exception ex){
+            page = 1;
+            limit = 1;
+        }
+
         Map<String , Object> jsonMap = new HashMap<>();
         jsonMap.put("code" , 0);
         jsonMap.put("msg" , "");

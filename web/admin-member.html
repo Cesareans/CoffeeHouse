@@ -26,8 +26,13 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delUser"><i class="layui-icon" style="margin-right: 0">&#xe640;</i></a>
 </script>
 <script>
+    var tableIns;
+    var cancelFilterBtn;
+    var usernameField;
     $(function () {
-        $("#addUserBtn").bind("click", addUser);
+        cancelFilterBtn = $("#cancelFilterBtn");
+        cancelFilterBtn.hide();
+        usernameField = $("#username");
         layui.use(["laytpl","table"], function () {
             var laytpl = layui.laytpl,table = layui.table;
             table.on("tool(dataTable)" , function (col) {
@@ -50,33 +55,47 @@
                         break;
                 }
             });
-            $("#delSelectedBtn").bind("click", function () {
-                var checkedData = table.checkStatus("dataTable").data;
-                if(checkedData.length <= 0)
-                    return;
-                layer.confirm("即将删除选中用户，请严肃确认操作", {
-                    icon: 0,
-                    btn: ["确认", "取消"]
-                }, function(){
-                    for(var i in checkedData){
-                        if(checkedData.hasOwnProperty(i)) {
-                            delUser(checkedData[i].tel);
-                        }
-                    }
-                    showUsersTable();
-                },function () {});
 
-            });
         });
+
+        $("#searchBtn").bind("click" , doUsernameFilter);
+        $("#addUserBtn").bind("click", addUser);
+        $("#delSelectedBtn").bind("click", function () {
+            var checkedData = table.checkStatus("dataTable").data;
+            if(checkedData.length <= 0)
+                return;
+            layer.confirm("即将删除选中用户，请严肃确认操作", {
+                icon: 0,
+                btn: ["确认", "取消"]
+            }, function(){
+                for(var i in checkedData){
+                    if(checkedData.hasOwnProperty(i)) {
+                        delUser(checkedData[i].tel);
+                    }
+                }
+                showUsersTable();
+            },function () {});
+
+        });
+        cancelFilterBtn.bind("click" , function () {
+            usernameField.val("");
+            showUsersTable();
+            cancelFilterBtn.hide();
+        });
+        usernameField.bind("keyup" , function (e) {
+            if(e.keyCode === 13){
+                doUsernameFilter();
+            }
+        });
+
         showUsersTable();
     });
     function showUsersTable() {
         layui.use("table", function () {
             var table = layui.table;
-            table.render({
+            tableIns = table.render({
                 elem: '#dataTable',
                 height: "full-109",
-                url: '/adminQueryUser',
                 skin:"nob",
                 even:true,
                 page: {
@@ -96,9 +115,21 @@
                     {field: 'email', title: '邮箱', sort: true},
                     {field: 'password', title: '密码', sort: true},
                     {title:'操作', fixed: 'right', width:150, align:'center', toolbar: '#TableUtilBar'}
-                ]]
+                ]],
+                url: '/adminQueryUser',
+                method:"post"
             });
         });
+    }
+    function doUsernameFilter() {
+        var usernameVal = usernameField.val();
+        if(usernameVal !== ""){
+            tableIns.reload({
+                where:{username:usernameVal},
+                page:{curr:1}
+            });
+            cancelFilterBtn.show();
+        }
     }
 
     function addUser() {
@@ -163,9 +194,10 @@
 <body class="layui-anim layui-anim-up">
 <div class="x-body">
     <xblock>
-        <form class="layui-form" style="display: inline-block">
-            <input type="text" name="username" placeholder="请输入会员名" autocomplete="off" class="layui-input" style="width: 150px;display: inline-block">
-            <button class="layui-btn"><i class="layui-icon">&#xe615;</i></button>
+        <form name="filterForm" id="filterForm" class="layui-form" style="display: inline-block" onkeydown="if(event.keyCode===13){return false;}">
+            <input name="username" id="username" type="text" placeholder="请输入会员名" autocomplete="off" class="layui-input" style="width: 150px;display: inline-block">
+            <button name="searchBtn" id="searchBtn" type="button" class="layui-btn"><i class="layui-icon">&#xe615;</i></button>
+            <button name="cancelFilterBtn" id="cancelFilterBtn" type="button" class="layui-btn layui-btn-danger"><i class="layui-icon">&#x1006;</i></button>
         </form>
         <a class="layui-btn layui-btn-small" style="line-height:30px;padding:3px 18px;float:right;margin-left: 10px"
            href="javascript:location.replace(location.href);">

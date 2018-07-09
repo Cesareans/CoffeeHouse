@@ -18,8 +18,8 @@ public class User {
         email="";
         birthday="";
         registerTime="";
-        isactivate=false;
-        gender="male";
+        isactivate=true;
+        gender="";
     }
 
     public User(String tel, String name, String password, String registerTime, boolean isactivate, String gender)
