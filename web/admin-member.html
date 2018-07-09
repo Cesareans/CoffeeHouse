@@ -33,21 +33,6 @@
         cancelFilterBtn = $("#cancelFilterBtn");
         cancelFilterBtn.hide();
         usernameField = $("#username");
-        $("#addUserBtn").bind("click", addUser);
-        $("#searchBtn").bind("click" , function () {
-            var usernameVal = usernameField.val();
-            if(usernameVal !== ""){
-                reloadUserTable({
-                    username:usernameVal
-                });
-                cancelFilterBtn.show();
-            }
-        });
-        cancelFilterBtn.bind("click" , function () {
-            usernameField.val("");
-            showUsersTable();
-            cancelFilterBtn.hide();
-        });
         layui.use(["laytpl","table"], function () {
             var laytpl = layui.laytpl,table = layui.table;
             table.on("tool(dataTable)" , function (col) {
@@ -70,24 +55,39 @@
                         break;
                 }
             });
-            $("#delSelectedBtn").bind("click", function () {
-                var checkedData = table.checkStatus("dataTable").data;
-                if(checkedData.length <= 0)
-                    return;
-                layer.confirm("即将删除选中用户，请严肃确认操作", {
-                    icon: 0,
-                    btn: ["确认", "取消"]
-                }, function(){
-                    for(var i in checkedData){
-                        if(checkedData.hasOwnProperty(i)) {
-                            delUser(checkedData[i].tel);
-                        }
-                    }
-                    showUsersTable();
-                },function () {});
 
-            });
         });
+
+        $("#searchBtn").bind("click" , doUsernameFilter);
+        $("#addUserBtn").bind("click", addUser);
+        $("#delSelectedBtn").bind("click", function () {
+            var checkedData = table.checkStatus("dataTable").data;
+            if(checkedData.length <= 0)
+                return;
+            layer.confirm("即将删除选中用户，请严肃确认操作", {
+                icon: 0,
+                btn: ["确认", "取消"]
+            }, function(){
+                for(var i in checkedData){
+                    if(checkedData.hasOwnProperty(i)) {
+                        delUser(checkedData[i].tel);
+                    }
+                }
+                showUsersTable();
+            },function () {});
+
+        });
+        cancelFilterBtn.bind("click" , function () {
+            usernameField.val("");
+            showUsersTable();
+            cancelFilterBtn.hide();
+        });
+        usernameField.bind("keyup" , function (e) {
+            if(e.keyCode === 13){
+                doUsernameFilter();
+            }
+        });
+
         showUsersTable();
     });
     function showUsersTable() {
@@ -125,6 +125,15 @@
         tableIns.reload({
             where:filter
         });
+    }
+    function doUsernameFilter() {
+        var usernameVal = usernameField.val();
+        if(usernameVal !== ""){
+            reloadUserTable({
+                username:usernameVal
+            });
+            cancelFilterBtn.show();
+        }
     }
 
     function addUser() {
@@ -189,7 +198,7 @@
 <body class="layui-anim layui-anim-up">
 <div class="x-body">
     <xblock>
-        <form name="filterForm" id="filterForm" class="layui-form" style="display: inline-block">
+        <form name="filterForm" id="filterForm" class="layui-form" style="display: inline-block" onkeydown="if(event.keyCode===13){return false;}">
             <input name="username" id="username" type="text" placeholder="请输入会员名" autocomplete="off" class="layui-input" style="width: 150px;display: inline-block">
             <button name="searchBtn" id="searchBtn" type="button" class="layui-btn"><i class="layui-icon">&#xe615;</i></button>
             <button name="cancelFilterBtn" id="cancelFilterBtn" type="button" class="layui-btn layui-btn-danger"><i class="layui-icon">&#x1006;</i></button>

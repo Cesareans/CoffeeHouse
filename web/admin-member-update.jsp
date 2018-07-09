@@ -1,4 +1,3 @@
-<%@ page import="DebugUtil.Debug" %>
 <%@ page import="Entity.User" %>
 <%@ page import="Database.DBUser" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -19,12 +18,13 @@
     DBUser dbUser = new DBUser();
     User user = new User();
     String telephone = request.getParameter("telephone");
-    if(telephone == null)
+    if (telephone == null)
         isEdit = false;
     else {
         isEdit = true;//Edit user
         user = dbUser.getTelUsers(telephone);
     }
+    boolean isGirl = user.getGender().equals("女");
 %>
 
 <style>
@@ -47,34 +47,34 @@
                 elem: "#birthday",
                 showBottom: false
             });
-            $("#addBtn").bind("click", function () {
+            $("#updateBtn").bind("click", function () {
                 if (validate()) {
-                    if(<%=!isEdit%>) {
-                        $.ajax({
-                            type: "post",
-                            url: "/adminAddUser",
-                            data: $("#userForm").serialize(),
-                            success: function (result) {
-                                if (result === "success")
-                                    layer.tips("新增用户成功", "#addBtn", {tips: 1, time: 2000, end: closeFrame});
-                                else
-                                    layer.tips("新增用户失败", "#addBtn", {tips: 1, time: 2000});
-                            }
-                        });
-                    }else{
-                        console.log("ok");
-                        $.ajax({
-                            type: "post",
-                            url: "/adminUpdateUser",
-                            data: $("#userForm").serialize(),
-                            success: function (result) {
-                                if (result === "success")
-                                    layer.tips("新增用户成功", "#addBtn", {tips: 1, time: 2000, end: closeFrame});
-                                else
-                                    layer.tips("新增用户失败", "#addBtn", {tips: 1, time: 2000});
-                            }
-                        });
-                    }
+                    var userForm = $("#userForm");
+                    <%if(isEdit){%>
+                    $.ajax({
+                        type: "post",
+                        url: "/adminUpdateUser",
+                        data: userForm.serialize(),
+                        success: function (result) {
+                            if (result === "success")
+                                layer.tips("编辑用户成功", "#updateBtn", {tips: 1, time: 2000, end: closeFrame});
+                            else
+                                layer.tips("编辑用户失败", "#updateBtn", {tips: 1, time: 2000});
+                        }
+                    });
+                    <%}else{%>
+                    $.ajax({
+                        type: "post",
+                        url: "/adminAddUser",
+                        data: userForm.serialize(),
+                        success: function (result) {
+                            if (result === "success")
+                                layer.tips("新增用户成功", "#updateBtn", {tips: 1, time: 2000, end: closeFrame});
+                            else
+                                layer.tips("新增用户失败", "#updateBtn", {tips: 1, time: 2000});
+                        }
+                    });
+                    <%}%>
                 }
             });
             $("#cancelBtn").bind("click", function () {
@@ -124,42 +124,48 @@
         <div class="layui-form-item">
             <label for="username" class="layui-form-label">用户：</label>
             <div class="layui-input-block">
-                <input id="username" name="username" type="text" autocomplete="off" class="layui-input" value="<%=isEdit?user.getName():""%>">
+                <input id="username" name="username" type="text" autocomplete="off" class="layui-input"
+                       value="<%=user.getName()%>">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">性别：</label>
             <div class="layui-input-block">
-                <input type="radio" name="gender" value="男" title="男" checked>
-                <input type="radio" name="gender" value="女" title="女">
+                <input type="radio" name="gender" value="男" title="男" <%=isGirl?"":"checked"%>>
+                <input type="radio" name="gender" value="女" title="女" <%=isGirl?"checked":""%>>
             </div>
         </div>
         <div class="layui-form-item">
             <label for="birthday" class="layui-form-label">生日：</label>
             <div class="layui-input-block">
-                <input id="birthday" name="birthday" type="text" autocomplete="off" class="layui-input">
+                <input id="birthday" name="birthday" type="text" autocomplete="off" class="layui-input"
+                       value="<%=user.getBirthday()%>">
             </div>
         </div>
         <div class="layui-form-item">
             <label for="telephone" class="layui-form-label">电话：</label>
             <div class="layui-input-block">
-                <input id="telephone" name="telephone" type="text" autocomplete="off" class="layui-input">
+                <input id="telephone" name="telephone" type="text" autocomplete="off" class="layui-input"
+                       value="<%=user.getTel()%>">
             </div>
         </div>
         <div class="layui-form-item">
             <label for="email" class="layui-form-label">邮箱：</label>
             <div class="layui-input-block">
-                <input id="email" name="email" type="text" autocomplete="off" class="layui-input">
+                <input id="email" name="email" type="text" autocomplete="off" class="layui-input"
+                       value="<%=user.getEmail()%>">
             </div>
         </div>
         <div class="layui-form-item">
             <label for="password" class="layui-form-label">密码：</label>
             <div class="layui-input-block">
-                <input id="password" name="password" type="text" autocomplete="off" class="layui-input">
+                <input id="password" name="password" type="text" autocomplete="off" class="layui-input"
+                       value="<%=user.getPassword()%>">
             </div>
         </div>
         <div class="layui-form-item" style="margin-bottom: 0;text-align: center">
-            <button id="addBtn" name="addBtn" class="layui-btn" type="button">增加</button>
+            <button id="updateBtn" name="updateBtn" class="layui-btn" type="button"><%=isEdit ? "确定" : "增加"%>
+            </button>
             <button id="cancelBtn" name="cancelBtn" class="layui-btn layui-btn-danger" type="button">取消</button>
         </div>
     </form>
