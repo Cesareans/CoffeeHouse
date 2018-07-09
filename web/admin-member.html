@@ -32,13 +32,12 @@
             var laytpl = layui.laytpl,table = layui.table;
             table.on("tool(dataTable)" , function (col) {
                 var data = col.data;
-                console.log(data);
                 switch (col.event){
                     case "showUser":
                         //TODO:showUser at user's personal info page with iframe
                         break;
                     case "editUser":
-                        editUser();
+                        editUser(data.tel);
                         break;
                     case "delUser":
                         layer.confirm("即将删除用户，请严肃确认操作", {
@@ -103,6 +102,7 @@
     }
 
     function addUser() {
+        var hasUpdated = true;
         layer.open({
             type: 2,
             area: ['420px', '439px'],
@@ -110,13 +110,18 @@
             maxmin: false,
             shadeClose: false,
             title: "新增用户",
-            content: "admin-member-add.html",
+            content: "admin-member-update.jsp",
+            cancel:function(){
+                hasUpdated=false;
+            },
             end:function () {
-                showUsersTable();
+                if(hasUpdated)
+                    showUsersTable();
             }
         });
     }
-    function editUser() {
+    function editUser(tel) {
+        var hasUpdated = true;
         layer.open({
             type: 2,
             area: ['420px', '439px'],
@@ -124,9 +129,13 @@
             maxmin: false,
             shadeClose: false,
             title: "编辑用户",
-            content: "admin-member-edit.html",
+            content: "admin-member-update.jsp?telephone=" + tel,
+            cancel:function(){
+                hasUpdated=false;
+            },
             end:function () {
-                showUsersTable();
+                if(hasUpdated)
+                    showUsersTable();
             }
         });
     }

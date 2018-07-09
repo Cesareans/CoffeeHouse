@@ -24,7 +24,6 @@ public class DeleteUserServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DBUser dbUser = new DBUser();
         String telephone = request.getParameter("telephone");
-        Debug.log(telephone);
         PrintWriter pw = response.getWriter();
         if(dbUser.deleteUser(telephone))
             pw.write("success");

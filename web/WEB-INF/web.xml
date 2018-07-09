@@ -61,6 +61,23 @@
         <servlet-name>QueryMenuServlet</servlet-name>
         <url-pattern>/adminQueryMenu</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AddMenuServlet</servlet-name>
+        <servlet-class>Admin.MenuManage.AddMenuServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddMenuServlet</servlet-name>
+        <url-pattern>/adminAddMenu</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteMenuServlet</servlet-name>
+        <servlet-class>Admin.MenuManage.DeleteMenuServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteMenuServlet</servlet-name>
+        <url-pattern>/adminDeleteMenu</url-pattern>
+    </servlet-mapping>
+
 
 
     <!--UserServlet-->
