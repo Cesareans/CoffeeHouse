@@ -32,12 +32,13 @@ public class QueryUserServlet extends HttpServlet {
         DBUser dbUser = new DBUser();
         String telephone = request.getParameter("telephone");
         String username = request.getParameter("username");
+        //未考虑效率
         if(telephone!=null) {
             userList.clear();
-            userList.add(dbUser.getTelUsers(telephone));//未考虑效率
-        }else if(username != null){
+            userList.add(dbUser.getTelUsers(telephone));
+        }else if(username != null)
             userList = dbUser.getNameUsers(username);
-        }else
+        else
             userList = dbUser.getAllUsers();
         int page , limit;
         try {

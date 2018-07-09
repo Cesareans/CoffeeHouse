@@ -121,16 +121,12 @@
             });
         });
     }
-    function reloadUserTable(filter) {
-        tableIns.reload({
-            where:filter
-        });
-    }
     function doUsernameFilter() {
         var usernameVal = usernameField.val();
         if(usernameVal !== ""){
-            reloadUserTable({
-                username:usernameVal
+            tableIns.reload({
+                where:{username:usernameVal},
+                page:{curr:1}
             });
             cancelFilterBtn.show();
         }

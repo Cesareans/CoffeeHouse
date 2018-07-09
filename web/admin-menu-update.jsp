@@ -1,4 +1,3 @@
-<%@ page import="DebugUtil.Debug" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <meta charset="UTF-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
