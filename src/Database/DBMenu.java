@@ -73,7 +73,7 @@ public class DBMenu {
             Class.forName(url);
             //连接MYSQL
             con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
-            psm = con.prepareStatement("select * from menu where mname like '%"+name+"%' or uname like "+"'"+name+"%' or uname like '%"+name+"'");
+            psm = con.prepareStatement("select * from menu where mname like '%"+name+"%' or mname like "+"'"+name+"%' or mname like '%"+name+"'");
             rs = psm.executeQuery();
 
             while(rs.next()){
