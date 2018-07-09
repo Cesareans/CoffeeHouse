@@ -50,6 +50,80 @@ public class DBMenu {
         return menulist;
     }
 
+    public ArrayList<Menu> getNamemenu(String name){
+        ArrayList<Menu> menulist = new ArrayList<Menu>();
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
+            psm = con.prepareStatement("select * from menu where mname like '%"+name+"%' or uname like "+"'"+name+"%' or uname like '%"+name+"'");
+            rs = psm.executeQuery();
+
+            while(rs.next()){
+                Menu u = new Menu();
+                u.setSerialNumber(rs.getString(1));
+                u.setName(rs.getString(2));
+                u.setPrice(rs.getDouble(3));
+                u.setQuantity(rs.getInt(4));
+                u.setType(rs.getString(5));
+                u.setSales(rs.getInt(6));
+                u.setPictureUrl(rs.getString(7));
+                menulist.add(u);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                rs.close();
+                psm.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return menulist;
+    }
+
+    public Menu getSNmenu(String SN){
+        Menu u = new Menu();
+        try {
+            //加载驱动包
+            Class.forName(url);
+            //连接MYSQL
+            con = DriverManager.getConnection(connectSql,sqlmenu,sqlPasswd);
+            psm = con.prepareStatement("select * from menu where SN="+"'"+SN+"'");
+            rs = psm.executeQuery();
+
+            while(rs.next()){
+
+                u.setSerialNumber(rs.getString(1));
+                u.setName(rs.getString(2));
+                u.setPrice(rs.getDouble(3));
+                u.setQuantity(rs.getInt(4));
+                u.setType(rs.getString(5));
+                u.setSales(rs.getInt(6));
+                u.setPictureUrl(rs.getString(7));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            //关闭数据库连接
+            try {
+                rs.close();
+                psm.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return u;
+    }
     //to be deleted
     public void setLocation(String ip)
     {

@@ -20,6 +20,12 @@ user共有8个属性：
 public ArrayList<User> getAllUsers()
 获取所有用户信息
 
+public ArrayList<User> getNameUsers(String name)
+获取名字为name的用户信息
+
+public User getTelUsers(String tel)
+获取电话号码为tel的用户信息
+
 public boolean  matchUser(String tel,String key)
 判断登陆是否成功
 
@@ -78,6 +84,12 @@ DBMenu:
 接口说明：
 public ArrayList<Menu> getAllmenu()
 获取菜单全部信息
+
+public Menu getSNmenu(String SN)
+获取SN号菜品的信息
+
+public ArrayList<Menu> getNamemenu(String name) 
+获取关键字为name的菜品信息
 
 public ArrayList<Menu> getTypeMenu(String type)
 获取所有类型为type的菜品
