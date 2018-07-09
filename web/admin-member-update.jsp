@@ -1,4 +1,6 @@
 <%@ page import="DebugUtil.Debug" %>
+<%@ page import="Entity.User" %>
+<%@ page import="Database.DBUser" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <meta charset="UTF-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
@@ -13,13 +15,15 @@
 <script type="text/javascript" src="./JS/xadmin.js"></script>
 
 <%
-    boolean isAdd;
-    String username,gender,birthday,email,password;
+    boolean isEdit;
+    DBUser dbUser = new DBUser();
+    User user = new User();
     String telephone = request.getParameter("telephone");
     if(telephone == null)
-        isAdd = true;
+        isEdit = false;
     else {
-        isAdd = false;//Update
+        isEdit = true;//Edit user
+        user = dbUser.getTelUsers(telephone);
     }
 %>
 
@@ -45,17 +49,32 @@
             });
             $("#addBtn").bind("click", function () {
                 if (validate()) {
-                    $.ajax({
-                        type: "post",
-                        url: "/adminAddUser",
-                        data: $("#userForm").serialize(),
-                        success: function (result) {
-                            if (result === "success")
-                                layer.tips("新增用户成功", "#addBtn", {tips: 1, time: 2000, end: closeFrame});
-                            else
-                                layer.tips("新增用户失败", "#addBtn", {tips: 1, time: 2000});
-                        }
-                    });
+                    if(<%=!isEdit%>) {
+                        $.ajax({
+                            type: "post",
+                            url: "/adminAddUser",
+                            data: $("#userForm").serialize(),
+                            success: function (result) {
+                                if (result === "success")
+                                    layer.tips("新增用户成功", "#addBtn", {tips: 1, time: 2000, end: closeFrame});
+                                else
+                                    layer.tips("新增用户失败", "#addBtn", {tips: 1, time: 2000});
+                            }
+                        });
+                    }else{
+                        console.log("ok");
+                        $.ajax({
+                            type: "post",
+                            url: "/adminUpdateUser",
+                            data: $("#userForm").serialize(),
+                            success: function (result) {
+                                if (result === "success")
+                                    layer.tips("新增用户成功", "#addBtn", {tips: 1, time: 2000, end: closeFrame});
+                                else
+                                    layer.tips("新增用户失败", "#addBtn", {tips: 1, time: 2000});
+                            }
+                        });
+                    }
                 }
             });
             $("#cancelBtn").bind("click", function () {
@@ -105,7 +124,7 @@
         <div class="layui-form-item">
             <label for="username" class="layui-form-label">用户：</label>
             <div class="layui-input-block">
-                <input id="username" name="username" type="text" autocomplete="off" class="layui-input">
+                <input id="username" name="username" type="text" autocomplete="off" class="layui-input" value="<%=isEdit?user.getName():""%>">
             </div>
         </div>
         <div class="layui-form-item">
