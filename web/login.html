@@ -15,6 +15,7 @@ function hideURLbar() {
 <!-- //for-mobile-apps -->
 <link href="CSS/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
 <link href="CSS/style.css" rel="stylesheet" type="text/css" media="all"/>
+<link href="/lib/layui/css/layui.css" rel="stylesheet">
 <!-- JS -->
 <script src="JS/jquery.min.js"></script>
 <!-- //JS -->
@@ -40,19 +41,25 @@ function hideURLbar() {
 <!-- //animation-effect -->
 
 <link href="CSS/bootstrap.css" rel="stylesheet">
+<script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
 <script src="JS/jquery.min.js"></script>
 <script src="JS/bootstrap-3.1.1.min.js"></script>
 <script>
+    $(function () {
+        layui.use("layer" , function () {
+            var layer = layui.layer;
+        });
+    });
     function login() {//判断用户名和密码的规范性
         var usertel = document.getElementById("usertel").value;
         if (usertel == null || usertel === "") {
-            alert("用户名不能为空");
+            layer.tips("请输入用户名","#usertel");
             document.getElementById("usertel").focus();
             return;
         }
         var password = document.getElementById("password").value;
         if (password == null || password === "") {
-            alert("密码不能为空");
+            layer.tips("请输入密码","#password");
             document.getElementById("password").focus();
             return;
         }
@@ -65,9 +72,9 @@ function hideURLbar() {
             },
             success: function (result) {
                 if (result === null || result === "false") {
-                    alert("密码错误或用户名不存在");
+                    layer.tips("密码错误或用户名不存在","#password");
                 } else if (result === "true") {
-                    alert("登录成功!");
+                    window.location.assign('information.html');
                 }
             }
         });

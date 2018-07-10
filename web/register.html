@@ -26,12 +26,19 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- //timer -->
 <!-- animation-effect -->
 <link href="CSS/animate.min.css" rel="stylesheet">
+<link href="/lib/layui/css/layui.css" rel="stylesheet">
+<script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
 <script src="JS/wow.min.js"></script>
 <script>
     new WOW().init();
 </script>
 <script src="JS/jquery.min.js"></script>
 <script>
+    $(function () {
+        layui.use("layer" , function () {
+            var layer = layui.layer;
+        });
+    });
     var usertelok = false;
     var pswok = false;
     var confirmpswok = false;
@@ -44,10 +51,10 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
             },
             success:function (result) {
                 if(result === "true"){
-                    $("#result1").html("<font color='green'>用户名可以使用</font>");
+                    layer.tips("用户名可以使用","#usertel",{time:1000});
                     usertelok = true;
                 }else{
-                    $("#result1").html("<font color='red'>用户名不合法或已经存在</font>");
+                    layer.tips("用户名不合法或已经存在","#usertel",{time:1000});
                     usertelok = false;
                 }
             }
@@ -56,15 +63,16 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 
     function checkpsw()
     {
-        var password = document.getElementById("password");
-        if(password.value.length<5)
+        var password = document.getElementById("password").value;
+        var passwordRegx = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+        if(!passwordRegx.test(password))
         {
-            $("#result2").html("<font color='red'>密码长度必须大于等于5位</font>");
+            layer.tips("密码应为6-16位数字与字母的组合","#password",{time:1000});
             pswok = false;
         }
         else
         {
-            $("#result2").html("<font color='green'>密码符合要求</font>");
+            layer.tips("密码符合要求","#password",{time:1000});
             pswok = true;
         }
     }
@@ -75,12 +83,12 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
         var confirmpsw = document.getElementById("confirmpsw");
         if(password.value!==confirmpsw.value)
         {
-            $("#result3").html("<font color='red'>两次输入密码不一致</font>");
+            layer.tips("两次输入密码不一致","#confirmpsw",{time:1000});
             confirmpswok = false;
         }
         else
         {
-            $("#result3").html("<font color='green'>密码一致</font>");
+            layer.tips("密码一致","#confirmpsw",{time:1000});
             confirmpswok = true;
         }
     }
@@ -209,7 +217,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			<div class="login-form-grids animated wow slideInUp" data-wow-delay=".5s">
 				<form name="registerForm" id="registerForm">
 					<input type="text" placeholder="手机号码" required=" " name="usertel"id="usertel" onblur="checktel()">
-					<input type="password" placeholder="密码" required=" " name="password"id="password" onkeyup="checkpsw()">
+					<input type="password" placeholder="密码" required=" " name="password"id="password" onblur="checkpsw()">
 					<input type="password" placeholder="确认密码" required=" " name="confirmpsw"id="confirmpsw" onblur="checkconfpsw()">
 					<input type="button" value="注册" id="registerBtn">
 				</form>
