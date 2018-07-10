@@ -1,7 +1,6 @@
 package User;
 
 import Database.DBUser;
-import DebugUtil.Debug;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,27 +12,25 @@ import java.io.IOException;
 @WebServlet(name = "RegisterServlet")
 public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request , response);
+        processRequest(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request,response);
+             processRequest(request, response);
     }
 
-    private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException{
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String regUsertel = request.getParameter("usertel");
         String regPassword = request.getParameter("password");
-
-        if(regUsertel==null || regPassword == null)
+        String regConfpsw = request.getParameter("confirmpsw");
+        if(regUsertel==null || regPassword == null||regConfpsw==null)
             return;
-        if(regUsertel.equals("") || regPassword.equals(""))
+        if(regUsertel.equals("") || regPassword.equals("")||regConfpsw.equals(""))
             return;
+        LoginSession.startSession(request,response, regUsertel,regPassword);
+        DBUser dbuser = new DBUser();
+        dbuser.insertNewUser(regUsertel, regPassword);
 
-        DBUser dbUser = new DBUser();
-        Debug.log(dbUser.insertNewUser(regUsertel , regPassword)?"true":"false");
-
-        LoginSession.startSession(request,regUsertel,regPassword);
-
-        response.sendRedirect("getSession.jsp");
+        response.sendRedirect("information.html");
     }
 }

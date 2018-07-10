@@ -1,39 +1,111 @@
 <!DOCTYPE html>
-<html>
-<head>
 <link href="coffee.ico" rel="shortcut icon" />
-<title>注册 | 西西弗斯咖啡屋</title>
+
 <!-- for-mobile-apps -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="café, cafe, coffee shop, 西西弗斯,Sisyphus" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
-		function hideURLbar(){ window.scrollTo(0,1); } </script>
+function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- //for-mobile-apps -->
-<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="CSS/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="CSS/style.css" rel="stylesheet" type="text/css" media="all" />
 <!-- js -->
-<script src="js/jquery.min.js"></script>
+<script src="JS/jquery.min.js"></script>
 <!-- //js -->
 <!-- cart -->
-<script src="js/simpleCart.min.js"></script>
+<script src="JS/simpleCart.min.js"></script>
 <!-- cart -->
 <!-- for bootstrap working -->
-<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+<script type="text/javascript" src="JS/bootstrap-3.1.1.min.js"></script>
 <!-- //for bootstrap working -->
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
 <!-- timer -->
-<link rel="stylesheet" href="css/jquery.countdown.css" />
+<link rel="stylesheet" href="CSS/jquery.countdown.css" />
 <!-- //timer -->
 <!-- animation-effect -->
-<link href="css/animate.min.css" rel="stylesheet"> 
-<script src="js/wow.min.js"></script>
+<link href="CSS/animate.min.css" rel="stylesheet">
+<script src="JS/wow.min.js"></script>
 <script>
- new WOW().init();
+    new WOW().init();
 </script>
+<script src="JS/jquery.min.js"></script>
+<script>
+    var usertelok = false;
+    var pswok = false;
+    var confirmpswok = false;
+    function checktel()
+    {
+        $.ajax({
+            url:"checktel",
+            data:{
+                "usertel":document.getElementById("usertel").value
+            },
+            success:function (result) {
+                if(result === "true"){
+                    $("#result1").html("<font color='green'>用户名可以使用</font>");
+                    usertelok = true;
+                }else{
+                    $("#result1").html("<font color='red'>用户名不合法或已经存在</font>");
+                    usertelok = false;
+                }
+            }
+        });
+    }
+
+    function checkpsw()
+    {
+        var password = document.getElementById("password");
+        if(password.value.length<5)
+        {
+            $("#result2").html("<font color='red'>密码长度必须大于等于5位</font>");
+            pswok = false;
+        }
+        else
+        {
+            $("#result2").html("<font color='green'>密码符合要求</font>");
+            pswok = true;
+        }
+    }
+
+    function checkconfpsw()
+    {
+        var password = document.getElementById("password");
+        var confirmpsw = document.getElementById("confirmpsw");
+        if(password.value!==confirmpsw.value)
+        {
+            $("#result3").html("<font color='red'>两次输入密码不一致</font>");
+            confirmpswok = false;
+        }
+        else
+        {
+            $("#result3").html("<font color='green'>密码一致</font>");
+            confirmpswok = true;
+        }
+    }
+
+    $(function () {//Load on file is ready.
+        $('#registerBtn').bind("click" , function () {
+            if(usertelok&&pswok&&confirmpswok) {
+                document.registerForm.action = "/register";
+                document.registerForm.method = "post";
+                document.registerForm.submit();
+            }else{
+                alert("注册失败，请检查信息的有效性");
+            }
+        });
+
+    });
+
+</script>
+
+
+<html>
+<head><title>注册 | 西西弗斯咖啡屋</title></head>
+
 <!-- //animation-effect -->
-</head>
+
 	
 <body>
 <!-- header -->
@@ -95,8 +167,8 @@
 						</div>
 					</div>
 						<!-- search-scripts -->
-						<script src="js/classie.js"></script>
-						<script src="js/uisearch.js"></script>
+						<script src="JS/classie.js"></script>
+						<script src="JS/uisearch.js"></script>
 							<script>
 								new UISearch( document.getElementById( 'sb-search' ) );
 							</script>
@@ -132,14 +204,14 @@
 <!-- register -->
 	<div class="login">
 		<div class="container">
-			<h3 class="animated wow zoomIn" data-wow-delay=".5s">登录个人账号</h3>
+			<h3 class="animated wow zoomIn" data-wow-delay=".5s">注册个人账号</h3>
 			<p class="est animated wow zoomIn" data-wow-delay=".5s">心情惬意，来杯咖啡吧</p>
 			<div class="login-form-grids animated wow slideInUp" data-wow-delay=".5s">
-				<form>
-					<input type="text" placeholder="手机号码" required=" " id="usertel">
-					<input type="password" placeholder="密码" required=" " id="password">
-					<input type="password" placeholder="确认密码" required=" " id="confirmpsw">
-					<input type="submit" value="注册">
+				<form name="registerForm" id="registerForm">
+					<input type="text" placeholder="手机号码" required=" " name="usertel"id="usertel" onblur="checktel()">
+					<input type="password" placeholder="密码" required=" " name="password"id="password" onkeyup="checkpsw()">
+					<input type="password" placeholder="确认密码" required=" " name="confirmpsw"id="confirmpsw" onblur="checkconfpsw()">
+					<input type="button" value="注册" id="registerBtn">
 				</form>
 			</div>
 		</div>

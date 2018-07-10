@@ -1,40 +1,72 @@
 <!DOCTYPE html>
-<html>
-<head>
+<!--{
+"uname": uname,
+"gender": gender,
+"birthday":birthday,
+"email":email
+}-->
+
+<link href="CSS/bootstrap.css" rel="stylesheet">
+<script src="JS/jquery.min.js"></script>
+<script src="JS/bootstrap-3.1.1.min.js"></script>
+<script>
+    var profileForm;
+    $(function () {
+        profileForm = $("form")[1];
+        console.log(profileForm);
+    });
+    function update()
+    {
+        console.log(profileForm.serialize());
+        $.ajax({
+            method:"post",
+            url: "userinfo",
+            data: profileForm.serialize(),
+            success: function (result) {
+                if (result === null || result==="false") {
+                    alert("失败!");
+                } else if (result==="true") {
+                    alert("成功!");
+                }
+            }
+        });
+    }
+
+</script>
 <link href="coffee.ico" rel="shortcut icon" />
-<title>个人信息 | 西西弗斯咖啡屋</title>
+
 <!-- for-mobile-apps -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="café, cafe, coffee shop, 西西弗斯,Sisyphus" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
-		function hideURLbar(){ window.scrollTo(0,1); } </script>
+function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- //for-mobile-apps -->
-<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="CSS/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="CSS/style.css" rel="stylesheet" type="text/css" media="all" />
 <!-- js -->
-<script src="js/jquery.min.js"></script>
+<script src="JS/jquery.min.js"></script>
 <!-- //js -->
 <!-- cart -->
-<script src="js/simpleCart.min.js"></script>
+<script src="JS/simpleCart.min.js"></script>
 <!-- cart -->
 <!-- for bootstrap working -->
-<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+<script type="text/javascript" src="JS/bootstrap-3.1.1.min.js"></script>
 <!-- //for bootstrap working -->
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
 <!-- timer -->
-<link rel="stylesheet" href="css/jquery.countdown.css" />
+<link rel="stylesheet" href="CSS/jquery.countdown.css" />
 <!-- //timer -->
 <!-- animation-effect -->
-<link href="css/animate.min.css" rel="stylesheet"> 
-<script src="js/wow.min.js"></script>
+<link href="CSS/animate.min.css" rel="stylesheet">
+<script src="JS/wow.min.js"></script>
 <script>
- new WOW().init();
+    new WOW().init();
 </script>
-<!-- //animation-effect -->
-</head>
-	
+
+<html>
+<head><title>个人信息 | 西西弗斯咖啡屋</title></head>
 <body>
 <!-- header -->
 	<div class="header">
@@ -95,8 +127,8 @@
 						</div>
 					</div>
 						<!-- search-scripts -->
-						<script src="js/classie.js"></script>
-						<script src="js/uisearch.js"></script>
+						<script src="JS/classie.js"></script>
+						<script src="JS/uisearch.js"></script>
 							<script>
 								new UISearch( document.getElementById( 'sb-search' ) );
 							</script>
@@ -167,18 +199,17 @@
 								<div class="formBox">
 									<div id="setting-profile" class="setting-wrap setting-profile">
 
-										<form id="profile" >
+										<form id="profileForm" name="profileForm">
 
 											<div class="wlfg-wrap clearfix">
-												<label class="label-name" for="name" style="font-size:17px;">姓名：</label>
+												<label class="label-name" for="uname" style="font-size:17px;">姓名：</label>
 												<div class="rlf-group">
-													<input type="text" name="nickname" id="name"  autocomplete="off"  data-validate="require-nick"  class="moco-form-control" value="Hu Zeyong" placeholder="请输入姓名"/>
+													<input type="text" name="nickname" id="uname"  autocomplete="off"  data-validate="require-nick"  class="moco-form-control" value="Hu Zeyong" placeholder="请输入姓名"/>
 													<p class="rlf-tip-wrap errorHint color-red" ></p>
 												</div>
 												<br>
 						
 												<br>
-												</label>
 												<label class="label-name" for="email"  style="font-size:17px;">邮箱：</label>
 												<div class="rlf-group">
 													<input type="email" name="nickname" id="email"  autocomplete="off"  data-validate="require-nick"  class="moco-form-control" value="cesarean@foxmail.com" placeholder="请输入邮箱"/>
@@ -189,91 +220,90 @@
 
 											<div class="wlfg-wrap clearfix" style="font-size:17px;">
 												<br>
-												<label class="label-name" for="province-select" >生日：</label>
+												<label class="label-name">生日：</label>
 												&nbsp;<select id="birthyear" class='moco-form-control' hidefocus="true">
-												<option value="0">2018年</option>
-												<option value="1">2017年</option>
-												<option value="2">2016年</option>
-												<option value="3">2015年</option>
-												<option value="4">2014年</option>
-												<option value="5">2013年</option>
-												<option value="6">2012年</option>
-												<option value="7">2011年</option>
-												<option value="8">2010年</option>
-												<option value="9">2009年</option>
-												<option value="10">2008年</option>
-												<option value="11">2007年</option>
-												<option value="12">2006年</option>
-												<option value="13">2005年</option>
-												<option value="14">2004年</option>
-												<option value="15">2003年</option>
-												<option value="16">2002年</option>
-												<option value="17">2001年</option>
-												<option value="18">2000年</option>
-												<option value="19">1999年</option>
+												<option value="0">2018</option>
+												<option value="1">2017</option>
+												<option value="2">2016</option>
+												<option value="3">2015</option>
+												<option value="4">2014</option>
+												<option value="5">2013</option>
+												<option value="6">2012</option>
+												<option value="7">2011</option>
+												<option value="8">2010</option>
+												<option value="9">2009</option>
+												<option value="10">2008</option>
+												<option value="11">2007</option>
+												<option value="12">2006</option>
+												<option value="13">2005</option>
+												<option value="14">2004</option>
+												<option value="15">2003</option>
+												<option value="16">2002</option>
+												<option value="17">2001</option>
+												<option value="18">2000</option>
+												<option value="19">1999</option>
 												<option value="20" selected="selected">1998年</option>
-												<option value="21">1997年</option>
-												<option value="22">1996年</option>
-												<option value="23">1995年</option>
-												<option value="24">1994年</option>
-												<option value="25">1993年</option>
-												<option value="26">1992年</option>
-												<option value="27">1991年</option>
-												<option value="28">1990年</option>
-												<option value="29">1989年</option>
-												<option value="30">1988年</option>
-												<option value="31">1987年</option>
-												<option value="32">1986年</option>
-												<option value="33">1985年</option>
-												<option value="34">1984年</option>
-												<option value="100">其他</option>
+												<option value="21">1997</option>
+												<option value="22">1996</option>
+												<option value="23">1995</option>
+												<option value="24">1994</option>
+												<option value="25">1993</option>
+												<option value="26">1992</option>
+												<option value="27">1991</option>
+												<option value="28">1990</option>
+												<option value="29">1989</option>
+												<option value="30">1988</option>
+												<option value="31">1987</option>
+												<option value="32">1986</option>
+												<option value="33">1985</option>
+												<option value="34">1984</option>
 											</select>
 												&nbsp;	<select class='moco-form-control' id="birthmonth" hidefocus="true">
-												<option value="0">1月</option>
-												<option value="1">2月</option>
-												<option value="2">3月</option>
-												<option value="3">4月</option>
-												<option value="4">5月</option>
-												<option value="5">6月</option>
-												<option value="6">7月</option>
-												<option value="7">8月</option>
-												<option value="8" selected="selected">9月</option>
-												<option value="9">10月</option>
-												<option value="10">11月</option>
-												<option value="11">12月</option>
+												<option value="0">1</option>
+												<option value="1">2</option>
+												<option value="2">3</option>
+												<option value="3">4</option>
+												<option value="4">5</option>
+												<option value="5">6</option>
+												<option value="6">7</option>
+												<option value="7">8</option>
+												<option value="8" selected="selected">9</option>
+												<option value="9">10</option>
+												<option value="10">11</option>
+												<option value="11">12</option>
 											</select>
 												&nbsp;	<select class='moco-form-control mr0' id="birthday" hidefocus="true">
-												<option value="0">1日</option>
-												<option value="1">2日</option>
-												<option value="2">3日</option>
-												<option value="3">4日</option>
-												<option value="4">5日</option>
-												<option value="5">6日</option>
-												<option value="6">7日</option>
-												<option value="7">8日</option>
+												<option value="0">1</option>
+												<option value="1">2</option>
+												<option value="2">3</option>
+												<option value="3">4</option>
+												<option value="4">5</option>
+												<option value="5">6</option>
+												<option value="6">7</option>
+												<option value="7">8</option>
 												<option value="8" selected="selected">9日</option>
-												<option value="9">10日</option>
-												<option value="10">11日</option>
-												<option value="11">12日</option>
-												<option value="12">13日</option>
-												<option value="13">14日</option>
-												<option value="14">15日</option>
-												<option value="15">16日</option>
-												<option value="16">17日</option>
-												<option value="17">18日</option>
-												<option value="18">19日</option>
-												<option value="19">20日</option>
-												<option value="20">21日</option>
-												<option value="21">22日</option>
-												<option value="22">23日</option>
-												<option value="23">24日</option>
-												<option value="24">25日</option>
-												<option value="25">26日</option>
-												<option value="26">27日</option>
-												<option value="27">28日</option>
-												<option value="28">29日</option>
-												<option value="29">30日</option>
-												<option value="30">31日</option>
+												<option value="9">10</option>
+												<option value="10">11</option>
+												<option value="11">12</option>
+												<option value="12">13</option>
+												<option value="13">14</option>
+												<option value="14">15</option>
+												<option value="15">16</option>
+												<option value="16">17</option>
+												<option value="17">18</option>
+												<option value="18">19</option>
+												<option value="19">20</option>
+												<option value="20">21</option>
+												<option value="21">22</option>
+												<option value="22">23</option>
+												<option value="23">24</option>
+												<option value="24">25</option>
+												<option value="25">26</option>
+												<option value="26">27</option>
+												<option value="27">28</option>
+												<option value="28">29</option>
+												<option value="29">30</option>
+												<option value="30">31</option>
 											</select>
 												<div class="cb"></div>
 												<p class="rlf-tip-wrap errorHint color-red"></p>
@@ -281,10 +311,10 @@
 											<p><br></p>
 											<p><br></p>
 											<div class="wlfg-wrap clearfix" style="font-size:17px;">
-												<label class="label-name h16 lh16" >性别：</label>
-												&nbsp;  <label  class="lh16"><input type="radio" hidefocus="true" value="0"  name="sex">保密</label>
-												&nbsp;	<label  class="lh16"><input type="radio" hidefocus="true" value="1"  name="sex">男</label>
-												&nbsp;	<label  class="lh16"><input type="radio" hidefocus="true" value="2"  checked="checked" name="sex">&nbsp;女</label>
+												<label class="label-name h16 lh16">性别：</label>
+												&nbsp;  <label  class="lh16"><input type="radio" hidefocus="true" value="secret"  name="gender">保密</label>
+												&nbsp;	<label  class="lh16"><input type="radio" hidefocus="true" value="male"  name="gender">男</label>
+												&nbsp;	<label  class="lh16"><input type="radio" hidefocus="true" value="female"  name="gender">女</label>
 												<p class="rlf-tip-wrap errorHint color-red"></p>
 											</div>
 										</form>
@@ -295,7 +325,7 @@
 							<p><br></p>
 							<p><br></p>
 							<p><br></p>
-							<input type="submit" value="保存">
+							<input type="button" value="保存" onclick="update()">
 						</form>
 				</div>
 				
