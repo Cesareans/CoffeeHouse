@@ -1,432 +1,352 @@
 <!DOCTYPE html>
-<!--{
-"uname": uname,
-"gender": gender,
-"birthday":birthday,
-"email":email
-}-->
 
-<link href="CSS/bootstrap.css" rel="stylesheet">
+<!-- for-mobile-apps -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="keywords" content="café, cafe, coffee shop, 西西弗斯,Sisyphus"/>
+
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
+      rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic'
+      rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="CSS/jquery.countdown.css"/>
+<link rel="stylesheet" href="./lib/layui/css/layui.css">
+<link href="CSS/animate.min.css" rel="stylesheet">
+<link href="CSS/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
+<link href="CSS/style.css" rel="stylesheet" type="text/css" media="all"/>
+<link href="coffee.ico" rel="shortcut icon"/>
+
+<script src="JS/jquery.min.js"></script>
+<script src="JS/simpleCart.min.js"></script>
+<script type="text/javascript" src="JS/bootstrap-3.1.1.min.js"></script>
+<script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+<script src="JS/wow.min.js"></script>
 <script src="JS/jquery.min.js"></script>
 <script src="JS/bootstrap-3.1.1.min.js"></script>
+
+<style>
+    .layui-form-radio>i:hover, .layui-form-radioed>i {
+        color: #cb754b;
+    }
+</style>
+<script type="application/x-javascript">
+    addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    }
+</script>
 <script>
+    new WOW().init();
     var profileForm;
     $(function () {
-        profileForm = $("form")[1];
+        layui.use(["laydate", "form"], function () {
+            var laydate = layui.laydate, form = layui.form;
+            laydate.render({
+
+                elem: "#birthday",
+                showBottom: false
+            });
+        });
+        profileForm = $("#profileForm");
         console.log(profileForm);
     });
-    function update()
-    {
+
+    function update() {
         console.log(profileForm.serialize());
         $.ajax({
-            method:"post",
+            method: "post",
             url: "userinfo",
             data: profileForm.serialize(),
             success: function (result) {
-                if (result === null || result==="false") {
+                if (result === null || result === "false") {
                     alert("失败!");
-                } else if (result==="true") {
+                } else if (result === "true") {
                     alert("成功!");
                 }
             }
         });
     }
-
-</script>
-<link href="coffee.ico" rel="shortcut icon" />
-
-<!-- for-mobile-apps -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="café, cafe, coffee shop, 西西弗斯,Sisyphus" />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
-function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!-- //for-mobile-apps -->
-<link href="CSS/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-<link href="CSS/style.css" rel="stylesheet" type="text/css" media="all" />
-<!-- js -->
-<script src="JS/jquery.min.js"></script>
-<!-- //js -->
-<!-- cart -->
-<script src="JS/simpleCart.min.js"></script>
-<!-- cart -->
-<!-- for bootstrap working -->
-<script type="text/javascript" src="JS/bootstrap-3.1.1.min.js"></script>
-<!-- //for bootstrap working -->
-<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-<!-- timer -->
-<link rel="stylesheet" href="CSS/jquery.countdown.css" />
-<!-- //timer -->
-<!-- animation-effect -->
-<link href="CSS/animate.min.css" rel="stylesheet">
-<script src="JS/wow.min.js"></script>
-<script>
-    new WOW().init();
 </script>
 
 <html>
-<head><title>个人信息 | 西西弗斯咖啡屋</title></head>
+<head>
+    <title>个人信息 | 西西弗斯咖啡屋</title>
+</head>
 <body>
 <!-- header -->
-	<div class="header">
-		<div class="container">
-			<div class="header-grid">
-				<div class="header-grid-left animated wow slideInLeft" data-wow-delay=".5s">
-					<ul>
-						<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:info@example.com">cesarean@foxmail.com</a></li>
-						<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+178 <span>5971</span> 0072</li>
-						<li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.html">登录</a></li>
-						<li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.html">注册</a></li>
-					</ul>
-				</div>
-				<div class="header-grid-right animated wow slideInRight" data-wow-delay=".5s">
-					<ul class="social-icons">
-						<li><a href="#" class="facebook"></a></li>
-						<li><a href="#" class="twitter"></a></li>
-						<li><a href="#" class="g"></a></li>
-						<li><a href="#" class="instagram"></a></li>
-					</ul>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-			<div class="logo-nav">
-				<div class="logo-nav-left animated wow zoomIn" data-wow-delay=".5s">
-					<h1><a href="index.html">西西弗斯咖啡屋 </a></h1><span font-size="5px">心意，从这一杯开始</span>
-				</div>
-				<div class="logo-nav-left1">
-					<nav class="navbar navbar-default">
-					<!-- Brand and toggle get grouped for better mobile display -->
-					<div class="navbar-header nav_2">
-						<button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-					</div>
-					<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
-						<ul class="nav navbar-nav">&emsp;
-							<li><a href="index.html">&emsp;&emsp;&emsp;&emsp;主页</a></li>
-							<li><a href="products.html">&nbsp;饮料</a></li>
-							<li><a href="furniture.html">&nbsp;甜品</a></li>
-							<li><a href="short-codes.html">&nbsp;主食</a></li>
-							<li><a href="mail.html">&nbsp;联系我们</a></li>
-						</ul>
-					</div>
-					</nav>
-				</div>
-				<div class="logo-nav-right">
-					<div class="search-box">
-						<div id="sb-search" class="sb-search">
-							<form>
-								<input class="sb-search-input" placeholder="请输入搜索内容..." type="search" id="search">
-								<input class="sb-search-submit" type="submit" value="">
-								<span class="sb-icon-search"> </span>
-							</form>
-						</div>
-					</div>
-						<!-- search-scripts -->
-						<script src="JS/classie.js"></script>
-						<script src="JS/uisearch.js"></script>
-							<script>
-								new UISearch( document.getElementById( 'sb-search' ) );
-							</script>
-						<!-- //search-scripts -->
-				</div>
-				<div class="header-right">
-					<div class="cart box_1">
-						<a href="checkout.html">
-							<h3> <div class="total">
-								<span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> 个项目)</div>
-								<img src="images/bag.png" alt="" />
-							</h3>
-						</a>
-						<p><a href="javascript:;" class="simpleCart_empty">清空购物车</a></p>
-						<div class="clearfix"> </div>
-					</div>	
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-		</div>
-	</div>
+<div class="header">
+    <div class="container">
+        <div class="header-grid">
+            <div class="header-grid-left animated wow slideInLeft" data-wow-delay=".5s">
+                <ul>
+                    <li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a
+                            href="mailto:info@example.com">cesarean@foxmail.com</a></li>
+                    <li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+178 <span>5971</span> 0072</li>
+                    <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.html">登录</a></li>
+                    <li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.html">注册</a></li>
+                </ul>
+            </div>
+            <div class="header-grid-right animated wow slideInRight" data-wow-delay=".5s">
+                <ul class="social-icons">
+                    <li><a href="#" class="facebook"></a></li>
+                    <li><a href="#" class="twitter"></a></li>
+                    <li><a href="#" class="g"></a></li>
+                    <li><a href="#" class="instagram"></a></li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="logo-nav">
+            <div class="logo-nav-left animated wow zoomIn" data-wow-delay=".5s">
+                <h1><a href="index.html">西西弗斯咖啡屋 </a></h1><span font-size="5px">心意，从这一杯开始</span>
+            </div>
+            <div class="logo-nav-left1">
+                <nav class="navbar navbar-default">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header nav_2">
+                        <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse"
+                                data-target="#bs-megadropdown-tabs">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+                        <ul class="nav navbar-nav">&emsp;
+                            <li><a href="index.html">&emsp;&emsp;&emsp;&emsp;主页</a></li>
+                            <li><a href="products.html">&nbsp;饮料</a></li>
+                            <li><a href="furniture.html">&nbsp;甜品</a></li>
+                            <li><a href="short-codes.html">&nbsp;主食</a></li>
+                            <li><a href="mail.html">&nbsp;联系我们</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div class="logo-nav-right">
+                <div class="search-box">
+                    <div id="sb-search" class="sb-search">
+                        <form>
+                            <input class="sb-search-input" placeholder="请输入搜索内容..." type="search" id="search">
+                            <input class="sb-search-submit" type="submit" value="">
+                            <span class="sb-icon-search"> </span>
+                        </form>
+                    </div>
+                </div>
+                <!-- search-scripts -->
+                <script src="JS/classie.js"></script>
+                <script src="JS/uisearch.js"></script>
+                <script>
+                    new UISearch(document.getElementById('sb-search'));
+                </script>
+                <!-- //search-scripts -->
+            </div>
+            <div class="header-right">
+                <div class="cart box_1">
+                    <a href="checkout.html">
+                        <h3>
+                            <div class="total">
+                                <span class="simpleCart_total"></span> (<span id="simpleCart_quantity"
+                                                                              class="simpleCart_quantity"></span> 个项目)
+                            </div>
+                            <img src="images/bag.png" alt=""/>
+                        </h3>
+                    </a>
+                    <p><a href="javascript:;" class="simpleCart_empty">清空购物车</a></p>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
 <!-- //header -->
 
 <!-- breadcrumbs -->
-	<div class="breadcrumbs">
-		<div class="container">
-			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
-				<li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
-				<li class="active">个人信息</li>
-			</ol>
-		</div>
-	</div>
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+            <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
+            <li class="active">个人信息</li>
+        </ol>
+    </div>
+</div>
 <!-- //breadcrumbs -->
 <!-- mail -->
-	<div class="mail animated wow zoomIn" data-wow-delay=".5s">
-		<div class="container">
-			<div class="mail-grids">
-				
-				<div class="col-md-4 mail-grid-right animated wow slideInLeft" data-wow-delay=".5s">
-					<div class="top-nav">
-					<nav class="navbar navbar-default">
-						<!-- Collect the nav links, forms, and other content for toggling -->
-						<div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
-							<nav class="stroke">
-								<ul class="nav navbar-nav">
-									<li class="active"><a href="information.html"><i class="envelope"></i>个人信息</a></li>
-									<p><br></p>
-									<li class="active"><a href="information.html"><i class="envelope"></i>基础设置</a></li>
-									<p><br></p>
-									<li class="active"><a href="information.html"><i class="envelope"></i>会员积分</a></li>
-									<p><br></p>
-									<li class="active"><a href="information.html"><i class="envelope"></i>用户安全</a></li>
-									<p><br></p>
-									<li class="active"><a href="information.html"><i class="envelope"></i>其他</a></li>
-								</ul>
-							</nav>
-						</div>
-						<!-- /.navbar-collapse -->
-					</nav>
-				</div>
-				</div>
-				
-				
-				
-				<div class="col-md-8 mail-grid-left animated wow slideInRight" data-wow-delay=".5s">
-											<form>
-							<div class="contentBox">
-								<div class="formBox">
-									<div id="setting-profile" class="setting-wrap setting-profile">
+<div class="mail animated wow zoomIn" data-wow-delay=".5s">
+    <div class="container">
+        <div class="mail-grids">
+            <div class="col-md-4 mail-grid-right animated wow slideInLeft" data-wow-delay=".5s">
+                <div class="top-nav">
+                    <nav class="navbar navbar-default">
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
+                            <nav class="stroke">
+                                <ul class="nav navbar-nav">
+                                    <li class="active"><a href="information.html"><i class="envelope"></i>个人信息</a></li>
+                                    <p><br></p>
+                                    <li class="active"><a href=""><i class="envelope"></i>基础设置</a></li>
+                                    <p><br></p>
+                                    <li class="active"><a href=""><i class="envelope"></i>会员积分</a></li>
+                                    <p><br></p>
+                                    <li class="active"><a href=""><i class="envelope"></i>用户安全</a></li>
+                                    <p><br></p>
+                                    <li class="active"><a href=""><i class="envelope"></i>其他</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <!-- /.navbar-collapse -->
+                    </nav>
+                </div>
+            </div>
 
-										<form id="profileForm" name="profileForm">
-
-											<div class="wlfg-wrap clearfix">
-												<label class="label-name" for="uname" style="font-size:17px;">姓名：</label>
-												<div class="rlf-group">
-													<input type="text" name="nickname" id="uname"  autocomplete="off"  data-validate="require-nick"  class="moco-form-control" value="Hu Zeyong" placeholder="请输入姓名"/>
-													<p class="rlf-tip-wrap errorHint color-red" ></p>
-												</div>
-												<br>
-						
-												<br>
-												<label class="label-name" for="email"  style="font-size:17px;">邮箱：</label>
-												<div class="rlf-group">
-													<input type="email" name="nickname" id="email"  autocomplete="off"  data-validate="require-nick"  class="moco-form-control" value="cesarean@foxmail.com" placeholder="请输入邮箱"/>
-													<p class="rlf-tip-wrap errorHint color-red" ></p>
-												</div>
-												</label>
-											</div>
-
-											<div class="wlfg-wrap clearfix" style="font-size:17px;">
-												<br>
-												<label class="label-name">生日：</label>
-												&nbsp;<select id="birthyear" class='moco-form-control' hidefocus="true">
-												<option value="0">2018</option>
-												<option value="1">2017</option>
-												<option value="2">2016</option>
-												<option value="3">2015</option>
-												<option value="4">2014</option>
-												<option value="5">2013</option>
-												<option value="6">2012</option>
-												<option value="7">2011</option>
-												<option value="8">2010</option>
-												<option value="9">2009</option>
-												<option value="10">2008</option>
-												<option value="11">2007</option>
-												<option value="12">2006</option>
-												<option value="13">2005</option>
-												<option value="14">2004</option>
-												<option value="15">2003</option>
-												<option value="16">2002</option>
-												<option value="17">2001</option>
-												<option value="18">2000</option>
-												<option value="19">1999</option>
-												<option value="20" selected="selected">1998年</option>
-												<option value="21">1997</option>
-												<option value="22">1996</option>
-												<option value="23">1995</option>
-												<option value="24">1994</option>
-												<option value="25">1993</option>
-												<option value="26">1992</option>
-												<option value="27">1991</option>
-												<option value="28">1990</option>
-												<option value="29">1989</option>
-												<option value="30">1988</option>
-												<option value="31">1987</option>
-												<option value="32">1986</option>
-												<option value="33">1985</option>
-												<option value="34">1984</option>
-											</select>
-												&nbsp;	<select class='moco-form-control' id="birthmonth" hidefocus="true">
-												<option value="0">1</option>
-												<option value="1">2</option>
-												<option value="2">3</option>
-												<option value="3">4</option>
-												<option value="4">5</option>
-												<option value="5">6</option>
-												<option value="6">7</option>
-												<option value="7">8</option>
-												<option value="8" selected="selected">9</option>
-												<option value="9">10</option>
-												<option value="10">11</option>
-												<option value="11">12</option>
-											</select>
-												&nbsp;	<select class='moco-form-control mr0' id="birthday" hidefocus="true">
-												<option value="0">1</option>
-												<option value="1">2</option>
-												<option value="2">3</option>
-												<option value="3">4</option>
-												<option value="4">5</option>
-												<option value="5">6</option>
-												<option value="6">7</option>
-												<option value="7">8</option>
-												<option value="8" selected="selected">9日</option>
-												<option value="9">10</option>
-												<option value="10">11</option>
-												<option value="11">12</option>
-												<option value="12">13</option>
-												<option value="13">14</option>
-												<option value="14">15</option>
-												<option value="15">16</option>
-												<option value="16">17</option>
-												<option value="17">18</option>
-												<option value="18">19</option>
-												<option value="19">20</option>
-												<option value="20">21</option>
-												<option value="21">22</option>
-												<option value="22">23</option>
-												<option value="23">24</option>
-												<option value="24">25</option>
-												<option value="25">26</option>
-												<option value="26">27</option>
-												<option value="27">28</option>
-												<option value="28">29</option>
-												<option value="29">30</option>
-												<option value="30">31</option>
-											</select>
-												<div class="cb"></div>
-												<p class="rlf-tip-wrap errorHint color-red"></p>
-											</div>
-											<p><br></p>
-											<p><br></p>
-											<div class="wlfg-wrap clearfix" style="font-size:17px;">
-												<label class="label-name h16 lh16">性别：</label>
-												&nbsp;  <label  class="lh16"><input type="radio" hidefocus="true" value="secret"  name="gender">保密</label>
-												&nbsp;	<label  class="lh16"><input type="radio" hidefocus="true" value="male"  name="gender">男</label>
-												&nbsp;	<label  class="lh16"><input type="radio" hidefocus="true" value="female"  name="gender">女</label>
-												<p class="rlf-tip-wrap errorHint color-red"></p>
-											</div>
-										</form>
-
-									</div>
-								</div>
-							</div>
-							<p><br></p>
-							<p><br></p>
-							<p><br></p>
-							<input type="button" value="保存" onclick="update()">
-						</form>
-				</div>
-				
-				<div class="clearfix"> </div>
-			</div>
-		</div>
-	</div>
+            <div class="col-md-8 mail-grid-left animated wow slideInRight" data-wow-delay=".5s">
+                <form id="profileForm" class="layui-form layui-form-pane">
+                    <div class="layui-form-item">
+                        <label for="username" class="layui-form-label">用户：</label>
+                        <div class="layui-input-block">
+                            <input id="username" name="username" type="text" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">性别：</label>
+                        <div class="layui-input-block">
+                            <input name="gender" type="radio" value="男" title="男" checked>
+                            <input name="gender" type="radio" value="女" title="女">
+                            <input name="gender" type="radio" value="保密" title="保密">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="birthday" class="layui-form-label">生日：</label>
+                        <div class="layui-input-block">
+                            <input id="birthday" name="birthday" type="text" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="telephone" class="layui-form-label">电话：</label>
+                        <div class="layui-input-block">
+                            <input id="telephone" name="telephone" type="text" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="email" class="layui-form-label">邮箱：</label>
+                        <div class="layui-input-block">
+                            <input id="email" name="email" type="text" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="margin-bottom: 0;text-align: center">
+                        <button id="updateBtn" name="updateBtn" class="layui-btn" type="button" style="background-color: #cb754b">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- //mail -->
 
 
 <!-- footer -->
-	<div class="footer">
-		<div class="container">
-			<div class="footer-grids">
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".5s">
-					<h3>关于我们</h3>
-					<p>西西弗斯咖啡屋是除“居住空间”和“职场”以外的第三空间。优雅舒适的环境，以及独一无二的香醇咖啡和法式浪漫餐点，让你与生活的繁琐保持距离。
-						<span>这里是属于每个人的第三空间，他们不在西西弗斯，就在去西西弗斯的路上。</span></p>
-				</div>
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
-					<h3>联系我们</h3>
-					<ul>
-						<li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>白城沙滩，思明区，厦门市<span>福建省</span></li>
-						<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:info@example.com">cesarean@foxmail.com
-						</a></li>
-						<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+178 5971 0072</li>
-					</ul>
-				</div>
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".7s">
-					<h3>门店展示</h3>
-					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面1.png" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面2.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面3.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面4.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面1.png" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面2.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面3.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面4.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面1.png" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面2.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面3.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面4.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".8s">
-					<h3>相关博客</h3>
-					<div class="footer-grid-sub-grids">
-						<div class="footer-grid-sub-grid-left">
-							<a href="https://www.starbucks.com.cn/coffee-blog/the-origin-of-coffee-and-its-cultivation/"><img src="images/博客1.jpg" alt=" " class="img-responsive" /></a>
-						</div>
-						<div class="footer-grid-sub-grid-right">
-							<h4><a href="https://www.starbucks.com.cn/coffee-blog/the-origin-of-coffee-and-its-cultivation/">咖啡的起源与培植</a></h4>
-							<p>Posted On 5/7/2018</p>
-						</div>
-						<div class="clearfix"> </div>
-					</div>
-					<div class="footer-grid-sub-grids">
-						<div class="footer-grid-sub-grid-left">
-							<a href="https://www.starbucks.com.cn/coffee-blog/history-of-coffee/"><img src="images/博客2.jpg" alt=" " class="img-responsive" /></a>
-						</div>
-						<div class="footer-grid-sub-grid-right">
-							<h4><a href="https://www.starbucks.com.cn/coffee-blog/history-of-coffee/">咖啡的历史</a></h4>
-							<p>Posted On 5/7/2018</p>
-						</div>
-						<div class="clearfix"> </div>
-					</div>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-			<div class="footer-logo animated wow slideInUp" data-wow-delay=".5s">
-				<h2><a href="index.html">西西弗斯咖啡屋<span>心意，从这一杯开始</span></a></h2>
-			</div>
-			<div class="copy-right animated wow slideInUp" data-wow-delay=".5s">
-				<p>Copyright ©2018 Sisyphus. All Rights Reserved.</p>
-			</div>
-		</div>
-	</div>
+<div class="footer">
+    <div class="container">
+        <div class="footer-grids">
+            <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".5s">
+                <h3>关于我们</h3>
+                <p>西西弗斯咖啡屋是除“居住空间”和“职场”以外的第三空间。优雅舒适的环境，以及独一无二的香醇咖啡和法式浪漫餐点，让你与生活的繁琐保持距离。
+                    <span>这里是属于每个人的第三空间，他们不在西西弗斯，就在去西西弗斯的路上。</span></p>
+            </div>
+            <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
+                <h3>联系我们</h3>
+                <ul>
+                    <li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>白城沙滩，思明区，厦门市<span>福建省</span>
+                    </li>
+                    <li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a
+                            href="mailto:info@example.com">cesarean@foxmail.com
+                    </a></li>
+                    <li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+178 5971 0072</li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".7s">
+                <h3>门店展示</h3>
+                <div class="footer-grid-left">
+                    <a href="index.html"><img src="images/店面1.png" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.html"><img src="images/店面2.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.html"><img src="images/店面3.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.html"><img src="images/店面4.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.html"><img src="images/店面1.png" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.html"><img src="images/店面2.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.html"><img src="images/店面3.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.html"><img src="images/店面4.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.html"><img src="images/店面1.png" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.html"><img src="images/店面2.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.html"><img src="images/店面3.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.html"><img src="images/店面4.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".8s">
+                <h3>相关博客</h3>
+                <div class="footer-grid-sub-grids">
+                    <div class="footer-grid-sub-grid-left">
+                        <a href="https://www.starbucks.com.cn/coffee-blog/the-origin-of-coffee-and-its-cultivation/"><img
+                                src="images/博客1.jpg" alt=" " class="img-responsive"/></a>
+                    </div>
+                    <div class="footer-grid-sub-grid-right">
+                        <h4>
+                            <a href="https://www.starbucks.com.cn/coffee-blog/the-origin-of-coffee-and-its-cultivation/">咖啡的起源与培植</a>
+                        </h4>
+                        <p>Posted On 5/7/2018</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="footer-grid-sub-grids">
+                    <div class="footer-grid-sub-grid-left">
+                        <a href="https://www.starbucks.com.cn/coffee-blog/history-of-coffee/"><img src="images/博客2.jpg"
+                                                                                                   alt=" "
+                                                                                                   class="img-responsive"/></a>
+                    </div>
+                    <div class="footer-grid-sub-grid-right">
+                        <h4><a href="https://www.starbucks.com.cn/coffee-blog/history-of-coffee/">咖啡的历史</a></h4>
+                        <p>Posted On 5/7/2018</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="footer-logo animated wow slideInUp" data-wow-delay=".5s">
+            <h2><a href="index.html">西西弗斯咖啡屋<span>心意，从这一杯开始</span></a></h2>
+        </div>
+        <div class="copy-right animated wow slideInUp" data-wow-delay=".5s">
+            <p>Copyright ©2018 Sisyphus. All Rights Reserved.</p>
+        </div>
+    </div>
+</div>
 <!-- //footer -->
 </body>
 </html>
