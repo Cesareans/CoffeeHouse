@@ -24,7 +24,6 @@
         isEdit = true;//Edit user
         user = dbUser.getTelUsers(telephone);
     }
-    boolean isGirl = user.getGender().equals("女");
 %>
 
 <style>
@@ -45,8 +44,20 @@
 
             laydate.render({
                 elem: "#birthday",
-                showBottom: false
+                showBottom: false,
+                max:0
             });
+            <%if(isEdit){%>
+            form.val("userForm",{
+               "username":"<%=user.getName()%>",
+               "gender":"<%=user.getGender()%>",
+               "birthday":"<%=user.getBirthday()%>",
+               "telephone":"<%=user.getTel()%>",
+               "email":"<%=user.getEmail()%>",
+               "password":"<%=user.getPassword()%>"
+            });
+            <%}%>
+
             $("#updateBtn").bind("click", function () {
                 if (validate()) {
                     var userForm = $("#userForm");
@@ -87,9 +98,9 @@
         return verifyRequire([
             {id: "#username", msg: "请输入用户名"},
             {id: "#birthday", msg: "请输入生日"},
-            {id: "#telephone", msg: "请输入电话"},
-            {id: "#email", msg: "请输入邮箱"},
-            {id: "#password", msg: "请输入密码"}
+            {id: "#telephone", msg: "请输入电话" ,regx:/^[0-9]{11}$/ , regMsg:"电话格式不符"},
+            {id: "#email", msg: "请输入邮箱", regx:/^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/,regMsg:"邮箱格式不符"},
+            {id: "#password", msg: "请输入密码", regx:/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/,regMsg:"密码应为6-16位字母或数字组合"}
         ]);
     }
 
@@ -99,6 +110,11 @@
             var elem = $(array[i].id);
             if (elem.val() === "") {
                 layer.tips(array[i].msg, array[i].id, {tips: 3});
+                elem.focus();
+                return false;
+            }
+            if(array[i].regx !== undefined && !array[i].regx.test(elem.val())){
+                layer.tips(array[i].regMsg, array[i].id, {tips: 3});
                 elem.focus();
                 return false;
             }
@@ -120,53 +136,47 @@
 
 <body>
 <div class="x-body layui-anim layui-anim-up">
-    <form class="layui-form layui-form-pane" id="userForm">
-        <input id="oldTelephone" name="oldTelephone" value="<%=user.getTel()%>" hidden>
+    <form class="layui-form layui-form-pane" id="userForm" lay-filter="userForm">
+        <input id="oldTelephone" name="oldTelephone" hidden>
         <div class="layui-form-item">
             <label for="username" class="layui-form-label">用户：</label>
             <div class="layui-input-block">
-                <input id="username" name="username" type="text" autocomplete="off" class="layui-input"
-                       value="<%=user.getName()%>">
+                <input id="username" name="username" type="text" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">性别：</label>
             <div class="layui-input-block">
-                <input name="gender" type="radio" value="男" title="男" <%=isGirl?"":"checked"%>>
-                <input name="gender" type="radio" value="女" title="女" <%=isGirl?"checked":""%>>
+                <input name="gender" type="radio" value="男" title="男">
+                <input name="gender" type="radio" value="女" title="女">
             </div>
         </div>
         <div class="layui-form-item">
             <label for="birthday" class="layui-form-label">生日：</label>
             <div class="layui-input-block">
-                <input id="birthday" name="birthday" type="text" autocomplete="off" class="layui-input"
-                       value="<%=user.getBirthday()%>">
+                <input id="birthday" name="birthday" type="text" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label for="telephone" class="layui-form-label">电话：</label>
             <div class="layui-input-block">
-                <input id="telephone" name="telephone" type="text" autocomplete="off" class="layui-input"
-                       value="<%=user.getTel()%>">
+                <input id="telephone" name="telephone" type="text" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label for="email" class="layui-form-label">邮箱：</label>
             <div class="layui-input-block">
-                <input id="email" name="email" type="text" autocomplete="off" class="layui-input"
-                       value="<%=user.getEmail()%>">
+                <input id="email" name="email" type="text" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label for="password" class="layui-form-label">密码：</label>
             <div class="layui-input-block">
-                <input id="password" name="password" type="text" autocomplete="off" class="layui-input"
-                       value="<%=user.getPassword()%>">
+                <input id="password" name="password" type="text" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item" style="margin-bottom: 0;text-align: center">
-            <button id="updateBtn" name="updateBtn" class="layui-btn" type="button"><%=isEdit ? "确定" : "增加"%>
-            </button>
+            <button id="updateBtn" name="updateBtn" class="layui-btn" type="button"><%=isEdit ? "确定" : "增加"%></button>
             <button id="cancelBtn" name="cancelBtn" class="layui-btn layui-btn-danger" type="button">取消</button>
         </div>
     </form>
