@@ -1,4 +1,38 @@
 <!DOCTYPE html>
+<!--{
+"uname": uname,
+"gender": gender,
+"birthday":birthday,
+"email":email
+}-->
+
+<link href="CSS/bootstrap.css" rel="stylesheet">
+<script src="JS/jquery.min.js"></script>
+<script src="JS/bootstrap-3.1.1.min.js"></script>
+<script>
+    var profileForm;
+    $(function () {
+        profileForm = $("form")[1];
+        console.log(profileForm);
+    });
+    function update()
+    {
+        console.log(profileForm.serialize());
+        $.ajax({
+            method:"post",
+            url: "userinfo",
+            data: profileForm.serialize(),
+            success: function (result) {
+                if (result === null || result==="false") {
+                    alert("失败!");
+                } else if (result==="true") {
+                    alert("成功!");
+                }
+            }
+        });
+    }
+
+</script>
 <link href="coffee.ico" rel="shortcut icon" />
 
 <!-- for-mobile-apps -->
@@ -30,83 +64,9 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 <script>
     new WOW().init();
 </script>
-<script src="JS/jquery.min.js"></script>
-<script>
-    var usertelok = false;
-    var pswok = false;
-    var confirmpswok = false;
-    function checktel()
-    {
-        $.ajax({
-            url:"checktel",
-            data:{
-                "usertel":document.getElementById("usertel").value
-            },
-            success:function (result) {
-                if(result === "true"){
-                    $("#result1").html("<font color='green'>用户名可以使用</font>");
-                    usertelok = true;
-                }else{
-                    $("#result1").html("<font color='red'>用户名不合法或已经存在</font>");
-                    usertelok = false;
-                }
-            }
-        });
-    }
-
-    function checkpsw()
-    {
-        var password = document.getElementById("password");
-        if(password.value.length<5)
-        {
-            $("#result2").html("<font color='red'>密码长度必须大于等于5位</font>");
-            pswok = false;
-        }
-        else
-        {
-            $("#result2").html("<font color='green'>密码符合要求</font>");
-            pswok = true;
-        }
-    }
-
-    function checkconfpsw()
-    {
-        var password = document.getElementById("password");
-        var confirmpsw = document.getElementById("confirmpsw");
-        if(password.value!==confirmpsw.value)
-        {
-            $("#result3").html("<font color='red'>两次输入密码不一致</font>");
-            confirmpswok = false;
-        }
-        else
-        {
-            $("#result3").html("<font color='green'>密码一致</font>");
-            confirmpswok = true;
-        }
-    }
-
-    $(function () {//Load on file is ready.
-        $('#registerBtn').bind("click" , function () {
-            if(usertelok&&pswok&&confirmpswok) {
-                document.registerForm.action = "/register";
-                document.registerForm.method = "post";
-                document.registerForm.submit();
-            }else{
-                alert("注册失败，请检查信息的有效性");
-            }
-        });
-
-    });
-
-</script>
-
 
 <html>
-<head><title>注册 | 西西弗斯咖啡屋</title></head>
-
-<!-- //animation-effect -->
-
-	
+<head><title>个人信息 | 西西弗斯咖啡屋</title></head>
 <body>
 <!-- header -->
 	<div class="header">
@@ -191,32 +151,191 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		</div>
 	</div>
 <!-- //header -->
+
 <!-- breadcrumbs -->
 	<div class="breadcrumbs">
 		<div class="container">
 			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
 				<li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
-				<li class="active">注册页面</li>
+				<li class="active">个人信息</li>
 			</ol>
 		</div>
 	</div>
 <!-- //breadcrumbs -->
-<!-- register -->
-	<div class="login">
+<!-- mail -->
+	<div class="mail animated wow zoomIn" data-wow-delay=".5s">
 		<div class="container">
-			<h3 class="animated wow zoomIn" data-wow-delay=".5s">注册个人账号</h3>
-			<p class="est animated wow zoomIn" data-wow-delay=".5s">心情惬意，来杯咖啡吧</p>
-			<div class="login-form-grids animated wow slideInUp" data-wow-delay=".5s">
-				<form name="registerForm" id="registerForm">
-					<input type="text" placeholder="手机号码" required=" " name="usertel"id="usertel" onblur="checktel()">
-					<input type="password" placeholder="密码" required=" " name="password"id="password" onkeyup="checkpsw()">
-					<input type="password" placeholder="确认密码" required=" " name="confirmpsw"id="confirmpsw" onblur="checkconfpsw()">
-					<input type="button" value="注册" id="registerBtn">
-				</form>
+			<div class="mail-grids">
+				
+				<div class="col-md-4 mail-grid-right animated wow slideInLeft" data-wow-delay=".5s">
+					<div class="top-nav">
+					<nav class="navbar navbar-default">
+						<!-- Collect the nav links, forms, and other content for toggling -->
+						<div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
+							<nav class="stroke">
+								<ul class="nav navbar-nav">
+									<li class="active"><a href="information.html"><i class="envelope"></i>个人信息</a></li>
+									<p><br></p>
+									<li class="active"><a href="information.html"><i class="envelope"></i>基础设置</a></li>
+									<p><br></p>
+									<li class="active"><a href="information.html"><i class="envelope"></i>会员积分</a></li>
+									<p><br></p>
+									<li class="active"><a href="information.html"><i class="envelope"></i>用户安全</a></li>
+									<p><br></p>
+									<li class="active"><a href="information.html"><i class="envelope"></i>其他</a></li>
+								</ul>
+							</nav>
+						</div>
+						<!-- /.navbar-collapse -->
+					</nav>
+				</div>
+				</div>
+				
+				
+				
+				<div class="col-md-8 mail-grid-left animated wow slideInRight" data-wow-delay=".5s">
+											<form>
+							<div class="contentBox">
+								<div class="formBox">
+									<div id="setting-profile" class="setting-wrap setting-profile">
+
+										<form id="profileForm" name="profileForm">
+
+											<div class="wlfg-wrap clearfix">
+												<label class="label-name" for="uname" style="font-size:17px;">姓名：</label>
+												<div class="rlf-group">
+													<input type="text" name="nickname" id="uname"  autocomplete="off"  data-validate="require-nick"  class="moco-form-control" value="Hu Zeyong" placeholder="请输入姓名"/>
+													<p class="rlf-tip-wrap errorHint color-red" ></p>
+												</div>
+												<br>
+						
+												<br>
+												<label class="label-name" for="email"  style="font-size:17px;">邮箱：</label>
+												<div class="rlf-group">
+													<input type="email" name="nickname" id="email"  autocomplete="off"  data-validate="require-nick"  class="moco-form-control" value="cesarean@foxmail.com" placeholder="请输入邮箱"/>
+													<p class="rlf-tip-wrap errorHint color-red" ></p>
+												</div>
+												</label>
+											</div>
+
+											<div class="wlfg-wrap clearfix" style="font-size:17px;">
+												<br>
+												<label class="label-name">生日：</label>
+												&nbsp;<select id="birthyear" class='moco-form-control' hidefocus="true">
+												<option value="0">2018</option>
+												<option value="1">2017</option>
+												<option value="2">2016</option>
+												<option value="3">2015</option>
+												<option value="4">2014</option>
+												<option value="5">2013</option>
+												<option value="6">2012</option>
+												<option value="7">2011</option>
+												<option value="8">2010</option>
+												<option value="9">2009</option>
+												<option value="10">2008</option>
+												<option value="11">2007</option>
+												<option value="12">2006</option>
+												<option value="13">2005</option>
+												<option value="14">2004</option>
+												<option value="15">2003</option>
+												<option value="16">2002</option>
+												<option value="17">2001</option>
+												<option value="18">2000</option>
+												<option value="19">1999</option>
+												<option value="20" selected="selected">1998年</option>
+												<option value="21">1997</option>
+												<option value="22">1996</option>
+												<option value="23">1995</option>
+												<option value="24">1994</option>
+												<option value="25">1993</option>
+												<option value="26">1992</option>
+												<option value="27">1991</option>
+												<option value="28">1990</option>
+												<option value="29">1989</option>
+												<option value="30">1988</option>
+												<option value="31">1987</option>
+												<option value="32">1986</option>
+												<option value="33">1985</option>
+												<option value="34">1984</option>
+											</select>
+												&nbsp;	<select class='moco-form-control' id="birthmonth" hidefocus="true">
+												<option value="0">1</option>
+												<option value="1">2</option>
+												<option value="2">3</option>
+												<option value="3">4</option>
+												<option value="4">5</option>
+												<option value="5">6</option>
+												<option value="6">7</option>
+												<option value="7">8</option>
+												<option value="8" selected="selected">9</option>
+												<option value="9">10</option>
+												<option value="10">11</option>
+												<option value="11">12</option>
+											</select>
+												&nbsp;	<select class='moco-form-control mr0' id="birthday" hidefocus="true">
+												<option value="0">1</option>
+												<option value="1">2</option>
+												<option value="2">3</option>
+												<option value="3">4</option>
+												<option value="4">5</option>
+												<option value="5">6</option>
+												<option value="6">7</option>
+												<option value="7">8</option>
+												<option value="8" selected="selected">9日</option>
+												<option value="9">10</option>
+												<option value="10">11</option>
+												<option value="11">12</option>
+												<option value="12">13</option>
+												<option value="13">14</option>
+												<option value="14">15</option>
+												<option value="15">16</option>
+												<option value="16">17</option>
+												<option value="17">18</option>
+												<option value="18">19</option>
+												<option value="19">20</option>
+												<option value="20">21</option>
+												<option value="21">22</option>
+												<option value="22">23</option>
+												<option value="23">24</option>
+												<option value="24">25</option>
+												<option value="25">26</option>
+												<option value="26">27</option>
+												<option value="27">28</option>
+												<option value="28">29</option>
+												<option value="29">30</option>
+												<option value="30">31</option>
+											</select>
+												<div class="cb"></div>
+												<p class="rlf-tip-wrap errorHint color-red"></p>
+											</div>
+											<p><br></p>
+											<p><br></p>
+											<div class="wlfg-wrap clearfix" style="font-size:17px;">
+												<label class="label-name h16 lh16">性别：</label>
+												&nbsp;  <label  class="lh16"><input type="radio" hidefocus="true" value="secret"  name="gender">保密</label>
+												&nbsp;	<label  class="lh16"><input type="radio" hidefocus="true" value="male"  name="gender">男</label>
+												&nbsp;	<label  class="lh16"><input type="radio" hidefocus="true" value="female"  name="gender">女</label>
+												<p class="rlf-tip-wrap errorHint color-red"></p>
+											</div>
+										</form>
+
+									</div>
+								</div>
+							</div>
+							<p><br></p>
+							<p><br></p>
+							<p><br></p>
+							<input type="button" value="保存" onclick="update()">
+						</form>
+				</div>
+				
+				<div class="clearfix"> </div>
 			</div>
 		</div>
 	</div>
-<!-- //register -->
+<!-- //mail -->
+
+
 <!-- footer -->
 	<div class="footer">
 		<div class="container">

@@ -33,9 +33,9 @@ public class LoginServlet extends HttpServlet {
         DBUser dbUser = new DBUser();
         if(dbUser.matchUser(usertel , password)){
             LoginSession.startSessionWithCookie(request,response,usertel,password);
-            pw.write("success");
+            pw.write("true");
         }else{
-            pw.write("fail");
+            pw.write("false");
         }
         pw.close();
     }
