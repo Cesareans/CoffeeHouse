@@ -1,3 +1,6 @@
+<%@ page import="Database.DBMenu" %>
+<%@ page import="Entity.Menu" %>
+<%@ page import="DebugUtil.Debug" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <meta charset="UTF-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
@@ -12,13 +15,15 @@
 <script type="text/javascript" src="./JS/xadmin.js"></script>
 
 <%
-    boolean isAdd;
-    String name,type,quantity,price,sales;
+    boolean isEdit;
+    DBMenu dbMenu = new DBMenu();
+    Menu menu = new Menu();
     String serialNumber = request.getParameter("serialNumber");
     if(serialNumber == null)
-        isAdd = true;
+        isEdit = false;
     else {
-        isAdd = false;//Update
+        isEdit = true;//Edit Menu
+        menu = dbMenu.getMeal(serialNumber);
     }
 %>
 
@@ -38,19 +43,34 @@
         layui.use(["form", "layer"], function () {
             var form = layui.form, layer = layui.layer;
 
-            $("#addBtn").bind("click", function () {
+            $("#updateBtn").bind("click", function () {
                 if (validate()) {
+                    var menuForm = $("#menuForm");
+                    <%if(isEdit){%>
+                    $.ajax({
+                        type: "post",
+                        url: "/adminUpdateMenu",
+                        data: menuForm.serialize(),
+                        success: function (result) {
+                            if (result === "success")
+                                layer.tips("编辑餐点成功", "#updateBtn", {tips: 1, time: 2000, end: closeFrame});
+                            else
+                                layer.tips("编辑餐点失败", "#updateBtn", {tips: 1, time: 2000});
+                        }
+                    });
+                    <%}else{%>
                     $.ajax({
                         type: "post",
                         url: "/adminAddMenu",
-                        data: $("#userForm").serialize(),
+                        data: menuForm.serialize(),
                         success: function (result) {
                             if (result === "success")
-                                layer.tips("新增餐点成功", "#addBtn", {tips: 1, time: 2000, end: closeFrame});
+                                layer.tips("新增餐点成功", "#updateBtn", {tips: 1, time: 2000, end: closeFrame});
                             else
-                                layer.tips("新增餐点失败", "#addBtn", {tips: 1, time: 2000});
+                                layer.tips("新增餐点失败", "#updateBtn", {tips: 1, time: 2000});
                         }
                     });
+                    <%}%>
                 }
             });
             $("#cancelBtn").bind("click", function () {
@@ -94,37 +114,39 @@
 
 <body>
 <div class="x-body layui-anim layui-anim-up">
-    <form class="layui-form layui-form-pane" id="userForm">
+    <form class="layui-form layui-form-pane" id="menuForm">
+        <input id="serialNumber" name="serialNumber" value="<%=serialNumber%>" hidden>
         <div class="layui-form-item">
             <label for="name" class="layui-form-label">餐点名称：</label>
             <div class="layui-input-block">
-                <input id="name" name="name" type="text" autocomplete="off" class="layui-input">
+                <input id="name" name="name" type="text" autocomplete="off" class="layui-input" value="<%=menu.getName()%>">
             </div>
         </div>
         <div class="layui-form-item">
             <label for="type" class="layui-form-label">餐点类型：</label>
             <div class="layui-input-block">
                 <select id="type" name="type">
-                    <option value="饮料">饮料</option>
-                    <option value="甜品">甜品</option>
-                    <option value="主食">主食</option>
+                    <%String type = menu.getType();Debug.log(type);%>
+                    <option value="饮料" selected="<%=(type.equals("饮料") || !isEdit)?"selected":""%>">饮料</option>
+                    <option value="甜品" selected="<%=type.equals("甜品")?"selected":""%>">甜品</option>
+                    <option value="主食" selected="<%=type.equals("主食")?"selected":""%>">主食</option>
                 </select>
             </div>
         </div>
         <div class="layui-form-item">
             <label for="quantity" class="layui-form-label">餐点库存：</label>
             <div class="layui-input-block">
-                <input id="quantity" name="quantity" type="text" autocomplete="off" class="layui-input">
+                <input id="quantity" name="quantity" type="text" autocomplete="off" class="layui-input" value="<%=isEdit?menu.getQuantity():""%>">
             </div>
         </div>
         <div class="layui-form-item">
             <label for="price" class="layui-form-label">餐点单价：</label>
             <div class="layui-input-block">
-                <input id="price" name="price" type="text" autocomplete="off" class="layui-input">
+                <input id="price" name="price" type="text" autocomplete="off" class="layui-input" value="<%=isEdit?menu.getPrice():""%>">
             </div>
         </div>
         <div class="layui-form-item" style="margin-bottom: 0;text-align: center">
-            <button id="addBtn" name="addBtn" class="layui-btn" type="button">增加</button>
+            <button id="updateBtn" name="updateBtn" class="layui-btn" type="button"><%=isEdit ? "确定" : "增加"%></button>
             <button id="cancelBtn" name="cancelBtn" class="layui-btn layui-btn-danger" type="button">取消</button>
         </div>
     </form>

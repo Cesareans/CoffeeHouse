@@ -121,6 +121,7 @@
 <body>
 <div class="x-body layui-anim layui-anim-up">
     <form class="layui-form layui-form-pane" id="userForm">
+        <input id="oldTelephone" name="oldTelephone" value="<%=user.getTel()%>" hidden>
         <div class="layui-form-item">
             <label for="username" class="layui-form-label">用户：</label>
             <div class="layui-input-block">

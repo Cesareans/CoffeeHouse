@@ -50,7 +50,7 @@ public class DBMenu {
         return menulist;
     }
 
-    String getNewSN()
+    public String getNewSN()
     {
         ArrayList<Menu> menulist = getAllmenu();
         int SN=0;

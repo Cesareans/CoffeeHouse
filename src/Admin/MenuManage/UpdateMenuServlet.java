@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "AddMenuServlet")
-public class AddMenuServlet extends HttpServlet {
+@WebServlet(name = "UpdateMenuServlet")
+public class UpdateMenuServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request,response);
     }
@@ -25,14 +25,14 @@ public class AddMenuServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException{
         DBMenu dbMenu = new DBMenu();
         Menu menu = new Menu();
-        menu.setSerialNumber(dbMenu.getNewSN());
+        menu.setSerialNumber(request.getParameter("serialNumber"));
         menu.setName(request.getParameter("name"));
         menu.setType(request.getParameter("type"));
         menu.setQuantity(Integer.parseInt(request.getParameter("quantity")));
         menu.setPrice(Double.parseDouble(request.getParameter("price")));
 
         PrintWriter pw = response.getWriter();
-        if(dbMenu.insertNewmenu(menu))
+        if(dbMenu.updateMenu(menu))
             pw.write("success");
         else
             pw.write("fail");

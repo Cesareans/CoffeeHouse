@@ -50,7 +50,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>UpdateUserServlet</servlet-name>
-        <url-pattern>/adminUpdataUser</url-pattern>
+        <url-pattern>/adminUpdateUser</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>DeleteUserServlet</servlet-name>
@@ -76,6 +76,14 @@
     <servlet-mapping>
         <servlet-name>AddMenuServlet</servlet-name>
         <url-pattern>/adminAddMenu</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UpdateMenuServlet</servlet-name>
+        <servlet-class>Admin.MenuManage.UpdateMenuServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateMenuServlet</servlet-name>
+        <url-pattern>/adminUpdateMenu</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>DeleteMenuServlet</servlet-name>
