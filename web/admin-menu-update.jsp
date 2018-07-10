@@ -1,6 +1,5 @@
 <%@ page import="Database.DBMenu" %>
 <%@ page import="Entity.Menu" %>
-<%@ page import="DebugUtil.Debug" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <meta charset="UTF-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
@@ -19,7 +18,7 @@
     DBMenu dbMenu = new DBMenu();
     Menu menu = new Menu();
     String serialNumber = request.getParameter("serialNumber");
-    if(serialNumber == null)
+    if (serialNumber == null)
         isEdit = false;
     else {
         isEdit = true;//Edit Menu
@@ -42,10 +41,11 @@
     $(function () {
         layui.use(["form", "layer"], function () {
             var form = layui.form, layer = layui.layer;
-
             $("#updateBtn").bind("click", function () {
                 if (validate()) {
                     var menuForm = $("#menuForm");
+                    console.log(menuForm);
+                    console.log(menuForm.serialize());
                     <%if(isEdit){%>
                     $.ajax({
                         type: "post",
@@ -75,6 +75,13 @@
             });
             $("#cancelBtn").bind("click", function () {
                 closeFrame();
+            });
+            form.val("menuForm",{
+                "serialNumber":"<%=serialNumber%>",
+                "name":"<%=menu.getName()%>",
+                "type":"<%=menu.getType().equals("")?"饮料":menu.getType()%>",
+                "quantity":"<%=isEdit?menu.getQuantity():""%>",
+                "price":"<%=isEdit?menu.getPrice():""%>"
             })
         });
     });
@@ -114,39 +121,39 @@
 
 <body>
 <div class="x-body layui-anim layui-anim-up">
-    <form class="layui-form layui-form-pane" id="menuForm">
-        <input id="serialNumber" name="serialNumber" value="<%=serialNumber%>" hidden>
+    <form class="layui-form layui-form-pane" id="menuForm" lay-filter="menuForm">
+        <input id="serialNumber" name="serialNumber" hidden>
         <div class="layui-form-item">
             <label for="name" class="layui-form-label">餐点名称：</label>
             <div class="layui-input-block">
-                <input id="name" name="name" type="text" autocomplete="off" class="layui-input" value="<%=menu.getName()%>">
+                <input id="name" name="name" type="text" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label for="type" class="layui-form-label">餐点类型：</label>
             <div class="layui-input-block">
                 <select id="type" name="type">
-                    <%String type = menu.getType();Debug.log(type);%>
-                    <option value="饮料" selected="<%=(type.equals("饮料") || !isEdit)?"selected":""%>">饮料</option>
-                    <option value="甜品" selected="<%=type.equals("甜品")?"selected":""%>">甜品</option>
-                    <option value="主食" selected="<%=type.equals("主食")?"selected":""%>">主食</option>
+                    <option value="饮料">饮料</option>
+                    <option value="甜品">甜品</option>
+                    <option value="主食">主食</option>
                 </select>
             </div>
         </div>
         <div class="layui-form-item">
             <label for="quantity" class="layui-form-label">餐点库存：</label>
             <div class="layui-input-block">
-                <input id="quantity" name="quantity" type="text" autocomplete="off" class="layui-input" value="<%=isEdit?menu.getQuantity():""%>">
+                <input id="quantity" name="quantity" type="text" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label for="price" class="layui-form-label">餐点单价：</label>
             <div class="layui-input-block">
-                <input id="price" name="price" type="text" autocomplete="off" class="layui-input" value="<%=isEdit?menu.getPrice():""%>">
+                <input id="price" name="price" type="text" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item" style="margin-bottom: 0;text-align: center">
-            <button id="updateBtn" name="updateBtn" class="layui-btn" type="button"><%=isEdit ? "确定" : "增加"%></button>
+            <button id="updateBtn" name="updateBtn" class="layui-btn" type="button"><%=isEdit ? "确定" : "增加"%>
+            </button>
             <button id="cancelBtn" name="cancelBtn" class="layui-btn layui-btn-danger" type="button">取消</button>
         </div>
     </form>

@@ -132,8 +132,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">性别：</label>
             <div class="layui-input-block">
-                <input type="radio" name="gender" value="男" title="男" <%=isGirl?"":"checked"%>>
-                <input type="radio" name="gender" value="女" title="女" <%=isGirl?"checked":""%>>
+                <input name="gender" type="radio" value="男" title="男" <%=isGirl?"":"checked"%>>
+                <input name="gender" type="radio" value="女" title="女" <%=isGirl?"checked":""%>>
             </div>
         </div>
         <div class="layui-form-item">
