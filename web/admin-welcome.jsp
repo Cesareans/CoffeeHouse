@@ -96,6 +96,10 @@
                     <td>MySQL 5.5.15</td>
                 </tr>
                 <tr>
+                    <th>服务器架构模式</th>
+                    <td>MVVM</td>
+                </tr>
+                <tr>
                     <th>后台前端框架</th>
                     <td>BootStrap 3.3.1 + LayUI 2.3.0(Partially) + JQuery 2.0.0</td>
                 </tr>

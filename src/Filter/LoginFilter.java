@@ -29,7 +29,7 @@ public class LoginFilter implements Filter {
             }
 
         }else {//前台
-            if (uri.endsWith("index.jsp") || uri.endsWith("login.html") || uri.endsWith("register.html") || uri.endsWith("/")) {
+            if (uri.endsWith("index.html") || uri.endsWith("login.html") || uri.endsWith("register.html") || uri.endsWith("/")) {
                 chain.doFilter(req, resp);
                 return;
             }
@@ -37,7 +37,7 @@ public class LoginFilter implements Filter {
             HttpSession session = ((HttpServletRequest) req).getSession();
             String usertel = ((String) session.getAttribute("usertel"));
             if (usertel == null) {
-                ((HttpServletResponse) resp).sendRedirect("login.jsp");
+                ((HttpServletResponse) resp).sendRedirect("login.html");
             }
         }
 
