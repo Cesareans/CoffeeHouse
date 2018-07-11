@@ -18,7 +18,7 @@ create table menu(
 create table user(
        utel varchar(11) primary key,
        upassword varchar(20) not null,
-       uname varchar(20) unique,
+       uname varchar(20),
        birthday date,
        email varchar(30),
        registerTime datetime,

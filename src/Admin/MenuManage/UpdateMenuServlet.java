@@ -1,9 +1,6 @@
 package Admin.MenuManage;
 
-import Database.DBMenu;
-import Database.DBUser;
 import Entity.Menu;
-import Entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
