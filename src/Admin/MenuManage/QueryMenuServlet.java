@@ -1,5 +1,6 @@
 package Admin.MenuManage;
 
+import Database.DBMenu;
 import Entity.Menu;
 import com.alibaba.fastjson.JSON;
 
@@ -33,11 +34,11 @@ public class QueryMenuServlet extends HttpServlet {
         //未考虑效率
         if(serialNumber != null){
             menuList.clear();
-            menuList.add(dbMenu.getSNmenu(serialNumber));
+            menuList.add(dbMenu.getMeal(serialNumber));
         } else if(type != null)
-            menuList=dbMenu.getTypeMenu(type);
+            menuList=dbMenu.getMenuByType(type);
         else if(menuItemName != null)
-            menuList=dbMenu.getNamemenu(menuItemName);
+            menuList=dbMenu.getMenuByName(menuItemName);
         else
             menuList = dbMenu.getAllmenu();
 
