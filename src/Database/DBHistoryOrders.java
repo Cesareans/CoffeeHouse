@@ -267,7 +267,7 @@ public class DBHistoryOrders {
         return result;
     }
 
-    public void closeDB()
+    public void close()
     {
         try {
             con.close();

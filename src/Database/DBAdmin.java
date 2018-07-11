@@ -225,7 +225,7 @@ public class DBAdmin {
         return result;
     }
 
-    public void closeDB()
+    public void close()
     {
         try {
             con.close();

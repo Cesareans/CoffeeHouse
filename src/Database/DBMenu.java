@@ -416,7 +416,7 @@ public class DBMenu {
         return u;
     }
 
-    public void closeDB()
+    public void close()
     {
         try {
             con.close();
