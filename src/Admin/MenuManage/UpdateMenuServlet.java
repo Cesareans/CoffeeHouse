@@ -35,5 +35,6 @@ public class UpdateMenuServlet extends HttpServlet {
         else
             pw.write("fail");
         pw.close();
+        dbMenu.close();
     }
 }

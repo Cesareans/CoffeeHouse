@@ -36,5 +36,6 @@ public class AddUserServlet extends HttpServlet {
         else
             pw.write("fail");
         pw.close();
+        dbUser.close();
     }
 }

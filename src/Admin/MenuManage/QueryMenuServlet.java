@@ -60,6 +60,7 @@ public class QueryMenuServlet extends HttpServlet {
         PrintWriter pw = response.getWriter();
         pw.write(JSON.toJSONString(jsonMap));
         pw.close();
+        dbMenu.close();
     }
     private List<Menu> getMenuItems(int page , int limit){
         if(page*limit > menuList.size())

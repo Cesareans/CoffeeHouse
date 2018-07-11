@@ -58,6 +58,7 @@ public class QueryUserServlet extends HttpServlet {
         PrintWriter pw = response.getWriter();
         pw.write(JSON.toJSONString(jsonMap));
         pw.close();
+        dbUser.close();
     }
     private List<User> getUsers(int page , int limit){
         if(page*limit > userList.size())

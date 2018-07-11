@@ -29,5 +29,6 @@ public class DeleteUserServlet extends HttpServlet {
         else
             pw.write("fail");
         pw.close();
+        dbUser.close();
     }
 }
