@@ -231,7 +231,7 @@ public boolean updateOrderDate(String orderSN,String mealSerialNumber,String new
 
 
 统一方法：
-public void closeDB()
+public void close()
 
 
 

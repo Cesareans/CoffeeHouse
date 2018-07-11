@@ -452,7 +452,7 @@ public class DBUser {
         return temp_str;
     }
 
-    public void closeDB()
+    public void close()
     {
         try {
             con.close();
