@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
     <welcome-file-list>
-        <welcome-file>admin-index.html</welcome-file>
+        <welcome-file>login.html</welcome-file>
     </welcome-file-list>
 
 
@@ -50,7 +50,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>UpdateUserServlet</servlet-name>
-        <url-pattern>/adminUpdataUser</url-pattern>
+        <url-pattern>/adminUpdateUser</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>DeleteUserServlet</servlet-name>
@@ -76,6 +76,14 @@
     <servlet-mapping>
         <servlet-name>AddMenuServlet</servlet-name>
         <url-pattern>/adminAddMenu</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UpdateMenuServlet</servlet-name>
+        <servlet-class>Admin.MenuManage.UpdateMenuServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateMenuServlet</servlet-name>
+        <url-pattern>/adminUpdateMenu</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>DeleteMenuServlet</servlet-name>
@@ -108,15 +116,23 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>checkTelServlet</servlet-name>
+        <servlet-name>CheckTelServlet</servlet-name>
         <servlet-class>Check.CheckTelServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>checkTelServlet</servlet-name>
-        <url-pattern>/checkTel</url-pattern>
+        <servlet-name>CheckTelServlet</servlet-name>
+        <url-pattern>/checktel</url-pattern>
     </servlet-mapping>
 
-    <!--Filter
+    <servlet>
+        <servlet-name>UserInfoServlet</servlet-name>
+        <servlet-class>User.UserInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserInfoServlet</servlet-name>
+        <url-pattern>/userinfo</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>Filter.LoginFilter</filter-class>
@@ -125,5 +141,13 @@
         <filter-name>LoginFilter</filter-name>
         <url-pattern>*.jsp</url-pattern>
         <url-pattern>*.html</url-pattern>
-    </filter-mapping>-->
+    </filter-mapping>
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>Filter.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

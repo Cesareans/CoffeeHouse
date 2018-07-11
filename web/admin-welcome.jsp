@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<%@ page import="Database.DBUser" %>
+<%@ page import="Database.DBMenu" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Entity.Menu" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <meta charset="UTF-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -11,13 +15,23 @@
 <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript" src="./JS/xadmin.js"></script>
 
+<%
+    String adminName = ((String) session.getAttribute("adminName"));
+    DBUser dbUser = new DBUser();
+    int usersNum = dbUser.getAllUsers().size();
+    DBMenu dbMenu = new DBMenu();
+    ArrayList<Menu> menus = dbMenu.getAllmenu();
+    int menuItemsNum = menus.size();
+    int stockInTotal = 0;
+    for(Menu menuItem:menus) stockInTotal += menuItem.getQuantity();
+%>
 <html>
 <head>
     <title>Sisyphus-Admin</title>
 </head>
 <body>
 <div class="x-body layui-anim layui-anim-up">
-    <blockquote class="layui-elem-quote">欢迎管理员：！<div style="float: right;">2018-04-25 20:50:53</div></blockquote>
+    <blockquote class="layui-elem-quote">欢迎管理员：<%=adminName%>！<div style="float: right;">2018-04-25 20:50:53</div></blockquote>
     <fieldset class="layui-elem-field">
         <legend>数据统计</legend>
         <div class="layui-field-box">
@@ -29,31 +43,31 @@
                             <div carousel-item="">
                                 <ul class="layui-row layui-col-space10 layui-this">
                                     <li class="layui-col-xs2">
-                                        <a href="javascript:;" class="x-admin-backlog-body">
+                                        <a class="x-admin-backlog-body">
                                             <h3>会员数</h3>
                                             <p>
-                                                <cite>12</cite></p>
+                                                <cite><%=usersNum%></cite></p>
                                         </a>
                                     </li>
                                     <li class="layui-col-xs2">
-                                        <a href="javascript:;" class="x-admin-backlog-body">
+                                        <a class="x-admin-backlog-body">
                                             <h3>餐点种类数</h3>
                                             <p>
-                                                <cite>99</cite></p>
+                                                <cite><%=menuItemsNum%></cite></p>
                                         </a>
                                     </li>
                                     <li class="layui-col-xs2">
-                                        <a href="javascript:;" class="x-admin-backlog-body">
+                                        <a class="x-admin-backlog-body">
                                             <h3>餐点库存总量</h3>
                                             <p>
-                                                <cite>67</cite></p>
+                                                <cite><%=stockInTotal%></cite></p>
                                         </a>
                                     </li>
                                     <li class="layui-col-xs2">
-                                        <a href="javascript:;" class="x-admin-backlog-body">
+                                        <a class="x-admin-backlog-body">
                                             <h3>订单总数</h3>
                                             <p>
-                                                <cite>67</cite></p>
+                                                <cite>0</cite></p>
                                         </a>
                                     </li>
                                 </ul>
@@ -80,6 +94,18 @@
                 <tr>
                     <th>MYSQL版本</th>
                     <td>MySQL 5.5.15</td>
+                </tr>
+                <tr>
+                    <th>服务器架构模式</th>
+                    <td>MVVM</td>
+                </tr>
+                <tr>
+                    <th>后台前端框架</th>
+                    <td>BootStrap 3.3.1 + LayUI 2.3.0(Partially) + JQuery 2.0.0</td>
+                </tr>
+                <tr>
+                    <th>后台后端框架</th>
+                    <td>无</td>
                 </tr>
                 <tr>
                     <th>后台前端框架</th>

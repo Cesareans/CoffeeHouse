@@ -24,16 +24,15 @@ public class AddMenuServlet extends HttpServlet {
     }
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException{
         DBMenu dbMenu = new DBMenu();
-        User user = new User();
-        user.setName(request.getParameter("username"));
-        user.setGender(request.getParameter("gender"));
-        user.setBirthday(request.getParameter("birthday"));
-        user.setTel(request.getParameter("telephone"));
-        user.setPassword(request.getParameter("password"));
-        user.setEmail(request.getParameter("email"));
+        Menu menu = new Menu();
+        menu.setSerialNumber(dbMenu.getNewSN());
+        menu.setName(request.getParameter("name"));
+        menu.setType(request.getParameter("type"));
+        menu.setQuantity(Integer.parseInt(request.getParameter("quantity")));
+        menu.setPrice(Double.parseDouble(request.getParameter("price")));
 
         PrintWriter pw = response.getWriter();
-        if(dbMenu.insertNewmenu(new Menu()))
+        if(dbMenu.insertNewmenu(menu))
             pw.write("success");
         else
             pw.write("fail");

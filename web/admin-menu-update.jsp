@@ -1,3 +1,5 @@
+<%@ page import="Database.DBMenu" %>
+<%@ page import="Entity.Menu" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <meta charset="UTF-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
@@ -12,13 +14,15 @@
 <script type="text/javascript" src="./JS/xadmin.js"></script>
 
 <%
-    boolean isAdd;
-    String name,type,quantity,price,sales;
+    boolean isEdit;
+    DBMenu dbMenu = new DBMenu();
+    Menu menu = new Menu();
     String serialNumber = request.getParameter("serialNumber");
-    if(serialNumber == null)
-        isAdd = true;
+    if (serialNumber == null)
+        isEdit = false;
     else {
-        isAdd = false;//Update
+        isEdit = true;//Edit Menu
+        menu = dbMenu.getMeal(serialNumber);
     }
 %>
 
@@ -37,24 +41,47 @@
     $(function () {
         layui.use(["form", "layer"], function () {
             var form = layui.form, layer = layui.layer;
-
-            $("#addBtn").bind("click", function () {
+            $("#updateBtn").bind("click", function () {
                 if (validate()) {
+                    var menuForm = $("#menuForm");
+                    console.log(menuForm);
+                    console.log(menuForm.serialize());
+                    <%if(isEdit){%>
+                    $.ajax({
+                        type: "post",
+                        url: "/adminUpdateMenu",
+                        data: menuForm.serialize(),
+                        success: function (result) {
+                            if (result === "success")
+                                layer.tips("编辑餐点成功", "#updateBtn", {tips: 1, time: 2000, end: closeFrame});
+                            else
+                                layer.tips("编辑餐点失败", "#updateBtn", {tips: 1, time: 2000});
+                        }
+                    });
+                    <%}else{%>
                     $.ajax({
                         type: "post",
                         url: "/adminAddMenu",
-                        data: $("#userForm").serialize(),
+                        data: menuForm.serialize(),
                         success: function (result) {
                             if (result === "success")
-                                layer.tips("新增餐点成功", "#addBtn", {tips: 1, time: 2000, end: closeFrame});
+                                layer.tips("新增餐点成功", "#updateBtn", {tips: 1, time: 2000, end: closeFrame});
                             else
-                                layer.tips("新增餐点失败", "#addBtn", {tips: 1, time: 2000});
+                                layer.tips("新增餐点失败", "#updateBtn", {tips: 1, time: 2000});
                         }
                     });
+                    <%}%>
                 }
             });
             $("#cancelBtn").bind("click", function () {
                 closeFrame();
+            });
+            form.val("menuForm",{
+                "serialNumber":"<%=serialNumber%>",
+                "name":"<%=menu.getName()%>",
+                "type":"<%=menu.getType().equals("")?"饮料":menu.getType()%>",
+                "quantity":"<%=isEdit?menu.getQuantity():""%>",
+                "price":"<%=isEdit?menu.getPrice():""%>"
             })
         });
     });
@@ -94,7 +121,8 @@
 
 <body>
 <div class="x-body layui-anim layui-anim-up">
-    <form class="layui-form layui-form-pane" id="userForm">
+    <form class="layui-form layui-form-pane" id="menuForm" lay-filter="menuForm">
+        <input id="serialNumber" name="serialNumber" hidden>
         <div class="layui-form-item">
             <label for="name" class="layui-form-label">餐点名称：</label>
             <div class="layui-input-block">
@@ -124,7 +152,8 @@
             </div>
         </div>
         <div class="layui-form-item" style="margin-bottom: 0;text-align: center">
-            <button id="addBtn" name="addBtn" class="layui-btn" type="button">增加</button>
+            <button id="updateBtn" name="updateBtn" class="layui-btn" type="button"><%=isEdit ? "确定" : "增加"%>
+            </button>
             <button id="cancelBtn" name="cancelBtn" class="layui-btn layui-btn-danger" type="button">取消</button>
         </div>
     </form>

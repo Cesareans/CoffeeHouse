@@ -16,30 +16,28 @@ public class LoginFilter implements Filter {
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         String uri = ((HttpServletRequest) req).getRequestURI();
-        Debug.log(uri);
-        if(uri.startsWith("/admin")){
+        if(uri.startsWith("/admin")){//后台
             if(uri.endsWith("login.html")){
                 chain.doFilter(req,resp);
                 return;
             }
+            //判断管理员是否登陆
             HttpSession session = ((HttpServletRequest) req).getSession();
             String admin = ((String) session.getAttribute("adminName"));
             if(admin == null){
-                Debug.log("Redirect to Admin Login.");
                 ((HttpServletResponse) resp).sendRedirect("admin-login.html");
             }
 
-        }else {
-            if (uri.endsWith("index.jsp") || uri.endsWith("login.jsp") || uri.endsWith("register.html") || uri.endsWith("/")) {
+        }else {//前台
+            if (uri.endsWith("index.html") || uri.endsWith("login.html") || uri.endsWith("register.html") || uri.endsWith("/")) {
                 chain.doFilter(req, resp);
                 return;
             }
-
+            //判断用户是否登陆
             HttpSession session = ((HttpServletRequest) req).getSession();
             String usertel = ((String) session.getAttribute("usertel"));
             if (usertel == null) {
-                Debug.log("Redirect to Login.");
-                ((HttpServletResponse) resp).sendRedirect("login.jsp");
+                ((HttpServletResponse) resp).sendRedirect("login.html");
             }
         }
 
