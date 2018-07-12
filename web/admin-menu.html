@@ -148,12 +148,12 @@
                 },
                 cols: [[ //表头
                     {type:'checkbox'},
-                    {field: 'serialNumber', title: '序号', sort: true},
-                    {field: 'name', title: '餐点名' , sort:true},
-                    {field: 'type', title: '类型', sort: true},
-                    {field: 'quantity', title: '库存', sort: true},
-                    {field: 'price', title: '价格', sort: true},
-                    {field: 'sales', title: '销量', sort: true},
+                    {field: 'serialNumber', title: '序号'},
+                    {field: 'name', title: '餐点名'},
+                    {field: 'type', title: '类型'},
+                    {field: 'quantity', title: '库存'},
+                    {field: 'price', title: '价格'},
+                    {field: 'sales', title: '销量'},
                     {title: '操作', fixed: 'right', width:150, align:'center', toolbar: '#TableUtilBar'}
                 ]],
                 url: '/adminQueryMenu',
@@ -161,7 +161,7 @@
             });
         });
     }
-    function doMenuNameFilter() {//TODO
+    function doMenuNameFilter() {
         var menuItemNameVal = menuItemNameField.val();
         if(menuItemNameVal !== ""){
             tableIns.reload({

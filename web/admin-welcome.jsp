@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,userTel-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/>
+<meta name="viewport" content="width=device-width,minimum-scale=0.4, initial-scale=0.8"/>
 
 <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon"/>
 <link rel="stylesheet" href="./CSS/font.css">
@@ -23,15 +23,24 @@
     ArrayList<Menu> menus = dbMenu.getAllmenu();
     int menuItemsNum = menus.size();
     int stockInTotal = 0;
-    for(Menu menuItem:menus) stockInTotal += menuItem.getQuantity();
+    for (Menu menuItem : menus) stockInTotal += menuItem.getQuantity();
 %>
+<script>
+
+</script>
 <html>
 <head>
     <title>Sisyphus-Admin</title>
 </head>
 <body>
 <div class="x-body layui-anim layui-anim-up">
-    <blockquote class="layui-elem-quote">欢迎管理员：<%=adminName%>！<div style="float: right;">2018-04-25 20:50:53</div></blockquote>
+    <blockquote class="layui-elem-quote" style="padding: 5px 15px;">
+        <div style="line-height: 38px">
+            <span>欢迎管理员：<%=adminName%></span>
+            <span style="float: right"><button id="logoutBtn" name="logoutBtn" class="layui-btn"
+                                               type="button">退出</button></span>
+        </div>
+    </blockquote>
     <fieldset class="layui-elem-field">
         <legend>数据统计</legend>
         <div class="layui-field-box">
@@ -46,21 +55,24 @@
                                         <a class="x-admin-backlog-body">
                                             <h3>会员数</h3>
                                             <p>
-                                                <cite><%=usersNum%></cite></p>
+                                                <cite><%=usersNum%>
+                                                </cite></p>
                                         </a>
                                     </li>
                                     <li class="layui-col-xs2">
                                         <a class="x-admin-backlog-body">
                                             <h3>餐点种类数</h3>
                                             <p>
-                                                <cite><%=menuItemsNum%></cite></p>
+                                                <cite><%=menuItemsNum%>
+                                                </cite></p>
                                         </a>
                                     </li>
                                     <li class="layui-col-xs2">
                                         <a class="x-admin-backlog-body">
                                             <h3>餐点库存总量</h3>
                                             <p>
-                                                <cite><%=stockInTotal%></cite></p>
+                                                <cite><%=stockInTotal%>
+                                                </cite></p>
                                         </a>
                                     </li>
                                     <li class="layui-col-xs2">
@@ -101,7 +113,7 @@
                 </tr>
                 <tr>
                     <th>后台前端框架</th>
-                    <td>BootStrap 3.3.1 + LayUI 2.3.0(Partially) + JQuery 2.0.0</td>
+                    <td>BootStrap 3.3.1 + LayUI 2.3.0 + JQuery 2.0.0</td>
                 </tr>
                 <tr>
                     <th>后台后端框架</th>
@@ -151,7 +163,7 @@
                 </tr>
                 <tr>
                     <th>官网</th>
-                    <td colspan="2"><a href="" class='x-a'>访问官网</a></td>
+                    <td colspan="2"><a id="jmpToFront" class='x-a' style="cursor: hand">访问官网</a></td>
                 </tr>
                 <tr>
                     <th>版权所有</th>
