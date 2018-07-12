@@ -3,10 +3,10 @@ package Entity;
 import java.util.ArrayList;
 
 public class Order {
-    private ArrayList<OrderItem> orderlist = new ArrayList<OrderItem>();
     private String orderSN;
+    private String userTel;
+    private ArrayList<OrderItem> orderlist = new ArrayList<OrderItem>();
     private String date;
-    private String user;
 
     public void setOrderlist(ArrayList<OrderItem> orderlist) {
         this.orderlist = orderlist;
@@ -16,8 +16,8 @@ public class Order {
         this.orderSN = orderSN;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUserTel(String userTel) {
+        this.userTel = userTel;
     }
 
     public void setDate(String date) {
@@ -32,8 +32,8 @@ public class Order {
         return orderSN;
     }
 
-    public String getUser() {
-        return user;
+    public String getUserTel() {
+        return userTel;
     }
 
     public String getDate() {
@@ -47,7 +47,7 @@ public class Order {
 
     public void displayOrder()
     {
-        System.out.println(orderSN+"  "+user+"  "+date);
+        System.out.println(orderSN+"  "+ userTel +"  "+date);
         for(OrderItem u:orderlist)
         {
             System.out.printf("      %-14s%-14s%-14f%-14d\n",u.getMealSerialNumber(),u.getMealName(),u.getMealPrice(),u.getQuantity());

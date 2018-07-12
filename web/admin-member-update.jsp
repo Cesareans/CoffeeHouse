@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/>
+<meta name="viewport" content="width=device-width,userTel-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/>
 
 <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon"/>
 <link rel="stylesheet" href="./CSS/font.css">
@@ -16,13 +16,13 @@
 <%
     boolean isEdit;
     DBUser dbUser = new DBUser();
-    User user = new User();
+    User userTel = new User();
     String telephone = request.getParameter("telephone");
     if (telephone == null)
         isEdit = false;
     else {
-        isEdit = true;//Edit user
-        user = dbUser.getUserByTel(telephone);
+        isEdit = true;//Edit userTel
+        userTel = dbUser.getUserByTel(telephone);
     }
 %>
 
@@ -49,12 +49,12 @@
             });
             <%if(isEdit){%>
             form.val("userForm", {
-                "username": "<%=user.getName()%>",
-                "gender": "<%=user.getGender()%>",
-                "birthday": "<%=user.getBirthday()%>",
-                "oldTelephone":<%=user.getTel()%>,
-                "telephone": "<%=user.getTel()%>",
-                "email": "<%=user.getEmail()%>",
+                "username": "<%=userTel.getName()%>",
+                "gender": "<%=userTel.getGender()%>",
+                "birthday": "<%=userTel.getBirthday()%>",
+                "oldTelephone":<%=userTel.getTel()%>,
+                "telephone": "<%=userTel.getTel()%>",
+                "email": "<%=userTel.getEmail()%>",
             });
             <%}%>
 

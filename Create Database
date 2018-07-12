@@ -2,7 +2,7 @@ create database caffe;
 drop table cart;
 drop table orders;
 drop table menu;
-drop table user;
+drop table userTel;
 drop table Admin;
 
 
@@ -15,7 +15,7 @@ create table menu(
        sales int,
        picture varchar(100));
 
-create table user(
+create table userTel(
        utel varchar(11) primary key,
        upassword varchar(20) not null,
        uname varchar(20),
@@ -31,37 +31,37 @@ create table Admin(
        );
 
 create table orders(
-       orderSN varchar(11),
+       cartSN varchar(11),
        userTel varchar(11),
        mealSerialNumber varchar(11),
        mealName varchar(11),
        mealPrice double,
        qty int,
        orderDate datetime,
-       primary key (orderSN,mealSerialNumber)
+       primary key (cartSN,mealSerialNumber)
        );
 
 create table cart(
-       orderSN varchar(11),
+       cartSN varchar(11),
        userTel varchar(11),
        mealSerialNumber varchar(11),
        mealName varchar(11),
        mealPrice double,
        qty int,
        orderDate datetime,
-       primary key (orderSN,mealSerialNumber)
+       primary key (cartSN,mealSerialNumber)
        );
 
 alter table orders
-add constraint fk2 foreign key(userTel) references user(utel) on delete cascade on update cascade;
+add constraint fk2 foreign key(userTel) references userTel(utel) on delete cascade on update cascade;
 
 alter table cart
-add constraint fk4 foreign key(userTel) references user(utel) on delete cascade on update cascade;
+add constraint fk4 foreign key(userTel) references userTel(utel) on delete cascade on update cascade;
 
-insert into user values('18850516371','sxy234567','sxy','1998-02-25','719669212@qq.com','2018-07-01',true,'male');
-insert into user values('18850516372','hzy234568','hzy','1998-03-25','719669213@qq.com','2018-07-01',true,'female');
-insert into user values('18850516373','yjb234569','yjb','1998-04-25','719669214@qq.com','2018-07-01',true,'male');
-insert into user values('18850516374','lyj234566','lyj','1998-05-25','719669215@qq.com','2018-07-01',false,'female');
+insert into userTel values('18850516371','sxy234567','sxy','1998-02-25','719669212@qq.com','2018-07-01',true,'male');
+insert into userTel values('18850516372','hzy234568','hzy','1998-03-25','719669213@qq.com','2018-07-01',true,'female');
+insert into userTel values('18850516373','yjb234569','yjb','1998-04-25','719669214@qq.com','2018-07-01',true,'male');
+insert into userTel values('18850516374','lyj234566','lyj','1998-05-25','719669215@qq.com','2018-07-01',false,'female');
 
 insert into Admin values('hzy','admin');
 insert into Admin values('lyf','admin');
@@ -99,4 +99,3 @@ insert into menu values('0024','层层榛子果仁酥',15,25,'甜品',0,null);
 insert into menu values('0025','蜂蜜提子司康',25,25,'甜品',0,null);
 insert into menu values('0026','香浓巧克力可颂',25,35,'甜品',0,null);
 insert into menu values('0027','全麦核桃麦芬',25,35,'甜品',0,null);
-insert into menu values('0028','浓醇三重黑巧克力蛋糕',18,30,'甜品',0,null);

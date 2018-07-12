@@ -1,7 +1,7 @@
 package Entity;
 
 public class Cart {
-    private String orderSN;
+    private String cartSN;
     private String user;
     private String mealSerialNumber;
     private int quantity;
@@ -9,24 +9,24 @@ public class Cart {
 
     public Cart()
     {
-        orderSN="";
+        cartSN ="";
         user="";
         mealSerialNumber="";
         quantity =0;
         date="";
     }
 
-    public Cart(String orderSN, String user, String mealSerialNumber, String date, int quantity)
+    public Cart(String cartSN, String user, String mealSerialNumber, String date, int quantity)
     {
-        this.orderSN=orderSN;
+        this.cartSN = cartSN;
         this.user=user;
         this.mealSerialNumber=mealSerialNumber;
         this.date=date;
         this.quantity = quantity;
     }
 
-    public void setOrderSN(String orderSN) {
-        this.orderSN = orderSN;
+    public void setCartSN(String cartSN) {
+        this.cartSN = cartSN;
     }
 
     public void setMealSerialNumber(String mealSerialNumber) {
@@ -61,8 +61,8 @@ public class Cart {
         return date;
     }
 
-    public String getOrderSN() {
-        return orderSN;
+    public String getCartSN() {
+        return cartSN;
     }
 
 }
