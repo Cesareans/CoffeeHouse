@@ -2,6 +2,8 @@
 <%@ page import="Database.DBMenu" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Entity.Menu" %>
+<%@ page import="Database.DBHistoryOrders" %>
+<%@ page import="Entity.Order" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <meta charset="UTF-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
@@ -17,13 +19,18 @@
 
 <%
     String adminName = ((String) session.getAttribute("adminName"));
+
     DBUser dbUser = new DBUser();
     int usersNum = dbUser.getAllUsers().size();
+
     DBMenu dbMenu = new DBMenu();
     ArrayList<Menu> menus = dbMenu.getAllmenu();
     int menuItemsNum = menus.size();
     int stockInTotal = 0;
     for (Menu menuItem : menus) stockInTotal += menuItem.getQuantity();
+
+    DBHistoryOrders dbOrder = new DBHistoryOrders();
+    ArrayList<Order> orders = dbOrder.getAllOrders();
 %>
 <script>
 
@@ -79,7 +86,7 @@
                                         <a class="x-admin-backlog-body">
                                             <h3>订单总数</h3>
                                             <p>
-                                                <cite>0</cite></p>
+                                                <cite><%=orders.size()%></cite></p>
                                         </a>
                                     </li>
                                 </ul>

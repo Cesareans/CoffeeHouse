@@ -93,6 +93,15 @@
         <servlet-name>DeleteMenuServlet</servlet-name>
         <url-pattern>/adminDeleteMenu</url-pattern>
     </servlet-mapping>
+    <!--Order CRUD-->
+    <servlet>
+        <servlet-name>QueryOrderServlet</servlet-name>
+        <servlet-class>Admin.OrderManage.QueryOrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QueryOrderServlet</servlet-name>
+        <url-pattern>/adminQueryOrder</url-pattern>
+    </servlet-mapping>
 
 
 

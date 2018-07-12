@@ -55,28 +55,29 @@
                         break;
                 }
             });
+            //Use Table
+            $("#delSelectedBtn").bind("click", function () {
+                var checkedData = table.checkStatus("dataTable").data;
+                if(checkedData.length <= 0)
+                    return;
+                layer.confirm("即将删除选中用户，请严肃确认操作", {
+                    icon: 0,
+                    btn: ["确认", "取消"]
+                }, function(){
+                    for(var i in checkedData){
+                        if(checkedData.hasOwnProperty(i)) {
+                            delUser(checkedData[i].tel);
+                        }
+                    }
+                    showUsersTable();
+                },function () {});
 
+            });
         });
 
         $("#searchBtn").bind("click" , doUsernameFilter);
         $("#addUserBtn").bind("click", addUser);
-        $("#delSelectedBtn").bind("click", function () {
-            var checkedData = table.checkStatus("dataTable").data;
-            if(checkedData.length <= 0)
-                return;
-            layer.confirm("即将删除选中用户，请严肃确认操作", {
-                icon: 0,
-                btn: ["确认", "取消"]
-            }, function(){
-                for(var i in checkedData){
-                    if(checkedData.hasOwnProperty(i)) {
-                        delUser(checkedData[i].tel);
-                    }
-                }
-                showUsersTable();
-            },function () {});
 
-        });
         cancelFilterBtn.bind("click" , function () {
             usernameField.val("");
             showUsersTable();
