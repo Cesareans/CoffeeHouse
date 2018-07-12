@@ -34,11 +34,11 @@ public class QueryMenuServlet extends HttpServlet {
         //未考虑效率
         if(serialNumber != null){
             menuList.clear();
-            menuList.add(dbMenu.getSNmenu(serialNumber));
+            menuList.add(dbMenu.getMeal(serialNumber));
         } else if(type != null)
-            menuList=dbMenu.getTypeMenu(type);
+            menuList=dbMenu.getMenuByType(type);
         else if(menuItemName != null)
-            menuList=dbMenu.getNamemenu(menuItemName);
+            menuList=dbMenu.getMenuByName(menuItemName);
         else
             menuList = dbMenu.getAllmenu();
 
@@ -60,6 +60,7 @@ public class QueryMenuServlet extends HttpServlet {
         PrintWriter pw = response.getWriter();
         pw.write(JSON.toJSONString(jsonMap));
         pw.close();
+        dbMenu.close();
     }
     private List<Menu> getMenuItems(int page , int limit){
         if(page*limit > menuList.size())

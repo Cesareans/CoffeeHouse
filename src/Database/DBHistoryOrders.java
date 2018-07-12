@@ -1,10 +1,10 @@
 package Database;
-import Entity.*;
+
 import java.sql.*;
 import java.util.ArrayList;
-
+import Entity.*;
 public class DBHistoryOrders {
-    private String url = "com.mysql.jdbc.Driver"; //加载驱动包
+    private static String url = "com.mysql.jdbc.Driver"; //加载驱动包
     private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
     private String sqlUser = "root"; //数据库账号
     private String sqlPasswd = "admin"; //你的数据库密码
@@ -12,13 +12,27 @@ public class DBHistoryOrders {
     private PreparedStatement psm = null;
     private ResultSet rs = null;
 
+    static {
+        try {
+            Class.forName(url);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public DBHistoryOrders()
+    {
+        //连接MYSQL
+        try {
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ArrayList<Order> getAllOrders(){
         ArrayList<Order> userlist = new ArrayList<Order>();
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             psm = con.prepareStatement("select distinct orderSN from orders");
             rs = psm.executeQuery();
             ArrayList<String> orderSNs = new ArrayList<String>();
@@ -49,18 +63,11 @@ public class DBHistoryOrders {
                 }
                 userlist.add(order);
             }
+            rs.close();
+            psm.close();
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                rs.close();
-                psm.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return userlist;
     }
@@ -68,10 +75,6 @@ public class DBHistoryOrders {
     public ArrayList<Order> getUserOrders(String usertel){
         ArrayList<Order> userlist = new ArrayList<Order>();
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             psm = con.prepareStatement("select distinct orderSN from orders where userTel="+"'"+usertel+"'");
             rs = psm.executeQuery();
             ArrayList<String> orderSNs = new ArrayList<String>();
@@ -102,18 +105,10 @@ public class DBHistoryOrders {
                 }
                 userlist.add(order);
             }
-
+            rs.close();
+            psm.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                rs.close();
-                psm.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return userlist;
     }
@@ -139,10 +134,6 @@ public class DBHistoryOrders {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sqlInset = "insert into orders(orderSN,userTel,mealSerialNumber,qty,orderDate) values(?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(sqlInset);
             stmt.setString(1, orderSN);
@@ -162,13 +153,6 @@ public class DBHistoryOrders {
             updateOrderMealPrice(orderSN,mealSerialNumber,menu.getPrice());
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }
@@ -177,10 +161,6 @@ public class DBHistoryOrders {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "delete from orders where orderSN="+"'"+orderSN+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
@@ -191,13 +171,6 @@ public class DBHistoryOrders {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }
@@ -207,10 +180,6 @@ public class DBHistoryOrders {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update orders set qty="+"'"+newQty+"'"+" where orderSN="+"'"+orderSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
@@ -221,13 +190,6 @@ public class DBHistoryOrders {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }
@@ -236,10 +198,6 @@ public class DBHistoryOrders {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update orders set orderDate="+"'"+newdate+"'"+" where orderSN="+"'"+orderSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
@@ -250,13 +208,6 @@ public class DBHistoryOrders {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }
@@ -265,10 +216,6 @@ public class DBHistoryOrders {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update orders set mealName="+"'"+newMealName+"'"+" where orderSN="+"'"+orderSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
@@ -279,13 +226,6 @@ public class DBHistoryOrders {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }
@@ -294,10 +234,7 @@ public class DBHistoryOrders {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+
             String sql = "update orders set mealPrice="+"'"+newMealPrice+"'"+" where orderSN="+"'"+orderSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
@@ -308,13 +245,6 @@ public class DBHistoryOrders {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }
@@ -323,10 +253,6 @@ public class DBHistoryOrders {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update orders set mealSerialNumber="+"'"+newMSN+"'"+" where mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
@@ -337,14 +263,16 @@ public class DBHistoryOrders {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
+    }
+
+    public void close()
+    {
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -4,21 +4,35 @@ import java.sql.*;
 import java.util.ArrayList;
 import Entity.*;
 public class DBAdmin {
-    private String url = "com.mysql.jdbc.Driver"; //加载驱动包
-    private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
-    private String sqlAdmin = "root"; //数据库账号
-    private String sqlPasswd = "admin"; //你的数据库密码
-    private Connection con = null;
+    private static String url = "com.mysql.jdbc.Driver"; //加载驱动包
+    private static String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
+    private static String sqlAdmin = "root"; //数据库账号
+    private static String sqlPasswd = "admin"; //你的数据库密码
+    private static Connection con = null;
     private PreparedStatement psm = null;
     private ResultSet rs = null;
+
+    static {
+        try {
+            Class.forName(url);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public DBAdmin()
+    {
+        try {
+            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public ArrayList<Admin> getAllAdmins(){
         ArrayList<Admin> Adminlist = new ArrayList<Admin>();
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
             psm = con.prepareStatement("select * from admin");
             rs = psm.executeQuery();
 
@@ -36,7 +50,6 @@ public class DBAdmin {
             try {
                 rs.close();
                 psm.close();
-                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -66,10 +79,6 @@ public class DBAdmin {
     {
         boolean success = false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
             String sql = "select * from admin where adminName like "+"'"+adminName+"'";
             psm = con.prepareStatement(sql);
             rs = psm.executeQuery();
@@ -84,15 +93,12 @@ public class DBAdmin {
                     success=false;
             }
 
-            //关闭数据库连接
-
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
             try {
                 rs.close();
                 psm.close();
-                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -104,10 +110,6 @@ public class DBAdmin {
     {
         boolean result = false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
             String sql = "select * from admin where adminName like "+"'"+adminName+"'";
             psm = con.prepareStatement(sql);
             rs = psm.executeQuery();
@@ -121,7 +123,6 @@ public class DBAdmin {
             try {
                 rs.close();
                 psm.close();
-                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -135,10 +136,6 @@ public class DBAdmin {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
             String sqlInset = "insert into admin(adminName,mpassword) values(?, ?)";
             PreparedStatement stmt = con.prepareStatement(sqlInset);
             stmt.setString(1, adminName);
@@ -150,13 +147,6 @@ public class DBAdmin {
                 result=false;
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }
@@ -165,10 +155,6 @@ public class DBAdmin {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
             String sqlInset = "insert into admin(adminName,mpassword) values(?, ?)";
             PreparedStatement stmt = con.prepareStatement(sqlInset);
             stmt.setString(1, a.getAdmin());
@@ -180,13 +166,6 @@ public class DBAdmin {
                 result=false;
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }
@@ -197,10 +176,6 @@ public class DBAdmin {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
             String sql = "delete from admin where adminName="+"'"+adminName+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
@@ -211,13 +186,6 @@ public class DBAdmin {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }
@@ -226,10 +194,6 @@ public class DBAdmin {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
             String sql = "update Admin set adminName="+"'"+newadmin+"'"+" where adminName="+"'"+oldadmin+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
@@ -240,13 +204,6 @@ public class DBAdmin {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }
@@ -254,10 +211,6 @@ public class DBAdmin {
     public boolean updatePassword(String adminName,String newpassword) throws SQLException {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlAdmin,sqlPasswd);
             String sql = "update Admin set mpassword="+"'"+newpassword+"'"+" where adminName="+"'"+adminName+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
@@ -268,11 +221,17 @@ public class DBAdmin {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            con.close();
         }
         return result;
+    }
+
+    public void close()
+    {
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

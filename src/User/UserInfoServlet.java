@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 @WebServlet(name = "UserInfoServlet")
 public class UserInfoServlet extends HttpServlet {
@@ -44,7 +42,7 @@ public class UserInfoServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String usertel = (String)session.getAttribute("usertel");
         String password = (String)session.getAttribute("password");
-        User u = dbuser.getTelUsers(usertel);
+        User u = dbuser.getUserByTel(usertel);
         pw.write(JSON.toJSONString(u));
         pw.close();
     }

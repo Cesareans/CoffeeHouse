@@ -1,7 +1,6 @@
 package Admin.UserManage;
 
 import Database.DBUser;
-import DebugUtil.Debug;
 import Entity.User;
 import com.alibaba.fastjson.JSON;
 
@@ -35,9 +34,9 @@ public class QueryUserServlet extends HttpServlet {
         //未考虑效率
         if(telephone!=null) {
             userList.clear();
-            userList.add(dbUser.getTelUsers(telephone));
+            userList.add(dbUser.getUserByTel(telephone));
         }else if(username != null)
-            userList = dbUser.getNameUsers(username);
+            userList = dbUser.getUsersByName(username);
         else
             userList = dbUser.getAllUsers();
         int page , limit;
@@ -59,6 +58,7 @@ public class QueryUserServlet extends HttpServlet {
         PrintWriter pw = response.getWriter();
         pw.write(JSON.toJSONString(jsonMap));
         pw.close();
+        dbUser.close();
     }
     private List<User> getUsers(int page , int limit){
         if(page*limit > userList.size())

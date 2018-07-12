@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DBCart {
-    private String url = "com.mysql.jdbc.Driver"; //加载驱动包
+    private static String url = "com.mysql.jdbc.Driver"; //加载驱动包
     private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
     private String sqlUser = "root"; //数据库账号
     private String sqlPasswd = "admin"; //你的数据库密码
@@ -12,13 +12,26 @@ public class DBCart {
     private PreparedStatement psm = null;
     private ResultSet rs = null;
 
+    static {
+        try {
+            Class.forName(url);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public DBCart()
+    {
+        try {
+            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ArrayList<Order> getUserCart(String usertel){
         ArrayList<Order> userlist = new ArrayList<Order>();
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             psm = con.prepareStatement("select distinct orderSN from cart where userTel="+"'"+usertel+"'");
             rs = psm.executeQuery();
             ArrayList<String> orderSNs = new ArrayList<String>();
@@ -50,18 +63,11 @@ public class DBCart {
                 }
                 userlist.add(order);
             }
+            rs.close();
+            psm.close();
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                rs.close();
-                psm.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return userlist;
     }
@@ -88,10 +94,6 @@ public class DBCart {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sqlInset = "insert into cart(orderSN,userTel,mealSerialNumber,qty,orderDate) values(?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(sqlInset);
             stmt.setString(1, orderSN);
@@ -107,25 +109,16 @@ public class DBCart {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }
+
+
 
     public boolean deleteOrder(String orderSN,String mealSerialNumber)
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "delete from cart where orderSN="+"'"+orderSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
@@ -136,13 +129,6 @@ public class DBCart {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }
@@ -151,10 +137,6 @@ public class DBCart {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "delete from cart where mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
@@ -165,13 +147,6 @@ public class DBCart {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }
@@ -180,10 +155,6 @@ public class DBCart {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update cart set qty="+"'"+newQty+"'"+" where orderSN="+"'"+orderSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
@@ -194,13 +165,6 @@ public class DBCart {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }
@@ -209,10 +173,6 @@ public class DBCart {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update cart set orderDate="+"'"+newdate+"'"+" where orderSN="+"'"+orderSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
@@ -223,13 +183,6 @@ public class DBCart {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
     }
@@ -238,10 +191,6 @@ public class DBCart {
     {
         boolean result =false;
         try {
-            //加载驱动包
-            Class.forName(url);
-            //连接MYSQL
-            con = DriverManager.getConnection(connectSql,sqlUser,sqlPasswd);
             String sql = "update cart set mealSerialNumber="+"'"+newSN+"'"+" where mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
@@ -252,15 +201,17 @@ public class DBCart {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            //关闭数据库连接
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return result;
+    }
+
+    public void close()
+    {
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

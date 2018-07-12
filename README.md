@@ -20,10 +20,10 @@ user共有8个属性：
 public ArrayList<User> getAllUsers()
 获取所有用户信息
 
-public ArrayList<User> getNameUsers(String name)
+public ArrayList<User> getUsersByName(String name)
 获取名字为name的用户信息
 
-public User getTelUsers(String tel)
+public User getUserByTel(String tel)
 获取电话号码为tel的用户信息
 
 public boolean  matchUser(String tel,String key)
@@ -94,10 +94,10 @@ public Menu getSNmenu(String SN)
 String getNewSN()
 获取一个新的序列号
 
-public ArrayList<Menu> getNamemenu(String name) 
+public ArrayList<Menu> getMenuByName(String name) 
 获取关键字为name的菜品信息
 
-public ArrayList<Menu> getTypeMenu(String type)
+public ArrayList<Menu> getMenuByType(String type)
 获取所有类型为type的菜品
 
 public boolean insertNewmenu(String serial,String name,double price,int qty,String type,String pictureUrl)
@@ -230,7 +230,8 @@ public boolean updateOrderDate(String orderSN,String mealSerialNumber,String new
 更新订单号为orderSN,餐品号为mealSerialNumber的订单的购买日期为newdate
 
 
-
+统一方法：
+public void close()
 
 
 

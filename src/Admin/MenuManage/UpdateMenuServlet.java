@@ -1,9 +1,7 @@
 package Admin.MenuManage;
 
 import Database.DBMenu;
-import Database.DBUser;
 import Entity.Menu;
-import Entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,5 +35,6 @@ public class UpdateMenuServlet extends HttpServlet {
         else
             pw.write("fail");
         pw.close();
+        dbMenu.close();
     }
 }

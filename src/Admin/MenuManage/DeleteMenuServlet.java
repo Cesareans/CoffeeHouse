@@ -1,8 +1,6 @@
 package Admin.MenuManage;
 
 import Database.DBMenu;
-import Database.DBUser;
-import DebugUtil.Debug;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,5 +29,6 @@ public class DeleteMenuServlet extends HttpServlet {
         else
             pw.write("fail");
         pw.close();
+        dbMenu.close();
     }
 }
