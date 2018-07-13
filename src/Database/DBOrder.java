@@ -129,7 +129,7 @@ public class DBOrder {
                 u.setQuantity(rs.getInt(6));
                 String date=rs.getString(7);
                 order.setOrderSN(orderSN);
-                order.setUser(user);
+                order.setUserTel(user);
                 order.setDate(date);
                 order.addItem(u);
             }
