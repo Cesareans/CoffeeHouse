@@ -1,6 +1,6 @@
 package Admin.OrderManage;
 
-import Database.DBHistoryOrders;
+import Database.DBOrder;
 import Database.DBMenu;
 import Entity.Menu;
 import Entity.Order;
@@ -29,7 +29,7 @@ public class QueryOrderServlet extends HttpServlet {
         processRequest(request,response);
     }
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException{
-        DBHistoryOrders dbOrder = new DBHistoryOrders();
+        DBOrder dbOrder = new DBOrder();
         String orderSerial = request.getParameter("orderSerial");
         String userTel = request.getParameter("userTel");
         String userNameMatcher = request.getParameter("userNameMatcher");
