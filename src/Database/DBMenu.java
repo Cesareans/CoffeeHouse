@@ -207,7 +207,7 @@ public class DBMenu {
             if(i==1)
             {
                 result=true;
-                DBHistoryOrders h = new DBHistoryOrders();
+                DBOrder h = new DBOrder();
                 h.updateOrderMSN(serial,null);
                 DBCart c =new DBCart();
                 c.deleteOrderMSN(serial);
@@ -246,7 +246,7 @@ public class DBMenu {
                 result=true;
                 DBCart c=new DBCart();
                 c.updateOrderMSN(oldserial,newserial);
-                DBHistoryOrders h = new DBHistoryOrders();
+                DBOrder h = new DBOrder();
                 h.updateOrderMSN(oldserial,newserial);
             }
             else

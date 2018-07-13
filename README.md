@@ -178,8 +178,11 @@ DBHistoryOrder:
 public ArrayList<Order> getAllOrders()
 获取全部历史订单（所有用户）
 
-public ArrayList<Order> getUserOrders(String usertel)
+public ArrayList<Order> getOrderByUser(String usertel)
 获取电话号码为userTel的用户的历史订单
+
+public Order getOrderBySerial(String sn)
+根据订单号获取订单
 
 public boolean insertNewOrder(String orderSN,String user,String mealSerialNumber,int qty,String date)
 插入新的历史订单记录，参数：订单号，用户电话号，餐品号，购买数量，日期
