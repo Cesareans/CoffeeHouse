@@ -71,7 +71,7 @@
             laydate.render({
                 elem: "#birthday",
                 showBottom: false,
-				max:0
+                max:0
             });
         });
     });
@@ -215,29 +215,18 @@
 <div class="mail animated wow zoomIn" data-wow-delay=".5s">
     <div class="container">
         <div class="mail-grids">
-            <div class="col-md-4 mail-grid-right animated wow slideInLeft" data-wow-delay=".5s">
-                <div class="top-nav">
-                    <nav class="navbar navbar-default">
-                        <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
-                            <nav class="stroke">
-                                <ul class="nav navbar-nav">
-                                    <li class="active"><a href="information.html"><i class="envelope"></i>个人信息</a></li>
-                                    <p><br></p>
-                                    <li class="active"><a href=""><i class="envelope"></i>基础设置</a></li>
-                                    <p><br></p>
-                                    <li class="active"><a href=""><i class="envelope"></i>会员积分</a></li>
-                                    <p><br></p>
-                                    <li class="active"><a href=""><i class="envelope"></i>用户安全</a></li>
-                                    <p><br></p>
-                                    <li class="active"><a href=""><i class="envelope"></i>其他</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                        <!-- /.navbar-collapse -->
-                    </nav>
-                </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
+                <ul>
+                    <li><i class="glyphicon glyphicon-userTel" aria-hidden="true"></i><a href="information.html">个人信息</a></li>
+                    <p><br></p>
+                    <li><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i><a href="information.html">历史订单</a></li>
+                    <p><br></p>
+                    <li><i class="glyphicon glyphicon-cog" aria-hidden="true"></i><a href="information.html">其他设置</a></li>
+                </ul>
             </div>
+
+            <!-- /.navbar-collapse -->
 
             <div class="col-md-8 mail-grid-left animated wow slideInRight" data-wow-delay=".5s">
                 <form id="profileForm" class="layui-form layui-form-pane" lay-filter="profileForm">
@@ -250,9 +239,9 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">性别：</label>
                         <div class="layui-input-block">
-                            <input name="gender" type="radio" value="male" title="男" checked>
-                            <input name="gender" type="radio" value="female" title="女">
-                            <input name="gender" type="radio" value="secret" title="保密">
+                            <input name="gender" type="radio" value="男" title="男" checked>
+                            <input name="gender" type="radio" value="女" title="女">
+                            <input name="gender" type="radio" value="保密" title="保密">
                         </div>
                     </div>
                     <div class="layui-form-item">

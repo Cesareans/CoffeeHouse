@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/>
+<meta name="viewport" content="width=device-width,userTel-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/>
 
 <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon"/>
 <link rel="stylesheet" href="./CSS/font.css">
@@ -16,13 +16,13 @@
 <%
     boolean isEdit;
     DBUser dbUser = new DBUser();
-    User user = new User();
+    User userTel = new User();
     String telephone = request.getParameter("telephone");
     if (telephone == null)
         isEdit = false;
     else {
-        isEdit = true;//Edit user
-        user = dbUser.getTelUsers(telephone);
+        isEdit = true;//Edit userTel
+        userTel = dbUser.getUserByTel(telephone);
     }
 %>
 
@@ -45,16 +45,16 @@
             laydate.render({
                 elem: "#birthday",
                 showBottom: false,
-                max:0
+                max: 0
             });
             <%if(isEdit){%>
-            form.val("userForm",{
-               "username":"<%=user.getName()%>",
-               "gender":"<%=user.getGender()%>",
-               "birthday":"<%=user.getBirthday()%>",
-               "telephone":"<%=user.getTel()%>",
-               "email":"<%=user.getEmail()%>",
-               "password":"<%=user.getPassword()%>"
+            form.val("userForm", {
+                "username": "<%=userTel.getName()%>",
+                "gender": "<%=userTel.getGender()%>",
+                "birthday": "<%=userTel.getBirthday()%>",
+                "oldTelephone":<%=userTel.getTel()%>,
+                "telephone": "<%=userTel.getTel()%>",
+                "email": "<%=userTel.getEmail()%>",
             });
             <%}%>
 
@@ -98,9 +98,8 @@
         return verifyRequire([
             {id: "#username", msg: "请输入用户名"},
             {id: "#birthday", msg: "请输入生日"},
-            {id: "#telephone", msg: "请输入电话" ,regx:/^[0-9]{11}$/ , regMsg:"电话格式不符"},
-            {id: "#email", msg: "请输入邮箱", regx:/^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/,regMsg:"邮箱格式不符"},
-            {id: "#password", msg: "请输入密码", regx:/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/,regMsg:"密码应为6-16位字母或数字组合"}
+            {id: "#telephone", msg: "请输入电话", regx: /^[0-9]{11}$/, regMsg: "电话格式不符"},
+            {id: "#email", msg: "请输入邮箱", regx: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/, regMsg: "邮箱格式不符"},
         ]);
     }
 
@@ -113,7 +112,7 @@
                 elem.focus();
                 return false;
             }
-            if(array[i].regx !== undefined && !array[i].regx.test(elem.val())){
+            if (array[i].regx !== undefined && !array[i].regx.test(elem.val())) {
                 layer.tips(array[i].regMsg, array[i].id, {tips: 3});
                 elem.focus();
                 return false;
@@ -169,14 +168,9 @@
                 <input id="email" name="email" type="text" autocomplete="off" class="layui-input">
             </div>
         </div>
-        <div class="layui-form-item">
-            <label for="password" class="layui-form-label">密码：</label>
-            <div class="layui-input-block">
-                <input id="password" name="password" type="text" autocomplete="off" class="layui-input">
-            </div>
-        </div>
         <div class="layui-form-item" style="margin-bottom: 0;text-align: center">
-            <button id="updateBtn" name="updateBtn" class="layui-btn" type="button"><%=isEdit ? "确定" : "增加"%></button>
+            <button id="updateBtn" name="updateBtn" class="layui-btn" type="button"><%=isEdit ? "确定" : "增加"%>
+            </button>
             <button id="cancelBtn" name="cancelBtn" class="layui-btn layui-btn-danger" type="button">取消</button>
         </div>
     </form>

@@ -1,5 +1,6 @@
 package User;
 
+import Database.DBUser;
 import Entity.User;
 import com.alibaba.fastjson.*;
 import javax.servlet.ServletException;
@@ -41,7 +42,7 @@ public class UserInfoServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String usertel = (String)session.getAttribute("usertel");
         String password = (String)session.getAttribute("password");
-        User u = dbuser.getTelUsers(usertel);
+        User u = dbuser.getUserByTel(usertel);
         pw.write(JSON.toJSONString(u));
         pw.close();
     }

@@ -166,8 +166,8 @@ public boolean updatePassword(String adminName,String newpassword)
 DBHistoryOrder:
 
 属性说明：
-1.orderSN: 订单号
-2.user： 用户电话号码
+1.cartSN: 订单号
+2.userTel： 用户电话号码
 3.mealSerialNumber：餐品号
 4.mealName：订单下单时刻餐品的名字
 5.mealPrice：订单下单时刻单价
@@ -178,23 +178,20 @@ DBHistoryOrder:
 public ArrayList<Order> getAllOrders()
 获取全部历史订单（所有用户）
 
-public ArrayList<Order> getOrderByUser(String usertel)
+public ArrayList<Order> getUserOrders(String usertel)
 获取电话号码为userTel的用户的历史订单
 
-public Order getOrderBySerial(String sn)
-根据订单号获取订单
-
-public boolean insertNewOrder(String orderSN,String user,String mealSerialNumber,int qty,String date)
+public boolean insertNewOrder(String cartSN,String userTel,String mealSerialNumber,int qty,String date)
 插入新的历史订单记录，参数：订单号，用户电话号，餐品号，购买数量，日期
 备注：下单时刻的餐品名称及价格自动生成
 
-public boolean deleteOrder(String orderSN)
+public boolean deleteOrder(String cartSN)
 删除订单号为orderSN的历史订单记录
 
-public boolean updateOrderQty(String orderSN,String mealSerialNumber,int newQty)
+public boolean updateOrderQty(String cartSN,String mealSerialNumber,int newQty)
 更新订单号为orderSN,餐品号为mealSerialNumber的订单的购买数量为newQty
 
-public boolean updateOrderDate(String orderSN,String mealSerialNumber,String newdate)
+public boolean updateOrderDate(String cartSN,String mealSerialNumber,String newdate)
 更新订单号为orderSN，餐品号为mealSerialNumber的订单的购买日期为newdate
 
 备注说明：
@@ -210,8 +207,8 @@ public boolean updateOrderDate(String orderSN,String mealSerialNumber,String new
 DBCart:
 
 属性说明：
-1.orderSN: 订单号
-2.user： 用户电话号码
+1.cartSN: 订单号
+2.userTel： 用户电话号码
 3.mealSerialNumber：餐品号
 4.qty：用户购买件数
 5.date：下单时间 格式：****-**-** **：**：**.* 
@@ -220,16 +217,16 @@ DBCart:
 public ArrayList<Order> getUserCart(String usertel)
 获取电话号码为usertel的用户的购物车所有信息
 
-public boolean insertNewOrder(String orderSN,String user,String mealSerialNumber,int qty,String date)
+public boolean insertNewOrder(String cartSN,String userTel,String mealSerialNumber,int qty,String date)
 像购物车中插入新物品
 
-public boolean deleteOrder(String orderSN)
+public boolean deleteOrder(String cartSN)
 删除订单号为orderSN的订单
 
-public boolean updateOrderQty(String orderSN,String mealSerialNumber,int newQty)
+public boolean updateOrderQty(String cartSN,String mealSerialNumber,int newQty)
 更新订单号为orderSN,餐品号为mealSerialNumber的订单的购买数量为newQty
 
-public boolean updateOrderDate(String orderSN,String mealSerialNumber,String newdate)
+public boolean updateOrderDate(String cartSN,String mealSerialNumber,String newdate)
 更新订单号为orderSN,餐品号为mealSerialNumber的订单的购买日期为newdate
 
 

@@ -1,7 +1,9 @@
-package Admin.UserManage;
+package Admin.OrderManage;
 
-import Database.DBUser;
-import Entity.User;
+import Database.DBHistoryOrders;
+import Database.DBMenu;
+import Entity.Menu;
+import Entity.Order;
 import com.alibaba.fastjson.JSON;
 
 import javax.servlet.ServletException;
@@ -16,9 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "QueryUserServlet")
-public class QueryUserServlet extends HttpServlet {
-    ArrayList<User> userList;
+@WebServlet(name = "QueryOrderServlet")
+public class QueryOrderServlet extends HttpServlet {
+    ArrayList<Order> orderList;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request,response);
     }
@@ -26,44 +28,48 @@ public class QueryUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request,response);
     }
-
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException{
-        DBUser dbUser = new DBUser();
-        String telephone = request.getParameter("telephone");
-        String username = request.getParameter("username");
+        DBHistoryOrders dbOrder = new DBHistoryOrders();
+        String orderSerial = request.getParameter("orderSerial");
+        String userTel = request.getParameter("userTel");
+        String userNameMatcher = request.getParameter("userNameMatcher");
         //未考虑效率
-        if(telephone!=null) {
-            userList.clear();
-            userList.add(dbUser.getUserByTel(telephone));
-        }else if(username != null)
-            userList = dbUser.getUsersByName(username);
+        /*if(userNameMatcher != null){
+            orderList.clear();
+            orderList.add(dbOrder.getUserOrders(userNameMatcher));
+        } else if(userSerial != null)
+            menuList=dbMenu.getMenuByType(userSerial);
+        else if(orderSerial != null)
+            menuList=dbMenu.getMenuByName(orderSerial);
         else
-            userList = dbUser.getAllUsers();
+            menuList = dbMenu.getAllmenu();*/
+
+
+        orderList = dbOrder.getAllOrders();
         int page , limit;
         try {
-            page = Integer.parseInt(request.getParameter("page"));
             limit = Integer.parseInt(request.getParameter("limit"));
+            page = Integer.parseInt(request.getParameter("page"));
         }catch (Exception ex){
-            page = 1;
             limit = 1;
+            page = 1;
         }
-
         Map<String , Object> jsonMap = new HashMap<>();
         jsonMap.put("code" , 0);
         jsonMap.put("msg" , "");
-        jsonMap.put("count" , userList.size());
-        jsonMap.put("data" , getUsers(page,limit));
+        jsonMap.put("count" , orderList.size());
+        jsonMap.put("data" , getMenuItems(page,limit));
         response.setContentType("text/html;charset=utf-8");
 
         PrintWriter pw = response.getWriter();
         pw.write(JSON.toJSONString(jsonMap));
         pw.close();
-        dbUser.close();
+        dbOrder.close();
     }
-    private List<User> getUsers(int page , int limit){
-        if(page*limit > userList.size())
-            return userList.subList((page-1)*limit , userList.size());
+    private List<Order> getMenuItems(int page , int limit){
+        if(page*limit > orderList.size())
+            return orderList.subList((page-1)*limit , orderList.size());
         else
-            return userList.subList((page-1)*limit , page*limit);
+            return orderList.subList((page-1)*limit , page*limit);
     }
 }

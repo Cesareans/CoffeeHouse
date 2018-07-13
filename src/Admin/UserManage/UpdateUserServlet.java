@@ -1,6 +1,9 @@
 package Admin.UserManage;
 
+import Database.DBUser;
+import DebugUtil.Debug;
 import Entity.User;
+import com.alibaba.fastjson.JSON;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,5 +44,6 @@ public class UpdateUserServlet extends HttpServlet {
         else
             pw.write("fail");
         pw.close();
+        dbUser.close();
     }
 }

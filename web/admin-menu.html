@@ -2,7 +2,7 @@
 <meta charset="UTF-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
+<meta name="viewport" content="width=device-width,userTel-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
 
 <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon"/>
 <link rel="stylesheet" href="./CSS/font.css">
@@ -148,12 +148,12 @@
                 },
                 cols: [[ //表头
                     {type:'checkbox'},
-                    {field: 'serialNumber', title: '序号', sort: true},
-                    {field: 'name', title: '餐点名' , sort:true},
-                    {field: 'type', title: '类型', sort: true},
-                    {field: 'quantity', title: '库存', sort: true},
-                    {field: 'price', title: '价格', sort: true},
-                    {field: 'sales', title: '销量', sort: true},
+                    {field: 'serialNumber', title: '序号'},
+                    {field: 'name', title: '餐点名'},
+                    {field: 'type', title: '类型'},
+                    {field: 'quantity', title: '库存'},
+                    {field: 'price', title: '价格'},
+                    {field: 'sales', title: '销量'},
                     {title: '操作', fixed: 'right', width:150, align:'center', toolbar: '#TableUtilBar'}
                 ]],
                 url: '/adminQueryMenu',
@@ -161,7 +161,7 @@
             });
         });
     }
-    function doMenuNameFilter() {//TODO
+    function doMenuNameFilter() {
         var menuItemNameVal = menuItemNameField.val();
         if(menuItemNameVal !== ""){
             tableIns.reload({

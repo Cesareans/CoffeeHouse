@@ -1,5 +1,6 @@
 package Admin;
 
+import Database.DBAdmin;
 import DebugUtil.Debug;
 
 import javax.servlet.ServletException;
@@ -22,7 +23,6 @@ public class AdminLoginServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
         String adminName = request.getParameter("adminName");
         String password = request.getParameter("password");
-        Debug.log("adminName=" + adminName + "&password=" + password);
         if(adminName == null || password == null)
             return;
         if(adminName.equals("")|| password.equals(""))

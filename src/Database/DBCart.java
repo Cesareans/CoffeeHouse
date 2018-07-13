@@ -57,7 +57,7 @@ public class DBCart {
                     u.setQuantity(rs.getInt(6));
                     String date=rs.getString(7);
                     order.setOrderSN(orderSN);
-                    order.setUser(user);
+                    order.setUserTel(user);
                     order.setDate(date);
                     order.addItem(u);
                 }
@@ -83,7 +83,7 @@ public class DBCart {
             System.out.println("暂无数据");
         }else{
             for(Order u: list){  //遍历集合数据
-                //System.out.printf("%-14s%-14s%-14s%-14s%-14f%-14d%-14s\n",u.getOrderSN(),u.getUser(),u.getMealSerialNumber(),u.getMealName(),u.getMealPrice(),u.getQuantity(),u.getDate());
+                //System.out.printf("%-14s%-14s%-14s%-14s%-14f%-14d%-14s\n",u.getCartSN(),u.getUserTel(),u.getMealSerialNumber(),u.getMealName(),u.getMealPrice(),u.getQuantity(),u.getDate());
             u.displayOrder();
             }
             System.out.println("-----------------------------------------------------------------------------");

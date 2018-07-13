@@ -1,120 +1,121 @@
 <!DOCTYPE html>
-<link href="coffee.ico" rel="shortcut icon" />
-
-<!-- for-mobile-apps -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="café, cafe, coffee shop, 西西弗斯,Sisyphus" />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
-function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!-- //for-mobile-apps -->
+
+<link href="./images/favicon.png" rel="shortcut icon" />
 <link href="CSS/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <link href="CSS/style.css" rel="stylesheet" type="text/css" media="all" />
-<!-- js -->
-<script src="JS/jquery.min.js"></script>
-<!-- //js -->
-<!-- cart -->
-<script src="JS/simpleCart.min.js"></script>
-<!-- cart -->
-<!-- for bootstrap working -->
-<script type="text/javascript" src="JS/bootstrap-3.1.1.min.js"></script>
-<!-- //for bootstrap working -->
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-<!-- timer -->
 <link rel="stylesheet" href="CSS/jquery.countdown.css" />
-<!-- //timer -->
-<!-- animation-effect -->
 <link href="CSS/animate.min.css" rel="stylesheet">
 <link href="/lib/layui/css/layui.css" rel="stylesheet">
+
+<script src="JS/jquery.min.js"></script>
+<script src="JS/simpleCart.min.js"></script>
+<script type="text/javascript" src="JS/bootstrap-3.1.1.min.js"></script>
 <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
 <script src="JS/wow.min.js"></script>
+<script src="JS/jquery.min.js"></script>
+<script type="application/x-javascript">
+    addEventListener("load", function()
+    { setTimeout(hideURLbar, 0); }, false);
+    function hideURLbar(){ window.scrollTo(0,1); }
+</script>
 <script>
     new WOW().init();
-</script>
-<script src="JS/jquery.min.js"></script>
-<script>
     $(function () {
         layui.use("layer" , function () {
             var layer = layui.layer;
         });
-    });
-    var usertelok = false;
-    var pswok = false;
-    var confirmpswok = false;
-    function checktel()
-    {
-        $.ajax({
-            url:"checktel",
-            data:{
-                "usertel":document.getElementById("usertel").value
-            },
-            success:function (result) {
-                if(result === "true"){
-                    layer.tips("用户名可以使用","#usertel",{time:1000});
-                    usertelok = true;
-                }else{
-                    layer.tips("用户名不合法或已经存在","#usertel",{time:1000});
+        var usertelok = false;
+        var pswok = false;
+        var confirmpswok = false;
+        $(function () {
+            $("#usertel").bind("blur",function(){
+                var usertelval = $("#usertel").val();
+                if(usertelval==null||usertelval===""||usertelval === undefined) {
+                    layer.tips("请输入用户名", "#usertel", {time: 1000});
                     usertelok = false;
                 }
-            }
+                else
+                {
+                    var myreg=/^1[34578]\d{9}$/;
+                    if (!myreg.test(usertelval)) {
+                        layer.tips("用户名必须为手机号码","#usertel",{time:1000});
+                        usertelok = false;
+                    }
+                    else
+                    {
+                        $.ajax({
+                            url:"checktel",
+                            data:{
+                                "usertel":usertelval
+                            },
+                            success:function (result) {
+                                if(result === "false"){
+                                    layer.tips("用户名已经存在","#usertel",{time:1000});
+                                    usertelok = false;
+                                }
+                                else if(result === "true"){
+                                    layer.tips("用户名可以使用","#usertel",{time:1000});
+                                    usertelok = true;
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+            $("#password").bind("blur", function () {
+                var password = document.getElementById("password").value;
+                var passwordRegx = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+                if (password == null || password === "" || password.undefined)
+                {
+                    layer.tips("请输入密码", "#password", {time: 1000});
+                    pswok = false;
+                }
+                else if (!passwordRegx.test(password)) {
+                    layer.tips("密码应为6-16位数字与字母的组合", "#password", {time: 1000});
+                    pswok = false;
+                }
+                else {
+                    layer.tips("密码符合要求", "#password", {time: 1000});
+                    pswok = true;
+                }
+            });
+            $("#confirmpsw").bind("blur", function () {
+                var password = document.getElementById("password").value;
+                var confirmpsw = document.getElementById("confirmpsw").value;
+                if(password==null||password===""||password.undefined) {
+                    layer.tips("请输入密码","#password",{time:1000});
+                    confirmpswok = false;
+                }
+                else if(password!==confirmpsw)
+                {
+                    layer.tips("密码不一致","#confirmpsw",{time:1000});
+                    confirmpswok = false;
+                }
+                else {
+                    layer.tips("密码一致","#confirmpsw",{time:1000});
+                    confirmpswok = true;
+                }
+            });
+            $('#registerBtn').bind("click" , function () {
+                if(usertelok&&pswok&&confirmpswok) {
+                    document.registerForm.action = "/register";
+                    document.registerForm.method = "post";
+                    document.registerForm.submit();
+                }else{
+                    alert("注册失败，请检查信息的有效性");
+                }
+            });
         });
-    }
-
-    function checkpsw()
-    {
-        var password = document.getElementById("password").value;
-        var passwordRegx = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
-        if(!passwordRegx.test(password))
-        {
-            layer.tips("密码应为6-16位数字与字母的组合","#password",{time:1000});
-            pswok = false;
-        }
-        else
-        {
-            layer.tips("密码符合要求","#password",{time:1000});
-            pswok = true;
-        }
-    }
-
-    function checkconfpsw()
-    {
-        var password = document.getElementById("password");
-        var confirmpsw = document.getElementById("confirmpsw");
-        if(password.value!==confirmpsw.value)
-        {
-            layer.tips("两次输入密码不一致","#confirmpsw",{time:1000});
-            confirmpswok = false;
-        }
-        else
-        {
-            layer.tips("密码一致","#confirmpsw",{time:1000});
-            confirmpswok = true;
-        }
-    }
-
-    $(function () {//Load on file is ready.
-        $('#registerBtn').bind("click" , function () {
-            if(usertelok&&pswok&&confirmpswok) {
-                document.registerForm.action = "/register";
-                document.registerForm.method = "post";
-                document.registerForm.submit();
-            }else{
-                alert("注册失败，请检查信息的有效性");
-            }
-        });
-
     });
-
 </script>
-
 
 <html>
 <head><title>注册 | 西西弗斯咖啡屋</title></head>
-
-<!-- //animation-effect -->
-
-	
 <body>
 <!-- header -->
 	<div class="header">
@@ -216,9 +217,9 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			<p class="est animated wow zoomIn" data-wow-delay=".5s">心情惬意，来杯咖啡吧</p>
 			<div class="login-form-grids animated wow slideInUp" data-wow-delay=".5s">
 				<form name="registerForm" id="registerForm">
-					<input type="text" placeholder="手机号码" required=" " name="usertel"id="usertel" onblur="checktel()">
-					<input type="password" placeholder="密码" required=" " name="password"id="password" onblur="checkpsw()">
-					<input type="password" placeholder="确认密码" required=" " name="confirmpsw"id="confirmpsw" onblur="checkconfpsw()">
+					<input type="text" placeholder="手机号码" required=" " name="usertel"id="usertel">
+					<input type="password" placeholder="密码" required=" " name="password"id="password">
+					<input type="password" placeholder="确认密码" required=" " name="confirmpsw"id="confirmpsw">
 					<input type="button" value="注册" id="registerBtn">
 				</form>
 			</div>

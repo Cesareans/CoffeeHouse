@@ -1,5 +1,6 @@
 package Admin.UserManage;
 
+import Database.DBUser;
 import Entity.User;
 
 import javax.servlet.ServletException;
@@ -35,5 +36,6 @@ public class AddUserServlet extends HttpServlet {
         else
             pw.write("fail");
         pw.close();
+        dbUser.close();
     }
 }
