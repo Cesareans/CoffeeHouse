@@ -3,7 +3,7 @@ package Database;
 import java.sql.*;
 import java.util.ArrayList;
 import Entity.*;
-public class DBHistoryOrders {
+public class DBOrder {
     private static String url = "com.mysql.jdbc.Driver"; //加载驱动包
     private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
     private String sqlUser = "root"; //数据库账号
@@ -20,7 +20,7 @@ public class DBHistoryOrders {
         }
     }
 
-    public DBHistoryOrders()
+    public DBOrder()
     {
         //连接MYSQL
         try {
@@ -72,7 +72,7 @@ public class DBHistoryOrders {
         return userlist;
     }
 
-    public ArrayList<Order> getUserOrders(String usertel){
+    public ArrayList<Order> getOrderByUser(String usertel){
         ArrayList<Order> userlist = new ArrayList<Order>();
         try {
             psm = con.prepareStatement("select distinct orderSN from orders where userTel="+"'"+usertel+"'");
@@ -111,6 +111,34 @@ public class DBHistoryOrders {
             e.printStackTrace();
         }
         return userlist;
+    }
+
+    public Order getOrderBySerial(String sn){
+        Order order = new Order();
+        try {
+            psm = con.prepareStatement("select * from orders where orderSN="+"'"+sn+"'");
+            rs = psm.executeQuery();
+            while(rs.next())
+            {
+                OrderItem u = new OrderItem();
+                String orderSN=rs.getString(1);
+                String user=rs.getString(2);
+                u.setMealSerialNumber(rs.getString(3));
+                u.setMealName(rs.getString(4));
+                u.setMealPrice(rs.getDouble(5));
+                u.setQuantity(rs.getInt(6));
+                String date=rs.getString(7);
+                order.setOrderSN(orderSN);
+                order.setUserTel(user);
+                order.setDate(date);
+                order.addItem(u);
+            }
+            rs.close();
+            psm.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return order;
     }
 
     //to be deleted
