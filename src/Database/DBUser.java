@@ -260,14 +260,46 @@ public class DBUser {
     }
     public boolean updateUser(User u)
     {
-        boolean result =true;
-        updateUserEmail(u.getTel(),u.getEmail());
-        updateUserBirthday(u.getTel(),u.getBirthday());
-        updatePassword(u.getTel(),u.getPassword());
-        updateGender(u.getTel(),u.getGender());
-        updateUserName(u.getTel(),u.getName());
-        if(u.isIsactivate())
-        updateActivate(u.getTel(),u.isIsactivate());
+        int col=0;
+        boolean result = false;
+        try {
+            String sql = "update user set upassword="+"'"+u.getPassword()+"'"+" where utel="+"'"+u.getTel()+"'";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            int i = stmt.executeUpdate();
+            col+=i;
+            sql="update user set uname="+"'"+u.getName()+"'"+" where utel="+"'"+u.getTel()+"'";
+            stmt = con.prepareStatement(sql);
+            i = stmt.executeUpdate();
+            col+=i;
+            sql="update user set birthday="+"'"+u.getBirthday()+"'"+" where utel="+"'"+u.getTel()+"'";
+            stmt = con.prepareStatement(sql);
+            i = stmt.executeUpdate();
+            col+=i;
+            sql="update user set email="+"'"+u.getEmail()+"'"+" where utel="+"'"+u.getTel()+"'";
+            stmt = con.prepareStatement(sql);
+            i = stmt.executeUpdate();
+            col+=i;
+            sql="update user set gender="+"'"+u.getGender()+"'"+" where utel="+"'"+u.getTel()+"'";
+            stmt = con.prepareStatement(sql);
+            i = stmt.executeUpdate();
+            col+=i;
+            int acint=0;
+            if(u.isIsactivate())
+                acint=1;
+            else
+                acint=0;
+            sql = "update user set isactivate="+"'"+acint+"'"+" where utel="+"'"+u.getTel()+"'";
+            stmt = con.prepareStatement(sql);
+            i = stmt.executeUpdate();
+            col+=i;
+            if(col>=1)
+                result=true;
+            else
+                result=false;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
