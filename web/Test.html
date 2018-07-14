@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<script type="text/javascript" src="./JS/jquery.min.js"></script>
+<script type="text/javascript" src="./JS/echarts.common.min.js"></script>
+<script>
+    $(function () {
+        var dataChart = echarts.init($("#dataChart")[0]);
+        dataChart.setOption({
+            title: {
+                text: "餐点销量分析"
+            },
+            legend: {},
+            tooltip: {},
+            xAxis: {type: "category"},
+            yAxis: {},
+            series: [{type: 'bar'}],
+            dataset: {
+                "dimension": ["mealName", "sales"],
+                "source": [
+                    {"mealName": "卡布奇诺", "sales": 50},
+                    {"mealName": "蜜汁培根蛋卷", "sales": 40},
+                    {"mealName": "经典巧克力", "sales": 48}, {"mealName": "热那亚罗勒意面", "sales": 37}, {
+                        "mealName": "焦糖玛奇朵",
+                        "sales": 39
+                    }, {"mealName": "培根蛋可颂堡", "sales": 19}, {"mealName": "鸡肉芝士手握三明治", "sales": 27}, {
+                        "mealName": "蜂蜜提子司康",
+                        "sales": 37
+                    }, {"mealName": "铁板腓肋牛排", "sales": 15}, {"mealName": "浓醇三重黑巧克力蛋糕", "sales": 41}, {
+                        "mealName": "美式松饼",
+                        "sales": 33
+                    }, {"mealName": "摩卡", "sales": 39}, {"mealName": "法式香酥可颂", "sales": 68}, {
+                        "mealName": "高达芝士香肠肉可颂堡",
+                        "sales": 30
+                    }, {"mealName": "香浓巧克力麦芬", "sales": 42}, {"mealName": "馥芮白", "sales": 39}, {
+                        "mealName": "抹茶拿铁",
+                        "sales": 38
+                    }, {"mealName": "美式咖啡", "sales": 36}, {"mealName": "香浓巧克力可颂", "sales": 28}, {
+                        "mealName": "全麦核桃麦芬",
+                        "sales": 38
+                    }, {"mealName": "拿铁", "sales": 30}, {"mealName": "法式闪电泡芙", "sales": 23}, {
+                        "mealName": "层层榛子果仁酥",
+                        "sales": 43
+                    }, {"mealName": "蓝莓麦芬", "sales": 41}, {"mealName": "菲力牛排", "sales": 34}, {
+                        "mealName": "红茶拿铁",
+                        "sales": 27
+                    }]
+            }
+        });
+    })
+</script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<body>
+<div id="dataChart" style="width: 800px;height: 600px;"></div>
+</body>
+</html>

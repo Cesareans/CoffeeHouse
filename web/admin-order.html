@@ -2,7 +2,7 @@
 <meta charset="UTF-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,userTel-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
+<meta name="viewport" content="width=device-width,minimum-scale=0.4, initial-scale=0.8" />
 
 <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon"/>
 <link rel="stylesheet" href="./CSS/font.css">
@@ -27,9 +27,63 @@
 </style>
 
 <script>
+    var tableIns;
+    var orderSerialDiv;
+    var userTelDiv;
+    var usernameDiv;
+    var cancelFilterBtn;
+    var filterFormItem;
+    var filter;
     $(function () {
-        console.log($("#filterForm hidden"));
+        orderSerialDiv = $("#orderSerialDiv");
+        userTelDiv = $("#userTelDiv");
+        usernameDiv = $("#usernameDiv");
+
+        cancelFilterBtn = $("#cancelFilterBtn");
+        cancelFilterBtn.hide();
+
+        filterFormItem = $("#filterFormItem");
+        filter = $("#filterWay").val();
+        filterFormItem.find(".filter:visible").hide();
+        filterFormItem.find("div#" + filter + "Div").show();
+
+        layui.use("form" , function () {
+            var form = layui.form;
+            form.on("select(filterSwitch)" , function (data) {
+                filter = data.elem.value;
+                filterFormItem.find(".filter:visible").hide();
+                filterFormItem.find("div#" + filter + "Div").show();
+            })
+        });
+        showOrderTable();
+
     });
+    function showOrderTable() {
+        layui.use("table" , function () {
+            var table = layui.table;
+            tableIns = table.render({
+                elem:"#dataTable",
+                height: "full-109",
+                skin:"nob",
+                even:true,
+                page: {
+                    layout: ['prev', 'page', 'next','refresh'],
+                    groups: 3,
+                    limit:4,
+                    first: false,
+                    last: false
+                },
+                cols: [[
+                    {field: 'orderSN', title: '订单号'},
+                    {field: 'date', title: '日期'},
+                    {field: 'userTel', title: '用户手机号'},
+                    {field:'orderlist' , title:'订单数据'}
+                ]],
+                url: '/adminQueryOrder',
+                method:"post"
+            })
+        })
+    }
 </script>
 
 <html lang="en">
@@ -40,22 +94,22 @@
 <body class="layui-anim layui-anim-up">
 <div class="x-body">
     <xblock>
-        <form name="filterForm" id="filterForm" class="layui-form" style="display: inline-block" onkeydown="if(event.keyCode===13){return false;}">
-            <div class="layui-form-item" style="margin-bottom: 0" hidden>
+        <form id="filterForm" class="layui-form" style="display: inline-block" onkeydown="if(event.keyCode===13){return false;}">
+            <div id="filterFormItem" class="layui-form-item" style="margin-bottom: 0">
                 <div class="layui-inline">
-                    <select name="filterWay" id="filterWay" lay-filter="filterSwitch">
+                    <select id="filterWay" lay-filter="filterSwitch">
                         <option value="orderSerial">订单号</option>
                         <option value="userTel">用户手机号</option>
                         <option value="username">用户名</option>
                     </select>
                 </div>
-                <div class="layui-inline" id="orderSerialDiv"><!--设置Div属性是为了hide-->
+                <div class="layui-inline filter" id="orderSerialDiv"><!--设置Div属性是为了hide-->
                     <input name="orderSerial" id="orderSerial" type="text" placeholder="请输入订单序列号" autocomplete="off" class="layui-input" style="width: 188px;">
                 </div>
-                <div class="layui-inline" id="userTelDiv">
+                <div class="layui-inline filter" id="userTelDiv">
                     <input name="userTel" id="userTel" type="text" placeholder="请输入用户手机号" autocomplete="off" class="layui-input" style="width: 188px;">
                 </div>
-                <div class="layui-inline" id="usernameDiv">
+                <div class="layui-inline filter" id="usernameDiv">
                     <input name="username" id="username" type="text" placeholder="请输入用户名" autocomplete="off" class="layui-input" style="width: 188px;">
                 </div>
                 <div class="layui-inline">

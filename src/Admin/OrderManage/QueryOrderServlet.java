@@ -1,9 +1,9 @@
 package Admin.OrderManage;
 
 import Database.DBOrder;
-import Database.DBMenu;
-import Entity.Menu;
+import Database.DBUser;
 import Entity.Order;
+import Entity.User;
 import com.alibaba.fastjson.JSON;
 
 import javax.servlet.ServletException;
@@ -34,15 +34,22 @@ public class QueryOrderServlet extends HttpServlet {
         String userTel = request.getParameter("userTel");
         String userNameMatcher = request.getParameter("userNameMatcher");
         //未考虑效率
-        /*if(userNameMatcher != null){
+        if(userNameMatcher != null){
+            DBUser dbUser = new DBUser();
+            ArrayList<User> users = dbUser.getUsersByName(userNameMatcher);
             orderList.clear();
-            orderList.add(dbOrder.getUserOrders(userNameMatcher));
-        } else if(userSerial != null)
-            menuList=dbMenu.getMenuByType(userSerial);
-        else if(orderSerial != null)
-            menuList=dbMenu.getMenuByName(orderSerial);
+            users.stream().forEach((user -> {
+                orderList.addAll(dbOrder.getOrderByUser(user.getTel()));
+            }));
+            dbUser.close();
+        } else if(userTel != null)
+            orderList=dbOrder.getOrderByUser(userTel);
+        else if(orderSerial != null) {
+            orderList.clear();
+            orderList.add(dbOrder.getOrderBySerial(orderSerial));
+        }
         else
-            menuList = dbMenu.getAllmenu();*/
+            orderList = dbOrder.getAllOrders();
 
 
         orderList = dbOrder.getAllOrders();
@@ -51,7 +58,7 @@ public class QueryOrderServlet extends HttpServlet {
             limit = Integer.parseInt(request.getParameter("limit"));
             page = Integer.parseInt(request.getParameter("page"));
         }catch (Exception ex){
-            limit = 1;
+            limit = orderList.size();
             page = 1;
         }
         Map<String , Object> jsonMap = new HashMap<>();

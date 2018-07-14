@@ -47,7 +47,7 @@ public class QueryMenuServlet extends HttpServlet {
             limit = Integer.parseInt(request.getParameter("limit"));
             page = Integer.parseInt(request.getParameter("page"));
         }catch (Exception ex){
-            limit = 1;
+            limit = menuList.size();
             page = 1;
         }
         Map<String , Object> jsonMap = new HashMap<>();

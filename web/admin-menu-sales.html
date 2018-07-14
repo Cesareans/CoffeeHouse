@@ -12,12 +12,36 @@
 <script type="text/javascript" src="./JS/xadmin.js"></script>
 <script type="text/javascript" src="./JS/echarts.common.min.js"></script>
 
+<script>
+    $(function () {
+        var dataChart = echarts.init($("#dataChart")[0]);
+        dataChart.setOption({
+            title: {
+                text: "餐点销量分析"
+            },
+            legend: {},
+            tooltip: {},
+            xAxis: {type: "category"},
+            yAxis: {},
+            series: [{type: 'bar'}]
+        });
+        $.ajax({
+            url:"adminOrderStatistics",
+            data:{},
+            success:function (result) {
+                dataChart.setOption({
+                    dataset:result
+                });
+            }
+        })
+    })
+</script>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Sisyphus-Admin</title>
 </head>
 <body>
-
+<div id="dataChart" style="width: 800px;height: 600px"></div>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <%@ page import="Database.DBMenu" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Entity.Menu" %>
-<%@ page import="Database.DBHistoryOrders" %>
+<%@ page import="Database.DBOrder" %>
 <%@ page import="Entity.Order" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <meta charset="UTF-8">
@@ -29,7 +29,7 @@
     int stockInTotal = 0;
     for (Menu menuItem : menus) stockInTotal += menuItem.getQuantity();
 
-    DBHistoryOrders dbOrder = new DBHistoryOrders();
+    DBOrder dbOrder = new DBOrder();
     ArrayList<Order> orders = dbOrder.getAllOrders();
 %>
 <script>
@@ -124,7 +124,7 @@
                 </tr>
                 <tr>
                     <th>后台后端框架</th>
-                    <td>无</td>
+                    <td>J2EE</td>
                 </tr>
                 <tr>
                     <th>后台前端框架</th>
@@ -132,7 +132,7 @@
                 </tr>
                 <tr>
                     <th>后台后端框架</th>
-                    <td>无</td>
+                    <td>J2EE</td>
                 </tr>
                 </tbody>
             </table>

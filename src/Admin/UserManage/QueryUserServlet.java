@@ -45,7 +45,7 @@ public class QueryUserServlet extends HttpServlet {
             limit = Integer.parseInt(request.getParameter("limit"));
         }catch (Exception ex){
             page = 1;
-            limit = 1;
+            limit = userList.size();
         }
 
         Map<String , Object> jsonMap = new HashMap<>();
