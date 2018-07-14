@@ -15,7 +15,7 @@ create table menu(
        sales int,
        picture varchar(100));
 
-create table userTel(
+create table user(
        utel varchar(11) primary key,
        upassword varchar(20) not null,
        uname varchar(20),
@@ -53,10 +53,10 @@ create table cart(
        );
 
 alter table orders
-add constraint fk2 foreign key(userTel) references userTel(utel) on delete cascade on update cascade;
+add constraint fk2 foreign key(userTel) references user(utel) on delete cascade on update cascade;
 
 alter table cart
-add constraint fk4 foreign key(userTel) references userTel(utel) on delete cascade on update cascade;
+add constraint fk4 foreign key(userTel) references user(utel) on delete cascade on update cascade;
 
 insert into user values('17350516371', 'fda234', 'hzy', '1998-02-25', '7196634122@qq.com', '2018-07-01 00:00:00', 1, '男');
 insert into user values('17354551631', 'fda234', 'hfszy', '1998-02-24', '719621322@qq.com', '2018-07-01 00:00:00', 1, '男');

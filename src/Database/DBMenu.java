@@ -225,12 +225,40 @@ public class DBMenu {
     public boolean updateMenu(Menu m)
     {
         boolean result =true;
-        updateMenuName(m.getSerialNumber(),m.getName());
-        updateMenuType(m.getSerialNumber(),m.getType());
-        updateMenuQty(m.getSerialNumber(),m.getQuantity());
-        updateMenuPrice(m.getSerialNumber(),m.getPrice());
-        updateMenuPictureUrl(m.getSerialNumber(),m.getPictureUrl());
-        updateMenuSales(m.getSerialNumber(),m.getSales());
+        int col=0;
+        try {
+            String sql = "update menu set mname="+"'"+m.getName()+"'"+" where serialnumber="+"'"+m.getSerialNumber()+"'";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            int i = stmt.executeUpdate();
+            col+=i;
+            sql = "update menu set price="+"'"+m.getPrice()+"'"+" where serialnumber="+"'"+m.getSerialNumber()+"'";
+            stmt = con.prepareStatement(sql);
+            i = stmt.executeUpdate();
+            col+=i;
+            sql = "update menu qty="+"'"+m.getQuantity()+"'"+"'"+" where serialnumber="+"'"+m.getSerialNumber()+"'";
+            stmt = con.prepareStatement(sql);
+            i = stmt.executeUpdate();
+            col+=i;
+            sql = "update menu set sales="+"'"+m.getSales()+"'"+"'"+" where serialnumber="+"'"+m.getSerialNumber()+"'";
+            stmt = con.prepareStatement(sql);
+            i = stmt.executeUpdate();
+            col+=i;
+            sql = "update menu set mtype="+"'"+m.getType()+"'"+"'"+" where serialnumber="+"'"+m.getSerialNumber()+"'";
+            stmt = con.prepareStatement(sql);
+            i = stmt.executeUpdate();
+            col+=i;
+            sql = "update menu set picture="+"'"+m.getPictureUrl()+"'"+"'"+" where serialnumber="+"'"+m.getSerialNumber()+"'";
+            stmt = con.prepareStatement(sql);
+            i = stmt.executeUpdate();
+            col+=i;
+            if(col>=1)
+                result=true;
+            else
+                result=false;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
