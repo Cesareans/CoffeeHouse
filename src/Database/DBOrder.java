@@ -113,6 +113,47 @@ public class DBOrder {
         return userlist;
     }
 
+    public ArrayList<Order> getOrderByDate(String from, String to){
+        ArrayList<Order> userlist = new ArrayList<Order>();
+        try {
+            psm = con.prepareStatement("select distinct orderSN from orders where orderDate between '"+from+"' and '"+to+"'");
+            rs = psm.executeQuery();
+            ArrayList<String> orderSNs = new ArrayList<String>();
+            while(rs.next()){
+                String s=rs.getString(1);
+                orderSNs.add(s);
+            }
+            for(String o:orderSNs)
+            {
+                Order order = new Order();
+                order.setOrderSN(o);
+                psm = con.prepareStatement("select * from orders where orderSN="+"'"+o+"'");
+                rs = psm.executeQuery();
+                while(rs.next())
+                {
+                    OrderItem u = new OrderItem();
+                    String orderSN=rs.getString(1);
+                    String user=rs.getString(2);
+                    u.setMealSerialNumber(rs.getString(3));
+                    u.setMealName(rs.getString(4));
+                    u.setMealPrice(rs.getDouble(5));
+                    u.setQuantity(rs.getInt(6));
+                    String date=rs.getString(7);
+                    order.setOrderSN(orderSN);
+                    order.setUserTel(user);
+                    order.setDate(date);
+                    order.addItem(u);
+                }
+                userlist.add(order);
+            }
+            rs.close();
+            psm.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userlist;
+    }
+
     public Order getOrderBySerial(String sn){
         Order order = new Order();
         try {
