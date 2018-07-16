@@ -181,6 +181,10 @@ public ArrayList<Order> getAllOrders()
 public ArrayList<Order> getOrderByUser(String usertel)
 获取电话号码为userTel的用户的历史订单
 
+public ArrayList<Order> getOrderByDate(String from, String to)
+获取日期从from到to的订单
+from/to格式：****-**-**
+
 public Order getOrderBySerial(String sn)
 根据订单号获取订单
 
