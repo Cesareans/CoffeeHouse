@@ -58,9 +58,7 @@ public class OrderStatisticServlet extends HttpServlet {
 
 
         Map<String , Object> jsonMap = new HashMap<>();
-        String[] dimensions = new String[]{"mealName" , "sales"};
-        jsonMap.put("source" , salesByMenu.values());
-        jsonMap.put("dimension" , dimensions);
+        jsonMap.put("data" , salesByMenu.values());
 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter pw = response.getWriter();

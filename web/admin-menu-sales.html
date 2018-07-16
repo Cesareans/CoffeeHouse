@@ -13,35 +13,80 @@
 <script type="text/javascript" src="./JS/echarts.common.min.js"></script>
 
 <script>
+    var data;
+    var dataChart;
     $(function () {
-        var dataChart = echarts.init($("#dataChart")[0]);
+        dataChart = echarts.init($("#dataChart")[0]);
         dataChart.setOption({
-            title: {
-                text: "餐点销量分析"
+            title: {},
+            legend: {
+                show:false
             },
-            legend: {},
             tooltip: {},
-            xAxis: {type: "category"},
-            yAxis: {},
-            series: [{type: 'bar'}]
+            xAxis: [{
+                type:"value",
+                position:"top",
+                axisTick:{show:false}
+            }],
+            yAxis: [{
+                type: "category",
+                axisLabel:{interval:0},
+                axisTick:{show:false}
+            }],
+            series: [{
+                type: 'bar',
+                label:{
+                    normal:{
+                        show:true,
+                        position:"right"
+                    }
+                }
+            }]
         });
+        //1.Label位置
+        //2.图形构建
         $.ajax({
             url:"adminOrderStatistics",
             data:{},
             success:function (result) {
-                dataChart.setOption({
-                    dataset:result
-                });
+                showDataVertically(JSON.parse(result));
             }
-        })
-    })
+        });
+    });
+    function showDataVertically(json) {
+        json.data.sort(function(obj1, obj2){
+            return obj1.sales - obj2.sales;
+        });
+        var dimensions = ["mealName" , "sales"];
+        dataChart.setOption({
+            dataset:{
+                dimensions:dimensions,
+                source:json.data
+            }
+        });
+    }
 </script>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Sisyphus-Admin</title>
 </head>
-<body>
-<div id="dataChart" style="width: 800px;height: 600px"></div>
+<body style="height: 100%;overflow-x: scroll">
+<div class="x-body" style="height: calc(100% - 40px);">
+    <xblock>
+        <form name="filterForm" id="filterForm" class="layui-form" style="display: inline-block" onkeydown="if(event.keyCode===13){return false;}">
+            <input name="username" id="username" type="text" placeholder="请输入会员名" autocomplete="off" class="layui-input" style="width: 150px;display: inline-block">
+            <button name="searchBtn" id="searchBtn" type="button" class="layui-btn"><i class="layui-icon">&#xe615;</i></button>
+            <button name="cancelFilterBtn" id="cancelFilterBtn" type="button" class="layui-btn layui-btn-danger"><i class="layui-icon">&#x1006;</i></button>
+        </form>
+        <a class="layui-btn layui-btn-small" style="line-height:30px;padding:3px 18px;float:right;margin-left: 10px"
+           href="javascript:location.replace(location.href);">
+            <i class="iconfont" style="line-height:30px">&#xe6aa;</i>
+        </a>
+        <button id="delSelectedBtn" name="delSelectedBtn" class="layui-btn layui-btn-danger" style="float: right"><i class="layui-icon">&#xe640;</i>删除</button>
+        <button id="addUserBtn" name="addUserBtn" class="layui-btn" style="float: right"><i class="layui-icon">&#xe608;</i>添加</button>
+    </xblock>
+    <div id="dataChart" style="width:100% ; height: calc(100% - 49px); overflow: hidden"></div>
+</div>
 </body>
 </html>
