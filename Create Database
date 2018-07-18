@@ -48,7 +48,6 @@ create table cart(
        mealName varchar(11),
        mealPrice double,
        qty int,
-       orderDate datetime,
        primary key (cartSN,mealSerialNumber)
        );
 
