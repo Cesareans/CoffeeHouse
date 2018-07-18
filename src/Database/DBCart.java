@@ -1,8 +1,10 @@
 package Database;
-import Entity.*;
-import java.sql.*;
-import java.util.ArrayList;
 
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import Entity.*;
 public class DBCart {
     private static String url = "com.mysql.jdbc.Driver"; //加载驱动包
     private String connectSql = "jdbc:mysql://127.0.0.1:3306/caffe"; //链接MySQL数据库
@@ -29,8 +31,8 @@ public class DBCart {
         }
     }
 
-    public ArrayList<Order> getUserCart(String usertel){
-        ArrayList<Order> userlist = new ArrayList<Order>();
+    public ArrayList<Cart> getUserCart(String usertel){
+        ArrayList<Cart> userlist = new ArrayList<Cart>();
         try {
             psm = con.prepareStatement("select distinct orderSN from cart where userTel="+"'"+usertel+"'");
             rs = psm.executeQuery();
@@ -42,8 +44,8 @@ public class DBCart {
             }
             for(String o:orderSNs)
             {
-                Order order = new Order();
-                order.setOrderSN(o);
+                Cart order = new Cart();
+                order.setCartSN(o);
                 psm = con.prepareStatement("select * from cart where orderSN="+"'"+o+"'");
                 rs = psm.executeQuery();
                 while(rs.next())
@@ -55,10 +57,8 @@ public class DBCart {
                     u.setMealName(rs.getString(4));
                     u.setMealPrice(rs.getDouble(5));
                     u.setQuantity(rs.getInt(6));
-                    String date=rs.getString(7);
-                    order.setOrderSN(orderSN);
+                    order.setCartSN(orderSN);
                     order.setUserTel(user);
-                    order.setDate(date);
                     order.addItem(u);
                 }
                 userlist.add(order);
@@ -72,17 +72,47 @@ public class DBCart {
         return userlist;
     }
 
+    public Cart getCartBySN(String cartSN){
+        Cart cart = new Cart();
+        try {
+
+                cart.setCartSN(cartSN);
+                psm = con.prepareStatement("select * from cart where orderSN="+"'"+cartSN+"'");
+                rs = psm.executeQuery();
+                while(rs.next())
+                {
+                    OrderItem u = new OrderItem();
+                    String orderSN=rs.getString(1);
+                    String user=rs.getString(2);
+                    u.setMealSerialNumber(rs.getString(3));
+                    u.setMealName(rs.getString(4));
+                    u.setMealPrice(rs.getDouble(5));
+                    u.setQuantity(rs.getInt(6));
+                    cart.setCartSN(orderSN);
+                    cart.setUserTel(user);
+                    cart.addItem(u);
+                }
+
+            rs.close();
+            psm.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cart;
+    }
+
     //to be deleted
     public void displayOrderInfo()
     {
         System.out.println("Shopping cart list");
-        System.out.printf("%-14s%-14s%-14s%-14s%-14s%-14s%-14s\n","OrderSN","UserTel","MealSN","MealName","MealPrice","Quantity","Date");
+        System.out.printf("%-14s%-14s%-14s%-14s%-14s%-14s\n","OrderSN","UserTel","MealSN","MealName","MealPrice","Quantity");
         System.out.println("-----------------------------------------------------------------------------");
-        ArrayList<Order> list = getUserCart("18850516372");
+        ArrayList<Cart> list = getUserCart("18850516372");
         if(list.size() == 0){
             System.out.println("暂无数据");
         }else{
-            for(Order u: list){  //遍历集合数据
+            for(Cart u: list){  //遍历集合数据
                 //System.out.printf("%-14s%-14s%-14s%-14s%-14f%-14d%-14s\n",u.getCartSN(),u.getUserTel(),u.getMealSerialNumber(),u.getMealName(),u.getMealPrice(),u.getQuantity(),u.getDate());
             u.displayOrder();
             }
@@ -90,17 +120,17 @@ public class DBCart {
         }
     }
 
-    public boolean insertNewOrder(String orderSN,String user,String mealSerialNumber,int qty,String date)
+    public boolean insertNewOrder(String user,String mealSerialNumber,int qty)
     {
         boolean result =false;
         try {
-            String sqlInset = "insert into cart(orderSN,userTel,mealSerialNumber,qty,orderDate) values(?, ?, ?, ?, ?)";
+            String sqlInset = "insert into cart(orderSN,userTel,mealSerialNumber,qty) values(?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(sqlInset);
-            stmt.setString(1, orderSN);
+            DBOrder o =new DBOrder();
+            stmt.setString(1, o.getNewSN());
             stmt.setString(2, user);
             stmt.setString(3, mealSerialNumber);
             stmt.setInt(4, qty);
-            stmt.setString(5, date);
             int i = stmt.executeUpdate();
             if(i==1)
                 result=true;
@@ -114,12 +144,11 @@ public class DBCart {
     }
 
 
-
-    public boolean deleteOrder(String orderSN,String mealSerialNumber)
+    public boolean deleteOrder(String cartSN,String mealSerialNumber)
     {
         boolean result =false;
         try {
-            String sql = "delete from cart where orderSN="+"'"+orderSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
+            String sql = "delete from cart where orderSN="+"'"+cartSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -151,11 +180,29 @@ public class DBCart {
         return result;
     }
 
-    public boolean updateOrderQty(String orderSN,String mealSerialNumber,int newQty)
+    public boolean deleteCart(String cartSN)
     {
         boolean result =false;
         try {
-            String sql = "update cart set qty="+"'"+newQty+"'"+" where orderSN="+"'"+orderSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
+            String sql = "delete from cart where orderSN="+"'"+cartSN+"'";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            int i = stmt.executeUpdate();
+            if(i>=1)
+                result=true;
+            else
+                result=false;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public boolean updateOrderQty(String cartSN,String mealSerialNumber,int newQty)
+    {
+        boolean result =false;
+        try {
+            String sql = "update cart set qty="+"'"+newQty+"'"+" where orderSN="+"'"+cartSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -169,23 +216,6 @@ public class DBCart {
         return result;
     }
 
-    public boolean updateOrderDate(String orderSN,String mealSerialNumber,String newdate)
-    {
-        boolean result =false;
-        try {
-            String sql = "update cart set orderDate="+"'"+newdate+"'"+" where orderSN="+"'"+orderSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            int i = stmt.executeUpdate();
-            if(i==1)
-                result=true;
-            else
-                result=false;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
 
     public boolean updateOrderMSN(String mealSerialNumber,String newSN)
     {
@@ -203,6 +233,40 @@ public class DBCart {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public String GetNowDate(){
+        String temp_str="";
+        Date dt = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
+        temp_str=sdf.format(dt);
+        return temp_str;
+    }
+
+    public void convertToOrder(Cart c)
+    {
+        DBOrder order = new DBOrder();
+        c.setCartSN(order.getNewSN());
+        for(OrderItem item:c.getOrderlist())
+        {
+            order.insertNewOrder(c.getCartSN(),c.getUserTel(),item.getMealSerialNumber(),item.getQuantity(),GetNowDate());
+            DBMenu menu = new DBMenu();
+            menu.updateMenuQty(item.getMealSerialNumber(),menu.getMeal(item.getMealSerialNumber()).getQuantity()-item.getQuantity());
+        }
+        deleteCart(c.getCartSN());
+    }
+
+    public void convertToOrder(String cartSN)
+    {
+        Cart c = getCartBySN(cartSN);
+        DBOrder order = new DBOrder();
+        for(OrderItem item:c.getOrderlist())
+        {
+            order.insertNewOrder(c.getCartSN(),c.getUserTel(),item.getMealSerialNumber(),item.getQuantity(),GetNowDate());
+            DBMenu menu = new DBMenu();
+            menu.updateMenuQty(item.getMealSerialNumber(),menu.getMeal(item.getMealSerialNumber()).getQuantity()-item.getQuantity());
+        }
+        deleteCart(c.getCartSN());
     }
 
 
