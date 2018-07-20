@@ -145,7 +145,7 @@ public class DBCart {
         return result;
     }
 
-    private String getSNByUser(String user)
+    public String getSNByUser(String user)
     {
         String sn="";
         try {
@@ -163,7 +163,7 @@ public class DBCart {
         return sn;
     }
 
-    private boolean insertNewOrder(String user,String mealSerialNumber,int qty)
+    public boolean insertNewOrder(String user,String mealSerialNumber,int qty)
     {
         boolean result =false;
         try {
@@ -190,7 +190,7 @@ public class DBCart {
     }
 
 
-    private boolean deleteOrder(String cartSN,String mealSerialNumber)
+    public boolean deleteOrder(String cartSN,String mealSerialNumber)
     {
         boolean result =false;
         try {
@@ -208,7 +208,7 @@ public class DBCart {
         return result;
     }
 
-    private boolean deleteOrderMSN(String mealSerialNumber)
+    public boolean deleteOrderMSN(String mealSerialNumber)
     {
         boolean result =false;
         try {
@@ -226,7 +226,7 @@ public class DBCart {
         return result;
     }
 
-    private boolean deleteCart(String cartSN)
+    public boolean deleteCart(String cartSN)
     {
         boolean result =false;
         try {
