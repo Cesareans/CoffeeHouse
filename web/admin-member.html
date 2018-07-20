@@ -18,6 +18,9 @@
     .layui-table-page{
         text-align: center;
     }
+    .layui-form-item .layui-inline{
+        margin-bottom: 0;
+    }
 </style>
 
 <script type="text/html" id="TableUtilBar">
@@ -195,9 +198,17 @@
 <div class="x-body">
     <xblock>
         <form name="filterForm" id="filterForm" class="layui-form" style="display: inline-block" onkeydown="if(event.keyCode===13){return false;}">
-            <input name="username" id="username" type="text" placeholder="请输入会员名" autocomplete="off" class="layui-input" style="width: 150px;display: inline-block">
-            <button name="searchBtn" id="searchBtn" type="button" class="layui-btn"><i class="layui-icon">&#xe615;</i></button>
-            <button name="cancelFilterBtn" id="cancelFilterBtn" type="button" class="layui-btn layui-btn-danger"><i class="layui-icon">&#x1006;</i></button>
+            <div class="layui-form-item" style="margin-bottom: 0">
+                <div class="layui-inline">
+                    <input name="username" id="username" type="text" placeholder="请输入会员名" autocomplete="off" class="layui-input" style="width: 150px;display: inline-block">
+                </div>
+                <div class="layui-inline">
+                    <button name="searchBtn" id="searchBtn" type="button" class="layui-btn"><i class="layui-icon">&#xe615;</i></button>
+                </div>
+                <div class="layui-inline">
+                    <button name="cancelFilterBtn" id="cancelFilterBtn" type="button" class="layui-btn layui-btn-danger"><i class="layui-icon">&#x1006;</i></button>
+                </div>
+            </div>
         </form>
         <a class="layui-btn layui-btn-small" style="line-height:30px;padding:3px 18px;float:right;margin-left: 10px"
            href="javascript:location.replace(location.href);">

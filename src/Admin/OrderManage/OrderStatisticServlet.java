@@ -2,7 +2,6 @@ package Admin.OrderManage;
 
 import Database.DBMenu;
 import Database.DBOrder;
-import DebugUtil.Debug;
 import Entity.Menu;
 import Entity.Order;
 import com.alibaba.fastjson.JSON;
@@ -20,45 +19,77 @@ import java.util.Map;
 
 @WebServlet(name = "OrderStatisticServlet")
 public class OrderStatisticServlet extends HttpServlet {
-    class SalesbyMenu{
-        String mealName;
-        int sales = 0;
-        SalesbyMenu(String mealName){
-            this.mealName = mealName;
+    class OrderByDate {
+        class MealItem {
+            String mealName;
+            int sales = 0;
+
+            public int getSales() {
+                return sales;
+            }
+
+            public String getMealName() {
+                return mealName;
+            }
         }
 
-        public int getSales() {
-            return sales;
+        String date;
+        ArrayList<MealItem> items = new ArrayList<>();
+
+        OrderByDate(String date) {
+            this.date = date;
         }
 
-        public String getMealName() {
-            return mealName;
+        public String getDate() {
+            return date;
+        }
+
+        public ArrayList<MealItem> getItems() {
+            return items;
+        }
+        void addItem(String mealName, int sales){
+            MealItem mealItem = new MealItem();
+            mealItem.mealName = mealName;
+            mealItem.sales = sales;
+            items.add(mealItem);
         }
     }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request,response);
+        processRequest(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request,response);
+        processRequest(request, response);
     }
-    private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException , IOException{
+
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String startDate = request.getParameter("startDate");
+        String endDate = request.getParameter("endDate");
+
         DBOrder dbOrder = new DBOrder();
-        ArrayList<Order> orderList = dbOrder.getAllOrders();
+        ArrayList<Order> orderList;
+        if (startDate != null && endDate != null) {
+            orderList = dbOrder.getOrderByDate(startDate, endDate);
+        } else
+            orderList = dbOrder.getAllOrders();
 
         DBMenu dbMenu = new DBMenu();
-        ArrayList<Menu> menuList = dbMenu.getAllmenu();
+        ArrayList<Menu> menus = dbMenu.getAllmenu();
+        //创建以orderList内所有order的SN为key，OrderByDate为value的map
+        Map<String, OrderByDate> orderDateMap = new HashMap<>();
+        orderList.forEach(order -> {
+            OrderByDate orderByDate = new OrderByDate(order.getDate());
+            orderDateMap.put(order.getOrderSN() , orderByDate);
+            order.getOrderlist().forEach(orderItem ->
+                orderByDate.addItem(orderItem.getMealName() , orderItem.getQuantity())
+            );
+        });
 
-        Map<String , SalesbyMenu> salesByMenu = new HashMap<>();
-        menuList.stream().map(Menu::getName).forEach(menuName->salesByMenu.put(menuName, new SalesbyMenu(menuName)));
 
-        orderList.forEach(order -> order.getOrderlist().forEach(
-                orderItem -> {salesByMenu.get(orderItem.getMealName()).sales += orderItem.getQuantity();
-        }));
-
-
-        Map<String , Object> jsonMap = new HashMap<>();
-        jsonMap.put("data" , salesByMenu.values());
+        Map<String, Object> jsonMap = new HashMap<>();
+        jsonMap.put("data", orderDateMap.values());
+        jsonMap.put("menu" , menus);
 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter pw = response.getWriter();

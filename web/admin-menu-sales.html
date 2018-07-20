@@ -2,7 +2,7 @@
 <meta charset="UTF-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,minimum-scale=0.4, initial-scale=0.8" />
+<meta name="viewport" content="width=device-width,minimum-scale=0.4, initial-scale=0.8"/>
 
 <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon"/>
 <link rel="stylesheet" href="./CSS/font.css">
@@ -12,58 +12,384 @@
 <script type="text/javascript" src="./JS/xadmin.js"></script>
 <script type="text/javascript" src="./JS/echarts.common.min.js"></script>
 
+<style>
+    xblock {
+        margin-bottom: 0;
+    }
+
+    .layui-table-page {
+        text-align: center;
+    }
+
+    .layui-form-onswitch em {
+        margin-left: 0;
+    }
+
+    .layui-form-item .layui-inline {
+        margin-bottom: 0;
+    }
+</style>
+
 <script>
-    var data;
+    var jsonData;
     var dataChart;
+    var dateRangeField;
+    var cancelFilterBtn;
+    var cancelZoomBtn;
+    var displayForm;
+    var displayDOM;
+    var colorList = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'];
     $(function () {
+        cancelFilterBtn = $("#cancelFilterBtn");
+        cancelFilterBtn.hide();
+        cancelZoomBtn = $("#cancelZoomBtn");
+        cancelZoomBtn.hide();
+        displayDOM = $("#display")[0];
+        displayForm = $("#displayForm");
+
+        dateRangeField = $("#dateRange");
         dataChart = echarts.init($("#dataChart")[0]);
+        dataChart.on("click", function (para) {
+            switch (para.seriesId) {
+                case "全部":
+                case "饮料":
+                case "甜品":
+                case "主食":
+                    showOneSalesByDate(para.data[0], jsonData);
+                    break;
+                case "总量":
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        layui.use(["laydate", "form"], function () {
+            var laydate = layui.laydate, form = layui.form;
+            laydate.render({
+                elem: "#dateRange",
+                range: true,
+                max: 0
+            });
+            form.on("switch(displaySwitch)", function (data) {
+                var isShowAll = data.elem.checked;
+                if (isShowAll) {
+                    showAllSalesByType(jsonData);
+                } else {
+                    showAllSales(jsonData);
+                }
+            })
+        });
+        cancelFilterBtn.bind("click", function () {
+            dateRangeField.val("");
+            getOrders();
+            cancelFilterBtn.hide();
+        });
+        cancelZoomBtn.bind("click", function () {
+            if (displayDOM.checked) {
+                showAllSalesByType(jsonData);
+            } else {
+                showAllSales(jsonData);
+            }
+            cancelZoomBtn.hide();
+            displayForm.show();
+        });
+        $("#searchBtn").bind("click" , function () {
+            if (dateRangeField.val() !== "") {
+                getOrders();
+                cancelFilterBtn.show();
+            }
+        });
+        getOrders();
+    });
+
+    function getOrders() {
+        var data = {};
+        var date = new Date();
+        if (dateRangeField.val() === "") {
+            data.endDate = convertDateFormat(date);
+            date.setMonth(date.getMonth() - 1);
+            data.startDate = convertDateFormat(date);
+        }else{
+            var dateRange = dateRangeField.val().split(" - ");
+            data.startDate = dateRange[0];
+            data.endDate = dateRange[1];
+        }
+        $.ajax({
+            url: "adminOrderStatistics",
+            data: data,
+            success: function (result) {
+                jsonData = JSON.parse(result);
+                if (displayDOM.checked) {
+                    showAllSalesByType(jsonData);
+                } else {
+                    showAllSales(jsonData);
+                }
+            }
+        });
+    }
+
+    function convertDateFormat(date) {
+        var datePieces = date.toLocaleString().split(/[/,]/);
+        var year = datePieces[2];
+        var month = datePieces[0];
+        var day = datePieces[1];
+        return (year + "-" + (month < 10 ? "0" : "") + month + "-" + (day < 10 ? "0" : "") + day);
+    }
+
+    function showAllSales(json) {
+        var salesByMenu = convertToSalesByMenu(json);
+        var sales = [];
+        for (var m in salesByMenu) {
+            if (!salesByMenu.hasOwnProperty(m)) continue;
+            sales.push([salesByMenu[m].mealName, salesByMenu[m].type, salesByMenu[m].sales]);
+        }
+        sales.sort(function (obj1, obj2) {
+            return obj1[2] - obj2[2];
+        });
+        dataChart.clear();
         dataChart.setOption({
             title: {},
             legend: {
-                show:false
+                show: false
             },
-            tooltip: {},
+            tooltip: {
+                formatter: function (params, ticket, callback) {
+                    var dot = "<span style=\"display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:#c23531;\"></span>";
+                    return dot + "[" + params.data[1] + "] " + params.data[0] + ":" + params.data[2];
+                }
+            },
+            grid: [{x: "8%", y: "7%"}],
             xAxis: [{
-                type:"value",
-                position:"top",
-                axisTick:{show:false}
+                type: "value",
+                position: "top",
+                axisTick: {show: false}
             }],
             yAxis: [{
                 type: "category",
-                axisLabel:{interval:0},
-                axisTick:{show:false}
+                axisTick: {show: false}
             }],
             series: [{
+                id: "全部",
                 type: 'bar',
-                label:{
-                    normal:{
-                        show:true,
-                        position:"right"
+                data: sales,
+                label: {
+                    normal: {
+                        show: true,
+                        position: "right"
                     }
+                },
+                encode: {
+                    x: 2,
+                    y: 0
                 }
             }]
         });
-        //1.Label位置
-        //2.图形构建
-        $.ajax({
-            url:"adminOrderStatistics",
-            data:{},
-            success:function (result) {
-                showDataVertically(JSON.parse(result));
+    }
+
+    function showAllSalesByType(json) {
+        var salesByMenu = convertToSalesByMenu(json);
+        var sales = [];
+        for (var m in salesByMenu) {
+            if (!salesByMenu.hasOwnProperty(m)) continue;
+            if (sales[salesByMenu[m].type] === undefined) {
+                sales[salesByMenu[m].type] = [];
             }
-        });
-    });
-    function showDataVertically(json) {
-        json.data.sort(function(obj1, obj2){
-            return obj1.sales - obj2.sales;
-        });
-        var dimensions = ["mealName" , "sales"];
+            sales[salesByMenu[m].type].push([salesByMenu[m].mealName, salesByMenu[m].sales]);
+        }
+        sales["总量"] = [];
+        for (var n in sales) {
+            if (!sales.hasOwnProperty(n) || n === "总量") continue;
+            sales[n].sort(function (a , b) {//给按type获取的sales排序
+                return a[1]-b[1];
+            });
+            sales["总量"].push({
+                value: sales[n].reduce(function (sum, cur) {
+                    return sum += cur[1];
+                }, 0), name: n
+            });
+        }
+        console.log(sales);
+        dataChart.clear();
         dataChart.setOption({
-            dataset:{
-                dimensions:dimensions,
-                source:json.data
-            }
+            title: {},
+            legend: {
+                show: true,
+                selectedMode: false,
+                orient: "vertical",
+                right: "5%",
+                top: "85%"
+            },
+            tooltip: {},
+            grid: [
+                {x: '8%', y: '7%', width: '38%', height: '38%'},
+                {x2: '5%', y: '7%', width: '38%', height: '38%'},
+                {x: '8%', y2: '7%', width: '38%', height: '38%'},
+            ],
+            xAxis: [
+                {gridIndex: 0, type: "value", position: "top", axisTick: {show: false}},
+                {gridIndex: 1, type: "value", position: "top", axisTick: {show: false}},
+                {gridIndex: 2, type: "value", position: "top", axisTick: {show: false}}
+            ],
+            yAxis: [
+                {gridIndex: 0, type: "category", axisTick: {show: false}},
+                {gridIndex: 1, type: "category", axisTick: {show: false}},
+                {gridIndex: 2, type: "category", axisTick: {show: false}}
+            ],
+            series: [
+                {
+                    id: "饮料",
+                    type: 'bar',
+                    xAxisIndex: 0,
+                    yAxisIndex: 0,
+                    data: sales["饮料"],
+                    label: {normal: {show: true, position: "right"}},
+                    encode: {
+                        x: 1,
+                        y: 0
+                    }
+                },
+                {
+                    id: "甜品",
+                    type: 'bar',
+                    xAxisIndex: 1,
+                    yAxisIndex: 1,
+                    data: sales["甜品"],
+                    label: {normal: {show: true, position: "right"}},
+                    encode: {
+                        x: 1,
+                        y: 0
+                    }
+                },
+                {
+                    id: "主食",
+                    type: 'bar',
+                    xAxisIndex: 2,
+                    yAxisIndex: 2,
+                    data: sales["主食"],
+                    label: {normal: {show: true, position: "right"}},
+                    encode: {
+                        x: 1,
+                        y: 0
+                    }
+                },
+                {
+                    type: "pie",
+                    id: "总量",
+                    radius: "40%",
+                    center: ['75%', '75%'],
+                    data: sales["总量"],
+                    itemStyle: {
+                        normal: {
+                            color: function (param) {
+                                var colorIndex;
+                                switch (param.data.name) {
+                                    case "饮料":
+                                        colorIndex = 0;
+                                        break;
+                                    case "甜品":
+                                        colorIndex = 1;
+                                        break;
+                                    case "主食":
+                                        colorIndex = 2;
+                                        break;
+                                }
+                                return colorList[colorIndex];
+                            }
+                        }
+                    }
+                }
+            ]
         });
+    }
+
+    function showOneSalesByDate(name, json) {
+        cancelZoomBtn.show();
+        displayForm.hide();
+        var mealSale = [];
+        json.data.forEach(function (order) {
+            var date = order.date.split(" ")[0];
+            order.items.forEach(function (orderItem) {
+                if (orderItem.mealName === name) {
+                    if (mealSale[date] === undefined)
+                        mealSale[date] = 0;
+                    mealSale[date] += orderItem.sales;
+                }
+            })
+        });
+        var sales = [];
+        for (var l in mealSale) {
+            if (!mealSale.hasOwnProperty(l)) continue;
+            sales.push([l, mealSale[l]]);
+        }
+        sales.sort(function (a, b) {
+            return Date.parse(a[0]) - Date.parse(b[0]);
+        });
+        console.log(sales);
+
+        dataChart.clear();
+        dataChart.setOption({
+            title: {
+                text: name,
+                subtext: "销量分析",
+                left: "center"
+            },
+            legend: {},
+            tooltip: {
+                trigger: "axis"
+            },
+            grid: [{x: "8%", y: "7%" , height:"81%"}],
+            xAxis: [{
+                type: "time",
+                boundaryGap: false
+            }],
+            yAxis: [{
+                type: "value",
+                max: function (value) {
+                    return ((Math.floor(value.max / 10) + 1) * 10)
+                }
+            }],
+            dataZoom: [{
+                type: "slider",
+                xAxisIndex: 0,
+                start: 0,
+                end: 100,
+                bottom:0
+            }],
+            series: [{
+                id: "日期销量",
+                type: "line",
+                data: sales,
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值', symbolRotate: 180}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            }]
+        })
+    }
+
+    function convertToSalesByMenu(json) {
+        var menuSales = [];
+        json.menu.forEach(function (menuItem) {
+            var item = {};
+            item.mealName = menuItem.name;
+            item.type = menuItem.type;
+            item.sales = 0;
+            menuSales[menuItem.name] = item;
+        });
+        json.data.forEach(function (order) {
+            order.items.forEach(function (orderItem) {
+                menuSales[orderItem.mealName].sales += orderItem.sales;
+            })
+        });
+        return menuSales;
     }
 </script>
 <html lang="en">
@@ -74,19 +400,44 @@
 <body style="height: 100%;overflow-x: scroll">
 <div class="x-body" style="height: calc(100% - 40px);">
     <xblock>
-        <form name="filterForm" id="filterForm" class="layui-form" style="display: inline-block" onkeydown="if(event.keyCode===13){return false;}">
-            <input name="username" id="username" type="text" placeholder="请输入会员名" autocomplete="off" class="layui-input" style="width: 150px;display: inline-block">
-            <button name="searchBtn" id="searchBtn" type="button" class="layui-btn"><i class="layui-icon">&#xe615;</i></button>
-            <button name="cancelFilterBtn" id="cancelFilterBtn" type="button" class="layui-btn layui-btn-danger"><i class="layui-icon">&#x1006;</i></button>
+        <form name="filterForm" id="filterForm" class="layui-form" style="display: inline-block"
+              onkeydown="if(event.keyCode===13){return false;}">
+            <div class="layui-form-item" style="margin-bottom: 0">
+                <div class="layui-inline">
+                    <input name="dateRange" id="dateRange" type="text" placeholder="请输入日期范围" autocomplete="off"
+                           class="layui-input" style="width: 200px;display: inline-block">
+                </div>
+                <div class="layui-inline">
+                    <button name="searchBtn" id="searchBtn" type="button" class="layui-btn"><i
+                            class="layui-icon">&#xe615;</i>
+                    </button>
+                </div>
+                <div class="layui-inline">
+                    <button name="cancelFilterBtn" id="cancelFilterBtn" type="button"
+                            class="layui-btn layui-btn-danger"><i
+                            class="layui-icon">&#x1006;</i></button>
+                </div>
+            </div>
         </form>
         <a class="layui-btn layui-btn-small" style="line-height:30px;padding:3px 18px;float:right;margin-left: 10px"
            href="javascript:location.replace(location.href);">
             <i class="iconfont" style="line-height:30px">&#xe6aa;</i>
         </a>
-        <button id="delSelectedBtn" name="delSelectedBtn" class="layui-btn layui-btn-danger" style="float: right"><i class="layui-icon">&#xe640;</i>删除</button>
-        <button id="addUserBtn" name="addUserBtn" class="layui-btn" style="float: right"><i class="layui-icon">&#xe608;</i>添加</button>
+        <button id="cancelZoomBtn" type="button" class="layui-btn layui-btn-danger" style="float: right"><i
+                class="layui-icon">&#x1006;</i>
+        </button>
+        <form id="displayForm" class="layui-form" style="display: inline-block;float: right;line-height:38px;"
+              onkeydown="if(event.keyCode===13){return false;}">
+            <div class="layui-form-item" style="margin-bottom: 0">
+                <div class="layui-inline">
+                    <input id="display" type="checkbox" lay-skin="switch" lay-text="类型|全部"
+                           lay-filter="displaySwitch">
+                </div>
+            </div>
+        </form>
     </xblock>
     <div id="dataChart" style="width:100% ; height: calc(100% - 49px); overflow: hidden"></div>
 </div>
 </body>
 </html>
+
