@@ -199,6 +199,20 @@ public class DBOrder {
         }
     }
 
+    public String getNewSN()
+    {
+        ArrayList<Order> orderlist = getAllOrders();
+        int SN=0;
+        for(int i=0;i<orderlist.size();i++)
+        {
+            if(SN<Integer.valueOf(orderlist.get(i).getOrderSN()))
+                SN=Integer.valueOf(orderlist.get(i).getOrderSN());
+        }
+        SN++;
+        String sn=String.format("%06d",SN);
+        return sn;
+    }
+
     public boolean insertNewOrder(String orderSN,String user,String mealSerialNumber,int qty,String date)
     {
         boolean result =false;
