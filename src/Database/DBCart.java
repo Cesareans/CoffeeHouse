@@ -145,6 +145,24 @@ public class DBCart {
         }
     }
 
+    private String getSNByUser(String user)
+    {
+        String sn="";
+        try {
+            psm = con.prepareStatement("select distinct orderSN from cart where userTel="+"'"+user+"'");
+            rs = psm.executeQuery();
+            if(rs.next())
+                sn=rs.getString(1);
+            //System.out.println(s);
+            rs.close();
+            psm.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sn;
+    }
+
     public boolean insertNewOrder(String user,String mealSerialNumber,int qty)
     {
         boolean result =false;
@@ -152,7 +170,10 @@ public class DBCart {
             String sqlInset = "insert into cart(orderSN,userTel,mealSerialNumber,qty) values(?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(sqlInset);
             DBOrder o =new DBOrder();
-            stmt.setString(1, o.getNewSN());
+            if(haveCart(user))
+                stmt.setString(1,getSNByUser(user));
+            else
+                stmt.setString(1, o.getNewSN());
             stmt.setString(2, user);
             stmt.setString(3, mealSerialNumber);
             stmt.setInt(4, qty);
