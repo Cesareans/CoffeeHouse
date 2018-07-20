@@ -31,31 +31,6 @@ public class DBCart {
         }
     }
 
-    public boolean haveCart(String usertel)
-    {
-        boolean result = false;
-        try {
-            psm = con.prepareStatement("select distinct orderSN from cart where userTel="+"'"+usertel+"'");
-            rs = psm.executeQuery();
-            ArrayList<String> orderSNs = new ArrayList<String>();
-            while(rs.next()){
-                String s=rs.getString(1);
-                //System.out.println(s);
-                orderSNs.add(s);
-            }
-            if(orderSNs.size()>=1)
-                result=true;
-            else
-                result=false;
-            rs.close();
-            psm.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
     public ArrayList<Cart> getUserCart(String usertel){
         ArrayList<Cart> userlist = new ArrayList<Cart>();
         try {
@@ -145,6 +120,31 @@ public class DBCart {
         }
     }
 
+    private boolean haveCart(String usertel)
+    {
+        boolean result = false;
+        try {
+            psm = con.prepareStatement("select distinct orderSN from cart where userTel="+"'"+usertel+"'");
+            rs = psm.executeQuery();
+            ArrayList<String> orderSNs = new ArrayList<String>();
+            while(rs.next()){
+                String s=rs.getString(1);
+                //System.out.println(s);
+                orderSNs.add(s);
+            }
+            if(orderSNs.size()>=1)
+                result=true;
+            else
+                result=false;
+            rs.close();
+            psm.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     private String getSNByUser(String user)
     {
         String sn="";
@@ -152,8 +152,8 @@ public class DBCart {
             psm = con.prepareStatement("select distinct orderSN from cart where userTel="+"'"+user+"'");
             rs = psm.executeQuery();
             if(rs.next())
-                sn=rs.getString(1);
-            //System.out.println(s);
+               sn=rs.getString(1);
+                //System.out.println(s);
             rs.close();
             psm.close();
 
@@ -163,7 +163,7 @@ public class DBCart {
         return sn;
     }
 
-    public boolean insertNewOrder(String user,String mealSerialNumber,int qty)
+    private boolean insertNewOrder(String user,String mealSerialNumber,int qty)
     {
         boolean result =false;
         try {
@@ -190,7 +190,7 @@ public class DBCart {
     }
 
 
-    public boolean deleteOrder(String cartSN,String mealSerialNumber)
+    private boolean deleteOrder(String cartSN,String mealSerialNumber)
     {
         boolean result =false;
         try {
@@ -208,7 +208,7 @@ public class DBCart {
         return result;
     }
 
-    public boolean deleteOrderMSN(String mealSerialNumber)
+    private boolean deleteOrderMSN(String mealSerialNumber)
     {
         boolean result =false;
         try {
@@ -226,7 +226,7 @@ public class DBCart {
         return result;
     }
 
-    public boolean deleteCart(String cartSN)
+    private boolean deleteCart(String cartSN)
     {
         boolean result =false;
         try {
@@ -244,9 +244,33 @@ public class DBCart {
         return result;
     }
 
-    public boolean updateOrderQty(String cartSN,String mealSerialNumber,int newQty)
+    public boolean update(String usertel,String mealSN,int newQty)
     {
         boolean result =false;
+        String cartSN = "";
+        if(haveCart(usertel))
+        {
+            cartSN = getSNByUser(usertel);
+            if(updateOrderQty(cartSN,mealSN,newQty))
+                result=true;
+        }
+        else
+        {
+            if(insertNewOrder(usertel,mealSN,newQty))
+                result=true;
+        }
+        return result;
+    }
+
+    private boolean updateOrderQty(String cartSN,String mealSerialNumber,int newQty)
+    {
+        boolean result =false;
+        DBMenu m = new DBMenu();
+        if(newQty==0)
+        {
+            deleteOrder(cartSN,mealSerialNumber);
+            return true;
+        }
         try {
             String sql = "update cart set qty="+"'"+newQty+"'"+" where orderSN="+"'"+cartSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -281,7 +305,7 @@ public class DBCart {
         return result;
     }
 
-    public String GetNowDate(){
+    private String GetNowDate(){
         String temp_str="";
         Date dt = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
@@ -289,33 +313,45 @@ public class DBCart {
         return temp_str;
     }
 
-    public void convertToOrder(Cart c)
+    public boolean convertToOrder(Cart c)
     {
+        boolean result=true;
         DBOrder order = new DBOrder();
         c.setCartSN(order.getNewSN());
         for(OrderItem item:c.getOrderlist())
         {
             order.insertNewOrder(c.getCartSN(),c.getUserTel(),item.getMealSerialNumber(),item.getQuantity(),GetNowDate());
             DBMenu menu = new DBMenu();
+            if(menu.getMeal(item.getMealSerialNumber()).getQuantity()-item.getQuantity()>=0)
             menu.updateMenuQty(item.getMealSerialNumber(),menu.getMeal(item.getMealSerialNumber()).getQuantity()-item.getQuantity());
+            else
+                result=false;
         }
+        if(result)
         deleteCart(c.getCartSN());
+
+        return result;
     }
 
-    public void convertToOrder(String cartSN)
+    public boolean convertToOrder(String cartSN)
     {
+        boolean result=true;
         Cart c = getCartBySN(cartSN);
         DBOrder order = new DBOrder();
         for(OrderItem item:c.getOrderlist())
         {
             order.insertNewOrder(c.getCartSN(),c.getUserTel(),item.getMealSerialNumber(),item.getQuantity(),GetNowDate());
             DBMenu menu = new DBMenu();
+            if(menu.getMeal(item.getMealSerialNumber()).getQuantity()-item.getQuantity()>=0)
             menu.updateMenuQty(item.getMealSerialNumber(),menu.getMeal(item.getMealSerialNumber()).getQuantity()-item.getQuantity());
+            else
+                result=false;
         }
+        if(result)
         deleteCart(c.getCartSN());
+
+        return result;
     }
-
-
 
     public void close()
     {

@@ -224,28 +224,29 @@ DBCart:
 5.date：下单时间 格式：****-**-** **：**：**.* 
 
 接口说明：
-public boolean haveCart(String usertel)
-判断用户是否有购物车
 
 public ArrayList<Order> getUserCart(String usertel)
 获取电话号码为usertel的用户的购物车所有信息
 
-public boolean insertNewOrder(String userTel,String mealSerialNumber,int qty,String date)
+private boolean insertNewOrder(String userTel,String mealSerialNumber,int qty,String date)
 像购物车中插入新物品
 
-public void convertToOrder(String cartSN)
+public boolean convertToOrder(String cartSN)
 将购物车号为cartSN的购物车生成历史订单
 
-public void convertToOrder(Cart c)
+public boolean convertToOrder(Cart c)
 将购物车c生成历史订单
 
-public boolean deleteOrder(String cartSN)
+private boolean deleteOrder(String cartSN)
 删除订单号为orderSN的订单
 
-public boolean deleteCart(String cartSN)
+private boolean deleteCart(String cartSN)
 删除购物车
 
-public boolean updateOrderQty(String cartSN,String mealSerialNumber,int newQty)
+public boolean update(String usertel,String mealSN,int newQty)
+统一插入/更新订单方法
+
+private boolean updateOrderQty(String cartSN,String mealSerialNumber,int newQty)
 更新订单号为orderSN,餐品号为mealSerialNumber的订单的购买数量为newQty
 
 public boolean updateOrderDate(String cartSN,String mealSerialNumber,String newdate)
