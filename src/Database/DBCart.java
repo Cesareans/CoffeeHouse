@@ -31,6 +31,31 @@ public class DBCart {
         }
     }
 
+    public boolean haveCart(String usertel)
+    {
+        boolean result = false;
+        try {
+            psm = con.prepareStatement("select distinct orderSN from cart where userTel="+"'"+usertel+"'");
+            rs = psm.executeQuery();
+            ArrayList<String> orderSNs = new ArrayList<String>();
+            while(rs.next()){
+                String s=rs.getString(1);
+                //System.out.println(s);
+                orderSNs.add(s);
+            }
+            if(orderSNs.size()>=1)
+                result=true;
+            else
+                result=false;
+            rs.close();
+            psm.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public ArrayList<Cart> getUserCart(String usertel){
         ArrayList<Cart> userlist = new ArrayList<Cart>();
         try {

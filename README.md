@@ -224,6 +224,9 @@ DBCart:
 5.date：下单时间 格式：****-**-** **：**：**.* 
 
 接口说明：
+public boolean haveCart(String usertel)
+判断用户是否有购物车
+
 public ArrayList<Order> getUserCart(String usertel)
 获取电话号码为usertel的用户的购物车所有信息
 
