@@ -175,6 +175,9 @@ DBOrder:
 7.date：下单时间 格式：****-**-** **：**：**.* 
 
 接口说明：
+public String getNewSN()
+获取一个新的订单号
+
 public ArrayList<Order> getAllOrders()
 获取全部历史订单（所有用户）
 
@@ -188,17 +191,17 @@ from/to格式：****-**-**
 public Order getOrderBySerial(String sn)
 根据订单号获取订单
 
-public boolean insertNewOrder(String cartSN,String userTel,String mealSerialNumber,int qty,String date)
+public boolean insertNewOrder(String orderSN,String userTel,String mealSerialNumber,int qty,String date)
 插入新的历史订单记录，参数：订单号，用户电话号，餐品号，购买数量，日期
 备注：下单时刻的餐品名称及价格自动生成
 
-public boolean deleteOrder(String cartSN)
+public boolean deleteOrder(String orderSN)
 删除订单号为orderSN的历史订单记录
 
-public boolean updateOrderQty(String cartSN,String mealSerialNumber,int newQty)
+public boolean updateOrderQty(String orderSN,String mealSerialNumber,int newQty)
 更新订单号为orderSN,餐品号为mealSerialNumber的订单的购买数量为newQty
 
-public boolean updateOrderDate(String cartSN,String mealSerialNumber,String newdate)
+public boolean updateOrderDate(String orderSN,String mealSerialNumber,String newdate)
 更新订单号为orderSN，餐品号为mealSerialNumber的订单的购买日期为newdate
 
 备注说明：
@@ -224,11 +227,20 @@ DBCart:
 public ArrayList<Order> getUserCart(String usertel)
 获取电话号码为usertel的用户的购物车所有信息
 
-public boolean insertNewOrder(String cartSN,String userTel,String mealSerialNumber,int qty,String date)
+public boolean insertNewOrder(String userTel,String mealSerialNumber,int qty,String date)
 像购物车中插入新物品
+
+public void convertToOrder(String cartSN)
+将购物车号为cartSN的购物车生成历史订单
+
+public void convertToOrder(Cart c)
+将购物车c生成历史订单
 
 public boolean deleteOrder(String cartSN)
 删除订单号为orderSN的订单
+
+public boolean deleteCart(String cartSN)
+删除购物车
 
 public boolean updateOrderQty(String cartSN,String mealSerialNumber,int newQty)
 更新订单号为orderSN,餐品号为mealSerialNumber的订单的购买数量为newQty
