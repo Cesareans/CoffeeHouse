@@ -1,5 +1,6 @@
 package Admin.OrderManage;
 
+import Database.DBOrder;
 import Database.DBUser;
 import Entity.Order;
 import Entity.User;
