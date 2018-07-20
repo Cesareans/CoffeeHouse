@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script src="JS/jquery.min.js"></script>
+<script>
+        var output="";
+        $(function () {
+            $(document).bind("click",function (e) {
+                var node = e.target.parentNode.parentNode;
+                var val = (Number)(node.getElementsByClassName("num")[0].innerText);
+                if(e.target.innerText ==='+') {
+                    val+=1;
+                    node.getElementsByClassName("num")[0].innerText=val;
+                    if(val>0) {
+                        $(node.getElementsByClassName("button2")[0]).attr('disabled',false);
+                    }
+
+                }
+                if(e.target.innerText ==='-') {
+                    val-=1;
+                    node.getElementsByClassName("num")[0].innerText=val;
+                    if(val===0) {
+                        $(node.getElementsByClassName("button2")[0]).attr('disabled',true);
+                    }
+                }
+
+                $.ajax({
+                    url: "cart",
+                    data:{
+                        "row":e.target.parentNode.parentNode
+                    },
+                    success: function(result) {
+                        if(result==="false") {
+                            alert("系统繁忙，请稍后重试!");
+                        }
+                    }
+                });
+            });
+
+            $.ajax({
+                url: "menu",
+                success: function(result) {
+                    var jsons = $.parseJSON(result);
+                    for(var i=0; i<jsons.length; i++){
+                        output+="<tr>"
+                            +"<td class='name' align=\"center\">"+jsons[i].serialNumber+"</td>"
+                            +"<td align=\"center\">"+jsons[i].name+"</td>"
+                            +"<td align=\"center\">"+ "<button class='button1' type=\"button\">+</button>"+"</td>"
+                            +"<td  align=\"center\">"+ "<label  class='num' type=\"text\">0</label>"+"</td>"
+                            +"<td align=\"center\">"+ "<button class='button2' type=\"button\" disabled=\"disabled\">-</button>"+"</td>"
+                            +"</tr>";
+                    }
+                    $('#menuForm').html(output);
+                }
+            });
+
+
+        });
+</script>
+
+<html>
+<head>
+</head>
+<body>
+<table >
+    <tr>
+        <td align="center">序号</td>
+        <td align="center">名称</td>
+
+    </tr>
+</table>
+<table id="table">
+
+</table>
+
+<form id="menuForm">
+</form>
+</body>
+</html>
