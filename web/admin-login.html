@@ -23,6 +23,9 @@
         loginBtn.bind("click" , function () {
             ajaxLogin();
         });
+        $("#forgetPwdBtn").bind("click" , function () {
+            layer.msg("请联系店主为您修改密码：17859710072")
+        });
         $(document).bind("keyup" , function (e) {
             if(e.keyCode === 13){
                 var onFocus = document.activeElement;
@@ -93,8 +96,11 @@
             <hr class="hr15">
             <input type="password" name="password" id="password" placeholder="请输入你的密码" autocomplete="off" class="layui-input">
             <hr class="hr15">
-            <input type="button" name="loginBtn" id="loginBtn" value="登录" style="width:100%;" >
+            <input type="button" id="loginBtn" value="登录" style="width:100%;" >
+            <hr class="hr15">
+            <input type="button" id="forgetPwdBtn" value="忘记密码" style="width:100%;background-color: #FF5722" >
         </form>
     </div>
+    <div class="footer">Copyright ©2018 Sisyphus. All Rights Reserved.</div>
 </body>
 </html>
