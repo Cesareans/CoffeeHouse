@@ -125,6 +125,7 @@ ul.social-icons li a.instagram:hover{
     font-family: 'Lato', sans-serif;
     text-transform: uppercase;
 	font-weight: 600;
+
 }
 .logo-nav-left1 ul li.active a.act{
 	color:#d8703f !important;
@@ -258,7 +259,7 @@ ul.multi-column-dropdown h6 {
 }
 .sb-icon-search {
    background:#fff url(../images/img-sp.png) no-repeat 7px -91px;
-	z-index: 90;
+	z-index: 1;
 }
 /* Open state */
 .sb-search.sb-search-open,.no-js .sb-search {
@@ -1657,15 +1658,6 @@ h2.typoh2{
 	padding:10px 0;
 	width:30%;
 }
-.mail-grid-left input[type="button"]{
-    outline:none;
-    border:none;
-    background:#d8703f;
-    font-size:1em;
-    color:#fff;
-    padding:10px 0;
-    width:30%;
-}
 .mail-grid-left input[type="submit"]:hover{
 	background:#ffc229;
 }
@@ -2066,18 +2058,6 @@ label.radio {
 }
 .login-form-grids input[type="submit"]{
 	outline: none;
-    border: none;
-    padding: 10px 0;
-    font-size: 1em;
-    color: #fff;
-    display: block;
-    width: 100%;
-    background:#FFC229;
-    margin: 1.5em 0 0;
-}
-
-.login-form-grids input[type="button"]{
-    outline: none;
     border: none;
     padding: 10px 0;
     font-size: 1em;
