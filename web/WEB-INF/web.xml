@@ -150,6 +150,51 @@
         <url-pattern>/userinfo</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>CartServlet</servlet-name>
+        <servlet-class>Cart.CartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CartServlet</servlet-name>
+        <url-pattern>/cart</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MenuServlet</servlet-name>
+        <servlet-class>Menu.MenuServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MenuServlet</servlet-name>
+        <url-pattern>/menu</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ConvertServlet</servlet-name>
+        <servlet-class>Order.ConvertServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ConvertServlet</servlet-name>
+        <url-pattern>/convert</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>HistoryServlet</servlet-name>
+        <servlet-class>Order.HistoryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HistoryServlet</servlet-name>
+        <url-pattern>/history</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>Order.OrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/order</url-pattern>
+    </servlet-mapping>
+
     <!--
     <filter>
         <filter-name>LoginFilter</filter-name>

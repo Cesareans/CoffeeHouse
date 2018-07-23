@@ -178,6 +178,7 @@ public class DBCart {
             stmt.setString(3, mealSerialNumber);
             stmt.setInt(4, qty);
             int i = stmt.executeUpdate();
+            System.out.println("i = "+i);
             if(i==1)
                 result=true;
             else
@@ -250,14 +251,23 @@ public class DBCart {
         String cartSN = "";
         if(haveCart(usertel))
         {
+            System.out.println("存在");
             cartSN = getSNByUser(usertel);
             if(updateOrderQty(cartSN,mealSN,newQty))
+            {
+                System.out.println("更新成功");
                 result=true;
+            }
+
         }
         else
         {
+            System.out.println("不存在");
             if(insertNewOrder(usertel,mealSN,newQty))
+            {
+                System.out.println("插入成功");
                 result=true;
+            }
         }
         return result;
     }

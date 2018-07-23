@@ -17,13 +17,13 @@
       <Collation>utf8_general_ci</Collation>
     </schema>
     <schema id="4" parent="1" name="mysql">
-      <Collation>latin1_swedish_ci</Collation>
+      <Collation>utf8_general_ci</Collation>
     </schema>
     <schema id="5" parent="1" name="performance_schema">
       <Collation>utf8_general_ci</Collation>
     </schema>
     <schema id="6" parent="1" name="test">
-      <Collation>latin1_swedish_ci</Collation>
+      <Collation>utf8_general_ci</Collation>
     </schema>
     <collation id="7" parent="1" name="armscii8_bin">
       <Charset>armscii8</Charset>
@@ -861,22 +861,17 @@
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="216" parent="203" name="orderDate">
-      <Position>7</Position>
-      <DataType>datetime|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="217" parent="203" name="fk4">
+    <index id="216" parent="203" name="fk4">
       <ColNames>userTel</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="218" parent="203" name="PRIMARY">
+    <key id="217" parent="203" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>cartSN
 mealSerialNumber</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="219" parent="203" name="fk4">
+    <foreign-key id="218" parent="203" name="fk4">
       <ColNames>userTel</ColNames>
       <RefSchemaName>caffe</RefSchemaName>
       <RefTableName>user</RefTableName>
@@ -884,97 +879,97 @@ mealSerialNumber</ColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="220" parent="204" name="serialnumber">
+    <column id="219" parent="204" name="serialnumber">
       <Position>1</Position>
       <DataType>varchar(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="221" parent="204" name="mname">
+    <column id="220" parent="204" name="mname">
       <Position>2</Position>
       <DataType>varchar(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="222" parent="204" name="price">
+    <column id="221" parent="204" name="price">
       <Position>3</Position>
       <DataType>decimal(6)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="223" parent="204" name="qty">
+    <column id="222" parent="204" name="qty">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="224" parent="204" name="mtype">
+    <column id="223" parent="204" name="mtype">
       <Position>5</Position>
       <DataType>varchar(30)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="225" parent="204" name="sales">
+    <column id="224" parent="204" name="sales">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="226" parent="204" name="picture">
+    <column id="225" parent="204" name="picture">
       <Position>7</Position>
       <DataType>varchar(100)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="227" parent="204" name="PRIMARY">
+    <key id="226" parent="204" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>serialnumber</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="228" parent="205" name="cartSN">
+    <column id="227" parent="205" name="cartSN">
       <Position>1</Position>
       <DataType>varchar(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="229" parent="205" name="userTel">
+    <column id="228" parent="205" name="userTel">
       <Position>2</Position>
       <DataType>varchar(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="230" parent="205" name="mealSerialNumber">
+    <column id="229" parent="205" name="mealSerialNumber">
       <Position>3</Position>
       <DataType>varchar(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="231" parent="205" name="mealName">
+    <column id="230" parent="205" name="mealName">
       <Position>4</Position>
       <DataType>varchar(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="232" parent="205" name="mealPrice">
+    <column id="231" parent="205" name="mealPrice">
       <Position>5</Position>
       <DataType>double|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="233" parent="205" name="qty">
+    <column id="232" parent="205" name="qty">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="234" parent="205" name="orderDate">
+    <column id="233" parent="205" name="orderDate">
       <Position>7</Position>
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="235" parent="205" name="fk2">
+    <index id="234" parent="205" name="fk2">
       <ColNames>userTel</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="236" parent="205" name="PRIMARY">
+    <key id="235" parent="205" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>cartSN
 mealSerialNumber</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="237" parent="205" name="fk2">
+    <foreign-key id="236" parent="205" name="fk2">
       <ColNames>userTel</ColNames>
       <RefSchemaName>caffe</RefSchemaName>
       <RefTableName>user</RefTableName>
@@ -982,49 +977,49 @@ mealSerialNumber</ColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="238" parent="206" name="utel">
+    <column id="237" parent="206" name="utel">
       <Position>1</Position>
       <DataType>varchar(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="239" parent="206" name="upassword">
+    <column id="238" parent="206" name="upassword">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="240" parent="206" name="uname">
+    <column id="239" parent="206" name="uname">
       <Position>3</Position>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="241" parent="206" name="birthday">
+    <column id="240" parent="206" name="birthday">
       <Position>4</Position>
       <DataType>date|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="242" parent="206" name="email">
+    <column id="241" parent="206" name="email">
       <Position>5</Position>
       <DataType>varchar(30)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="243" parent="206" name="registerTime">
+    <column id="242" parent="206" name="registerTime">
       <Position>6</Position>
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="244" parent="206" name="isactivate">
+    <column id="243" parent="206" name="isactivate">
       <Position>7</Position>
       <DataType>tinyint(1)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="245" parent="206" name="gender">
+    <column id="244" parent="206" name="gender">
       <Position>8</Position>
       <DataType>varchar(10)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="246" parent="206" name="PRIMARY">
+    <key id="245" parent="206" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>utel</ColNames>
       <Primary>1</Primary>
