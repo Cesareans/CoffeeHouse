@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>订单 | 西西弗斯咖啡屋</title>
+<title>联系我们 | 西西弗斯咖啡屋</title>
 <link href="coffee.ico" rel="shortcut icon" />
 <!-- for-mobile-apps -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,14 +25,14 @@
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
 <!-- animation-effect -->
-<link href="css/animate.min.css" rel="stylesheet">
+<link href="css/animate.min.css" rel="stylesheet"> 
 <script src="js/wow.min.js"></script>
 <script>
  new WOW().init();
 </script>
 <!-- //animation-effect -->
 </head>
-
+	
 <body>
 <!-- header -->
 	<div class="header">
@@ -122,40 +122,43 @@
 		<div class="container">
 			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
 				<li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
-				<li class="active">订单</li>
+				<li class="active">联系我们</li>
 			</ol>
 		</div>
 	</div>
 <!-- //breadcrumbs -->
 <!-- mail -->
-<div class="mail animated wow zoomIn" data-wow-delay=".5s">
-	<div class="container">
-		<h3>订单提交成功</h3>
-		<p class="est">心意，从这一杯开始。</p>
-		<div class="mail-grids">
-            <div class="login-form-grids animated wow slideInUp" data-wow-delay=".5s">
-				<form>
-				<div class="grid_3 grid_5 animated wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms">
-				<h3>07号</h3>
-				<div class="alert alert-success" role="alert">
-					<strong>订单已提交成功 </strong>  您的编号是07号。
+	<div class="mail animated wow zoomIn" data-wow-delay=".5s">
+		<div class="container">
+			<h3>联系我们</h3>
+			<p class="est">我们的工作时间为：周一至周日 9:00-18:00（节假日除外）</p>
+			<div class="mail-grids">
+				<div class="col-md-6 mail-grid-left animated wow slideInLeft" data-wow-delay=".5s">
+					<form>
+						<input type="text" value="姓名" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
+						<input type="email" value="邮箱" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+						<input type="text" value="主题" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Subject';}" required="">
+						<textarea type="text"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '正文...';}" required="">请输入内容</textarea>
+						<input type="submit" value="发送" >
+					</form>
 				</div>
-				<div class="alert alert-info" role="alert">
-					<strong>请在座位上稍候 </strong>  我们会准备好美食送至您的餐桌。
+				<div class="col-md-6 mail-grid-right animated wow slideInRight" data-wow-delay=".5s">
+					<div class="mail-grid-right1">
+						<h4>联系电话</h4>
+						<ul class="phone-mail">
+							<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>Phone: +178 5971 0072</li>
+						</ul>
+						<h4>邮箱地址</h4>
+						<ul class="phone-mail">
+							<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i>Email: <a href="mailto:cesarean@foxmail.com">cesarean@foxmail.com</a></li>
+						</ul>
+					</div>
 				</div>
-				<br>
-				<div class="alert alert-warning" role="alert">
-					<strong> WiFi账号: </strong>  Sisyphuswifi
-				</div>
-				<div class="alert alert-danger" role="alert">
-					<strong> WiFi密码: </strong>  Sisyphuskey
-				</div>
-			    </div>
-				</form>
+				<div class="clearfix"> </div>
 			</div>
+			<iframe class="animated wow slideInLeft" data-wow-delay=".5s" src="https://gaode.com/" frameborder="0" style="border:0" allowfullscreen></iframe>
 		</div>
 	</div>
-</div>
 <!-- //mail -->
 <!-- footer -->
 <div class="footer">

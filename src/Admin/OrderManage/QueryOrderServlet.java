@@ -36,9 +36,7 @@ public class QueryOrderServlet extends HttpServlet {
             DBUser dbUser = new DBUser();
             ArrayList<User> users = dbUser.getUsersByName(userNameMatcher);
             orderList.clear();
-            users.forEach((user -> {
-                orderList.addAll(dbOrder.getOrderByUser(user.getTel()));
-            }));
+            users.forEach((user -> orderList.addAll(dbOrder.getOrderByUser(user.getTel()))));
             dbUser.close();
         } else if(userTel != null)
             orderList=dbOrder.getOrderByUser(userTel);
