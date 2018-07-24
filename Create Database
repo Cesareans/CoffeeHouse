@@ -2,7 +2,7 @@ create database caffe;
 drop table cart;
 drop table orders;
 drop table menu;
-drop table userTel;
+drop table user;
 drop table Admin;
 
 
