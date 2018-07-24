@@ -34,7 +34,7 @@ public class DBCart {
     public ArrayList<Cart> getUserCart(String usertel){
         ArrayList<Cart> userlist = new ArrayList<Cart>();
         try {
-            psm = con.prepareStatement("select distinct orderSN from cart where userTel="+"'"+usertel+"'");
+            psm = con.prepareStatement("select distinct cartSN from cart where userTel="+"'"+usertel+"'");
             rs = psm.executeQuery();
             ArrayList<String> orderSNs = new ArrayList<String>();
             while(rs.next()){
@@ -46,7 +46,7 @@ public class DBCart {
             {
                 Cart order = new Cart();
                 order.setCartSN(o);
-                psm = con.prepareStatement("select * from cart where orderSN="+"'"+o+"'");
+                psm = con.prepareStatement("select * from cart where cartSN="+"'"+o+"'");
                 rs = psm.executeQuery();
                 while(rs.next())
                 {
@@ -77,7 +77,7 @@ public class DBCart {
         try {
 
                 cart.setCartSN(cartSN);
-                psm = con.prepareStatement("select * from cart where orderSN="+"'"+cartSN+"'");
+                psm = con.prepareStatement("select * from cart where cartSN="+"'"+cartSN+"'");
                 rs = psm.executeQuery();
                 while(rs.next())
                 {
@@ -101,7 +101,6 @@ public class DBCart {
         }
         return cart;
     }
-
     //to be deleted
     public void displayOrderInfo()
     {
@@ -124,7 +123,7 @@ public class DBCart {
     {
         boolean result = false;
         try {
-            psm = con.prepareStatement("select distinct orderSN from cart where userTel="+"'"+usertel+"'");
+            psm = con.prepareStatement("select distinct cartSN from cart where userTel="+"'"+usertel+"'");
             rs = psm.executeQuery();
             ArrayList<String> orderSNs = new ArrayList<String>();
             while(rs.next()){
@@ -149,7 +148,7 @@ public class DBCart {
     {
         String sn="";
         try {
-            psm = con.prepareStatement("select distinct orderSN from cart where userTel="+"'"+user+"'");
+            psm = con.prepareStatement("select distinct cartSN from cart where userTel="+"'"+user+"'");
             rs = psm.executeQuery();
             if(rs.next())
                sn=rs.getString(1);
@@ -163,11 +162,11 @@ public class DBCart {
         return sn;
     }
 
-    public boolean insertNewOrder(String user,String mealSerialNumber,int qty)
+    public boolean insertNewCart(String user, String mealSerialNumber, int qty)
     {
         boolean result =false;
         try {
-            String sqlInset = "insert into cart(orderSN,userTel,mealSerialNumber,qty) values(?, ?, ?, ?)";
+            String sqlInset = "insert into cart(cartSN,userTel,mealSerialNumber,qty) values(?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(sqlInset);
             DBOrder o =new DBOrder();
             if(haveCart(user))
@@ -194,7 +193,7 @@ public class DBCart {
     {
         boolean result =false;
         try {
-            String sql = "delete from cart where orderSN="+"'"+cartSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
+            String sql = "delete from cart where cartSN="+"'"+cartSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
@@ -230,7 +229,7 @@ public class DBCart {
     {
         boolean result =false;
         try {
-            String sql = "delete from cart where orderSN="+"'"+cartSN+"'";
+            String sql = "delete from cart where cartSN="+"'"+cartSN+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i>=1)
@@ -251,18 +250,18 @@ public class DBCart {
         if(haveCart(usertel))
         {
             cartSN = getSNByUser(usertel);
-            if(updateOrderQty(cartSN,mealSN,newQty))
+            if(updateCartQty(cartSN,mealSN,newQty))
                 result=true;
         }
         else
         {
-            if(insertNewOrder(usertel,mealSN,newQty))
+            if(insertNewCart(usertel,mealSN,newQty))
                 result=true;
         }
         return result;
     }
 
-    private boolean updateOrderQty(String cartSN,String mealSerialNumber,int newQty)
+    private boolean updateCartQty(String cartSN, String mealSerialNumber, int newQty)
     {
         boolean result =false;
         DBMenu m = new DBMenu();
@@ -272,7 +271,7 @@ public class DBCart {
             return true;
         }
         try {
-            String sql = "update cart set qty="+"'"+newQty+"'"+" where orderSN="+"'"+cartSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
+            String sql = "update cart set qty="+"'"+newQty+"'"+" where cartSN="+"'"+cartSN+"'"+"and mealSerialNumber="+"'"+mealSerialNumber+"'";
             PreparedStatement stmt = con.prepareStatement(sql);
             int i = stmt.executeUpdate();
             if(i==1)
