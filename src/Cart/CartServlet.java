@@ -18,7 +18,6 @@ import java.util.HashMap;
 @WebServlet(name = "CartServlet")
 public class CartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println(1);
         PrintWriter pw = response.getWriter();
         HttpSession session = request.getSession();
         String usertel = (String) session.getAttribute("usertel");
@@ -43,16 +42,18 @@ public class CartServlet extends HttpServlet {
         PrintWriter pw = response.getWriter();
         HttpSession session = request.getSession();
         DBCart dbcart = new DBCart();
-        String usertel = (String) session.getAttribute("usertel");
+        String usertel = (String)session.getAttribute("usertel");
         Cart cart = dbcart.getUserCart(usertel);
         DBMenu dbmenu = new DBMenu();
         ArrayList<Menu> m = dbmenu.getAllmenu();
         HashMap<String,Object> h = new HashMap<>();
         h.put("menu", m);
-        h.put("cart", cart);
+        h.put("items", cart);
         String result = JSON.toJSONString(h);
+        System.out.println(result);
         pw.write(result);
         dbcart.close();
+        dbmenu.close();
         pw.close();
     }
 }

@@ -14,7 +14,6 @@
 <link rel="stylesheet" href="CSS/jquery.countdown.css"/>
 <link href="CSS/animate.min.css" rel="stylesheet">
 
-
 <script src="JS/jquery.min.js"></script>
 <script src="JS/simpleCart.min.js"></script>
 <script type="text/javascript" src="JS/bootstrap-3.1.1.min.js"></script>
@@ -59,28 +58,74 @@
 </script>
 
 <script>
-    $.ajax({
+    $.ajax({//获取购物车表中的信息并显示
         url:"cart",
         method:"get",
         success:function(result) {
             var cart = $.parseJSON(result);
             var menu = cart["menu"];
-            var items = cart["cart"];
-            for(var i = 0; i<items.length; i++)
-            {
-                for(var j = 0; j<menu.length; j++)
-                {
-                    if(items[i].serialNumber===menu[j].serialNumber)
-                    {
-                         
+            var items = cart["items"];
+            var list = items["orderlist"];
+            var name = [];
+            var picture = [];
+            var price = [];
+            for(var i = 0; i<list.length; i++) {
+                for(var j = 0; j<menu.length; j++) {
+                    if(list[i].serialNumber===menu[j].serialNumber) {
+                        picture[i] = menu[j].pictureUrl;
+                        name[i] = menu[j].name;
+                        console.log(menu[j].price);
+                        price[i] = menu[j].price;
+                        break;
                     }
                 }
             }
-            var output = "";
+
+            var output = "<thead>\n" +
+                "                <tr>\n" +
+                "                    <th>序号</th>\n" +
+                "                    <th>商品</th>\n" +
+                "                    <th>数量</th>\n" +
+                "                    <th>商品姓名</th>\n" +
+                "                    <th>单价</th>\n" +
+                "                    <th>总价</th>\n" +
+                "                    <th>移除</th>\n" +
+                "                </tr>\n" +
+                "          </thead>";
+            for(var k = 0; k<list.length; k++) {
+                output+="<tr>\n" +
+                    "    <td class=\"invert\">"+(k+1)+"</td>\n" +
+                    "\t\n" +
+                    "    <td class=\"invert-image\">\n" +
+                    "\t\t<a href=\"single.html\">\n" +
+                    "\t\t\t<img src=\""+picture[k]+"\" alt=\" \" class=\"img-responsive\"/>\n" +
+                    "\t\t</a>\n" +
+                    "    </td>\n" +
+                    "\t\n" +
+                    "    <td class=\"invert\">\n" +
+                    "        <div class=\"quantity\">\n" +
+                    "            <div class=\"quantity-select\">\n" +
+                    "                <div class=\"entry value-minus\"></div>\n" +
+                    "                <div class=\"entry value\"><span>"+list[k].quantity+"</span></div>\n" +
+                    "                <div class=\"entry value-plus active\"></div>\n" +
+                    "            </div>\n" +
+                    "        </div>\n" +
+                    "    </td>\n" +
+                    "\t\n" +
+                    "    <td class=\"invert\">"+name[k]+"</td>\n" +
+                    "    <td class=\"invert\">"+price[k]+"</td>\n" +
+                    "    <td class=\"invert\">"+price[k]*list[k].quantity+"</td>\n" +
+                    "    <td class=\"invert\">\n" +
+                    "        <div class=\"rem\">\n" +
+                    "            <div class=\"close1\"></div>\n" +
+                    "        </div>\n" +
+                    "    </td>\n" +
+                    "</tr>";
+            }
+            $("#cart").html(output);
         }
     });
 </script>
-
 
 <html>
 <head>
@@ -182,94 +227,8 @@
     <div class="container">
         <h3 class="animated wow slideInLeft" data-wow-delay=".5s">您的购物车里现有 <span id="number"> 3 </span><span>件产品</span></h3>
         <div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
-            <table class="timetable_sub">
-                <thead>
-                <tr>
-                    <th>序号</th>
-                    <th>商品</th>
-                    <th>数量</th>
-                    <th>商品姓名</th>
-                    <th>单价</th>
-                    <th>总价</th>
-                    <th>移除</th>
-                </tr>
-                </thead>
-                <tr class="rem1">
-                    <td class="invert">1</td>
-                    <td class="invert-image"><a href="single.html"><img src="images/新品1.jpg" alt=" "
-                                                                        class="img-responsive"/></a></td>
-                    <td class="invert">
-                        <div class="quantity">
-                            <div class="quantity-select">
-                                <div class="entry value-minus"></div>
-                                <div class="entry value"><span>1</span></div>
-                                <div class="entry value-plus active"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="invert">法式闪电泡芙</td>
-                    <td class="invert">$29.00</td>
-                    <td class="invert">$29.00</td>
-                    <td class="invert">
-                        <div class="rem">
-                            <div class="close1"></div>
-                        </div>
+            <table class="timetable_sub" id="cart">
 
-                    </td>
-                </tr>
-                <tr class="rem2">
-                    <td class="invert">2</td>
-                    <td class="invert-image"><a href="single.html"><img src="images/新品2.jpg" alt=" "
-                                                                        class="img-responsive"/></a></td>
-                    <td class="invert">
-                        <div class="quantity">
-                            <div class="quantity-select">
-                                <div class="entry value-minus">&nbsp;</div>
-                                <div class="entry value"><span>1</span></div>
-                                <div class="entry value-plus active">&nbsp;</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="invert">浓醇三重黑巧克力蛋糕</td>
-                    <td class="invert">$25.00</td>
-                    <td class="invert">$25.00</td>
-                    <td class="invert">
-                        <div class="rem">
-                            <div class="close2"></div>
-                        </div>
-
-                    </td>
-                </tr>
-                <tr class="rem3">
-                    <td class="invert">3</td>
-                    <td class="invert-image"><a href="single.html"><img src="images/新品3.jpg" alt=" "
-                                                                        class="img-responsive"/></a></td>
-                    <td class="invert">
-                        <div class="quantity">
-                            <div class="quantity-select">
-                                <div class="entry value-minus">&nbsp;</div>
-                                <div class="entry value"><span>1</span></div>
-                                <div class="entry value-plus active">&nbsp;</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="invert">香浓巧克力麦芬</td>
-                    <td class="invert">$29.00</td>
-                    <td class="invert">$29.00</td>
-                    <td class="invert">
-                        <div class="rem">
-                            <div class="close3"></div>
-                        </div>
-                        <script>$(document).ready(function (c) {
-                            $('.close3').on('click', function (c) {
-                                $('.rem3').fadeOut('slow', function (c) {
-                                    $('.rem3').remove();
-                                });
-                            });
-                        });
-                        </script>
-                    </td>
-                </tr>
             </table>
         </div>
         <div class="checkout-left">
@@ -284,11 +243,8 @@
                 </ul>
             </div>
             <div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">
-
                 <a href="index.html"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>返回点餐</a>
                 <a href="order.html"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>确认订单</a>
-
-
             </div>
             <div class="clearfix"></div>
         </div>
