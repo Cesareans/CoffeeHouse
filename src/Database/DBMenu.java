@@ -409,7 +409,7 @@ public class DBMenu {
                 u.setPrice(rs.getDouble(3));
                 u.setQuantity(rs.getInt(4));
                 u.setType(rs.getString(5));
-                u.setPictureUrl(rs.getString(6));
+                u.setPictureUrl(rs.getString(7));
                 menulist.add(u);
             }
             rs.close();
@@ -433,7 +433,7 @@ public class DBMenu {
                 u.setPrice(rs.getDouble(3));
                 u.setQuantity(rs.getInt(4));
                 u.setType(rs.getString(5));
-                u.setPictureUrl(rs.getString(6));
+                u.setPictureUrl(rs.getString(7));
             }
             rs.close();
             psm.close();
