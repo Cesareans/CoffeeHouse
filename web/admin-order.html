@@ -26,8 +26,8 @@
     }
 </style>
 
-<script type="text/html" id="TabelUtilBar">
-    <a class="layui-btn layui-btn-xs" lay-event="showOrder"><i class="layui-icon" style="margin-right: 0">&#xe66f;</i></a>
+<script type="text/html" id="TableUtilBar">
+    <a class="layui-btn layui-btn-xs" lay-event="showOrder"><i class="layui-icon" style="margin-right: 0">&#xe702;</i></a>
 </script>
 <script>
     var tableIns;
@@ -50,12 +50,19 @@
         filterFormItem.find(".filter:visible").hide();
         filterFormItem.find("div#" + filter + "Div").show();
 
+        $("#searchBtn").bind("click" , function () {
+
+        });
+        cancelFilterBtn.bind("click" , function () {
+
+        });
         layui.use(["form","table"] , function () {
             var form = layui.form,table = layui.table;
             table.on("tool(dataTable)" , function (col) {
                 var data = col.data;
                 switch (col.event){
                     case "showOrder":
+                        viewOrder(data.orderSN);
                         break;
                 }
             });
@@ -66,7 +73,6 @@
             })
         });
         showOrderTable();
-
     });
     function showOrderTable() {
         layui.use("table" , function () {
@@ -79,7 +85,7 @@
                 page: {
                     layout: ['prev', 'page', 'next','refresh'],
                     groups: 3,
-                    limit:4,
+                    limit:16,
                     first: false,
                     last: false
                 },
@@ -87,18 +93,28 @@
                     {field: 'orderSN', title: '订单号'},
                     {field: 'date', title: '日期'},
                     {field: 'userTel', title: '用户手机号'},
-                    {title:"操作" , fixed:"right" , width:150,align:"center" , toolbar:"#TableUtilBar"}
+                    {title:'操作' , fixed:'right' , width:150,align:'center' , toolbar:'#TableUtilBar'}
                 ]],
                 url: '/adminQueryOrder',
                 method:"post"
             })
         })
     }
+    function viewOrder(orderSN , count) {
+        layer.open({
+            type: 2,
+            area: '420px',
+            offset:'50px',
+            maxmin: false,
+            shadeClose: false,
+            title: "查看订单",
+            content: "admin-order-view.jsp?orderSN=" + orderSN
+        });
+    }
 </script>
 
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>Sisyphus-Admin</title>
 </head>
 <body class="layui-anim layui-anim-up">
@@ -118,6 +134,9 @@
                 </div>
                 <div class="layui-inline filter" id="userTelDiv">
                     <input name="userTel" id="userTel" type="text" placeholder="请输入用户手机号" autocomplete="off" class="layui-input" style="width: 188px;">
+                </div>
+                <div class="layui-inline filter" id="usernameDiv">
+                    <input name="username" id="username" type="text" placeholder="请输入用户名" autocomplete="off" class="layui-input" style="width: 188px;">
                 </div>
                 <div class="layui-inline">
                     <button name="searchBtn" id="searchBtn" type="button" class="layui-btn"><i class="layui-icon">&#xe615;</i></button>
