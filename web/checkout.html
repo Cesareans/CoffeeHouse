@@ -29,35 +29,6 @@
 </script>
 
 <script>
-    new WOW().init();
-    $('.value-plus').on('click', function () {
-        var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) + 1;
-        divUpd.text(newVal);
-    });
-
-    $('.value-minus').on('click', function () {
-        var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) - 1;
-        if (newVal >= 1) divUpd.text(newVal);
-    });
-
-    $(document).ready(function (c) {
-        $('.close2').on('click', function (c) {
-            $('.rem2').fadeOut('slow', function (c) {
-                $('.rem2').remove();
-            });
-        });
-    });
-
-    $(document).ready(function (c) {
-        $('.close1').on('click', function (c) {
-            $('.rem1').fadeOut('slow', function (c) {
-                $('.rem1').remove();
-            });
-        });
-    });
-</script>
-
-<script>
     $.ajax({//获取购物车表中的信息并显示
         url:"cart",
         method:"get",
@@ -66,21 +37,20 @@
             var menu = cart["menu"];
             var items = cart["items"];
             var list = items["orderlist"];
+            $("#number").text(list.length);
             var name = [];
             var picture = [];
             var price = [];
             for(var i = 0; i<list.length; i++) {
                 for(var j = 0; j<menu.length; j++) {
-                    if(list[i].serialNumber===menu[j].serialNumber) {
+                    if(list[i].mealSerialNumber === menu[j].serialNumber) {
                         picture[i] = menu[j].pictureUrl;
                         name[i] = menu[j].name;
-                        console.log(menu[j].price);
                         price[i] = menu[j].price;
                         break;
                     }
                 }
             }
-
             var output = "<thead>\n" +
                 "                <tr>\n" +
                 "                    <th>序号</th>\n" +
@@ -89,7 +59,7 @@
                 "                    <th>商品姓名</th>\n" +
                 "                    <th>单价</th>\n" +
                 "                    <th>总价</th>\n" +
-                "                    <th>移除</th>\n" +
+                "                    <th>删除</th>\n" +
                 "                </tr>\n" +
                 "          </thead>";
             for(var k = 0; k<list.length; k++) {
@@ -105,16 +75,16 @@
                     "    <td class=\"invert\">\n" +
                     "        <div class=\"quantity\">\n" +
                     "            <div class=\"quantity-select\">\n" +
-                    "                <div class=\"entry value-minus\"></div>\n" +
+                    "                <div id='minus' class=\"entry value-minus\"></div>\n" +
                     "                <div class=\"entry value\"><span>"+list[k].quantity+"</span></div>\n" +
-                    "                <div class=\"entry value-plus active\"></div>\n" +
+                    "                <div id='plus' class=\"entry value-plus active\"></div>\n" +
                     "            </div>\n" +
                     "        </div>\n" +
                     "    </td>\n" +
                     "\t\n" +
                     "    <td class=\"invert\">"+name[k]+"</td>\n" +
-                    "    <td class=\"invert\">"+price[k]+"</td>\n" +
-                    "    <td class=\"invert\">"+price[k]*list[k].quantity+"</td>\n" +
+                    "    <td class=\"invert\">￥"+price[k].toFixed(2)+"</td>\n" +
+                    "    <td class=\"invert\">￥"+(price[k]*list[k].quantity).toFixed(2)+"</td>\n" +
                     "    <td class=\"invert\">\n" +
                     "        <div class=\"rem\">\n" +
                     "            <div class=\"close1\"></div>\n" +
@@ -124,6 +94,69 @@
             }
             $("#cart").html(output);
         }
+    });
+
+    new WOW().init();
+
+    $("#cart").bind("click", function (e) {
+        var node = e.target.previousNode();//一整行数据
+        console.log(node);
+        var num = (Number)(node.getElementsByClassName("num")[0].innerText);//购买数量
+        if (e.target.innerText === '+') {//点击加号
+            num += 1;
+            node.getElementsByClassName("num")[0].innerText = num;
+            if (num > 0) {
+                $(node.getElementsByClassName("throw")[0]).attr('disabled', false);
+            }
+            $.ajax({
+                method:"post",
+                url: "cart",
+                data: {//购买数量和餐品序号
+                    "qty":num,
+                    "menuSerialNumber":node.getElementsByClassName("serialNumber")[0].innerText
+                },
+                success: function (result) {
+                    if(result==="false") {
+                        alert("大于库存!");
+                        $(node.getElementsByClassName("add")[0]).attr('disabled', false);
+                    }
+                }
+            });
+        }
+        else if (e.target.innerText === '-') {//点击减号
+            num -= 1;
+            node.getElementsByClassName("num")[0].innerText = num;
+            if (num === 0) {
+                $(node.getElementsByClassName("throw")[0]).attr('disabled', true);
+            }
+            $.ajax({
+                method:"post",
+                url: "cart",
+                data: {
+                    "qty":num,//购买数量
+                    "menuSerialNumber":node.getElementsByClassName("serialNumber")[0].innerText,
+                    "mealPrice":node.getElementsByClassName("price")[0].innerText
+                },
+                success: function (result) {
+                    if(result==="false") alert("系统繁忙");
+                }
+            });
+        }
+
+    });
+
+    $('.value-minus').on('click', function () {
+        var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) - 1;
+        if (newVal >= 1) divUpd.text(newVal);
+    });
+
+
+    $(document).ready(function (c) {
+        $('.close1').on('click', function (c) {
+            $('.rem1').fadeOut('slow', function (c) {
+                $('.rem1').remove();
+            });
+        });
     });
 </script>
 
@@ -225,10 +258,9 @@
 </div>
 <div class="checkout">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">您的购物车里现有 <span id="number"> 3 </span><span>件产品</span></h3>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">您的购物车里现有 <span id="number"></span><span> 件产品</span></h3>
         <div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
             <table class="timetable_sub" id="cart">
-
             </table>
         </div>
         <div class="checkout-left">
@@ -244,7 +276,7 @@
             </div>
             <div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">
                 <a href="index.html"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>返回点餐</a>
-                <a href="order.html"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>确认订单</a>
+                <a href="ordercheck.html"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>确认订单</a>
             </div>
             <div class="clearfix"></div>
         </div>

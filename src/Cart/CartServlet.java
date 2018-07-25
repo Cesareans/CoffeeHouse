@@ -50,7 +50,6 @@ public class CartServlet extends HttpServlet {
         h.put("menu", m);
         h.put("items", cart);
         String result = JSON.toJSONString(h);
-        System.out.println(result);
         pw.write(result);
         dbcart.close();
         dbmenu.close();
