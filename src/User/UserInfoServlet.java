@@ -31,6 +31,7 @@ public class UserInfoServlet extends HttpServlet {
         u.setName(username);
         u.setEmail(email);
         u.setGender(gender);
+        System.out.println(JSON.toJSONString(u , true));
         if(dbuser.updateUser(u))
             pw.write("true");
         else pw.write("false");

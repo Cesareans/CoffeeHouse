@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script src="JS/jquery.min.js"></script>
+<script>
+    var output = "";
+    $(function () {
+        //菜单显示
+        $.ajax({
+        url: "menu",
+        success: function (result) {
+            var menu = $.parseJSON(result);
+            for (var i = 0; i < menu.length; i++) {
+                output += "<tr>"
+                    + "<td class='serialNumber' align='center'>" + menu[i].serialNumber + "</td>"
+                    + "<td class='mname' align='center'>" + menu[i].name + "</td>"
+                    + "<td class='price' align='center'>" + menu[i].price + "</td>"
+                    + "<td class='quantity' align='center'>" + menu[i].quantity + "</td>"
+                    + "<td class='mtype' align='center'>" + menu[i].type + "</td>"
+                    + "<td align='center'>" + "<button class='add' type='button'>+</button>" + "</td>"
+                    + "<td align='center'>" + "<label  class='num' type='text'>0</label>" + "</td>"
+                    + "<td align='center'>" + "<button class='throw' type='button' disabled='disabled'>-</button>" + "</td>"
+                    + "</tr>";
+            }
+            $('#menuForm').html(output);
+        }
+        });
+
+        //点击事件
+        $(document).bind("click", function (e) {
+            var node = e.target.parentNode.parentNode;//一整行数据
+            var num = (Number)(node.getElementsByClassName("num")[0].innerText);//购买数量
+            if (e.target.innerText === '+') {//点击加号
+                num += 1;
+                node.getElementsByClassName("num")[0].innerText = num;
+                if (num > 0) {
+                    $(node.getElementsByClassName("throw")[0]).attr('disabled', false);
+                }
+                $.ajax({
+                    method:"post",
+                    url: "cart",
+                    data: {//购买数量和餐品序号
+                        "qty":num,
+                        "menuSerialNumber":node.getElementsByClassName("serialNumber")[0].innerText
+                    },
+                    success: function (result) {
+                        if(result==="false") {
+                            alert("大于库存!");
+                            $(node.getElementsByClassName("add")[0]).attr('disabled', false);
+                        }
+                    }
+                });
+            }
+            else if (e.target.innerText === '-') {//点击减号
+                num -= 1;
+                node.getElementsByClassName("num")[0].innerText = num;
+                if (num === 0) {
+                    $(node.getElementsByClassName("throw")[0]).attr('disabled', true);
+                }
+                $.ajax({
+                    method:"post",
+                    url: "cart",
+                    data: {
+                        "qty":num,//购买数量
+                        "menuSerialNumber":node.getElementsByClassName("serialNumber")[0].innerText,
+                        "mealPrice":node.getElementsByClassName("price")[0].innerText
+                    },
+                    success: function (result) {
+                        if(result==="false") alert("系统繁忙");
+                    }
+                });
+            }
+
+        });
+
+        //跳转至购物车界面
+        $("#cartBtn").bind("click", function() {
+            window.location = "cart.html";
+        });
+    });
+
+</script>
+
+<html>
+<head>
+</head>
+<body>
+<form id="menuForm">
+</form>
+<button id='cartBtn' type = 'button'>购物车</button>
+</body>
+</html>

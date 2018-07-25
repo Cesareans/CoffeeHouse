@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script src="JS/jquery.min.js"></script>
+
+<script>
+    //查询用户名对应的历史订单
+    var output="";
+    $.ajax({
+        method:"get",
+        url:"history",
+        success:function(result) {
+            var order = $.parseJSON(result);
+            for (var i = 0; i < order.length; i++) {
+                output += "<tr>"
+                    + "<td class='usertel' align='center'>" + order[i].usertel + "</td>"
+                    + "<td class='serialNumber' align='center'>" + order[i].serialNumber + "</td>"
+                    + "<td class='quantity' align='center'>" + order[i].quantity + "</td>"
+                    + "</tr>";
+            }
+            $('#historyForm').html(output);
+        }
+    });
+</script>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>历史订单界面</title>
+</head>
+<body>
+<form id="historyForm">
+</form>
+</body>
+</html>

@@ -31,14 +31,14 @@ create table Admin(
        );
 
 create table orders(
-       cartSN varchar(11),
+       orderSN varchar(11),
        userTel varchar(11),
        mealSerialNumber varchar(11),
        mealName varchar(11),
        mealPrice double,
        qty int,
        orderDate datetime,
-       primary key (cartSN,mealSerialNumber)
+       primary key (orderSN,mealSerialNumber)
        );
 
 create table cart(
@@ -57,10 +57,13 @@ add constraint fk2 foreign key(userTel) references user(utel) on delete cascade 
 alter table cart
 add constraint fk4 foreign key(userTel) references user(utel) on delete cascade on update cascade;
 
-insert into user values('17350516371', 'fda234', 'hzy', '1998-02-25', '7196634122@qq.com', '2018-07-01 00:00:00', 1, '男');
-insert into user values('17354551631', 'fda234', 'hfszy', '1998-02-24', '719621322@qq.com', '2018-07-01 00:00:00', 1, '男');
-insert into user values('17350671631', 'f54334', 'hzfdsay', '1998-02-15', '719653422@qq.com', '2018-07-01 00:00:00', 1, '男');
-
+insert into user values ('13412411234', '412a43', '1fdsf', '2018-07-01', '12141@qq.com', '2018-07-07 17:17:19', 1, '男');
+insert into user values ('17350516371', 'fda234', 'hzy', '1998-02-25', '7196634122@qq.com', '2018-07-01 00:00:00', 1, '男');
+insert into user values ('17350671631', 'f54334', 'hzfdsay', '1998-02-15', '719653422@qq.com', '2018-07-01 00:00:00', 1, '男');
+insert into user values ('17354551631', 'fda234', 'hfszy', '1998-02-24', '719621322@qq.com', '2018-07-01 00:00:00', 1, '男');
+insert into user values ('18850516371', 'sxy123456', 'sxy', '1998-02-25', '719669212@qq.com', '2018-07-01 00:00:00', 1, '男');
+insert into user values ('18850516373', 'yjb234569', 'yjb', '1998-04-25', '719669214@qq.com', '2018-07-01 00:00:00', 1, '男');
+insert into user values ('18850516374', 'lyj234566', 'lyj', '1998-05-25', '719669215@qq.com', '2018-07-01 00:00:00', 0, '女');
 
 insert into Admin values('hzy','admin');
 insert into Admin values('lyf','admin');

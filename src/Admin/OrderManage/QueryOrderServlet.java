@@ -64,12 +64,12 @@ public class QueryOrderServlet extends HttpServlet {
         jsonMap.put("code" , 0);
         jsonMap.put("msg" , "");
         jsonMap.put("count" , orderList.size());
-        jsonMap.put("data" , getMenuItems(page,limit));
+        jsonMap.put("data" , getOrderItems(page,limit));
 
         response.setContentType("text/html;charset=utf-8");
         response.getOutputStream().write(JSON.toJSONString(jsonMap).getBytes());
     }
-    private List<Order> getMenuItems(int page , int limit){
+    private List<Order> getOrderItems(int page , int limit){
         if(page*limit > orderList.size())
             return orderList.subList((page-1)*limit , orderList.size());
         else

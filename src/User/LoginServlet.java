@@ -14,16 +14,15 @@ import java.io.PrintWriter;
 @WebServlet(name = "LoginServlet")
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request , response);
+        processRequest(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request , response);
+        processRequest(request, response);
     }
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
         String usertel = request.getParameter("usertel");
         String password = request.getParameter("password");
-        Debug.log("usertel=" + usertel + "&password=" + password);
         if(usertel == null || password == null)
             return;
         if(usertel.equals("")|| password.equals(""))
@@ -38,5 +37,6 @@ public class LoginServlet extends HttpServlet {
             pw.write("false");
         }
         pw.close();
+        dbUser.close();
     }
 }
