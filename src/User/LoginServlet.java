@@ -23,7 +23,6 @@ public class LoginServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
         String usertel = request.getParameter("usertel");
         String password = request.getParameter("password");
-        Debug.log("usertel=" + usertel + "&password=" + password);
         if(usertel == null || password == null)
             return;
         if(usertel.equals("")|| password.equals(""))

@@ -920,7 +920,7 @@ mealSerialNumber</ColNames>
       <ColNames>serialnumber</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="227" parent="205" name="cartSN">
+    <column id="227" parent="205" name="orderSN">
       <Position>1</Position>
       <DataType>varchar(11)|0s</DataType>
       <NotNull>1</NotNull>
@@ -965,7 +965,7 @@ mealSerialNumber</ColNames>
     </index>
     <key id="235" parent="205" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>cartSN
+      <ColNames>orderSN
 mealSerialNumber</ColNames>
       <Primary>1</Primary>
     </key>

@@ -151,21 +151,39 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>MealServlet</servlet-name>
+        <servlet-class>Menu.MealServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MealServlet</servlet-name>
+        <url-pattern>/meal</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DrinkServlet</servlet-name>
+        <servlet-class>Menu.DrinkServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DrinkServlet</servlet-name>
+        <url-pattern>/drink</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DessertServlet</servlet-name>
+        <servlet-class>Menu.DessertServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DessertServlet</servlet-name>
+        <url-pattern>/dessert</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>CartServlet</servlet-name>
         <servlet-class>Cart.CartServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CartServlet</servlet-name>
         <url-pattern>/cart</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>MenuServlet</servlet-name>
-        <servlet-class>Menu.MenuServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>MenuServlet</servlet-name>
-        <url-pattern>/menu</url-pattern>
     </servlet-mapping>
 
     <servlet>

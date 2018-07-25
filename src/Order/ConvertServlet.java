@@ -29,13 +29,13 @@ public class ConvertServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String usertel = (String)session.getAttribute("usertel");
         DBCart dbcart = new DBCart();
-        ArrayList<Cart> cart =dbcart.getUserCart(usertel);
-        for(Cart c:cart) {
-            if(!dbcart.convertToOrder(c)) {
+        Cart cart =dbcart.getUserCart(usertel);
+
+            if(!dbcart.convertToOrder(cart)) {
                 pw.write("false");
                 return;
             }
-        }
+
         pw.write("true");
     }
 }

@@ -1,45 +1,180 @@
 <!DOCTYPE html>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="café, cafe, coffee shop, 西西弗斯,Sisyphus" />
+
+<link href="./images/favicon.png" rel="shortcut icon" />
+<link href="CSS/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="CSS/style.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" type="text/css" href="CSS/base.css" />
+<link rel="stylesheet" type="text/css" href="CSS/jquery-ui.css">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+<link href="CSS/animate.min.css" rel="stylesheet">
+
+<script type="application/x-javascript">
+    addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+    function hideURLbar(){ window.scrollTo(0,1); }
+</script>
+<script src="JS/jquery.min.js"></script>
+<script src="JS/simpleCart.min.js"> </script>
+<script type="text/javascript" src="JS/jquery-1.7.min.js"></script>
+<script type="text/javascript" src="JS/common.js"></script>
+<script type="text/javascript" src="JS/quick_links.js"></script>
+<script type="text/javascript" src="JS/bootstrap-3.1.1.min.js"></script>
+<script src="JS/wow.min.js"></script>
+<script src="JS/ieBetter.js"></script>
+<script type="text/javascript" src="JS/parabola.js"></script>
+<script>
+    new WOW().init();
+</script>
+<script src="JS/classie.js"></script>
+<script src="JS/uisearch.js"></script>
+<script>
+    new UISearch( document.getElementById( 'sb-search' ) );
+</script>
+<script type='text/javascript'>//<![CDATA[
+$(window).load(function(){
+    $( "#slider-range" ).slider({
+        range: true,
+        min: 0,
+        max: 500,
+        values: [ 0, 100 ],
+        slide: function( event, ui ) {  $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+        }
+    });
+    $("#amount").val( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+});
+</script>
+<script type="text/javascript">
+    $(".quick_links_panel li").mouseenter(function(){
+        $(this).children(".mp_tooltip").animate({left:-92,queue:true});
+        $(this).children(".mp_tooltip").css("visibility","visible");
+        $(this).children(".ibar_login_box").css("display","block");
+    });
+    $(".quick_links_panel li").mouseleave(function(){
+        $(this).children(".mp_tooltip").css("visibility","hidden");
+        $(this).children(".mp_tooltip").animate({left:-121,queue:true});
+        $(this).children(".ibar_login_box").css("display","none");
+    });
+    $(".quick_toggle li").mouseover(function(){
+        $(this).children(".mp_qrcode").show();
+    });
+    $(".quick_toggle li").mouseleave(function(){
+        $(this).children(".mp_qrcode").hide();
+    });
+
+    // 元素以及其他一些变量
+    var eleFlyElement = document.querySelector("#flyItem"), eleShopCart = document.querySelector("#shopCart");
+    var numberItem = 0;
+    // 抛物线运动
+    var myParabola = funParabola(eleFlyElement, eleShopCart, {
+        speed: 400, //抛物线速度
+        curvature: 0.0008, //控制抛物线弧度
+        complete: function() {
+            eleFlyElement.style.visibility = "hidden";
+            eleShopCart.querySelector("span").innerHTML = ++numberItem;
+        }
+    });
+    // 绑定点击事件
+    if (eleFlyElement && eleShopCart) {
+
+        [].slice.call(document.getElementsByClassName("btnCart")).forEach(function(button) {
+            button.addEventListener("click", function(event) {
+                // 滚动大小
+                var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft || 0,
+                    scrollTop = document.documentElement.scrollTop || document.body.scrollTop || 0;
+                eleFlyElement.style.left = event.clientX + scrollLeft + "px";
+                eleFlyElement.style.top = event.clientY + scrollTop + "px";
+                eleFlyElement.style.visibility = "visible";
+
+                // 需要重定位
+                myParabola.position().move();
+            });
+        });
+    }
+</script>
+<script>
+    $(function() {
+        $('#products-right-grids-bottom').bind("click", function(e) {
+            var node = e.target.parentNode;
+            var price = node.firstChild.nextSibling.nextSibling.innerText;
+            price = price.slice(1,3);
+            var name = e.target.parentNode.parentNode.previousElementSibling.previousElementSibling.innerText;
+            var serialNumber = node.parentNode.nextSibling.firstChild.nextSibling.innerText;
+            $.ajax({
+                url:"cart",
+                method:"post",
+                data:{
+                    "price":price,
+                    "name":name,
+                    "qty":1,
+                    "serialNumber":serialNumber
+                },
+                success:function(result) {
+                    if(result==="true") alert("添加购物车成功!");
+                    else alert("添加失败!");
+                }
+            });
+        });
+    });
+
+    $.ajax({
+        url: "dessert",
+        method: "get",
+        success: function (result) {
+            var menu = $.parseJSON(result);
+            var output = "";
+            for (var i = 0; i < 3; i++) {
+                output += "<div class=\"col-md-4 products-right-grids-bottom-grid\">";
+                for (var j = 0; j < 3; j++) {
+                    output += "<div class=\"new-collections-grid1 products-right-grid1 animated wow slideInUp\" data-wow-delay=\".5s\">\n" +
+                        "\t\t\t\t\t\t\t<div class=\"new-collections-grid1-image\">\n" +
+                        "\t\t\t\t\t\t\t\t<a href=\"single.html\" class=\"product-image\"><img src=\"" + menu[j + 3 * i].pictureUrl + "\" alt=\" \" class=\"img-responsive\"></a>\n" +
+                        "\t\t\t\t\t\t\t\t<div class=\"new-collections-grid1-image-pos products-right-grids-pos\">\n" +
+                        "\t\t\t\t\t\t\t\t\t<a href=\"single.html\">详细信息</a>\n" +
+                        "\t\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t\t<div class=\"new-collections-grid1-right products-right-grids-pos-right\">\n" +
+                        "\t\t\t\t\t\t\t\t\t<div class=\"rating\">\n" +
+                        "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
+                        "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/2.png\" alt=\" \" class=\"img-responsive\">\n" +
+                        "\t\t\t\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
+                        "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/2.png\" alt=\" \" class=\"img-responsive\">\n" +
+                        "\t\t\t\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
+                        "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/2.png\" alt=\" \" class=\"img-responsive\">\n" +
+                        "\t\t\t\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
+                        "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/1.png\" alt=\" \" class=\"img-responsive\">\n" +
+                        "\t\t\t\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
+                        "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/1.png\" alt=\" \" class=\"img-responsive\">\n" +
+                        "\t\t\t\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t\t\t\t<div class=\"clearfix\"> </div>\n" +
+                        "\t\t\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t<h4><a href=\"single.html\">" + menu[j + 3 * i].name + "</a></h4>\n" +
+                        "\t\t\t\t\t\t\t<p></p>\n" +
+                        "\t\t\t\t\t\t\t<div class=\"simpleCart_shelfItem products-right-grid1-add-cart\">\n" +
+                        "\t\t\t\t\t\t\t\t<p><i>￥"+Math.round(menu[j + 3 * i].price/0.8)+"</i> <span class=\"item_price\">￥" + menu[j + 3 * i].price + "</span><a class=\"item_add\" href=\"#\">加入购物车</a></p>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t</div>";
+                }
+                output += "</div>";
+            }
+            output += "<div class=\"clearfix\"> </div>";
+            $('#products-right-grids-bottom').html(output);
+        }
+    });
+</script>
 <html>
 <head>
 	<title>甜品 | 西西弗斯咖啡屋</title>
-	<link href="coffee.ico" rel="shortcut icon" />
-	<!-- for-mobile-apps -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="keywords" content="café, cafe, coffee shop, 西西弗斯,Sisyphus" />
-	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
-    function hideURLbar(){ window.scrollTo(0,1); } </script>
-	<!-- //for-mobile-apps -->
-	<link href="CSS/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-	<link href="CSS/style.css" rel="stylesheet" type="text/css" media="all" />
-	<link rel="stylesheet" type="text/css" href="CSS/base.css" />
-	<!-- js -->
-	<script src="JS/jquery.min.js"></script>
-
-	<!-- //js -->
-	<!-- cart -->
-	<script src="JS/simpleCart.min.js"> </script>
-	<script type="text/javascript" src="JS/jquery-1.7.min.js"></script>
-	<script type="text/javascript" src="JS/common.js"></script>
-	<script type="text/javascript" src="JS/quick_links.js"></script>
-	<!-- cart -->
-	<link rel="stylesheet" type="text/css" href="CSS/jquery-ui.css">
-	<!-- for bootstrap working -->
-	<script type="text/javascript" src="JS/bootstrap-3.1.1.min.js"></script>
-	<!-- //for bootstrap working -->
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
-	<link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-	<!-- animation-effect -->
-	<link href="CSS/animate.min.css" rel="stylesheet">
-	<script src="JS/wow.min.js"></script>
-<script>
- new WOW().init();
-</script>
-<!-- //animation-effect -->
 </head>
-	
 <body>
-<!-- header -->
 	<div class="header">
 		<div class="container">
 			<div class="header-grid">
@@ -97,13 +232,6 @@
 							</form>
 						</div>
 					</div>
-						<!-- search-scripts -->
-						<script src="JS/classie.js"></script>
-						<script src="JS/uisearch.js"></script>
-							<script>
-								new UISearch( document.getElementById( 'sb-search' ) );
-							</script>
-						<!-- //search-scripts -->
 				</div>
 				<div class="header-right">
 					<div class="cart box_1">
@@ -121,8 +249,7 @@
 			</div>
 		</div>
 	</div>
-<!-- //header -->
-<!-- breadcrumbs -->
+
 	<div class="breadcrumbs">
 		<div class="container">
 			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
@@ -142,21 +269,7 @@
 							<input type="text" id="amount" style="border: 0" />
 							</a></li>	
 					</ul>
-						<script type='text/javascript'>//<![CDATA[ 
-						$(window).load(function(){
-						 $( "#slider-range" ).slider({
-								range: true,
-								min: 0,
-								max: 500,
-								values: [ 0, 100 ],
-								slide: function( event, ui ) {  $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-								}
-					 });
-					$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
 
-
-						});//]]>
-						</script>
 						<script type="text/javascript" src="JS/jquery-ui.min.js"></script>
 					 <!---->
 				</div>
@@ -297,317 +410,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="products-right-grids-bottom">
-					<div class="col-md-4 products-right-grids-bottom-grid">
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/香浓巧克力麦芬.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">详细信息</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">香浓巧克力麦芬</a></h4>
-							<p>高品质欧洲巧克力的细腻。
-							</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$48</i> <span class="item_price">$28</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a></p>
-							</div>
-						</div>
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/蓝莓麦芬.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">详细信息</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">蓝莓麦芬</a></h4>
-							<p>
-					        进口大蓝莓果粒的曼妙。
-							</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$45</i> <span class="item_price">$25</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a></p>
-							</div>
-						</div>
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/法式香酥可颂.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">详细信息</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">法式香酥可颂</a></h4>
-							<p>
-								金黄色的外表，酥脆可口。
-							</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$50</i> <span class="item_price">$25</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车 </a></p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 products-right-grids-bottom-grid">
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/层层榛子果仁酥.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">详细信息</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">层层榛子果仁酥</a></h4>
-							<p>甄选法国进口黄油和榛子。</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$58</i> <span class="item_price">$35</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a></p>
-							</div>
-						</div>
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/蜂蜜提子司康.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">详细信息</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">蜂蜜提子司康</a></h4>
-							<p>提子干经朗姆酒精心炮制。</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$58</i> <span class="item_price">$35</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车 </a></p>
-							</div>
-						</div>
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/香浓巧克力可颂.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">详细信息</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">香浓巧克力可颂</a></h4>
-							<p>借鉴传统27层制作工艺。</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$55</i> <span class="item_price">$35</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车 </a></p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 products-right-grids-bottom-grid">
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/全麦核桃麦芬.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">详细信息</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">全麦核桃麦芬</a></h4>
-							<p>多种坚果，富有嚼劲。</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$55</i> <span class="item_price">$35</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a></p>
-							</div>
-						</div>
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/法式闪电泡芙.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">详细信息</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">法式闪电泡芙</a></h4>
-							<p>六种口味，丰富诱人。
-							</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$55</i> <span class="item_price">$35</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车 </a></p>
-							</div>
-						</div>
-						<div class="new-collections-grid1 products-right-grid1 animated wow slideInUp" data-wow-delay=".5s">
-							<div class="new-collections-grid1-image">
-								<a href="single.html" class="product-image"><img src="images/浓醇三重黑巧克力蛋糕.jpg" alt=" " class="img-responsive"></a>
-								<div class="new-collections-grid1-image-pos products-right-grids-pos">
-									<a href="single.html">详细信息</a>
-								</div>
-								<div class="new-collections-grid1-right products-right-grids-pos-right">
-									<div class="rating">
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/2.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="rating-left">
-											<img src="images/1.png" alt=" " class="img-responsive">
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-							</div>
-							<h4><a href="single.html">浓醇三重黑巧克力蛋糕</a></h4>
-							<p>蛋糕层与慕斯完美融合</p>
-							<div class="simpleCart_shelfItem products-right-grid1-add-cart">
-								<p><i>$55</i> <span class="item_price">$35</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a></p>
-							</div>
-						</div>
-					</div>
-					<div class="clearfix"> </div>
+				<div class="products-right-grids-bottom" id="products-right-grids-bottom">
 				</div>
 				<nav class="numbering animated wow slideInRight" data-wow-delay=".5s">
 				  <ul class="pagination paging">
@@ -632,8 +435,7 @@
 			<div class="clearfix"> </div>
 		</div>
 	</div>
-<!-- //breadcrumbs -->
-<!-- footer -->
+
 	<div class="footer">
 		<div class="container">
 			<div class="footer-grids">
@@ -785,59 +587,6 @@
 </div>
 
 
-<!--[if lte IE 8]>
-<script src="js/ieBetter.js"></script>
-<![endif]-->
-
-<script type="text/javascript" src="js/parabola.js"></script>
-<script type="text/javascript">
-    $(".quick_links_panel li").mouseenter(function(){
-        $(this).children(".mp_tooltip").animate({left:-92,queue:true});
-        $(this).children(".mp_tooltip").css("visibility","visible");
-        $(this).children(".ibar_login_box").css("display","block");
-    });
-    $(".quick_links_panel li").mouseleave(function(){
-        $(this).children(".mp_tooltip").css("visibility","hidden");
-        $(this).children(".mp_tooltip").animate({left:-121,queue:true});
-        $(this).children(".ibar_login_box").css("display","none");
-    });
-    $(".quick_toggle li").mouseover(function(){
-        $(this).children(".mp_qrcode").show();
-    });
-    $(".quick_toggle li").mouseleave(function(){
-        $(this).children(".mp_qrcode").hide();
-    });
-
-    // 元素以及其他一些变量
-    var eleFlyElement = document.querySelector("#flyItem"), eleShopCart = document.querySelector("#shopCart");
-    var numberItem = 0;
-    // 抛物线运动
-    var myParabola = funParabola(eleFlyElement, eleShopCart, {
-        speed: 400, //抛物线速度
-        curvature: 0.0008, //控制抛物线弧度
-        complete: function() {
-            eleFlyElement.style.visibility = "hidden";
-            eleShopCart.querySelector("span").innerHTML = ++numberItem;
-        }
-    });
-    // 绑定点击事件
-    if (eleFlyElement && eleShopCart) {
-
-        [].slice.call(document.getElementsByClassName("btnCart")).forEach(function(button) {
-            button.addEventListener("click", function(event) {
-                // 滚动大小
-                var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft || 0,
-                    scrollTop = document.documentElement.scrollTop || document.body.scrollTop || 0;
-                eleFlyElement.style.left = event.clientX + scrollLeft + "px";
-                eleFlyElement.style.top = event.clientY + scrollTop + "px";
-                eleFlyElement.style.visibility = "visible";
-
-                // 需要重定位
-                myParabola.position().move();
-            });
-        });
-    }
-</script>
 
 </body>
 </html>
