@@ -54,7 +54,7 @@
                 "birthday": "<%=userTel.getBirthday()%>",
                 "oldTelephone":<%=userTel.getTel()%>,
                 "telephone": "<%=userTel.getTel()%>",
-                "email": "<%=userTel.getEmail()%>",
+                "email": "<%=userTel.getEmail()%>"
             });
             <%}%>
 
