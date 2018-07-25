@@ -2,8 +2,10 @@ package Database;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
+import DebugUtil.Debug;
 import Entity.*;
 
 public class DBCart {
@@ -29,6 +31,33 @@ public class DBCart {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getNewSN()
+    {
+        ArrayList<Integer> SNs = new ArrayList<>();
+        String sn = "";
+        try {
+
+            psm = con.prepareStatement("select cartSN from cart");
+            rs = psm.executeQuery();
+            while (rs.next()) {
+                SNs.add(Integer.valueOf(rs.getString(1)));
+            }
+            rs.close();
+            psm.close();
+
+            int SN=0;
+            for(Integer i : SNs){
+                if(SN < i)
+                    SN = i;
+            }
+            SN++;
+            sn=String.format("%06d",SN);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sn;
     }
 
     public Cart getUserCart(String usertel) {
@@ -96,13 +125,32 @@ public class DBCart {
         return getUserCart(usertel) != null;
     }
 
+    private boolean haveCartMSN(String cartSN,String MSN)
+    {
+        boolean result = false;
+        try {
+            psm = con.prepareStatement("select distinct mealSerialNumber from cart where cartSN="+"'"+cartSN+"' and mealSerialNumber ="+"'"+MSN+"'");
+            rs = psm.executeQuery();
+            ArrayList<String> MSNs = new ArrayList<String>();
+            result = rs.next();
+            rs.close();
+            psm.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
     public boolean insertNewCart(String user, String mealSerialNumber, int qty) {
         boolean result = false;
         try {
             String sqlInset = "insert into cart(cartSN,userTel,mealSerialNumber,qty) values(?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(sqlInset);
             DBOrder o = new DBOrder();
-            stmt.setString(1, o.getNewSN());
+            String sn = getNewSN();
+            if(sn.equals(""))
+                sn = o.getNewSN();
+            stmt.setString(1, sn);
             stmt.setString(2, user);
             stmt.setString(3, mealSerialNumber);
             stmt.setInt(4, qty);
@@ -114,7 +162,22 @@ public class DBCart {
         }
         return result;
     }
-
+    public boolean insertNewItem(String cartSN , String userTel , String mealSerialNumber, int qty ){
+        boolean result = false;
+        try {
+            String sqlInset = "insert into cart(cartSN,userTel,mealSerialNumber,qty) values(?, ?, ?, ?)";
+            PreparedStatement stmt = con.prepareStatement(sqlInset);
+            stmt.setString(1, cartSN);
+            stmt.setString(2, userTel);
+            stmt.setString(3, mealSerialNumber);
+            stmt.setInt(4, qty);
+            int i = stmt.executeUpdate();
+            result = i == 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     public boolean deleteOrder(String cartSN, String mealSerialNumber) {
         boolean result = false;
@@ -158,13 +221,22 @@ public class DBCart {
         return result;
     }
 
+
     public boolean update(String usertel, String mealSN, int newQty) {
         boolean result = false;
         String cartSN = "";
         if (haveCart(usertel)) {
             cartSN = getCartSNByUser(usertel);
-            if (updateCartQty(cartSN, mealSN, newQty))
-                result = true;
+            if(haveCartMSN(cartSN,mealSN))
+            {
+                if(updateCartQty(cartSN,mealSN,newQty))
+                    result=true;
+            }
+            else
+            {
+                if(insertNewItem(cartSN,usertel,mealSN,newQty))
+                    result=true;
+            }
         } else {
             if (insertNewCart(usertel, mealSN, newQty))
                 result = true;
