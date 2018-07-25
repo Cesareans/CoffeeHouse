@@ -28,7 +28,7 @@ public class QueryOrderServlet extends HttpServlet {
         DBOrder dbOrder = new DBOrder();
         String orderSerial = request.getParameter("orderSerial");
         String userTel = request.getParameter("userTel");
-        String userNameMatcher = request.getParameter("userNameMatcher");
+        String userNameMatcher = request.getParameter("username");
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
         //未考虑效率

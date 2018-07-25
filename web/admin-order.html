@@ -34,6 +34,9 @@
     var orderSerialDiv;
     var userTelDiv;
     var usernameDiv;
+    var orderSerialField;
+    var userTelField;
+    var usernameField;
     var cancelFilterBtn;
     var filterFormItem;
     var filter;
@@ -41,6 +44,9 @@
         orderSerialDiv = $("#orderSerialDiv");
         userTelDiv = $("#userTelDiv");
         usernameDiv = $("#usernameDiv");
+        orderSerialField = $("#orderSerial");
+        userTelField = $("#userTel");
+        usernameField = $("#username");
 
         cancelFilterBtn = $("#cancelFilterBtn");
         cancelFilterBtn.hide();
@@ -51,10 +57,22 @@
         filterFormItem.find("div#" + filter + "Div").show();
 
         $("#searchBtn").bind("click" , function () {
-
+            switch (filterFormItem.find(".filter:visible")[0].id) {
+                case "orderSerialDiv":
+                    doOrderSerialFilter();
+                    break;
+                case "userTelDiv":
+                    doUserTelFilter();
+                    break;
+                case "usernameDiv":
+                    doUsernameFilter();
+                    break;
+            }
         });
         cancelFilterBtn.bind("click" , function () {
-
+            filterFormItem.find(".filter:visible").val("");
+            showOrderTable();
+            cancelFilterBtn.hide();
         });
         layui.use(["form","table"] , function () {
             var form = layui.form,table = layui.table;
@@ -100,7 +118,55 @@
             })
         })
     }
-    function viewOrder(orderSN , count) {
+    function doOrderSerialFilter() {
+        var orderSerial = orderSerialField.val();
+        if(orderSerial === "") return;
+        tableIns.reload({
+            where:{orderSerial:orderSerial},
+            page: {
+                layout: ['prev', 'page', 'next','refresh'],
+                groups: 3,
+                limit:16,
+                first: false,
+                last: false,
+                cur:1
+            }
+        });
+        cancelFilterBtn.show();
+    }
+    function doUserTelFilter() {
+        var userTel = userTelField.val();
+        if(userTel === "") return;
+        tableIns.reload({
+            where:{userTel:userTel},
+            page: {
+                layout: ['prev', 'page', 'next','refresh'],
+                groups: 3,
+                limit:16,
+                first: false,
+                last: false,
+                cur:1
+            }
+        });
+        cancelFilterBtn.show();
+    }
+    function doUsernameFilter() {
+        var username = usernameField.val();
+        if(username === "") return;
+        tableIns.reload({
+            where:{username:username},
+            page: {
+                layout: ['prev', 'page', 'next','refresh'],
+                groups: 3,
+                limit:16,
+                first: false,
+                last: false,
+                cur:1
+            }
+        });
+        cancelFilterBtn.show();
+    }
+    function viewOrder(orderSN) {
         layer.open({
             type: 2,
             area: '420px',

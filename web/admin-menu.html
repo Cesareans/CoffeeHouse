@@ -166,17 +166,30 @@
         if(menuItemNameVal !== ""){
             tableIns.reload({
                 where:{menuItemName:menuItemNameVal},
-                page:{curr:1}
+                page: {
+                    layout: ['prev', 'page', 'next','refresh'],
+                    groups: 3,
+                    limit:16,
+                    first: false,
+                    last: false,
+                    cur:1
+                }
             });
             cancelFilterBtn.show();
         }
     }
     function doMenuTypeFilter() {
         var typeVal = typeField.val();
-        console.log(tableIns);
         tableIns.reload({
             where:{type:typeVal},
-            page:{curr:1}
+            page: {
+                layout: ['prev', 'page', 'next','refresh'],
+                groups: 3,
+                limit:16,
+                first: false,
+                last: false,
+                cur:1
+            }
         });
         cancelFilterBtn.show();
     }
