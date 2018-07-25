@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="coffee.ico" rel="shortcut icon" />
+<title>购物车 | 西西弗斯咖啡屋</title>
+<!-- for-mobile-apps -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="café, cafe, coffee shop, 西西弗斯,Sisyphus" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+		function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //for-mobile-apps -->
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- js -->
+<script src="js/jquery.min.js"></script>
+<!-- //js -->
+<!-- cart -->
+<script src="js/simpleCart.min.js"></script>
+<!-- cart -->
+<!-- for bootstrap working -->
+<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+<!-- //for bootstrap working -->
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+<!-- timer -->
+<link rel="stylesheet" href="css/jquery.countdown.css" />
+<!-- //timer -->
+<!-- animation-effect -->
+<link href="css/animate.min.css" rel="stylesheet"> 
+<script src="js/wow.min.js"></script>
+<script>
+ new WOW().init();
+</script>
+<!-- //animation-effect -->
+</head>
+	
+<body>
+<!-- header -->
+	<div class="header">
+		<div class="container">
+			<div class="header-grid">
+				<div class="header-grid-left animated wow slideInLeft" data-wow-delay=".5s">
+					<ul>
+						<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:info@example.com">cesarean@foxmail.com</a></li>
+						<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+178 <span>5971</span> 0072</li>
+						<li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.html">登录</a></li>
+						<li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.html">注册</a></li>
+					</ul>
+				</div>
+				<div class="header-grid-right animated wow slideInRight" data-wow-delay=".5s">
+					<ul class="social-icons">
+						<li><a href="#" class="facebook"></a></li>
+						<li><a href="#" class="twitter"></a></li>
+						<li><a href="#" class="g"></a></li>
+						<li><a href="#" class="instagram"></a></li>
+					</ul>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			<div class="logo-nav">
+				<div class="logo-nav-left animated wow zoomIn" data-wow-delay=".5s">
+					<h1><a href="index.html">西西弗斯咖啡屋 </a></h1><span font-size="5px">心意，从这一杯开始</span>
+				</div>
+				<div class="logo-nav-left1">
+					<nav class="navbar navbar-default">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header nav_2">
+						<button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+					</div>
+					<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+						<ul class="nav navbar-nav">&emsp;
+							<li><a href="index.html" >&emsp;&emsp;&emsp;&emsp;主页</a></li>
+							<li class="active"><a href="drinks.html">&nbsp;饮料</a></li>
+							<li class="active"><a href="desserts.html">&nbsp;甜品</a></li>
+							<li class="active"><a href="meals.html">&nbsp;主食</a></li>
+							<li class="active"><a href="mail.html">&nbsp;联系我们</a></li>
+						</ul>
+					</div>
+					</nav>
+				</div>
+				<div class="logo-nav-right">
+					<div class="search-box">
+						<div id="sb-search" class="sb-search">
+							<form>
+								<input class="sb-search-input" placeholder="请输入搜索内容..." type="search" id="search">
+								<input class="sb-search-submit" type="submit" value="">
+								<span class="sb-icon-search"> </span>
+							</form>
+						</div>
+					</div>
+						<!-- search-scripts -->
+						<script src="js/classie.js"></script>
+						<script src="js/uisearch.js"></script>
+							<script>
+								new UISearch( document.getElementById( 'sb-search' ) );
+							</script>
+						<!-- //search-scripts -->
+				</div>
+				<div class="header-right">
+					<div class="cart box_1">
+						<a href="checkout.html">
+							<h3> <div class="total">
+								<span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> 个项目)</div>
+								<img src="images/bag.png" alt="" />
+							</h3>
+						</a>
+						<p><a href="javascript:;" class="simpleCart_empty">清空购物车</a></p>
+						<div class="clearfix"> </div>
+					</div>	
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+<!-- //header -->
+<!-- breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+				<li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
+				<li class="active">购物车</li>
+			</ol>
+		</div>
+	</div>
+<!-- //breadcrumbs -->
+<!-- checkout -->
+	<div class="checkout">
+		<div class="container">
+			<h3 class="animated wow slideInLeft" data-wow-delay=".5s">您的购物车里现有 <span> 3 件产品</span></h3>
+			<div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
+				<table class="timetable_sub">
+					<thead>
+						<tr>
+							<th>序号</th>	
+							<th>商品</th>
+							<th>数量</th>
+							<th>商品姓名</th>
+							<th>单价</th>
+							<th>总价</th>
+							<th>移除</th>
+						</tr>
+					</thead>
+					<tr class="rem1">
+						<td class="invert">1</td>
+						<td class="invert-image"><a href="single.html"><img src="images/新品1.jpg" alt=" " class="img-responsive" /></a></td>
+						<td class="invert">
+							 <div class="quantity"> 
+								<div class="quantity-select">                           
+									<div class="entry value-minus">&nbsp;</div>
+									<div class="entry value"><span>1</span></div>
+									<div class="entry value-plus active">&nbsp;</div>
+								</div>
+							</div>
+						</td>
+						<td class="invert">法式闪电泡芙</td>
+						<td class="invert">$29.00</td>
+						<td class="invert">$29.00</td>
+						<td class="invert">
+							<div class="rem">
+								<div class="close1"> </div>
+							</div>
+							<script>$(document).ready(function(c) {
+								$('.close1').on('click', function(c){
+									$('.rem1').fadeOut('slow', function(c){
+										$('.rem1').remove();
+									});
+									});	  
+								});
+						   </script>
+						</td>
+					</tr>
+					<tr class="rem2">
+						<td class="invert">2</td>
+						<td class="invert-image"><a href="single.html"><img src="images/新品2.jpg" alt=" " class="img-responsive" /></a></td>
+						<td class="invert">
+							 <div class="quantity"> 
+								<div class="quantity-select">                           
+									<div class="entry value-minus">&nbsp;</div>
+									<div class="entry value"><span>1</span></div>
+									<div class="entry value-plus active">&nbsp;</div>
+								</div>
+							</div>
+						</td>
+						<td class="invert">浓醇三重黑巧克力蛋糕</td>
+						<td class="invert">$25.00</td>
+						<td class="invert">$25.00</td>
+						<td class="invert">
+							<div class="rem">
+								<div class="close2"> </div>
+							</div>
+							<script>$(document).ready(function(c) {
+								$('.close2').on('click', function(c){
+									$('.rem2').fadeOut('slow', function(c){
+										$('.rem2').remove();
+									});
+									});	  
+								});
+						   </script>
+						</td>
+					</tr>
+					<tr class="rem3">
+						<td class="invert">3</td>
+						<td class="invert-image"><a href="single.html"><img src="images/新品3.jpg" alt=" " class="img-responsive" /></a></td>
+						<td class="invert">
+							 <div class="quantity"> 
+								<div class="quantity-select">                           
+									<div class="entry value-minus">&nbsp;</div>
+									<div class="entry value"><span>1</span></div>
+									<div class="entry value-plus active">&nbsp;</div>
+								</div>
+							</div>
+						</td>
+						<td class="invert">香浓巧克力麦芬</td>
+						<td class="invert">$29.00</td>
+						<td class="invert">$29.00</td>
+						<td class="invert">
+							<div class="rem">
+								<div class="close3"> </div>
+							</div>
+							<script>$(document).ready(function(c) {
+								$('.close3').on('click', function(c){
+									$('.rem3').fadeOut('slow', function(c){
+										$('.rem3').remove();
+									});
+									});	  
+								});
+						   </script>
+						</td>
+					</tr>
+								<!--quantity-->
+									<script>
+									$('.value-plus').on('click', function(){
+										var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)+1;
+										divUpd.text(newVal);
+									});
+
+									$('.value-minus').on('click', function(){
+										var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)-1;
+										if(newVal>=1) divUpd.text(newVal);
+									});
+									</script>
+								<!--quantity-->
+				</table>
+			</div>
+			<div class="checkout-left">	
+				<div class="checkout-left-basket animated wow slideInLeft" data-wow-delay=".5s">
+					<h4>总计</h4>
+					<ul>
+						<li>法式闪电泡芙 <span>$29.00 </span></li>
+						<li>浓醇三重黑巧克力蛋糕 <span>$25.00 </span></li>
+						<li>香浓巧克力麦芬 <span>$29.00 </span></li>
+						<li>配送费 <span>$15.00</span></li>
+						<li>总计<i>-</i> <span>$98.00</span></li>
+					</ul>
+				</div>
+				<div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">
+					
+					<a href="index.html"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>返回点餐</a>
+					<a href="order.html"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>确认订单</a>
+					
+					
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+<!-- //checkout -->
+<!-- footer -->
+	<div class="footer">
+		<div class="container">
+			<div class="footer-grids">
+				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".5s">
+					<h3>关于我们</h3>
+					<p>西西弗斯咖啡屋是除“居住空间”和“职场”以外的第三空间。优雅舒适的环境，以及独一无二的香醇咖啡和法式浪漫餐点，让你与生活的繁琐保持距离。
+						<span>这里是属于每个人的第三空间，他们不在西西弗斯，就在去西西弗斯的路上。</span></p>
+				</div>
+				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
+					<h3>联系我们</h3>
+					<ul>
+						<li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>白城沙滩，思明区，厦门市<span>福建省</span></li>
+						<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:info@example.com">cesarean@foxmail.com
+						</a></li>
+						<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+178 5971 0072</li>
+					</ul>
+				</div>
+				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".7s">
+					<h3>门店展示</h3>
+					<div class="footer-grid-left">
+						<a href="index.html"><img src="images/店面1.png" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="index.html"><img src="images/店面2.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="index.html"><img src="images/店面3.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="index.html"><img src="images/店面4.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="index.html"><img src="images/店面1.png" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="index.html"><img src="images/店面2.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="index.html"><img src="images/店面3.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="index.html"><img src="images/店面4.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="index.html"><img src="images/店面1.png" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="index.html"><img src="images/店面2.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="index.html"><img src="images/店面3.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="index.html"><img src="images/店面4.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".8s">
+					<h3>相关博客</h3>
+					<div class="footer-grid-sub-grids">
+						<div class="footer-grid-sub-grid-left">
+							<a href="https://www.starbucks.com.cn/coffee-blog/the-origin-of-coffee-and-its-cultivation/"><img src="images/博客1.jpg" alt=" " class="img-responsive" /></a>
+						</div>
+						<div class="footer-grid-sub-grid-right">
+							<h4><a href="https://www.starbucks.com.cn/coffee-blog/the-origin-of-coffee-and-its-cultivation/">咖啡的起源与培植</a></h4>
+							<p>Posted On 5/7/2018</p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="footer-grid-sub-grids">
+						<div class="footer-grid-sub-grid-left">
+							<a href="https://www.starbucks.com.cn/coffee-blog/history-of-coffee/"><img src="images/博客2.jpg" alt=" " class="img-responsive" /></a>
+						</div>
+						<div class="footer-grid-sub-grid-right">
+							<h4><a href="https://www.starbucks.com.cn/coffee-blog/history-of-coffee/">咖啡的历史</a></h4>
+							<p>Posted On 5/7/2018</p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			<div class="footer-logo animated wow slideInUp" data-wow-delay=".5s">
+				<h2><a href="index.html">西西弗斯咖啡屋<span>心意，从这一杯开始</span></a></h2>
+			</div>
+			<div class="copy-right animated wow slideInUp" data-wow-delay=".5s">
+				<p>Copyright ©2018 Sisyphus. All Rights Reserved.</p>
+			</div>
+		</div>
+	</div>
+<!-- //footer -->
+</body>
+</html>
