@@ -350,6 +350,17 @@ public class DBOrder {
         return result;
     }
 
+    public double getPriceInOrder(String orderSN)
+    {
+        double totalPrice = 0;
+        Order order = new Order();
+        ArrayList<OrderItem> itemList =  order.getOrderlist();
+        for(OrderItem item : itemList) {
+            totalPrice += item.getMealPrice()*item.getQuantity();
+        }
+        return totalPrice;
+    }
+
     public void close()
     {
         try {
