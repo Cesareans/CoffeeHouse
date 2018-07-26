@@ -26,7 +26,7 @@
 <%
     String userTel = ((String) session.getAttribute("usertel"));
     boolean hasLogin = false;
-    if(userTel != null){
+    if (userTel != null) {
         hasLogin = true;
     }
 %>
@@ -35,94 +35,60 @@
     addEventListener("load", function () {
         setTimeout(hideURLbar, 0);
     }, false);
+
     function hideURLbar() {
         window.scrollTo(0, 1);
     }
 </script>
 <script>
     new WOW().init();
-    $(function() {
-         var output = "<div id=\"checkoutGoodsList\" class=\"checkout-goods-box\">\n" +
-             "                <div class=\"xm-box\">\n" +
-             "                    <div class=\"box-hd\">\n" +
-             "                        <h2 class=\"title\">确认订单信息</h2>\n" +
-             "                        <h2 class=\"title\"><br></h2>\n" +
-             "                    </div>\n" +
-             "                    <div class=\"box-bd\">\n" +
-             "                        <dl class=\"checkout-goods-list\">\n" +
-             "                            <dt class=\"clearfix\">\n" +
-             "                                <span class=\"col col-1\"><h4>商品名称</h4></span>\n" +
-             "                                <span class=\"col col-2\"><h4>购买价格</h4></span>\n" +
-             "                                <span class=\"col col-3\"><h4>购买数量</h4></span>\n" +
-             "                                <span class=\"col col-4\"><h4>小计</h4></span>\n" +
-             "                            </dt>";
-         $.ajax({
-             url:"order",
-             method:"get",
-             success:function(result) {
-                 var order = $.parseJSON(result);
-                 console.log(order);
-                 var menu = order["menu"];
-                 var orderinfo = order["order"][0];
-                 var items = orderinfo["orderlist"];
-                 for (var i = 0; i < items.length; i++) {
-                     for (var j = 0; j < menu.length; j++) {
-                         if (items[i].mealSerialNumber === menu[j].serialNumber) {
-                             items[i].pictureUrl = menu[j].pictureUrl;
-                             break;
-                         }
-                     }
-                 }
-                 var totalprice = 0;
-                 for(var l = 0; l<items.length; l++)
-                 {
-                     totalprice+=items[l].quantity*items[l].mealPrice;
-                 }
-                 for(var k = 0; k<items.length; k++) {
-                      output+="<dd class=\"item clearfix\">\n" +
-                          "                                <div class=\"item-row\">\n" +
-                          "                                    <div class=\"col col-1\">\n" +
-                          "                                        <div class=\"g-pic\">\n" +
-                          "                                            <img src=\""+ items[k].pictureUrl+"\" srcset=\""+ items[k].pictureUrl+"\" width=\"40\" height=\"40\"/>\n" +
-                          "                                        </div>\n" +
-                          "                                        <div class=\"g-info\">\n" +
-                          "                                            <a href=\"#\">"+items[k].mealName+"</a>\n" +
-                          "                                        </div>\n" +
-                          "                                    </div>\n" +
-                          "\n" +
-                          "                                    <div class=\"col col-2\">￥"+(items[k].mealPrice).toFixed(2)+"</div>\n" +
-                          "                                    <div class=\"col col-3\">"+items[k].quantity+"</div>\n" +
-                          "                                    <div class=\"col col-4\">￥"+(items[k].quantity*items[k].mealPrice).toFixed(2)+"</div>\n" +
-                          "                                </div>\n" +
-                          "                            </dd>";
-                 }
-                 output+="</dl>\n" +
-                     "                        <div class=\"checkout-count clearfix\">\n" +
-                     "                            <!-- checkout-count-extend -->\n" +
-                     "                            <div class=\"checkout-price\">\n" +
-                     "                                <p class=\"checkout-total\">应付总额：<span><strong id=\"totalPrice\">￥"+totalprice+"</strong></span></p>\n" +
-                     "                            </div>\n" +
-                     "                            <!--  -->\n" +
-                     "                        </div>\n" +
-                     "                    </div>\n" +
-                     "                    <!-- 商品清单 END -->\n" +
-                     "                    <input type=\"hidden\" id=\"couponType\" name=\"Checkout[couponsType]\">\n" +
-                     "                    <input type=\"hidden\" id=\"couponValue\" name=\"Checkout[couponsValue]\">\n" +
-                     "                    <div class=\"checkout-confirm\">\n" +
-                     "\n" +
-                     "                        <a href=\"checkout.jsp\" class=\"btn btn-lineDakeLight btn-back-cart\">返回购物车</a>\n" +
-                     "                        <a href=\"order.jsp\" type=\"submit\" class=\"btn btn-primary\" id=\"checkoutToPay\">立即下单</a>\n" +
-                     "                    </div>\n" +
-                     "                </div>\n" +
-                     "            </div>";
-                 $("#goodlist").html(output);
-             }
+    var totalprice = 0;
+    $(function () {
+        $.ajax({
+            url: "order",
+            method: "get",
+            success: function (result) {
+                var order = $.parseJSON(result);
+                console.log(order);
+                var menu = order["menu"];
+                var orderinfo = order["order"][0];
+                var items = orderinfo["orderlist"];
+                for (var i = 0; i < items.length; i++) {
+                    for (var j = 0; j < menu.length; j++) {
+                        if (items[i].mealSerialNumber === menu[j].serialNumber) {
+                            items[i].pictureUrl = menu[j].pictureUrl;
+                            break;
+                        }
+                    }
+                }
+                var output = "";
+                for (var k = 0; k < items.length; k++) {
+                    totalprice += items[k].quantity * items[k].mealPrice;
+                    output += "<dd class=\"item clearfix\">" +
+                        "<div class=\"item-row\">" +
+                        "<div class=\"col col-1\">" +
+                        "<div class=\"g-pic\">" +
+                        "<img src=\"" + items[k].pictureUrl + "\" srcset=\"" + items[k].pictureUrl + "\" width=\"40\" height=\"40\"/>" +
+                        "</div>" +
+                        "<div class=\"g-info\">" +
+                        "<a href=\"#\">" + items[k].mealName + "</a>" +
+                        "</div>" +
+                        "</div>" +
+                        "<div class=\"col col-2\">￥" + (items[k].mealPrice).toFixed(2) + "</div>" +
+                        "<div class=\"col col-3\">" + items[k].quantity + "</div>" +
+                        "<div class=\"col col-4\">￥" + (items[k].quantity * items[k].mealPrice).toFixed(2) + "</div>" +
+                        "</div>" +
+                        "</dd>";
+                }
+                output +="<div class=\"checkout-count clearfix\">" +
+                    "<div class=\"checkout-price\">" +
+                    "<p class=\"checkout-total\">应付总额：<span><strong id=\"totalPrice\">￥"+totalprice+"</strong></span></p>" +
+                    "</div>" +
+                    "</div>";
+                $("#formData").html(output);
+            }
 
-         });
-
-
-
-
+        });
     });
 </script>
 
@@ -136,12 +102,13 @@
     <div class="container">
         <div class="header-grid">
             <div class="header-grid-left animated wow slideInLeft" data-wow-delay=".5s">
-                <%if(hasLogin){%>
+                <%if (hasLogin) {%>
                 <ul>
-                    <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a></li>
+                    <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a>
+                    </li>
                     <li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="register.jsp">退出</a></li>
                 </ul>
-                <%}else{%>
+                <%} else {%>
                 <ul>
                     <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.jsp">登录</a></li>
                     <li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.jsp">注册</a></li>
@@ -219,14 +186,36 @@
         <div class="checkout-box-ft">
             <!-- 商品清单 -->
             <form id="goodlist">
-
-
+                <div id="checkoutGoodsList" class="checkout-goods-box">
+                    <div class="xm-box">
+                        <div class="box-hd">
+                            <h2 class="title">确认订单信息</h2>
+                            <h2 class="title"><br></h2>
+                        </div>
+                        <div class="box-bd">
+                            <dl class="checkout-goods-list">
+                                <dt class="clearfix">
+                                    <span class="col col-1"><h4>商品名称</h4></span>
+                                    <span class="col col-2"><h4>购买价格</h4></span>
+                                    <span class="col col-3"><h4>购买数量</h4></span>
+                                    <span class="col col-4"><h4>小计</h4></span>
+                                </dt>
+                                <div id="formData">
+                                </div>
+                            </dl>
+                        </div>
+                        <input type="hidden" id="couponType" name="Checkout[couponsType]">
+                        <input type="hidden" id="couponValue" name="Checkout[couponsValue]">
+                        <div class="checkout-confirm">
+                            <a href="checkout.jsp" class="btn btn-lineDakeLight btn-back-cart">返回购物车</a>
+                            <a href="order.jsp" type="submit" class="btn btn-primary" id="checkoutToPay"
+                               style='background-color: #cb754b'>立即下单</a>
+                        </div>
+                    </div>
+                </div>
             </form>
-
         </div>
-
     </div>
-
     <div class="clearfix"></div>
 </div>
 </div>
@@ -309,7 +298,8 @@
                 <div class="footer-grid-sub-grids">
                     <div class="footer-grid-sub-grid-left">
                         <a href="https://www.starbucks.com.cn/coffee-blog/history-of-coffee/"><img src="images/博客2.jpg"
-                                                                                                   alt=" " class="img-responsive"/></a>
+                                                                                                   alt=" "
+                                                                                                   class="img-responsive"/></a>
                     </div>
                     <div class="footer-grid-sub-grid-right">
                         <h4><a href="https://www.starbucks.com.cn/coffee-blog/history-of-coffee/">咖啡的历史</a></h4>
