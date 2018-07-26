@@ -22,8 +22,6 @@ public class CartServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String usertel = (String) session.getAttribute("usertel");
         String qty = request.getParameter("qty");
-        String name = request.getParameter("name");
-        String price = request.getParameter("price");
         String serialNumber = request.getParameter("serialNumber");
         DBCart dbcart = new DBCart();
         int num = Integer.parseInt(qty);

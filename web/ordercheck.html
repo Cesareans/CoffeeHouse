@@ -3,7 +3,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="keywords" content="café, cafe, coffee shop, 西西弗斯,Sisyphus"/>
-
+<script type="application/x-javascript"> addEventListener("load", function () {
+    setTimeout(hideURLbar, 0);
+}, false);
+function hideURLbar() {
+    window.scrollTo(0, 1);
+} </script>
 <link href="./images/favicon.png" rel="shortcut icon"/>
 <link href="CSS/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
 <link href="CSS/style.css" rel="stylesheet" type="text/css" media="all"/>
@@ -13,166 +18,67 @@
       rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="CSS/jquery.countdown.css"/>
 <link href="CSS/animate.min.css" rel="stylesheet">
+<link href="CSS/public.css" type="text/css" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="CSS/base.css"/>
+<link rel="stylesheet" type="text/css" href="CSS/checkOut.css"/>
 
 <script src="JS/jquery.min.js"></script>
 <script src="JS/simpleCart.min.js"></script>
 <script type="text/javascript" src="JS/bootstrap-3.1.1.min.js"></script>
+<script type="text/javascript" src="JS/jquery_cart.js"></script>
 <script src="JS/wow.min.js"></script>
-<script type="application/x-javascript">
-    addEventListener("load", function () {
-        setTimeout(hideURLbar, 0);
-    }, false);
-
-    function hideURLbar() {
-        window.scrollTo(0, 1);
-    }
-</script>
 <script>
     new WOW().init();
-    var list;
-    //获取购物车表中的信息并显示
-    $.ajax({
-        url: "cart",
-        method: "get",
-        success: function (result) {
-            var cart = $.parseJSON(result);
-            var menu = cart["menu"];
-            var items = cart["items"];
-            list = items["orderlist"];
-            $("#number").text(list.length);
+    $(function() {
+         var output = "<div id=\"checkoutGoodsList\" class=\"checkout-goods-box\">\n" +
+             "                <div class=\"xm-box\">\n" +
+             "                    <div class=\"box-hd\">\n" +
+             "                        <h2 class=\"title\">确认订单信息</h2>\n" +
+             "                        <h2 class=\"title\"><br></h2>\n" +
+             "                    </div>\n" +
+             "                    <div class=\"box-bd\">\n" +
+             "                        <dl class=\"checkout-goods-list\">\n" +
+             "                            <dt class=\"clearfix\">\n" +
+             "                                <span class=\"col col-1\"><h4>商品名称</h4></span>\n" +
+             "                                <span class=\"col col-2\"><h4>购买价格</h4></span>\n" +
+             "                                <span class=\"col col-3\"><h4>购买数量</h4></span>\n" +
+             "                                <span class=\"col col-4\"><h4>小计</h4></span>\n" +
+             "                            </dt>";
+         $.ajax({
+             url:"order",
+             method:"get",
+             success:function(result) {
+                 var order = $.parseJSON(result);
+                 var orderlist =[];
+                 orderlist = order.orderlist;
+                 console.log(orderlist);
 
-            for (var i = 0; i < list.length; i++) {
-                for (var j = 0; j < menu.length; j++) {
-                    if (list[i].mealSerialNumber === menu[j].serialNumber) {
-                        list[i].name = menu[j].name;
-                        list[i].pictureUrl = menu[j].pictureUrl;
-                        list[i].price = menu[j].price;
-                        break;
-                    }
-                }
-            }
-            var output = "<thead>\n" +
-                "                <tr>\n" +
-                "                    <th>序号</th>\n" +
-                "                    <th>商品</th>\n" +
-                "                    <th>数量</th>\n" +
-                "                    <th>商品姓名</th>\n" +
-                "                    <th>单价</th>\n" +
-                "                    <th>总价</th>\n" +
-                "                    <th>删除</th>\n" +
-                "                </tr>\n" +
-                "          </thead>";
-            for (var k = 0; k < list.length; k++) {
-                output += "<tr>\n" +
-                    "    <td class=\"invert\">" + (k + 1) + "</td>\n" +
-                    "\t\n" +
-                    "    <td class=\"invert-image\">\n" +
-                    "\t\t<a href=\"single.html\">\n" +
-                    "\t\t\t<img src=\"" + list[k].pictureUrl + "\" alt=\" \" class=\"img-responsive\"/>\n" +
-                    "\t\t</a>\n" +
-                    "    </td>\n" +
-                    "\t\n" +
-                    "    <td class=\"invert\">\n" +
-                    "        <div class=\"quantity\">\n" +
-                    "            <div class=\"quantity-select\">\n" +
-                    "                <div class=\"entry value-minus\" disabled='true'>-</div>\n" +
-                    "                <div class=\"entry value\"><span>" + list[k].quantity + "</span></div>\n" +
-                    "                <div id='plus' class=\"entry value-plus active\">+</div>\n" +
-                    "            </div>\n" +
-                    "        </div>\n" +
-                    "    </td>\n" +
-                    "\t\n" +
-                    "    <td class=\"invert\">" + list[k].name + "</td>\n" +
-                    "    <td class=\"invert\">￥" + (list[k].price).toFixed(2) + "</td>\n" +
-                    "    <td class=\"invert\">￥" + (list[k].price * list[k].quantity).toFixed(2) + "</td>\n" +
-                    "    <td class=\"invert\">\n" +
-                    "        <div class=\"rem\">\n" +
-                    "            <div class=\"close1\"> </div>\n" +
-                    "        </div>\n" +
-                    "    </td>\n" +
-                    "</tr>";
-            }
-            $("#cart").html(output);
-        }
+                 for(var i = 0; i<order.length; i++) {
+                      output+="<dd class=\"item clearfix\">\n" +
+                          "                                <div class=\"item-row\">\n" +
+                          "                                    <div class=\"col col-1\">\n" +
+                          "                                        <div class=\"g-pic\">\n" +
+                          "                                            <img src=\"images/卡布奇诺.jpg\" srcset=\"images/卡布奇诺.jpg\" width=\"40\" height=\"40\"/>\n" +
+                          "                                        </div>\n" +
+                          "                                        <div class=\"g-info\">\n" +
+                          "                                            <a href=\"#\">卡布奇诺</a>\n" +
+                          "                                        </div>\n" +
+                          "                                    </div>\n" +
+                          "\n" +
+                          "                                    <div class=\"col col-2\">39元</div>\n" +
+                          "                                    <div class=\"col col-3\">1</div>\n" +
+                          "                                    <div class=\"col col-4\">39元</div>\n" +
+                          "                                </div>\n" +
+                          "                            </dd>";
+                 }
+             }
+
+         });
+
+
+
+
     });
-
-    $(function () {
-        //改变购买数量
-        $("#cart").bind("click", function (e) {
-            var node;
-            var qty;
-            var Node;
-            var total;
-            var totalNode;
-            var serialNumber;
-            if (e.target.innerText === "+") {
-                node = e.target.previousSibling.previousSibling.firstChild;
-                qty = (Number)(node.innerText);
-                qty++;
-                $(node).text(qty);
-                Node = e.target.parentNode.parentNode.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.innerText;
-                total = list[Node-1].price*qty;
-                serialNumber = list[Node-1].mealSerialNumber;
-                totalNode = e.target.parentNode.parentNode.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling;
-                $(totalNode).text("￥"+total.toFixed(2));
-                updateQty(qty, serialNumber);
-            }
-            else if (e.target.innerText === "-") {
-                node = e.target.nextSibling.nextSibling.firstChild;
-                qty = (Number)(node.innerText);
-                qty--;
-                if (qty === 0) {
-                    qty++;
-                    $(e.target).attr("disabled",true);
-                }
-                $(node).text(qty);
-                Node = e.target.parentNode.parentNode.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.innerText;
-                total = list[Node-1].price*qty;
-                serialNumber = list[Node-1].mealSerialNumber;
-                totalNode = e.target.parentNode.parentNode.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling;
-                $(totalNode).text("￥"+total.toFixed(2));
-                updateQty(qty, serialNumber);
-            }
-            else if(e.target.innerText===" "){
-
-            }
-        });
-
-        //删除商品
-        $(document).ready(function (c) {
-            $('.close1').on('click', function (c) {
-                $('.rem1').fadeOut('slow', function (c) {
-                    $('.rem1').remove();
-                });
-            });
-        });
-
-        //提交订单,转为订单
-        $("#ordercheck").bind("click", function() {
-            $.ajax({
-                url:"order",
-                method:"post",
-                success:function(result) {
-                    if(result==="false") alert("失败");
-                }
-            });
-        });
-    });
-
-    //更新数据库商品数量
-    function updateQty(qty, serialNumber) {
-        $.ajax({
-            url:"cart",
-            method:"post",
-            data:{
-                "qty":qty,
-                "serialNumber":serialNumber
-            },
-            success:function(result) {
-                if(result==="false") alert("fail");
-            }
-        });
-    }
 </script>
 
 <html>
@@ -180,6 +86,7 @@
     <title>购物车 | 西西弗斯咖啡屋</title>
 </head>
 <body>
+<!-- header -->
 <div class="header">
     <div class="container">
         <div class="header-grid">
@@ -208,6 +115,7 @@
             </div>
             <div class="logo-nav-left1">
                 <nav class="navbar navbar-default">
+                    <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header nav_2">
                         <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse"
                                 data-target="#bs-megadropdown-tabs">
@@ -263,6 +171,8 @@
         </div>
     </div>
 </div>
+<!-- //header -->
+<!-- breadcrumbs -->
 <div class="breadcrumbs">
     <div class="container">
         <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
@@ -273,33 +183,104 @@
 </div>
 <div class="checkout">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">您的购物车里现有 <span id="number"></span><span> 件产品</span>
-        </h3>
-        <div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
-            <table class="timetable_sub" id="cart">
-            </table>
-        </div>
-        <div class="checkout-left">
-            <div class="checkout-left-basket animated wow slideInLeft" data-wow-delay=".5s">
-                <h4>总计</h4>
-                <ul id="total">
-                    <li>法式闪电泡芙 <span>29.00</span><span>￥</span></li>
-                    <li>浓醇三重黑巧克力蛋糕 <span>29.00</span><span>￥</span></li>
-                    <li>香浓巧克力麦芬 <span>29.00</span><span>￥</span></li>
-                    <li>配送费 <span>4.00</span><span>￥</span></li>
-                    <li>总计 <span>29.00</span><span>￥</span></li>
-                </ul>
+        <div class="checkout-box-ft">
+            <!-- 商品清单 -->
+            <form>
+            <div id="checkoutGoodsList" class="checkout-goods-box">
+                <div class="xm-box">
+                    <div class="box-hd">
+                        <h2 class="title">确认订单信息</h2>
+                        <h2 class="title"><br></h2>
+                    </div>
+                    <div class="box-bd">
+                        <dl class="checkout-goods-list">
+                            <dt class="clearfix">
+                                <span class="col col-1"><h4>商品名称</h4></span>
+                                <span class="col col-2"><h4>购买价格</h4></span>
+                                <span class="col col-3"><h4>购买数量</h4></span>
+                                <span class="col col-4"><h4>小计</h4></span>
+                            </dt>
+                            <dd class="item clearfix">
+                                <div class="item-row">
+                                    <div class="col col-1">
+                                        <div class="g-pic">
+                                            <img src="images/卡布奇诺.jpg" srcset="images/卡布奇诺.jpg" width="40" height="40"/>
+                                        </div>
+                                        <div class="g-info">
+                                            <a href="#">卡布奇诺</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col col-2">39元</div>
+                                    <div class="col col-3">1</div>
+                                    <div class="col col-4">39元</div>
+                                </div>
+                            </dd>
+                            <dd class="item clearfix">
+                                <div class="item-row">
+                                    <div class="col col-1">
+                                        <div class="g-pic">
+                                            <img src="images/美式咖啡.jpg" srcset="images/美式咖啡.jpg" width="40" height="40"/>
+                                        </div>
+                                        <div class="g-info">
+                                            <a href="#">美式咖啡 </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col col-2">49元</div>
+                                    <div class="col col-3">1</div>
+                                    <div class="col col-4">49元</div>
+                                </div>
+                            </dd>
+                            <dd class="item clearfix">
+                                <div class="item-row">
+                                    <div class="col col-1">
+                                        <div class="g-pic">
+                                            <img src="images/焦糖玛奇朵.jpg" srcset="images/焦糖玛奇朵.jpg" width="40"
+                                                 height="40"/>
+                                        </div>
+                                        <div class="g-info">
+                                            <a href="#">
+                                                焦糖玛奇朵 </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col col-2">39元</div>
+                                    <div class="col col-3">4</div>
+                                    <div class="col col-4">156元</div>
+                                </div>
+                            </dd>
+                        </dl>
+                        <div class="checkout-count clearfix">
+                            <!-- checkout-count-extend -->
+                            <div class="checkout-price">
+                                <p class="checkout-total">应付总额：<span><strong id="totalPrice">244</strong>元</span></p>
+                            </div>
+                            <!--  -->
+                        </div>
+                    </div>
+                    <!-- 商品清单 END -->
+                    <input type="hidden" id="couponType" name="Checkout[couponsType]">
+                    <input type="hidden" id="couponValue" name="Checkout[couponsValue]">
+                    <div class="checkout-confirm">
+
+                        <a href="checkout.html" class="btn btn-lineDakeLight btn-back-cart">返回购物车</a>
+                        <a href="order.html" input type="submit" class="btn btn-primary" id="checkoutToPay">立即下单</a>
+                    </div>
+                </div>
             </div>
-            <div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">
-                <a href="index.html"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>返回点餐</a>
-                <a href="ordercheck.html" id="ordercheck">
-                    <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-                    确认订单
-                </a>
-            </div>
-            <div class="clearfix"></div>
+
+            </form>
+
         </div>
+
+        <script src="JS/base.min.js"></script>
+        <script type="text/javascript" src="JS/address_all.js"></script>
+        <script type="text/javascript" src="JS/checkout.min.js"></script>
     </div>
+
+    <div class="clearfix"></div>
+</div>
 </div>
 <!-- //checkout -->
 <!-- footer -->
@@ -380,8 +361,7 @@
                 <div class="footer-grid-sub-grids">
                     <div class="footer-grid-sub-grid-left">
                         <a href="https://www.starbucks.com.cn/coffee-blog/history-of-coffee/"><img src="images/博客2.jpg"
-                                                                                                   alt=" "
-                                                                                                   class="img-responsive"/></a>
+                                                                                                   alt=" " class="img-responsive"/></a>
                     </div>
                     <div class="footer-grid-sub-grid-right">
                         <h4><a href="https://www.starbucks.com.cn/coffee-blog/history-of-coffee/">咖啡的历史</a></h4>
@@ -400,5 +380,6 @@
         </div>
     </div>
 </div>
+<!-- //footer -->
 </body>
 </html>
