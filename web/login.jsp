@@ -82,7 +82,7 @@
                     if (result === null || result === "false") {
                         layer.tips("密码错误或用户名不存在", "#password");
                     } else if (result === "true") {
-                        window.location.assign('information.html');
+                        window.location.assign('information.jsp');
                     }
                 }
             });

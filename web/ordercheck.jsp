@@ -61,8 +61,7 @@
              method:"get",
              success:function(result) {
                  var order = $.parseJSON(result);
-                 var orderlist =[];
-                 orderlist = order.orderlist;
+                 var orderlist = order["orderlist"];
                  console.log(orderlist);
 
                  for(var i = 0; i<order.length; i++) {
