@@ -20,6 +20,7 @@ import java.util.HashMap;
 @WebServlet(name = "OrderServlet")
 public class OrderServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //转换成订单
         response.setContentType("text/html;charset=utf-8;");
         PrintWriter pw = response.getWriter();
         HttpSession session = request.getSession();
@@ -35,6 +36,7 @@ public class OrderServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //获取订单信息
         response.setContentType("text/html;charset=utf-8;");
         PrintWriter pw = response.getWriter();
         HttpSession session = request.getSession();

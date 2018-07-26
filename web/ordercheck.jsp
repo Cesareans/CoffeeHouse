@@ -44,39 +44,41 @@
     new WOW().init();
     var totalprice = 0;
     $(function () {
+        //显示购物车内容
         $.ajax({
-            url: "order",
+            url: "cart",
             method: "get",
             success: function (result) {
-                var order = $.parseJSON(result);
-                console.log(order);
-                var menu = order["menu"];
-                var orderinfo = order["order"][0];
-                var items = orderinfo["orderlist"];
-                for (var i = 0; i < items.length; i++) {
+                var cart = $.parseJSON(result);
+                var menu = cart["menu"];
+                var items = cart["items"];
+                list = items["orderlist"];
+                for (var i = 0; i < list.length; i++) {
                     for (var j = 0; j < menu.length; j++) {
-                        if (items[i].mealSerialNumber === menu[j].serialNumber) {
-                            items[i].pictureUrl = menu[j].pictureUrl;
+                        if (list[i].mealSerialNumber === menu[j].serialNumber) {
+                            list[i].name = menu[j].name;
+                            list[i].pictureUrl = menu[j].pictureUrl;
+                            list[i].mealPrice = menu[j].price;
                             break;
                         }
                     }
                 }
                 var output = "";
-                for (var k = 0; k < items.length; k++) {
-                    totalprice += items[k].quantity * items[k].mealPrice;
+                for (var k = 0; k < list.length; k++) {
+                    totalprice += list[k].quantity * list[k].mealPrice;
                     output += "<dd class=\"item clearfix\">" +
                         "<div class=\"item-row\">" +
                         "<div class=\"col col-1\">" +
                         "<div class=\"g-pic\">" +
-                        "<img src=\"" + items[k].pictureUrl + "\" srcset=\"" + items[k].pictureUrl + "\" width=\"40\" height=\"40\"/>" +
+                        "<img src=\"" + list[k].pictureUrl + "\" srcset=\"" + list[k].pictureUrl + "\" width=\"40\" height=\"40\"/>" +
                         "</div>" +
                         "<div class=\"g-info\">" +
-                        "<a href=\"#\">" + items[k].mealName + "</a>" +
+                        "<a href=\"#\">" + list[k].name + "</a>" +
                         "</div>" +
                         "</div>" +
-                        "<div class=\"col col-2\">￥" + (items[k].mealPrice).toFixed(2) + "</div>" +
-                        "<div class=\"col col-3\">" + items[k].quantity + "</div>" +
-                        "<div class=\"col col-4\">￥" + (items[k].quantity * items[k].mealPrice).toFixed(2) + "</div>" +
+                        "<div class=\"col col-2\">￥" + (list[k].mealPrice).toFixed(2) + "</div>" +
+                        "<div class=\"col col-3\">" + list[k].quantity + "</div>" +
+                        "<div class=\"col col-4\">￥" + (list[k].quantity * list[k].mealPrice).toFixed(2) + "</div>" +
                         "</div>" +
                         "</dd>";
                 }
@@ -87,7 +89,17 @@
                     "</div>";
                 $("#formData").html(output);
             }
+        });
 
+        //提交订单,转为订单
+        $("#checkoutToPay").bind("click", function() {
+            $.ajax({
+                url:"order",
+                method:"post",
+                success:function(result) {
+                    if(result==="false") alert("失败");
+                }
+            });
         });
     });
 </script>

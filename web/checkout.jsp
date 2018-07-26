@@ -230,18 +230,6 @@
 
             }
         });
-
-
-        //提交订单,转为订单
-        $("#ordercheck").bind("click", function() {
-            $.ajax({
-                url:"order",
-                method:"post",
-                success:function(result) {
-                    if(result==="false") alert("失败");
-                }
-            });
-        });
     });
 
     //更新数据库商品数量

@@ -19,6 +19,7 @@ import java.util.HashMap;
 @WebServlet(name = "CartServlet")
 public class CartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //插入到购物车
         PrintWriter pw = response.getWriter();
         HttpSession session = request.getSession();
         String usertel = (String) session.getAttribute("usertel");
@@ -37,6 +38,7 @@ public class CartServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //获取购物车信息
         response.setContentType("text/html;charset=utf-8;");
         PrintWriter pw = response.getWriter();
         HttpSession session = request.getSession();
@@ -49,7 +51,6 @@ public class CartServlet extends HttpServlet {
         h.put("menu", m);
         h.put("items", cart);
         String result = JSON.toJSONString(h);
-        System.out.println(result);
         pw.write(result);
         dbcart.close();
         dbmenu.close();
