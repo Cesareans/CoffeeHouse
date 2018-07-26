@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -12,7 +13,7 @@
       rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="CSS/jquery.countdown.css"/>
 <link href="CSS/animate.min.css" rel="stylesheet">
-<link href="/lib/layui/css/layui.css" rel="stylesheet">
+<link href="lib/layui/css/layui.css" rel="stylesheet">
 
 <script src="JS/jquery.min.js"></script>
 <script src="JS/simpleCart.min.js"></script>
@@ -21,69 +22,79 @@
 <script src="JS/wow.min.js"></script>
 <script src="JS/bootstrap-3.1.1.min.js"></script>
 
-<style>
-    .login-form-grids input[type="button"] {
-        outline: none;
-        border: none;
-        padding: 10px 0;
-        font-size: 1em;
-        color: #fff;
-        display: block;
-        width: 100%;
-        background: #FFC229;
-        margin: 1.5em 0 0;
+<%
+    String userTel = ((String) session.getAttribute("usertel"));
+    boolean hasLogin = false;
+    if(userTel != null){
+        hasLogin = true;
     }
-</style>
+%>
 
 <script type="application/x-javascript">
     addEventListener("load", function () {
         setTimeout(hideURLbar, 0);
     }, false);
-
     function hideURLbar() {
         window.scrollTo(0, 1);
     }
 </script>
 <script>
     new WOW().init();
-    $(function () {
-        layui.use("layer" , function () {
-            var layer = layui.layer;
-        });
-        $("#loginBtn").bind("click", function () {//判断用户名和密码的规范性
-            var usertel = document.getElementById("usertel").value;
-            if (usertel == null || usertel === "") {
-                layer.tips("请输入用户名", "#usertel");
-                document.getElementById("usertel").focus();
-                return;
-            }
-            var password = document.getElementById("password").value;
-            if (password == null || password === "") {
-                layer.tips("请输入密码", "#password");
-                document.getElementById("password").focus();
-                return;
-            }
-            $.ajax({
-                url: "login",
-                data: {
-                    "usertel": usertel,
-                    "password": password
-                },
-                success: function (result) {
-                    if (result === null || result === "false") {
-                        layer.tips("密码错误或用户名不存在", "#password");
-                    } else if (result === "true") {
-                        window.location.assign('information.html');
-                    }
-                }
-            });
-        });
+    $(function() {
+         var output = "<div id=\"checkoutGoodsList\" class=\"checkout-goods-box\">\n" +
+             "                <div class=\"xm-box\">\n" +
+             "                    <div class=\"box-hd\">\n" +
+             "                        <h2 class=\"title\">确认订单信息</h2>\n" +
+             "                        <h2 class=\"title\"><br></h2>\n" +
+             "                    </div>\n" +
+             "                    <div class=\"box-bd\">\n" +
+             "                        <dl class=\"checkout-goods-list\">\n" +
+             "                            <dt class=\"clearfix\">\n" +
+             "                                <span class=\"col col-1\"><h4>商品名称</h4></span>\n" +
+             "                                <span class=\"col col-2\"><h4>购买价格</h4></span>\n" +
+             "                                <span class=\"col col-3\"><h4>购买数量</h4></span>\n" +
+             "                                <span class=\"col col-4\"><h4>小计</h4></span>\n" +
+             "                            </dt>";
+         $.ajax({
+             url:"order",
+             method:"get",
+             success:function(result) {
+                 var order = $.parseJSON(result);
+                 var orderlist =[];
+                 orderlist = order.orderlist;
+                 console.log(orderlist);
+
+                 for(var i = 0; i<order.length; i++) {
+                      output+="<dd class=\"item clearfix\">\n" +
+                          "                                <div class=\"item-row\">\n" +
+                          "                                    <div class=\"col col-1\">\n" +
+                          "                                        <div class=\"g-pic\">\n" +
+                          "                                            <img src=\"images/卡布奇诺.jpg\" srcset=\"images/卡布奇诺.jpg\" width=\"40\" height=\"40\"/>\n" +
+                          "                                        </div>\n" +
+                          "                                        <div class=\"g-info\">\n" +
+                          "                                            <a href=\"#\">卡布奇诺</a>\n" +
+                          "                                        </div>\n" +
+                          "                                    </div>\n" +
+                          "\n" +
+                          "                                    <div class=\"col col-2\">39元</div>\n" +
+                          "                                    <div class=\"col col-3\">1</div>\n" +
+                          "                                    <div class=\"col col-4\">39元</div>\n" +
+                          "                                </div>\n" +
+                          "                            </dd>";
+                 }
+             }
+
+         });
+
+
+
+
     });
 </script>
 
 <html>
 <head>
-    <title>登录 | 西西弗斯咖啡屋</title>
+    <title>购物车 | 西西弗斯咖啡屋</title>
 </head>
 <body>
 <!-- header -->
@@ -91,10 +102,17 @@
     <div class="container">
         <div class="header-grid">
             <div class="header-grid-left animated wow slideInLeft" data-wow-delay=".5s">
+                <%if(hasLogin){%>
                 <ul>
-                    <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.html">登录</a></li>
-                    <li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.html">注册</a></li>
+                    <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a></li>
+                    <li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="register.jsp">退出</a></li>
                 </ul>
+                <%}else{%>
+                <ul>
+                    <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.jsp">登录</a></li>
+                    <li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.jsp">注册</a></li>
+                </ul>
+                <%}%>
             </div>
             <div class="header-grid-right animated wow slideInRight" data-wow-delay=".5s">
                 <ul class="social-icons">
@@ -110,7 +128,7 @@
             <div class="logo-nav-left animated wow slideInLeft" data-wow-delay=".5s">
                 <h1><a href="index.jsp">西西弗斯咖啡屋 </a></h1><span font-size="5px">心意，从这一杯开始</span>
             </div>
-            <div class="logo-nav-left1 animated wow zoomIn"  data-wow-delay=".5s">
+            <div class="logo-nav-left1 animated wow zoomIn" data-wow-delay=".5s">
                 <nav class="navbar navbar-default">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header nav_2">
@@ -125,9 +143,9 @@
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                         <ul class="nav navbar-nav">&emsp;
                             <li><a href="index.jsp">&emsp;&emsp;&emsp;&emsp;主页</a></li>
-                            <li><a href="drinks.html">&nbsp;饮料</a></li>
-                            <li><a href="desserts.html">&nbsp;甜品</a></li>
-                            <li><a href="meals.html">&nbsp;主食</a></li>
+                            <li><a href="drinks.jsp">&nbsp;饮料</a></li>
+                            <li><a href="desserts.jsp">&nbsp;甜品</a></li>
+                            <li><a href="meals.jsp">&nbsp;主食</a></li>
                             <li><a href="mailto:cesarean@foxmail.com">&nbsp;联系我们</a></li>
                         </ul>
                     </div>
@@ -135,7 +153,7 @@
             </div>
             <div class="header-right animated wow slideInRight" data-wow-delay=".5s">
                 <div class="cart box_1">
-                    <a href="checkout.html">
+                    <a href="checkout.jsp">
                         <h3>
                             <div class="total">
                                 <span class="simpleCart_total"></span> (<span id="simpleCart_quantity"
@@ -158,29 +176,112 @@
     <div class="container">
         <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
             <li><a href="index.jsp"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
-            <li class="active">登录页面</li>
+            <li class="active">购物车</li>
         </ol>
     </div>
 </div>
-<!-- //breadcrumbs -->
-<!-- login -->
-<div class="login">
+<div class="checkout">
     <div class="container">
-        <h3 class="animated wow zoomIn" data-wow-delay=".5s">登录个人账号</h3>
-        <p class="est animated wow zoomIn" data-wow-delay=".5s">心情惬意，来杯咖啡吧</p>
-        <div class="login-form-grids animated wow slideInUp" data-wow-delay=".5s">
+        <div class="checkout-box-ft">
+            <!-- 商品清单 -->
             <form>
-                <input type="text" placeholder="手机号码" required=" " name="usertel" id="usertel">
-                <input type="password" placeholder="密码" required=" " name="password" id="password">
-                <input type="button" id="loginBtn" value="登录">
+            <div id="checkoutGoodsList" class="checkout-goods-box">
+                <div class="xm-box">
+                    <div class="box-hd">
+                        <h2 class="title">确认订单信息</h2>
+                        <h2 class="title"><br></h2>
+                    </div>
+                    <div class="box-bd">
+                        <dl class="checkout-goods-list">
+                            <dt class="clearfix">
+                                <span class="col col-1"><h4>商品名称</h4></span>
+                                <span class="col col-2"><h4>购买价格</h4></span>
+                                <span class="col col-3"><h4>购买数量</h4></span>
+                                <span class="col col-4"><h4>小计</h4></span>
+                            </dt>
+                            <dd class="item clearfix">
+                                <div class="item-row">
+                                    <div class="col col-1">
+                                        <div class="g-pic">
+                                            <img src="images/卡布奇诺.jpg" srcset="images/卡布奇诺.jpg" width="40" height="40"/>
+                                        </div>
+                                        <div class="g-info">
+                                            <a href="#">卡布奇诺</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col col-2">39元</div>
+                                    <div class="col col-3">1</div>
+                                    <div class="col col-4">39元</div>
+                                </div>
+                            </dd>
+                            <dd class="item clearfix">
+                                <div class="item-row">
+                                    <div class="col col-1">
+                                        <div class="g-pic">
+                                            <img src="images/美式咖啡.jpg" srcset="images/美式咖啡.jpg" width="40" height="40"/>
+                                        </div>
+                                        <div class="g-info">
+                                            <a href="#">美式咖啡 </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col col-2">49元</div>
+                                    <div class="col col-3">1</div>
+                                    <div class="col col-4">49元</div>
+                                </div>
+                            </dd>
+                            <dd class="item clearfix">
+                                <div class="item-row">
+                                    <div class="col col-1">
+                                        <div class="g-pic">
+                                            <img src="images/焦糖玛奇朵.jpg" srcset="images/焦糖玛奇朵.jpg" width="40"
+                                                 height="40"/>
+                                        </div>
+                                        <div class="g-info">
+                                            <a href="#">
+                                                焦糖玛奇朵 </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col col-2">39元</div>
+                                    <div class="col col-3">4</div>
+                                    <div class="col col-4">156元</div>
+                                </div>
+                            </dd>
+                        </dl>
+                        <div class="checkout-count clearfix">
+                            <!-- checkout-count-extend -->
+                            <div class="checkout-price">
+                                <p class="checkout-total">应付总额：<span><strong id="totalPrice">244</strong>元</span></p>
+                            </div>
+                            <!--  -->
+                        </div>
+                    </div>
+                    <!-- 商品清单 END -->
+                    <input type="hidden" id="couponType" name="Checkout[couponsType]">
+                    <input type="hidden" id="couponValue" name="Checkout[couponsValue]">
+                    <div class="checkout-confirm">
+
+                        <a href="checkout.jsp" class="btn btn-lineDakeLight btn-back-cart">返回购物车</a>
+                        <a href="order.jsp" input type="submit" class="btn btn-primary" id="checkoutToPay">立即下单</a>
+                    </div>
+                </div>
+            </div>
+
             </form>
+
         </div>
-        <h4 class="animated wow slideInUp" data-wow-delay=".5s">若您还没有账号</h4>
-        <p class="animated wow slideInUp" data-wow-delay=".5s"><a href="register.html">注册</a> 或回到<a href="index.jsp">主页<span
-                class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a></p>
+
+        <script src="JS/base.min.js"></script>
+        <script type="text/javascript" src="JS/address_all.js"></script>
+        <script type="text/javascript" src="JS/checkout.min.js"></script>
     </div>
+
+    <div class="clearfix"></div>
 </div>
-<!-- //login -->
+</div>
+<!-- //checkout -->
 <!-- footer -->
 <div class="footer">
     <div class="container">
@@ -196,7 +297,7 @@
                     <li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>白城沙滩，思明区，厦门市<span>福建省</span>
                     </li>
                     <li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a
-                            href="mailto:cesarean@foxmail.com">cesarean@foxmail.com
+                            href="mailto:info@example.com">cesarean@foxmail.com
                     </a></li>
                     <li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+178 5971 0072</li>
                 </ul>
@@ -259,8 +360,7 @@
                 <div class="footer-grid-sub-grids">
                     <div class="footer-grid-sub-grid-left">
                         <a href="https://www.starbucks.com.cn/coffee-blog/history-of-coffee/"><img src="images/博客2.jpg"
-                                                                                                   alt=" "
-                                                                                                   class="img-responsive"/></a>
+                                                                                                   alt=" " class="img-responsive"/></a>
                     </div>
                     <div class="footer-grid-sub-grid-right">
                         <h4><a href="https://www.starbucks.com.cn/coffee-blog/history-of-coffee/">咖啡的历史</a></h4>

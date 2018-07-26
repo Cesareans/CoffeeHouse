@@ -18,6 +18,6 @@ public class AdminLogoutServlet extends HttpServlet {
     }
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws  ServletException , IOException{
         AdminLoginSession.terminateSession(request);
-        response.sendRedirect("/admin-login.html");
+        response.sendRedirect("/admin-login.jsp");
     }
 }

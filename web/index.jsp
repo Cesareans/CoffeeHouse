@@ -56,12 +56,12 @@
                 <%if(hasLogin){%>
                 <ul>
                     <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a></li>
-                    <li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="register.html">退出</a></li>
+                    <li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="register.jsp">退出</a></li>
                 </ul>
                 <%}else{%>
                 <ul>
-                    <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.html">登录</a></li>
-                    <li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.html">注册</a></li>
+                    <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.jsp">登录</a></li>
+                    <li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.jsp">注册</a></li>
                 </ul>
                 <%}%>
             </div>
@@ -94,9 +94,9 @@
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                         <ul class="nav navbar-nav">&emsp;
                             <li><a href="index.jsp">&emsp;&emsp;&emsp;&emsp;主页</a></li>
-                            <li><a href="drinks.html">&nbsp;饮料</a></li>
-                            <li><a href="desserts.html">&nbsp;甜品</a></li>
-                            <li><a href="meals.html">&nbsp;主食</a></li>
+                            <li><a href="drinks.jsp">&nbsp;饮料</a></li>
+                            <li><a href="desserts.jsp">&nbsp;甜品</a></li>
+                            <li><a href="meals.jsp">&nbsp;主食</a></li>
                             <li><a href="mailto:cesarean@foxmail.com">&nbsp;联系我们</a></li>
                         </ul>
                     </div>
@@ -104,7 +104,7 @@
             </div>
             <div class="header-right animated wow slideInRight" data-wow-delay=".5s">
                 <div class="cart box_1">
-                    <a href="checkout.html">
+                    <a href="checkout.jsp">
                         <h3>
                             <div class="total">
                                 <span class="simpleCart_total"></span> (<span id="simpleCart_quantity"
@@ -225,10 +225,10 @@
             <div class="col-md-3 new-collections-grid">
                 <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
                     <div class="new-collections-grid1-image">
-                        <a href="single.html" class="product-image"><img src="images/美式咖啡.jpg" alt=" "
-                                                                         class="img-responsive"/></a>
+                        <a href="single.jsp" class="product-image"><img src="images/美式咖啡.jpg" alt=" "
+                                                                        class="img-responsive"/></a>
                         <div class="new-collections-grid1-image-pos">
-                            <a href="single.html">详细信息</a>
+                            <a href="single.jsp">详细信息</a>
                         </div>
                         <div class="new-collections-grid1-right">
                             <div class="rating">
@@ -251,7 +251,7 @@
                             </div>
                         </div>
                     </div>
-                    <h4><a href="single.html">美式咖啡</a></h4>
+                    <h4><a href="single.jsp">美式咖啡</a></h4>
                     <p>简单即是美味，香气浓郁蔓溢。</p>
                     <div class="new-collections-grid1-left simpleCart_shelfItem">
                         <p><i>$25</i> <span class="item_price">$20</span><a class="item_add" href="#">加入购物车</a></p>
@@ -259,10 +259,10 @@
                 </div>
                 <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
                     <div class="new-collections-grid1-image">
-                        <a href="single.html" class="product-image"><img src="images/卡布奇诺.jpg" alt=" "
-                                                                         class="img-responsive"/></a>
+                        <a href="single.jsp" class="product-image"><img src="images/卡布奇诺.jpg" alt=" "
+                                                                        class="img-responsive"/></a>
                         <div class="new-collections-grid1-image-pos">
-                            <a href="single.html">详细信息</a>
+                            <a href="single.jsp">详细信息</a>
                         </div>
                         <div class="new-collections-grid1-right">
                             <div class="rating">
@@ -285,7 +285,7 @@
                             </div>
                         </div>
                     </div>
-                    <h4><a href="single.html">卡布奇诺</a></h4>
+                    <h4><a href="single.jsp">卡布奇诺</a></h4>
                     <p>丰厚绵密的奶泡撒上肉桂粉或可可粉。</p>
                     <div class="new-collections-grid1-left simpleCart_shelfItem">
                         <p><i>$28</i> <span class="item_price">$25</span><a class="item_add" href="#">加入购物车</a></p>
@@ -296,10 +296,10 @@
                 <div class="new-collections-grid1 new-collections-grid1-image-width animated wow slideInUp"
                      data-wow-delay=".5s">
                     <div class="new-collections-grid1-image">
-                        <a href="single.html" class="product-image"><img src="images/曲奇风味拿铁.jpg" alt=" "
-                                                                         class="img-responsive"/></a>
+                        <a href="single.jsp" class="product-image"><img src="images/曲奇风味拿铁.jpg" alt=" "
+                                                                        class="img-responsive"/></a>
                         <div class="new-collections-grid1-image-pos new-collections-grid1-image-pos1">
-                            <a href="single.html">详细信息</a>
+                            <a href="single.jsp">详细信息</a>
                         </div>
                         <div class="new-collections-grid1-right new-collections-grid1-right-rate">
                             <div class="rating">
@@ -325,7 +325,7 @@
                             <p>新品</p>
                         </div>
                     </div>
-                    <h4><a href="single.html">曲奇风味拿铁</a></h4>
+                    <h4><a href="single.jsp">曲奇风味拿铁</a></h4>
                     <p>曲奇让浓缩咖啡变得更加愉快，开启拿铁的浪漫之旅。</p>
                     <div class="new-collections-grid1-left simpleCart_shelfItem">
                         <p><i>$28</i> <span class="item_price">$25</span><a class="item_add" href="#">加入购物车</a></p>
@@ -335,10 +335,10 @@
                     <div class="new-collections-grid1-sub">
                         <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
                             <div class="new-collections-grid1-image">
-                                <a href="single.html" class="product-image"><img src="images/摩卡.jpg" alt=" "
-                                                                                 class="img-responsive"/></a>
+                                <a href="single.jsp" class="product-image"><img src="images/摩卡.jpg" alt=" "
+                                                                                class="img-responsive"/></a>
                                 <div class="new-collections-grid1-image-pos">
-                                    <a href="single.html">详细信息</a>
+                                    <a href="single.jsp">详细信息</a>
                                 </div>
                                 <div class="new-collections-grid1-right">
                                     <div class="rating">
@@ -361,7 +361,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <h4><a href="single.html">摩卡</a></h4>
+                            <h4><a href="single.jsp">摩卡</a></h4>
                             <p>摩卡酱与蒸煮牛奶交织出丝滑醇厚。</p>
                             <div class="new-collections-grid1-left simpleCart_shelfItem">
                                 <p><i>$24</i> <span class="item_price">$22</span><a class="item_add" href="#">加入购物车</a>
@@ -372,10 +372,10 @@
                     <div class="new-collections-grid1-sub">
                         <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
                             <div class="new-collections-grid1-image">
-                                <a href="single.html" class="product-image"><img src="images/焦糖玛奇朵.jpg" alt=" "
-                                                                                 class="img-responsive"/></a>
+                                <a href="single.jsp" class="product-image"><img src="images/焦糖玛奇朵.jpg" alt=" "
+                                                                                class="img-responsive"/></a>
                                 <div class="new-collections-grid1-image-pos">
-                                    <a href="single.html">详细信息</a>
+                                    <a href="single.jsp">详细信息</a>
                                 </div>
                                 <div class="new-collections-grid1-right">
                                     <div class="rating">
@@ -398,7 +398,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <h4><a href="single.html">焦糖玛奇朵</a></h4>
+                            <h4><a href="single.jsp">焦糖玛奇朵</a></h4>
                             <p>留下属于玛奇朵的独有印记。</p>
                             <div class="new-collections-grid1-left simpleCart_shelfItem">
                                 <p><i>$28</i> <span class="item_price">$25</span><a class="item_add" href="#">加入购物车</a>
@@ -412,10 +412,10 @@
             <div class="col-md-3 new-collections-grid">
                 <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
                     <div class="new-collections-grid1-image">
-                        <a href="single.html" class="product-image"><img src="images/拿铁.jpg" alt=" "
-                                                                         class="img-responsive"/></a>
+                        <a href="single.jsp" class="product-image"><img src="images/拿铁.jpg" alt=" "
+                                                                        class="img-responsive"/></a>
                         <div class="new-collections-grid1-image-pos">
-                            <a href="single.html">详细信息</a>
+                            <a href="single.jsp">详细信息</a>
                         </div>
                         <div class="new-collections-grid1-right">
                             <div class="rating">
@@ -438,7 +438,7 @@
                             </div>
                         </div>
                     </div>
-                    <h4><a href="single.html">拿铁</a></h4>
+                    <h4><a href="single.jsp">拿铁</a></h4>
                     <p>新鲜萃取的浓缩咖啡覆上轻柔奶泡。</p>
                     <div class="new-collections-grid1-left simpleCart_shelfItem">
                         <p><i>$20</i> <span class="item_price">$18</span><a class="item_add" href="#">加入购物车</a></p>
@@ -446,10 +446,10 @@
                 </div>
                 <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
                     <div class="new-collections-grid1-image">
-                        <a href="single.html" class="product-image"><img src="images/馥芮白.jpg" alt=" "
-                                                                         class="img-responsive"/></a>
+                        <a href="single.jsp" class="product-image"><img src="images/馥芮白.jpg" alt=" "
+                                                                        class="img-responsive"/></a>
                         <div class="new-collections-grid1-image-pos">
-                            <a href="single.html">详细信息</a>
+                            <a href="single.jsp">详细信息</a>
                         </div>
                         <div class="new-collections-grid1-right">
                             <div class="rating">
@@ -472,7 +472,7 @@
                             </div>
                         </div>
                     </div>
-                    <h4><a href="single.html">馥芮白</a></h4>
+                    <h4><a href="single.jsp">馥芮白</a></h4>
                     <p>融合绵密奶泡，风味浓郁甘甜。</p>
                     <div class="new-collections-grid1-left simpleCart_shelfItem">
                         <p><i>$34</i> <span class="item_price">$27</span><a class="item_add" href="#">加入购物车</a></p>

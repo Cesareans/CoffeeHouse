@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -12,7 +13,7 @@
       rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="CSS/jquery.countdown.css"/>
 <link href="CSS/animate.min.css" rel="stylesheet">
-<link href="/lib/layui/css/layui.css" rel="stylesheet">
+<link href="lib/layui/css/layui.css" rel="stylesheet">
 
 <script src="JS/jquery.min.js"></script>
 <script src="JS/simpleCart.min.js"></script>
@@ -20,6 +21,14 @@
 <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
 <script src="JS/wow.min.js"></script>
 <script src="JS/bootstrap-3.1.1.min.js"></script>
+
+<%
+    String userTel = ((String) session.getAttribute("usertel"));
+    boolean hasLogin = false;
+    if(userTel != null){
+        hasLogin = true;
+    }
+%>
 
 <script type="application/x-javascript">
     addEventListener("load", function () {
@@ -139,10 +148,17 @@
     <div class="container">
         <div class="header-grid">
             <div class="header-grid-left animated wow slideInLeft" data-wow-delay=".5s">
+                <%if(hasLogin){%>
                 <ul>
-                    <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.html">登录</a></li>
-                    <li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.html">注册</a></li>
+                    <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a></li>
+                    <li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="register.jsp">退出</a></li>
                 </ul>
+                <%}else{%>
+                <ul>
+                    <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.jsp">登录</a></li>
+                    <li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.jsp">注册</a></li>
+                </ul>
+                <%}%>
             </div>
             <div class="header-grid-right animated wow slideInRight" data-wow-delay=".5s">
                 <ul class="social-icons">
@@ -158,7 +174,7 @@
             <div class="logo-nav-left animated wow slideInLeft" data-wow-delay=".5s">
                 <h1><a href="index.jsp">西西弗斯咖啡屋 </a></h1><span font-size="5px">心意，从这一杯开始</span>
             </div>
-            <div class="logo-nav-left1 animated wow zoomIn"  data-wow-delay=".5s">
+            <div class="logo-nav-left1 animated wow zoomIn" data-wow-delay=".5s">
                 <nav class="navbar navbar-default">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header nav_2">
@@ -173,9 +189,9 @@
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                         <ul class="nav navbar-nav">&emsp;
                             <li><a href="index.jsp">&emsp;&emsp;&emsp;&emsp;主页</a></li>
-                            <li><a href="drinks.html">&nbsp;饮料</a></li>
-                            <li><a href="desserts.html">&nbsp;甜品</a></li>
-                            <li><a href="meals.html">&nbsp;主食</a></li>
+                            <li><a href="drinks.jsp">&nbsp;饮料</a></li>
+                            <li><a href="desserts.jsp">&nbsp;甜品</a></li>
+                            <li><a href="meals.jsp">&nbsp;主食</a></li>
                             <li><a href="mailto:cesarean@foxmail.com">&nbsp;联系我们</a></li>
                         </ul>
                     </div>
@@ -183,7 +199,7 @@
             </div>
             <div class="header-right animated wow slideInRight" data-wow-delay=".5s">
                 <div class="cart box_1">
-                    <a href="checkout.html">
+                    <a href="checkout.jsp">
                         <h3>
                             <div class="total">
                                 <span class="simpleCart_total"></span> (<span id="simpleCart_quantity"

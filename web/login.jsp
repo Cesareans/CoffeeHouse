@@ -1,36 +1,26 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="keywords" content="café, cafe, coffee shop, 西西弗斯,Sisyphus"/>
 
+<link href="./images/favicon.png" rel="shortcut icon"/>
+<link href="CSS/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
+<link href="CSS/style.css" rel="stylesheet" type="text/css" media="all"/>
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
       rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic'
       rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="CSS/jquery.countdown.css"/>
-<link rel="stylesheet" href="./lib/layui/css/layui.css">
 <link href="CSS/animate.min.css" rel="stylesheet">
-<link href="CSS/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
-<link href="CSS/style.css" rel="stylesheet" type="text/css" media="all"/>
-<link href="./images/favicon.png" rel="shortcut icon"/>
-<link href="/lib/layui/css/layui.css" rel="stylesheet">
+<link href="lib/layui/css/layui.css" rel="stylesheet">
 
-<script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
 <script src="JS/jquery.min.js"></script>
 <script src="JS/simpleCart.min.js"></script>
 <script type="text/javascript" src="JS/bootstrap-3.1.1.min.js"></script>
 <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
 <script src="JS/wow.min.js"></script>
 <script src="JS/bootstrap-3.1.1.min.js"></script>
-
-
-<style>
-    .layui-form-radio>i:hover, .layui-form-radioed>i {
-        color: #cb754b;
-    }
-</style>
 
 <%
     String userTel = ((String) session.getAttribute("usertel"));
@@ -39,6 +29,21 @@
         hasLogin = true;
     }
 %>
+
+<style>
+    .login-form-grids input[type="button"] {
+        outline: none;
+        border: none;
+        padding: 10px 0;
+        font-size: 1em;
+        color: #fff;
+        display: block;
+        width: 100%;
+        background: #FFC229;
+        margin: 1.5em 0 0;
+    }
+</style>
+
 <script type="application/x-javascript">
     addEventListener("load", function () {
         setTimeout(hideURLbar, 0);
@@ -54,55 +59,30 @@
         layui.use("layer" , function () {
             var layer = layui.layer;
         });
-        $.ajax({
-            method: "get",
-            url: "userinfo",
-            success: function (result) {
-                var jsonObj = $.parseJSON(result);
-                layui.use("form" , function () {
-                    var form = layui.form;
-                    form.val("profileForm" , {
-                        "username":jsonObj.name,
-                        "birthday":jsonObj.birthday,
-                        "email":jsonObj.email,
-                        "gender":jsonObj.gender
-                    });
-                });
+        $("#loginBtn").bind("click", function () {//判断用户名和密码的规范性
+            var usertel = document.getElementById("usertel").value;
+            if (usertel == null || usertel === "") {
+                layer.tips("请输入用户名", "#usertel");
+                document.getElementById("usertel").focus();
+                return;
             }
-        });
-
-        layui.use(["laydate", "form"], function () {
-            var laydate = layui.laydate, form = layui.form;
-            laydate.render({
-                elem: "#birthday",
-                showBottom: false,
-                max:0
-            });
-        });
-        var checkmail = false;
-        $("#email").bind("blur", function() {
-            var email=document.getElementById("email").value;
-            var emailRegx = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/;
-            if(!emailRegx.test(email)) {
-                layer.tips("邮箱不合法","#email",{time:1000});
-                checkmail = false;
+            var password = document.getElementById("password").value;
+            if (password == null || password === "") {
+                layer.tips("请输入密码", "#password");
+                document.getElementById("password").focus();
+                return;
             }
-            else {
-                layer.tips("可以使用","#email",{time:1000});
-                checkmail=true;
-            }
-        });
-
-        $("#updateBtn").bind("click", function() {
             $.ajax({
-                method: "post",
-                url: "userinfo",
-                data: $("#profileForm").serialize(),
+                url: "login",
+                data: {
+                    "usertel": usertel,
+                    "password": password
+                },
                 success: function (result) {
-                    if (result == null || result === "false"||!checkmail) {
-                        alert("个人信息完善失败!请检查信息的合法性");
-                    } else if (result === "true"&&checkmail) {
-                        alert("个人信息完善成功!");
+                    if (result === null || result === "false") {
+                        layer.tips("密码错误或用户名不存在", "#password");
+                    } else if (result === "true") {
+                        window.location.assign('information.html');
                     }
                 }
             });
@@ -112,7 +92,7 @@
 
 <html>
 <head>
-    <title>个人信息 | 西西弗斯咖啡屋</title>
+    <title>登录 | 西西弗斯咖啡屋</title>
 </head>
 <body>
 <!-- header -->
@@ -146,7 +126,7 @@
             <div class="logo-nav-left animated wow slideInLeft" data-wow-delay=".5s">
                 <h1><a href="index.jsp">西西弗斯咖啡屋 </a></h1><span font-size="5px">心意，从这一杯开始</span>
             </div>
-            <div class="logo-nav-left1 animated wow zoomIn"  data-wow-delay=".5s">
+            <div class="logo-nav-left1 animated wow zoomIn" data-wow-delay=".5s">
                 <nav class="navbar navbar-default">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header nav_2">
@@ -189,73 +169,34 @@
     </div>
 </div>
 <!-- //header -->
-
 <!-- breadcrumbs -->
 <div class="breadcrumbs">
     <div class="container">
         <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
             <li><a href="index.jsp"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
-            <li class="active">个人信息</li>
+            <li class="active">登录页面</li>
         </ol>
     </div>
 </div>
 <!-- //breadcrumbs -->
-<!-- mail -->
-<div class="mail animated wow zoomIn" data-wow-delay=".5s">
+<!-- login -->
+<div class="login">
     <div class="container">
-        <div class="mail-grids">
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
-                <ul>
-                    <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a></li>
-                    <p><br></p>
-                    <li><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i><a href="information.jsp">历史订单</a></li>
-                    <p><br></p>
-                    <li><i class="glyphicon glyphicon-cog" aria-hidden="true"></i><a href="information.jsp">其他设置</a></li>
-                </ul>
-            </div>
-
-            <!-- /.navbar-collapse -->
-
-            <div class="col-md-8 mail-grid-left animated wow slideInRight" data-wow-delay=".5s">
-                <form id="profileForm" class="layui-form layui-form-pane" lay-filter="profileForm">
-                    <div class="layui-form-item">
-                        <label for="username" class="layui-form-label">昵称：</label>
-                        <div class="layui-input-block">
-                            <input id="username" name="username" type="text" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">性别：</label>
-                        <div class="layui-input-block">
-                            <input name="gender" type="radio" value="男" title="男" checked>
-                            <input name="gender" type="radio" value="女" title="女">
-                            <input name="gender" type="radio" value="保密" title="保密">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label for="birthday" class="layui-form-label">生日：</label>
-                        <div class="layui-input-block">
-                            <input id="birthday" name="birthday" type="text" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label for="email" class="layui-form-label">邮箱：</label>
-                        <div class="layui-input-block">
-                            <input id="email" name="email" type="text" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item" style="margin-bottom: 0;text-align: center">
-                        <button id="updateBtn" name="updateBtn" class="layui-btn" type="button" style="background-color: #cb754b">确定</button>
-                    </div>
-                </form>
-            </div>
+        <h3 class="animated wow zoomIn" data-wow-delay=".5s">登录个人账号</h3>
+        <p class="est animated wow zoomIn" data-wow-delay=".5s">心情惬意，来杯咖啡吧</p>
+        <div class="login-form-grids animated wow slideInUp" data-wow-delay=".5s">
+            <form>
+                <input type="text" placeholder="手机号码" required=" " name="usertel" id="usertel">
+                <input type="password" placeholder="密码" required=" " name="password" id="password">
+                <input type="button" id="loginBtn" value="登录">
+            </form>
         </div>
+        <h4 class="animated wow slideInUp" data-wow-delay=".5s">若您还没有账号</h4>
+        <p class="animated wow slideInUp" data-wow-delay=".5s"><a href="register.jsp">注册</a> 或回到<a href="index.jsp">主页<span
+                class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a></p>
     </div>
 </div>
-<!-- //mail -->
-
-
+<!-- //login -->
 <!-- footer -->
 <div class="footer">
     <div class="container">
@@ -271,7 +212,7 @@
                     <li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>白城沙滩，思明区，厦门市<span>福建省</span>
                     </li>
                     <li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a
-                            href="mailto:info@example.com">cesarean@foxmail.com
+                            href="mailto:cesarean@foxmail.com">cesarean@foxmail.com
                     </a></li>
                     <li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+178 5971 0072</li>
                 </ul>

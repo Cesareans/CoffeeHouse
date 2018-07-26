@@ -1,37 +1,47 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="café, cafe, coffee shop, 西西弗斯,Sisyphus" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="keywords" content="café, cafe, coffee shop, 西西弗斯,Sisyphus"/>
 
-<link href="./images/favicon.png" rel="shortcut icon" />
-<link href="CSS/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-<link href="CSS/style.css" rel="stylesheet" type="text/css" media="all" />
-<link rel="stylesheet" type="text/css" href="CSS/base.css" />
-<link rel="stylesheet" type="text/css" href="CSS/jquery-ui.css">
-<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+<link href="./images/favicon.png" rel="shortcut icon"/>
+<link href="CSS/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
+<link href="CSS/style.css" rel="stylesheet" type="text/css" media="all"/>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
+      rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic'
+      rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="CSS/jquery.countdown.css"/>
 <link href="CSS/animate.min.css" rel="stylesheet">
+<link href="lib/layui/css/layui.css" rel="stylesheet">
 
-<script type="application/x-javascript">
-    addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
-    function hideURLbar(){ window.scrollTo(0,1); }
-</script>
 <script src="JS/jquery.min.js"></script>
-<script src="JS/simpleCart.min.js"> </script>
-<script type="text/javascript" src="JS/jquery-1.7.min.js"></script>
-<script type="text/javascript" src="JS/common.js"></script>
-<script type="text/javascript" src="JS/quick_links.js"></script>
+<script src="JS/simpleCart.min.js"></script>
 <script type="text/javascript" src="JS/bootstrap-3.1.1.min.js"></script>
+<script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
 <script src="JS/wow.min.js"></script>
-<script src="JS/ieBetter.js"></script>
-<script type="text/javascript" src="JS/parabola.js"></script>
-<script>
-    new WOW().init();
-</script>
+<script src="JS/bootstrap-3.1.1.min.js"></script>
 <script src="JS/classie.js"></script>
 <script src="JS/uisearch.js"></script>
+
+<%
+    String userTel = ((String) session.getAttribute("usertel"));
+    boolean hasLogin = false;
+    if(userTel != null){
+        hasLogin = true;
+    }
+%>
+
+<script type="application/x-javascript">
+    addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    }
+</script>
 <script>
+    new WOW().init();
     new UISearch( document.getElementById( 'sb-search' ) );
 </script>
 <script type='text/javascript'>//<![CDATA[
@@ -131,9 +141,9 @@ $(window).load(function(){
                 for (var j = 0; j < 3; j++) {
                     output += "<div class=\"new-collections-grid1 products-right-grid1 animated wow slideInUp\" data-wow-delay=\".5s\">\n" +
                         "\t\t\t\t\t\t\t<div class=\"new-collections-grid1-image\">\n" +
-                        "\t\t\t\t\t\t\t\t<a href=\"single.html\" class=\"product-image\"><img src=\"" + menu[j + 3 * i].pictureUrl + "\" alt=\" \" class=\"img-responsive\"></a>\n" +
+                        "\t\t\t\t\t\t\t\t<a href=\"single.jsp\" class=\"product-image\"><img src=\"" + menu[j + 3 * i].pictureUrl + "\" alt=\" \" class=\"img-responsive\"></a>\n" +
                         "\t\t\t\t\t\t\t\t<div class=\"new-collections-grid1-image-pos products-right-grids-pos\">\n" +
-                        "\t\t\t\t\t\t\t\t\t<a href=\"single.html\">详细信息</a>\n" +
+                        "\t\t\t\t\t\t\t\t\t<a href=\"single.jsp\">详细信息</a>\n" +
                         "\t\t\t\t\t\t\t\t</div>\n" +
                         "\t\t\t\t\t\t\t\t<div class=\"new-collections-grid1-right products-right-grids-pos-right\">\n" +
                         "\t\t\t\t\t\t\t\t\t<div class=\"rating\">\n" +
@@ -156,7 +166,7 @@ $(window).load(function(){
                         "\t\t\t\t\t\t\t\t\t</div>\n" +
                         "\t\t\t\t\t\t\t\t</div>\n" +
                         "\t\t\t\t\t\t\t</div>\n" +
-                        "\t\t\t\t\t\t\t<h4><a href=\"single.html\">" + menu[j + 3 * i].name + "</a></h4>\n" +
+                        "\t\t\t\t\t\t\t<h4><a href=\"single.jsp\">" + menu[j + 3 * i].name + "</a></h4>\n" +
                         "\t\t\t\t\t\t\t<p></p>\n" +
                         "\t\t\t\t\t\t\t<div class=\"simpleCart_shelfItem products-right-grid1-add-cart\">\n" +
                         "\t\t\t\t\t\t\t\t<p><i>￥"+Math.round(menu[j + 3 * i].price/0.8)+"</i> <span class=\"item_price\">￥" + menu[j + 3 * i].price + "</span><a class=\"item_add\" href=\"####\">加入购物车</a></p>\n" +
@@ -175,85 +185,83 @@ $(window).load(function(){
 	<title>甜品 | 西西弗斯咖啡屋</title>
 </head>
 <body>
-	<div class="header">
-		<div class="container">
-			<div class="header-grid">
-				<div class="header-grid-left animated wow slideInLeft" data-wow-delay=".5s">
-					<ul>
-						<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:info@example.com">cesarean@foxmail.com</a></li>
-						<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+178 <span>5971</span> 0072</li>
-						<li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.html">登录</a></li>
-						<li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.html">注册</a></li>
-					</ul>
-				</div>
-				<div class="header-grid-right animated wow slideInRight" data-wow-delay=".5s">
-					<ul class="social-icons">
-						<li><a href="#" class="facebook"></a></li>
-						<li><a href="#" class="twitter"></a></li>
-						<li><a href="#" class="g"></a></li>
-						<li><a href="#" class="instagram"></a></li>
-					</ul>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-			<div class="logo-nav">
-				<div class="logo-nav-left animated wow zoomIn" data-wow-delay=".5s">
-					<h1><a href="index.html">西西弗斯咖啡屋 </a></h1><span font-size="5px">心意，从这一杯开始</span>
-				</div>
-				<div class="logo-nav-left1">
-					<nav class="navbar navbar-default">
-					<!-- Brand and toggle get grouped for better mobile display -->
-					<div class="navbar-header nav_2">
-						<button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-					</div>
-					<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
-						<ul class="nav navbar-nav">&emsp;
-							<li><a href="index.html">&emsp;&emsp;&emsp;&emsp;主页</a></li>
-							<li><a href="drinks.html">&nbsp;饮料</a></li>
-							<li class="active"><a>&nbsp;甜品</a></li>
-							<li><a href="meals.html">&nbsp;主食</a></li>
-							<li><a href="mail.html">&nbsp;联系我们</a></li>
-						</ul>
-					</div>
-					</nav>
-				</div>
-				<div class="logo-nav-right">
-					<div class="search-box">
-						<div id="sb-search" class="sb-search">
-							<form>
-								<input class="sb-search-input" placeholder="请输入搜索内容..." type="search" id="search">
-								<input class="sb-search-submit" type="submit" value="">
-								<span class="sb-icon-search"> </span>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="header-right">
-					<div class="cart box_1">
-						<a href="checkout.html">
-							<h3> <div class="total">
-								<span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> 个项目)</div>
-								<img src="images/bag.png" alt="" />
-							</h3>
-						</a>
-						<p><a href="javascript:;" class="simpleCart_empty">清空购物车</a></p>
-						<div class="clearfix"> </div>
-					</div>	
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-		</div>
-	</div>
+<div class="header">
+    <div class="container">
+        <div class="header-grid">
+            <div class="header-grid-left animated wow slideInLeft" data-wow-delay=".5s">
+                <%if(hasLogin){%>
+                <ul>
+                    <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a></li>
+                    <li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="register.jsp">退出</a></li>
+                </ul>
+                <%}else{%>
+                <ul>
+                    <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.jsp">登录</a></li>
+                    <li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.jsp">注册</a></li>
+                </ul>
+                <%}%>
+            </div>
+            <div class="header-grid-right animated wow slideInRight" data-wow-delay=".5s">
+                <ul class="social-icons">
+                    <li><a href="#" class="facebook"></a></li>
+                    <li><a href="#" class="twitter"></a></li>
+                    <li><a href="#" class="g"></a></li>
+                    <li><a href="#" class="instagram"></a></li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="logo-nav">
+            <div class="logo-nav-left animated wow slideInLeft" data-wow-delay=".5s">
+                <h1><a href="index.jsp">西西弗斯咖啡屋 </a></h1><span font-size="5px">心意，从这一杯开始</span>
+            </div>
+            <div class="logo-nav-left1 animated wow zoomIn" data-wow-delay=".5s">
+                <nav class="navbar navbar-default">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header nav_2">
+                        <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse"
+                                data-target="#bs-megadropdown-tabs">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+                        <ul class="nav navbar-nav">&emsp;
+                            <li><a href="index.jsp">&emsp;&emsp;&emsp;&emsp;主页</a></li>
+                            <li><a href="drinks.jsp">&nbsp;饮料</a></li>
+                            <li><a href="desserts.jsp">&nbsp;甜品</a></li>
+                            <li><a href="meals.jsp">&nbsp;主食</a></li>
+                            <li><a href="mailto:cesarean@foxmail.com">&nbsp;联系我们</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div class="header-right animated wow slideInRight" data-wow-delay=".5s">
+                <div class="cart box_1">
+                    <a href="checkout.jsp">
+                        <h3>
+                            <div class="total">
+                                <span class="simpleCart_total"></span> (<span id="simpleCart_quantity"
+                                                                              class="simpleCart_quantity"></span> 个项目)
+                            </div>
+                            <img src="images/bag.png" alt=""/>
+                        </h3>
+                    </a>
+                    <p><a href="javascript:;" class="simpleCart_empty">清空购物车</a></p>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
 
 	<div class="breadcrumbs">
 		<div class="container">
 			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
-				<li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
+				<li><a href="index.jsp"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
 				<li class="active">甜品</li>
 			</ol>
 		</div>
@@ -291,10 +299,10 @@ $(window).load(function(){
 					<div class="new-products-grids">
 						<div class="new-products-grid">
 							<div class="new-products-grid-left">
-								<a href="single.html"><img src="images/新品1.jpg" alt=" " class="img-responsive" /></a>
+								<a href="single.jsp"><img src="images/新品1.jpg" alt=" " class="img-responsive" /></a>
 							</div>
 							<div class="new-products-grid-right">
-								<h4><a href="single.html">法式闪电泡芙</a></h4>
+								<h4><a href="single.jsp">法式闪电泡芙</a></h4>
 								<div class="rating">
 									<div class="rating-left">
 										<img src="images/2.png" alt=" " class="img-responsive">
@@ -321,10 +329,10 @@ $(window).load(function(){
 						</div>
 						<div class="new-products-grid">
 							<div class="new-products-grid-left">
-								<a href="single.html"><img src="images/新品2.jpg" alt=" " class="img-responsive" /></a>
+								<a href="single.jsp"><img src="images/新品2.jpg" alt=" " class="img-responsive" /></a>
 							</div>
 							<div class="new-products-grid-right">
-								<h4><a href="single.html">浓醇三重黑巧克力蛋糕</a></h4>
+								<h4><a href="single.jsp">浓醇三重黑巧克力蛋糕</a></h4>
 								<div class="rating">
 									<div class="rating-left">
 										<img src="images/2.png" alt=" " class="img-responsive">
@@ -351,10 +359,10 @@ $(window).load(function(){
 						</div>
 						<div class="new-products-grid">
 							<div class="new-products-grid-left">
-								<a href="single.html"><img src="images/新品3.jpg" alt=" " class="img-responsive" /></a>
+								<a href="single.jsp"><img src="images/新品3.jpg" alt=" " class="img-responsive" /></a>
 							</div>
 							<div class="new-products-grid-right">
-								<h4><a href="single.html">香浓巧克力麦芬</a></h4>
+								<h4><a href="single.jsp">香浓巧克力麦芬</a></h4>
 								<div class="rating">
 									<div class="rating-left">
 										<img src="images/2.png" alt=" " class="img-responsive">
@@ -382,7 +390,7 @@ $(window).load(function(){
 					</div>
 				</div>
 				<div class="men-position animated wow slideInUp" data-wow-delay=".5s">
-					<a href="single.html"><img src="images/星级烘焙.png" alt=" " class="img-responsive" /></a>
+					<a href="single.jsp"><img src="images/星级烘焙.png" alt=" " class="img-responsive" /></a>
 					<div class="men-position-pos">
 						<h4>星级烘焙</h4>
 						<h5><span>5</span>折起</h5>
@@ -456,40 +464,40 @@ $(window).load(function(){
 				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".7s">
 					<h3>门店展示</h3>
 					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面1.png" alt=" " class="img-responsive" /></a>
+						<a href="index.jsp"><img src="images/店面1.png" alt=" " class="img-responsive" /></a>
 					</div>
 					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面2.jpg" alt=" " class="img-responsive" /></a>
+						<a href="index.jsp"><img src="images/店面2.jpg" alt=" " class="img-responsive" /></a>
 					</div>
 					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面3.jpg" alt=" " class="img-responsive" /></a>
+						<a href="index.jsp"><img src="images/店面3.jpg" alt=" " class="img-responsive" /></a>
 					</div>
 					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面4.jpg" alt=" " class="img-responsive" /></a>
+						<a href="index.jsp"><img src="images/店面4.jpg" alt=" " class="img-responsive" /></a>
 					</div>
 					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面1.png" alt=" " class="img-responsive" /></a>
+						<a href="index.jsp"><img src="images/店面1.png" alt=" " class="img-responsive" /></a>
 					</div>
 					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面2.jpg" alt=" " class="img-responsive" /></a>
+						<a href="index.jsp"><img src="images/店面2.jpg" alt=" " class="img-responsive" /></a>
 					</div>
 					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面3.jpg" alt=" " class="img-responsive" /></a>
+						<a href="index.jsp"><img src="images/店面3.jpg" alt=" " class="img-responsive" /></a>
 					</div>
 					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面4.jpg" alt=" " class="img-responsive" /></a>
+						<a href="index.jsp"><img src="images/店面4.jpg" alt=" " class="img-responsive" /></a>
 					</div>
 					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面1.png" alt=" " class="img-responsive" /></a>
+						<a href="index.jsp"><img src="images/店面1.png" alt=" " class="img-responsive" /></a>
 					</div>
 					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面2.jpg" alt=" " class="img-responsive" /></a>
+						<a href="index.jsp"><img src="images/店面2.jpg" alt=" " class="img-responsive" /></a>
 					</div>
 					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面3.jpg" alt=" " class="img-responsive" /></a>
+						<a href="index.jsp"><img src="images/店面3.jpg" alt=" " class="img-responsive" /></a>
 					</div>
 					<div class="footer-grid-left">
-						<a href="index.html"><img src="images/店面4.jpg" alt=" " class="img-responsive" /></a>
+						<a href="index.jsp"><img src="images/店面4.jpg" alt=" " class="img-responsive" /></a>
 					</div>
 					<div class="clearfix"> </div>
 				</div>
@@ -519,7 +527,7 @@ $(window).load(function(){
 				<div class="clearfix"> </div>
 			</div>
 			<div class="footer-logo animated wow slideInUp" data-wow-delay=".5s">
-				<h2><a href="index.html">西西弗斯咖啡屋<span>心意，从这一杯开始</span></a></h2>
+				<h2><a href="index.jsp">西西弗斯咖啡屋<span>心意，从这一杯开始</span></a></h2>
 			</div>
 			<div class="copy-right animated wow slideInUp" data-wow-delay=".5s">
 				<p>Copyright ©2018 Sisyphus. All Rights Reserved.</p>
