@@ -119,7 +119,9 @@
                     document.registerForm.method = "post";
                     document.registerForm.submit();
                 } else {
-                    alert("注册失败，请检查信息的有效性");
+                    layer.tips("注册失败!请检查信息的合法性!" , "#registerBtn",{
+                        tips:3
+                    });
                 }
             });
         });
