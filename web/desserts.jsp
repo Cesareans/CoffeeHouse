@@ -418,27 +418,8 @@ $(window).load(function(){
 						</div>
 					</div>
 				</div>
-				<div class="products-right-grids-bottom" id="products-right-grids-bottom">
-				</div>
-				<nav class="numbering animated wow slideInRight" data-wow-delay=".5s">
-				  <ul class="pagination paging">
-					<li>
-					  <a href="#" aria-label="Previous">
-						<span aria-hidden="true">&laquo;</span>
-					  </a>
-					</li>
-					<li class="active"><a href="#">1<span class="sr-only">(current)</span></a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-					<li>
-					  <a href="#" aria-label="Next">
-						<span aria-hidden="true">&raquo;</span>
-					  </a>
-					</li>
-				  </ul>
-				</nav>
+				<%--菜单内容-JS生成--%>
+				<div class="products-right-grids-bottom animated wow zoomIn" id="products-right-grids-bottom" data-wow-delay=".5s" style="margin-top: 42px"></div>
 			</div>
 			<div class="clearfix"> </div>
 		</div>

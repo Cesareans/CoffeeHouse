@@ -1,6 +1,7 @@
 package Order;
 
 import Database.DBCart;
+import Database.DBMenu;
 import Database.DBOrder;
 import Entity.*;
 import com.alibaba.fastjson.JSON;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @WebServlet(name = "OrderServlet")
 public class OrderServlet extends HttpServlet {
@@ -37,12 +39,18 @@ public class OrderServlet extends HttpServlet {
         PrintWriter pw = response.getWriter();
         HttpSession session = request.getSession();
         String usertel = (String)session.getAttribute("usertel");
+        HashMap<Object,Object> hash = new HashMap<>();
         DBOrder dborder = new DBOrder();
         ArrayList<Order> order = dborder.getOrderByUser(usertel);
-        String result = JSON.toJSONString(order);
+        hash.put("order", order);
+        DBMenu dbmenu = new DBMenu();
+        ArrayList<Menu> menu = dbmenu.getAllmenu();
+        hash.put("menu", menu);
+        String result = JSON.toJSONString(hash);
         System.out.println(result);
         pw.write(result);
         dborder.close();
+        dbmenu.close();
         pw.close();
     }
 
