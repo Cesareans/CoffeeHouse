@@ -42,30 +42,6 @@
 
 <script>
     new WOW().init();
-    $(function () {
-        $('#products-right-grids-bottom').bind("click", function (e) {
-            var node = e.target.parentNode;
-            var price = node.firstChild.nextSibling.nextSibling.innerText;
-            price = price.slice(1, 3);
-            var name = e.target.parentNode.parentNode.previousElementSibling.previousElementSibling.innerText;
-            var serialNumber = node.parentNode.nextSibling.firstChild.nextSibling.innerText;
-            $.ajax({
-                url: "cart",
-                method: "post",
-                data: {
-                    "price": price,
-                    "name": name,
-                    "qty": 1,
-                    "serialNumber": serialNumber
-                },
-                success: function (result) {
-                    if (result === "true") alert("添加购物车成功!");
-                    else alert("添加失败!");
-                }
-            });
-        });
-    });
-
     //显示菜单
     $.ajax({
         url: "dessert",
@@ -103,10 +79,9 @@
                         "\t\t\t\t\t\t\t\t\t</div>\n" +
                         "\t\t\t\t\t\t\t\t</div>\n" +
                         "\t\t\t\t\t\t\t</div>\n" +
-                        "\t\t\t\t\t\t\t<h4><a href=\"single.jsp\">" + menu[j + 3 * i].name + "</a></h4>\n" +
+                        "\t\t\t\t\t\t\t<h4><a class=\"name\" href=\"single.jsp\">" + menu[j + 3 * i].name + "</a></h4>\n" +
                         "\t\t\t\t\t\t\t<p></p>\n" +
                         "\t\t\t\t\t\t\t<div class=\"simpleCart_shelfItem products-right-grid1-add-cart\">\n" +
-                        "\t\t\t\t\t\t\t\t<p><i>￥" + Math.round(menu[j + 3 * i].price / 0.8) + "</i> <span class=\"item_price\">￥" + menu[j + 3 * i].price + "</span><a class=\"item_add\" href=\"####\">加入购物车</a></p>\n" +
                         "\t\t\t\t\t\t\t\t<p><i>￥"+Math.round(menu[j + 3 * i].price/0.8)+"</i> <span class=\"price\">￥" + menu[j + 3 * i].price + "</span><a class=\"add\" style='cursor: pointer'>加入购物车</a></p>\n" +
                         "\t\t\t\t\t\t\t</div>\n" +
                         "\t\t\t\t\t\t\t<div hidden>"+menu[j+3*i].serialNumber+"</div>" +
@@ -118,6 +93,70 @@
             $('#products-right-grids-bottom').html(output);
         }
     });
+
+    //商品提交至购物车
+    function updateCart(price, name, qty, serialNumber, e) {
+        $.ajax({
+            url:"cart",
+            method:"post",
+            data:{
+                "price":price,
+                "name":name,
+                "qty":qty,
+                "serialNumber":serialNumber
+            },
+            success:function(result) {
+                if(result==="true") {
+                    layer.tips('添加购物车成功',$(e), {
+                        tips: 3
+                    });
+                } else{
+                    layer.tips('添加购物车失败',$(e), {
+                        tips: 3
+                    });
+                }
+            }
+        });
+    }
+
+    //点击加入购物车事件
+    $(function () {
+        layui.use("layer" , function () {
+            var layer = layui.layer;
+        });
+        var price;
+        var name;
+        var qty = 1;
+        var serialNumber;
+        //添加至购物车
+        $('#products-right-grids-bottom').bind("click", function (e) {
+            price = e.target.previousSibling.innerText;
+            price = price.slice(1,3);
+            name = e.target.parentNode.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.firstChild.innerText;
+            serialNumber = e.target.parentNode.parentNode.nextSibling.nextSibling.innerText;
+            updateCart(price, name, qty, serialNumber, e.target);
+        });
+        $("#add1").bind("click",function() {
+            price = 15;
+            name = "法式闪电泡芙";
+            serialNumber = "0019";
+            updateCart(price, name, qty, serialNumber, this);
+        });
+        $("#add2").bind("click",function() {
+            price = 25;
+            name = "浓醇三重黑巧克力蛋糕";
+            serialNumber = "0020";
+            updateCart(price, name, qty, serialNumber, this);
+        });
+        $("#add3").bind("click",function() {
+            price = 28;
+            name = "香浓巧克力麦芬";
+            serialNumber = "0021";
+            updateCart(price, name, qty, serialNumber, this);
+        });
+    });
+
+
 </script>
 
 <!--
@@ -312,7 +351,7 @@ myParabola.position().move();
                             <div class="clearfix"></div>
                         </div>
                         <div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-                            <p><span class="item_price">$35</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a>
+                            <p><span class="item_price">￥15.00</span><a href="javascript:;" id="add1" class="add_cart_large btnCart">加入购物车</a>
                             </p>
                         </div>
                     </div>
@@ -343,7 +382,7 @@ myParabola.position().move();
                             <div class="clearfix"></div>
                         </div>
                         <div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-                            <p><span class="item_price">$35</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a>
+                            <p><span class="item_price">￥25.00</span><a href="javascript:;" id="add2" class="add_cart_large btnCart">加入购物车</a>
                             </p>
                         </div>
                     </div>
@@ -374,7 +413,7 @@ myParabola.position().move();
                             <div class="clearfix"></div>
                         </div>
                         <div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-                            <p><span class="item_price">$28</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a>
+                            <p><span class="item_price">￥28.00</span><a href="javascript:;" id = "add3" class="add_cart_large btnCart">加入购物车</a>
                             </p>
                         </div>
                     </div>

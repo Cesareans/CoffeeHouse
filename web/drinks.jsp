@@ -40,29 +40,8 @@
 </script>
 <script>
     new WOW().init();
-    $(function() {
-        $('#products-right-grids-bottom').bind("click", function(e) {
-            var price = e.target.previousSibling.innerText;
-            price = price.slice(1,3);
-            var name = e.target.parentNode.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.firstChild.innerText;
-            var serialNumber = e.target.parentNode.parentNode.nextSibling.nextSibling.innerText;
-            $.ajax({
-                url:"cart",
-                method:"post",
-                data:{
-                    "price":price,
-                    "name":name,
-                    "qty":1,
-                    "serialNumber":serialNumber
-                },
-                success:function(result) {
-                    if(result==="true") alert("添加购物车成功!");
-                    else alert("添加失败!");
-                }
-            });
-        });
-    });
 
+    //显示菜单
     $.ajax({
         url: "drink",
         method: "get",
@@ -112,6 +91,67 @@
             output += "<div class=\"clearfix\"> </div>";
             $('#products-right-grids-bottom').html(output);
         }
+    });
+
+    //商品提交至购物车
+    function updateCart(price, name, qty, serialNumber, e) {
+        $.ajax({
+            url:"cart",
+            method:"post",
+            data:{
+                "price":price,
+                "name":name,
+                "qty":qty,
+                "serialNumber":serialNumber
+            },
+            success:function(result) {
+                if(result==="true") {
+                    layer.tips('添加购物车成功',$(e), {
+                        tips: 3
+                    });
+                } else{
+                    layer.tips('添加购物车失败',$(e), {
+                        tips: 3
+                    });
+                }
+            }
+        });
+    }
+
+    //点击加入购物车事件
+    $(function() {
+        layui.use("layer" , function () {
+            var layer = layui.layer;
+        });
+        var price;
+        var name;
+        var qty = 1;
+        var serialNumber;
+        $('#products-right-grids-bottom').bind("click", function(e) {
+            price = e.target.previousSibling.innerText;
+            price = price.slice(1,3);
+            name = e.target.parentNode.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.firstChild.innerText;
+            serialNumber = e.target.parentNode.parentNode.nextSibling.nextSibling.innerText;
+            updateCart(price, name, qty, serialNumber, e.target);
+        });
+        $("#add1").bind("click",function() {
+            price = 22;
+            name = "摩卡";
+            serialNumber = "0001";
+            updateCart(price, name, qty, serialNumber, this);
+        });
+        $("#add2").bind("click",function() {
+            price = 18;
+            name = "拿铁";
+            serialNumber = "0002";
+            updateCart(price, name, qty, serialNumber, this);
+        });
+        $("#add3").bind("click",function() {
+            price = 27;
+            name = "馥芮白";
+            serialNumber = "0003";
+            updateCart(price, name, qty, serialNumber, this);
+        });
     });
 </script>
 
@@ -329,7 +369,7 @@ $(window).load(function () {
                                 <div class="clearfix"></div>
                             </div>
                             <div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-                                <p><span class="item_price">$22</span><a class="item_add" href="#">加入购物车</a></p>
+                                <p><span class="item_price">￥22.00</span><a class="item_add" id="add1" style='cursor: pointer'>加入购物车</a></p>
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -359,7 +399,7 @@ $(window).load(function () {
                                 <div class="clearfix"></div>
                             </div>
                             <div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-                                <p><span class="item_price">$18</span><a class="item_add" href="#">加入购物车</a></p>
+                                <p><span class="item_price">￥18.00</span><a class="item_add" id="add2" style='cursor: pointer'>加入购物车</a></p>
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -389,7 +429,7 @@ $(window).load(function () {
                                 <div class="clearfix"></div>
                             </div>
                             <div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-                                <p><span class="item_price">$27</span><a class="item_add" href="#">加入购物车</a></p>
+                                <p><span class="item_price">￥27.00</span><a class="item_add" id="add3" style='cursor: pointer'>加入购物车</a></p>
                             </div>
                         </div>
                         <div class="clearfix"></div>

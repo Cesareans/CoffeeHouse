@@ -93,7 +93,7 @@
     });
 
     //商品提交至购物车
-    function updateCart(price, name, qty, serialNumber) {
+    function updateCart(price, name, qty, serialNumber, e) {
         $.ajax({
             url:"cart",
             method:"post",
@@ -104,14 +104,24 @@
                 "serialNumber":serialNumber
             },
             success:function(result) {
-                if(result==="true") alert("添加购物车成功!");
-                else alert("添加失败!");
+                if(result==="true") {
+                    layer.tips('添加购物车成功',$(e), {
+                        tips: 3
+                    });
+                } else{
+                    layer.tips('添加购物车失败',$(e), {
+                        tips: 3
+                    });
+                }
             }
         });
     }
 
     //点击加入购物车事件
 	$(function() {
+        layui.use("layer" , function () {
+            var layer = layui.layer;
+        });
         var price;
         var name;
         var qty = 1;
@@ -122,30 +132,26 @@
               price = price.slice(1,3);
               name = e.target.parentNode.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.firstChild.innerText;
 			  serialNumber = e.target.parentNode.parentNode.nextSibling.nextSibling.innerText;
-			  updateCart(price, name, qty, serialNumber);
+			  updateCart(price, name, qty, serialNumber, e.target);
+
         });
-        $("#add1").bind("click",function()
-        {
+        $("#add1").bind("click",function() {
             price = 32;
             name = "培根蛋可颂堡";
             serialNumber = "0010";
-            updateCart(price, name, qty, serialNumber);
+            updateCart(price, name, qty, serialNumber, this);
         });
-
-        $("#add2").bind("click",function()
-        {
+        $("#add2").bind("click",function() {
             price = 25;
             name = "蜜汁培根蛋卷";
             serialNumber = "0011";
-            updateCart(price, name, qty, serialNumber);
+            updateCart(price, name, qty, serialNumber, this);
         });
-
-        $("#add3").bind("click",function()
-        {
+        $("#add3").bind("click",function() {
             price = 38;
-            name = "培根蛋可颂堡"
+            name = "热那亚罗勒意面";
             serialNumber = "0012";
-            updateCart(price, name, qty, serialNumber);
+            updateCart(price, name, qty, serialNumber, this);
         });
 	});
 </script>
@@ -360,7 +366,7 @@ myParabola.position().move();
 								<div class="clearfix"> </div>
 							</div>
 							<div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-								<p> <span class="item_price">￥25</span><a href="javascript:;" id="add2" class="add_cart_large btnCart">加入购物车</a></p>
+								<p> <span class="item_price">￥25.00</span><a href="javascript:;" id="add2" class="add_cart_large btnCart">加入购物车</a></p>
 							</div>
 						</div>
 						<div class="clearfix"> </div>
@@ -390,7 +396,7 @@ myParabola.position().move();
 								<div class="clearfix"> </div>
 							</div>
 							<div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-								<p> <span class="item_price">￥38</span><a href="javascript:;" id="add3" class="add_cart_large btnCart">加入购物车</a></p>
+								<p> <span class="item_price">￥38.00</span><a href="javascript:;" id="add3" class="add_cart_large btnCart">加入购物车</a></p>
 							</div>
 						</div>
 						<div class="clearfix"> </div>
@@ -572,8 +578,5 @@ myParabola.position().move();
     </div>
 </div>
 -->
-
-
-
 </body>
 </html>
