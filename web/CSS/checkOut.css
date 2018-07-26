@@ -498,8 +498,8 @@ em {
 .checkout-count {
 	position:relative;
 	padding:25px 30px 25px 0;
-	min-height:160px;
-	_height:160px;
+	min-height:20px;
+	_height:20px;
 	border-top:1px solid #dfdfdf;
 	border-radius:0 0 5px 5px
 }

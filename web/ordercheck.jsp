@@ -13,6 +13,7 @@
       rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="CSS/jquery.countdown.css"/>
 <link href="CSS/animate.min.css" rel="stylesheet">
+<link href="CSS/checkOut.css" rel="stylesheet">
 <link href="lib/layui/css/layui.css" rel="stylesheet">
 
 <script src="JS/jquery.min.js"></script>
