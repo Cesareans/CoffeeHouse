@@ -27,7 +27,7 @@
 
 
 <style>
-    .layui-form-radio>i:hover, .layui-form-radioed>i {
+    .layui-form-radio > i:hover, .layui-form-radioed > i {
         color: #cb754b;
     }
 </style>
@@ -35,7 +35,7 @@
 <%
     String userTel = ((String) session.getAttribute("usertel"));
     boolean hasLogin = false;
-    if(userTel != null){
+    if (userTel != null) {
         hasLogin = true;
     }
 %>
@@ -51,7 +51,7 @@
 <script>
     new WOW().init();
     $(function () {
-        layui.use("layer" , function () {
+        layui.use("layer", function () {
             var layer = layui.layer;
         });
         $.ajax({
@@ -59,13 +59,13 @@
             url: "userinfo",
             success: function (result) {
                 var jsonObj = $.parseJSON(result);
-                layui.use("form" , function () {
+                layui.use("form", function () {
                     var form = layui.form;
-                    form.val("profileForm" , {
-                        "username":jsonObj.name,
-                        "birthday":jsonObj.birthday,
-                        "email":jsonObj.email,
-                        "gender":jsonObj.gender
+                    form.val("profileForm", {
+                        "username": jsonObj.name,
+                        "birthday": jsonObj.birthday,
+                        "email": jsonObj.email,
+                        "gender": jsonObj.gender
                     });
                 });
             }
@@ -76,24 +76,24 @@
             laydate.render({
                 elem: "#birthday",
                 showBottom: false,
-                max:0
+                max: 0
             });
         });
         var checkmail = false;
-        $("#email").bind("blur", function() {
-            var email=document.getElementById("email").value;
+        $("#email").bind("blur", function () {
+            var email = document.getElementById("email").value;
             var emailRegx = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/;
-            if(!emailRegx.test(email)) {
-                layer.tips("邮箱不合法","#email",{time:1000});
+            if (!emailRegx.test(email)) {
+                layer.tips("邮箱不合法", "#email", {time: 1000});
                 checkmail = false;
             }
             else {
-                layer.tips("可以使用","#email",{time:1000});
-                checkmail=true;
+                layer.tips("可以使用", "#email", {time: 1000});
+                checkmail = true;
             }
         });
 
-        $("#updateBtn").bind("click", function() {
+        $("#updateBtn").bind("click", function () {
             $.ajax({
                 method: "post",
                 url: "userinfo",
@@ -120,12 +120,13 @@
     <div class="container">
         <div class="header-grid">
             <div class="header-grid-left animated wow slideInLeft" data-wow-delay=".5s">
-                <%if(hasLogin){%>
+                <%if (hasLogin) {%>
                 <ul>
-                    <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a></li>
+                    <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a>
+                    </li>
                     <li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="logout">退出</a></li>
                 </ul>
-                <%}else{%>
+                <%} else {%>
                 <ul>
                     <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.jsp">登录</a></li>
                     <li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.jsp">注册</a></li>
@@ -146,7 +147,7 @@
             <div class="logo-nav-left animated wow slideInLeft" data-wow-delay=".5s">
                 <h1><a href="index.jsp">西西弗斯咖啡屋 </a></h1><span font-size="5px">心意，从这一杯开始</span>
             </div>
-            <div class="logo-nav-left1 animated wow zoomIn"  data-wow-delay=".5s">
+            <div class="logo-nav-left1 animated wow zoomIn" data-wow-delay=".5s">
                 <nav class="navbar navbar-default">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header nav_2">
@@ -169,16 +170,11 @@
                     </div>
                 </nav>
             </div>
-            <div class="header-right animated wow slideInRight" data-wow-delay=".5s">
-                <div class="cart box_1">
-                    <a href="checkout.jsp">
-                        <h3>
-                            <div class="total">
-                                <span class="simpleCart_total"></span> (<span id="simpleCart_quantity"
-                                                                              class="simpleCart_quantity"></span> 个项目)
-                            </div>
-                            <img src="images/bag.png" alt=""/>
-                        </h3>
+            <div class="header-right animated wow slideInRight" data-wow-delay=".5s" style="margin-top: 25px">
+
+                <div class="cart box_1" style="margin-top: 0">
+                    <a href="checkout.jsp" style="color: #d18762">购物车
+                        <img src="images/bag.png" alt="" style="margin-top: 0"/>
                     </a>
                     <div class="clearfix"></div>
                 </div>
@@ -206,11 +202,14 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
                 <ul>
-                    <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a></li>
+                    <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a>
+                    </li>
                     <p><br></p>
-                    <li><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i><a href="information.jsp">历史订单</a></li>
+                    <li><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i><a
+                            href="information.jsp">历史订单</a></li>
                     <p><br></p>
-                    <li><i class="glyphicon glyphicon-cog" aria-hidden="true"></i><a href="information.jsp">其他设置</a></li>
+                    <li><i class="glyphicon glyphicon-cog" aria-hidden="true"></i><a href="information.jsp">其他设置</a>
+                    </li>
                 </ul>
             </div>
 
@@ -245,7 +244,9 @@
                         </div>
                     </div>
                     <div class="layui-form-item" style="margin-bottom: 0;text-align: center">
-                        <button id="updateBtn" name="updateBtn" class="layui-btn" type="button" style="background-color: #cb754b">确定</button>
+                        <button id="updateBtn" name="updateBtn" class="layui-btn" type="button"
+                                style="background-color: #cb754b">确定
+                        </button>
                     </div>
                 </form>
             </div>

@@ -106,7 +106,7 @@
                 <ul>
                     <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a>
                     </li>
-                    <li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="register.jsp">退出</a></li>
+                    <li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="logout">退出</a></li>
                 </ul>
                 <%} else {%>
                 <ul>
@@ -152,18 +152,12 @@
                     </div>
                 </nav>
             </div>
-            <div class="header-right animated wow slideInRight" data-wow-delay=".5s">
-                <div class="cart box_1">
-                    <a href="checkout.jsp">
-                        <h3>
-                            <div class="total">
-                                <span class="simpleCart_total"></span> (<span id="simpleCart_quantity"
-                                                                              class="simpleCart_quantity"></span> 个项目)
-                            </div>
-                            <img src="images/bag.png" alt=""/>
-                        </h3>
+            <div class="header-right animated wow slideInRight" data-wow-delay=".5s" style="margin-top: 25px">
+
+                <div class="cart box_1" style="margin-top: 0">
+                    <a href="checkout.jsp" style="color: #d18762">购物车
+                        <img src="images/bag.png" alt="" style="margin-top: 0"/>
                     </a>
-                    <p><a href="javascript:;" class="simpleCart_empty">清空购物车</a></p>
                     <div class="clearfix"></div>
                 </div>
             </div>
