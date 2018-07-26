@@ -47,6 +47,7 @@
     var total;
     var totalNode;
     var serialNumber;
+    var totalNumber;
     //获取购物车表中的信息并显示
     $.ajax({
         url: "cart",
@@ -57,7 +58,7 @@
             var items = cart["items"];
             list = items["orderlist"];
             $("#number").text(list.length);
-
+            totalNumber = list.length;
             for (var i = 0; i < list.length; i++) {
                 for (var j = 0; j < menu.length; j++) {
                     if (list[i].mealSerialNumber === menu[j].serialNumber) {
@@ -145,6 +146,7 @@
                 updateQty(qty, serialNumber);
             }
             else if(e.target.innerText==="*"){
+                totalNumber--;
                 Node = e.target.parentNode.parentNode.parentNode.firstChild.nextSibling.innerText;
                 serialNumber = list[Node-1].mealSerialNumber;
                 var row = e.target.parentNode.parentNode.parentNode;
@@ -170,8 +172,10 @@
                         var menu = cart["menu"];
                         var items = cart["items"];
                         list = items["orderlist"];
-                        $("#number").text(list.length);
-
+                        if(totalNumber===0)
+                            $("#number").text(0);
+                        else
+                            $("#number").text(list.length);
                         for (var i = 0; i < list.length; i++) {
                             for (var j = 0; j < menu.length; j++) {
                                 if (list[i].mealSerialNumber === menu[j].serialNumber) {
@@ -226,8 +230,6 @@
                         $("#cart").html(output);
                     }
                 });
-
-
             }
         });
     });
@@ -330,7 +332,7 @@
 </div>
 <div class="checkout">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">您的购物车里现有 <span id="number"></span><span> 件产品</span>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">您的购物车里现有 <span id="number">0</span><span> 件产品</span>
         </h3>
         <div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
             <table class="timetable_sub" id="cart">
