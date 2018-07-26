@@ -15,7 +15,7 @@
 <link href="CSS/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
 <link href="CSS/style.css" rel="stylesheet" type="text/css" media="all"/>
 <link href="./images/favicon.png" rel="shortcut icon"/>
-<link href="/lib/layui/css/layui.css" rel="stylesheet">
+<link href="lib/layui/css/layui.css" rel="stylesheet">
 
 <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
 <script src="JS/jquery.min.js"></script>
@@ -51,8 +51,41 @@
 <script>
     new WOW().init();
     $(function () {
-        layui.use("layer", function () {
-            var layer = layui.layer;
+        layui.use(["laydate", "form","layer"], function () {
+            var layer = layui.layer,laydate = layui.laydate, form = layui.form;
+            laydate.render({
+                elem: "#birthday",
+                showBottom: false,
+                max: 0
+            });
+            $("#email").bind("blur", function () {
+                if(checkMail())
+                    layer.tips("可以使用", "#email", {time: 1000});
+                else
+                    layer.tips("邮箱不合法", "#email", {time: 1000});
+            });
+            $("#updateBtn").bind("click", function () {
+                if(!checkMail()) {
+                    layer.tips("邮箱不合法", "#email", {time: 1000});
+                    return;
+                }
+                $.ajax({
+                    method: "post",
+                    url: "userinfo",
+                    data: $("#profileForm").serialize(),
+                    success: function (result) {
+                        if (result == null || result === "false") {
+                            layer.tips("个人信息完善失败!请检查信息的合法性!" , "#updateBtn",{
+                                tips:3
+                            });
+                        } else if (result === "true") {
+                            layer.tips("个人信息完善成功!" , "#updateBtn",{
+                                tips:3
+                            });
+                        }
+                    }
+                });
+            });
         });
         $.ajax({
             method: "get",
@@ -70,44 +103,12 @@
                 });
             }
         });
-
-        layui.use(["laydate", "form"], function () {
-            var laydate = layui.laydate, form = layui.form;
-            laydate.render({
-                elem: "#birthday",
-                showBottom: false,
-                max: 0
-            });
-        });
-        var checkmail = false;
-        $("#email").bind("blur", function () {
-            var email = document.getElementById("email").value;
-            var emailRegx = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/;
-            if (!emailRegx.test(email)) {
-                layer.tips("邮箱不合法", "#email", {time: 1000});
-                checkmail = false;
-            }
-            else {
-                layer.tips("可以使用", "#email", {time: 1000});
-                checkmail = true;
-            }
-        });
-
-        $("#updateBtn").bind("click", function () {
-            $.ajax({
-                method: "post",
-                url: "userinfo",
-                data: $("#profileForm").serialize(),
-                success: function (result) {
-                    if (result == null || result === "false"||!checkmail) {
-                        alert("个人信息完善失败!请检查信息的合法性");
-                    } else if (result === "true") {
-                        alert("个人信息完善成功!");
-                    }
-                }
-            });
-        });
     });
+    function checkMail() {
+        var email = document.getElementById("email").value;
+        var emailRegx = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/;
+        return emailRegx.test(email);
+    }
 </script>
 
 <html>
@@ -165,7 +166,7 @@
                             <li><a href="drinks.jsp">&nbsp;饮料</a></li>
                             <li><a href="desserts.jsp">&nbsp;甜品</a></li>
                             <li><a href="meals.jsp">&nbsp;主食</a></li>
-                            <li><a href="mailto:cesarean@foxmail.com">&nbsp;联系我们</a></li>
+                            <li><a href="mail.jsp">&nbsp;联系我们</a></li>
                         </ul>
                     </div>
                 </nav>

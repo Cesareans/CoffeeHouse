@@ -49,71 +49,71 @@
 <body>
 <!-- header -->
 <div class="header">
-	<div class="container">
-		<div class="header-grid">
-			<div class="header-grid-left animated wow slideInLeft" data-wow-delay=".5s">
-				<%if (hasLogin) {%>
-				<ul>
-					<li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a>
-					</li>
-					<li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="logout">退出</a></li>
-				</ul>
-				<%} else {%>
-				<ul>
-					<li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.jsp">登录</a></li>
-					<li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.jsp">注册</a></li>
-				</ul>
-				<%}%>
-			</div>
-			<div class="header-grid-right animated wow slideInRight" data-wow-delay=".5s">
-				<ul class="social-icons">
-					<li><a href="#" class="facebook"></a></li>
-					<li><a href="#" class="twitter"></a></li>
-					<li><a href="#" class="g"></a></li>
-					<li><a href="#" class="instagram"></a></li>
-				</ul>
-			</div>
-			<div class="clearfix"></div>
-		</div>
-		<div class="logo-nav">
-			<div class="logo-nav-left animated wow slideInLeft" data-wow-delay=".5s">
-				<h1><a href="index.jsp">西西弗斯咖啡屋 </a></h1><span font-size="5px">心意，从这一杯开始</span>
-			</div>
-			<div class="logo-nav-left1 animated wow zoomIn" data-wow-delay=".5s">
-				<nav class="navbar navbar-default">
-					<!-- Brand and toggle get grouped for better mobile display -->
-					<div class="navbar-header nav_2">
-						<button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse"
-								data-target="#bs-megadropdown-tabs">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-					</div>
-					<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
-						<ul class="nav navbar-nav">&emsp;
-							<li><a href="index.jsp">&emsp;&emsp;&emsp;&emsp;主页</a></li>
-							<li><a href="drinks.jsp">&nbsp;饮料</a></li>
-							<li><a href="desserts.jsp">&nbsp;甜品</a></li>
-							<li><a href="meals.jsp">&nbsp;主食</a></li>
-							<li><a href="mailto:cesarean@foxmail.com">&nbsp;联系我们</a></li>
-						</ul>
-					</div>
-				</nav>
-			</div>
-			<div class="header-right animated wow slideInRight" data-wow-delay=".5s" style="margin-top: 25px">
+    <div class="container">
+        <div class="header-grid">
+            <div class="header-grid-left animated wow slideInLeft" data-wow-delay=".5s">
+                <%if (hasLogin) {%>
+                <ul>
+                    <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a>
+                    </li>
+                    <li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="logout">退出</a></li>
+                </ul>
+                <%} else {%>
+                <ul>
+                    <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.jsp">登录</a></li>
+                    <li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.jsp">注册</a></li>
+                </ul>
+                <%}%>
+            </div>
+            <div class="header-grid-right animated wow slideInRight" data-wow-delay=".5s">
+                <ul class="social-icons">
+                    <li><a href="#" class="facebook"></a></li>
+                    <li><a href="#" class="twitter"></a></li>
+                    <li><a href="#" class="g"></a></li>
+                    <li><a href="#" class="instagram"></a></li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="logo-nav">
+            <div class="logo-nav-left animated wow slideInLeft" data-wow-delay=".5s">
+                <h1><a href="index.jsp">西西弗斯咖啡屋 </a></h1><span font-size="5px">心意，从这一杯开始</span>
+            </div>
+            <div class="logo-nav-left1 animated wow zoomIn" data-wow-delay=".5s">
+                <nav class="navbar navbar-default">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header nav_2">
+                        <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse"
+                                data-target="#bs-megadropdown-tabs">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+                        <ul class="nav navbar-nav">&emsp;
+                            <li><a href="index.jsp">&emsp;&emsp;&emsp;&emsp;主页</a></li>
+                            <li><a href="drinks.jsp">&nbsp;饮料</a></li>
+                            <li><a href="desserts.jsp">&nbsp;甜品</a></li>
+                            <li><a href="meals.jsp">&nbsp;主食</a></li>
+                            <li><a href="mail.jsp">&nbsp;联系我们</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div class="header-right animated wow slideInRight" data-wow-delay=".5s" style="margin-top: 25px">
 
-				<div class="cart box_1" style="margin-top: 0">
-					<a href="checkout.jsp" style="color: #d18762">购物车
-						<img src="images/bag.png" alt="" style="margin-top: 0"/>
-					</a>
-					<div class="clearfix"></div>
-				</div>
-			</div>
-			<div class="clearfix"></div>
-		</div>
-	</div>
+                <div class="cart box_1" style="margin-top: 0">
+                    <a href="checkout.jsp" style="color: #d18762">购物车
+                        <img src="images/bag.png" alt="" style="margin-top: 0"/>
+                    </a>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
 </div>
 <!-- //header -->
 <!-- breadcrumbs -->
@@ -130,44 +130,18 @@
 	<div class="single">
 		<div class="container">
 			<div class="col-md-4 products-left">
-				<div class="filter-price animated wow slideInUp" data-wow-delay=".5s">
-					<h3>价格范围</h3>
-					<ul class="dropdown-menu1">
-							<li><a href="">								               
-							<div id="slider-range"></div>							
-							<input type="text" id="amount" style="border: 0" />
-							</a></li>	
-					</ul>
-						<script type='text/javascript'>//<![CDATA[ 
-						$(window).load(function(){
-						 $( "#slider-range" ).slider({
-								range: true,
-								min: 0,
-								max: 500,
-								values: [ 0, 100 ],
-								slide: function( event, ui ) {  $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-								}
-					 });
-					$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
-
-
-						});//]]>
-						</script>
-						<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-					 <!---->
-				</div>
 				<div class="categories animated wow slideInUp" data-wow-delay=".5s">
 					<h3>菜单</h3>
 					<ul class="cate">
-						<li><a href="products.html">季度精选</a> <span>(15)</span></li>
-						<li><a href="products.html">全部</a> <span>(16)</span></li>
+						<li><a href="">季度精选</a> <span>(15)</span></li>
+						<li><a href="">全部</a> <span>(16)</span></li>
 							<ul>
-								<li><a href="products.html">手工调制浓缩咖啡</a> <span>(2)</span></li>
-								<li><a href="products.html">茶瓦纳</a> <span>(5)</span></li>
-								<li><a href="products.html">经典巧克力饮品</a> <span>(1)</span></li>
-								<li><a href="products.html">冷萃冰咖啡</a> <span>(0)</span></li>
-								<li><a href="products.html">气致™冷萃咖啡</a> <span>(1)</span></li>
-								<li><a href="products.html">绵云冷萃冰咖啡</a> <span>(0)</span></li>
+								<li><a href="">手工调制浓缩咖啡</a> <span>(2)</span></li>
+								<li><a href="">茶瓦纳</a> <span>(5)</span></li>
+								<li><a href="">经典巧克力饮品</a> <span>(1)</span></li>
+								<li><a href="">冷萃冰咖啡</a> <span>(0)</span></li>
+								<li><a href="">气致™冷萃咖啡</a> <span>(1)</span></li>
+								<li><a href="">绵云冷萃冰咖啡</a> <span>(0)</span></li>
 							</ul>
 					</ul>
 				</div>
@@ -191,10 +165,10 @@
 										<img src="images/2.png" alt=" " class="img-responsive">
 									</div>
 									<div class="rating-left">
-										<img src="images/1.png" alt=" " class="img-responsive">
+										<img src="images/2.png" alt=" " class="img-responsive">
 									</div>
 									<div class="rating-left">
-										<img src="images/1.png" alt=" " class="img-responsive">
+										<img src="images/2.png" alt=" " class="img-responsive">
 									</div>
 									<div class="clearfix"> </div>
 								</div>
@@ -221,10 +195,10 @@
 										<img src="images/2.png" alt=" " class="img-responsive">
 									</div>
 									<div class="rating-left">
-										<img src="images/1.png" alt=" " class="img-responsive">
+										<img src="images/2.png" alt=" " class="img-responsive">
 									</div>
 									<div class="rating-left">
-										<img src="images/1.png" alt=" " class="img-responsive">
+										<img src="images/2.png" alt=" " class="img-responsive">
 									</div>
 									<div class="clearfix"> </div>
 								</div>
@@ -251,10 +225,10 @@
 										<img src="images/2.png" alt=" " class="img-responsive">
 									</div>
 									<div class="rating-left">
-										<img src="images/1.png" alt=" " class="img-responsive">
+										<img src="images/2.png" alt=" " class="img-responsive">
 									</div>
 									<div class="rating-left">
-										<img src="images/1.png" alt=" " class="img-responsive">
+										<img src="images/2.png" alt=" " class="img-responsive">
 									</div>
 									<div class="clearfix"> </div>
 								</div>
@@ -280,15 +254,9 @@
 				<div class="col-md-5 single-right-left animated wow slideInUp" data-wow-delay=".5s">
 					<div class="flexslider">
 						<ul class="slides">
-							<li data-thumb="images/阿馥奇朵.jpg">
-								<div class="thumb-image"> <img src="images/阿馥奇朵.jpg" data-imagezoom="true" class="img-responsive"> </div>
+							<li data-thumb="images/摩卡.jpg">
+								<div class="thumb-image"> <img src="images/摩卡.jpg" data-imagezoom="true" class="img-responsive"> </div>
 							</li>
-							<li data-thumb="images/阿馥奇朵.jpg">
-								 <div class="thumb-image"> <img src="images/阿馥奇朵.jpg" data-imagezoom="true" class="img-responsive"> </div>
-							</li>
-							<li data-thumb="images/阿馥奇朵.jpg">
-							   <div class="thumb-image"> <img src="images/阿馥奇朵.jpg" data-imagezoom="true" class="img-responsive"> </div>
-							</li> 
 						</ul>
 					</div>
 					<!-- flixslider -->
@@ -306,15 +274,15 @@
 					<!-- flixslider -->
 				</div>
 				<div class="col-md-7 single-right-left simpleCart_shelfItem animated wow slideInRight" data-wow-delay=".5s">
-					<h3>阿馥奇朵</h3>
-					<h4><span class="item_price">$35</span></h4>
+					<h3>摩卡</h3>
+					<h4><span class="item_price">$22</span></h4>
 					<div class="rating1">
 						<span class="starRating">
-							<input id="rating5" type="radio" name="rating" value="5">
+							<input id="rating5" type="radio" name="rating" value="5" checked>
 							<label for="rating5">5</label>
 							<input id="rating4" type="radio" name="rating" value="4">
 							<label for="rating4">4</label>
-							<input id="rating3" type="radio" name="rating" value="3" checked>
+							<input id="rating3" type="radio" name="rating" value="3">
 							<label for="rating3">3</label>
 							<input id="rating2" type="radio" name="rating" value="2">
 							<label for="rating2">2</label>

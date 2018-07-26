@@ -41,190 +41,142 @@
 <script>
     new WOW().init();
 
-    //显示菜单
-    $.ajax({
-        url: "drink",
-        method: "get",
-        success: function (result) {
-            var menu = $.parseJSON(result);
-            var output = "";
-            for (var i = 0; i < 3; i++) {
-                output += "<div class=\"col-md-4 products-right-grids-bottom-grid\">";
-                for (var j = 0; j < 3; j++) {
-                    output += "<div class=\"new-collections-grid1 products-right-grid1 animated wow slideInUp\" data-wow-delay=\".5s\">\n" +
-                        "\t\t\t\t\t\t\t<div class=\"new-collections-grid1-image\">\n" +
-                        "\t\t\t\t\t\t\t\t<a href=\"single.jsp\" class=\"product-image\"><img src=\"" + menu[j + 3 * i].pictureUrl + "\" alt=\" \" class=\"img-responsive\"></a>\n" +
-                        "\t\t\t\t\t\t\t\t<div class=\"new-collections-grid1-image-pos products-right-grids-pos\">\n" +
-                        "\t\t\t\t\t\t\t\t\t<a href=\"single.jsp\">详细信息</a>\n" +
-                        "\t\t\t\t\t\t\t\t</div>\n" +
-                        "\t\t\t\t\t\t\t\t<div class=\"new-collections-grid1-right products-right-grids-pos-right\">\n" +
-                        "\t\t\t\t\t\t\t\t\t<div class=\"rating\">\n" +
-                        "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
-                        "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/2.png\" alt=\" \" class=\"img-responsive\">\n" +
-                        "\t\t\t\t\t\t\t\t\t\t</div>\n" +
-                        "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
-                        "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/2.png\" alt=\" \" class=\"img-responsive\">\n" +
-                        "\t\t\t\t\t\t\t\t\t\t</div>\n" +
-                        "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
-                        "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/2.png\" alt=\" \" class=\"img-responsive\">\n" +
-                        "\t\t\t\t\t\t\t\t\t\t</div>\n" +
-                        "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
-                        "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/1.png\" alt=\" \" class=\"img-responsive\">\n" +
-                        "\t\t\t\t\t\t\t\t\t\t</div>\n" +
-                        "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
-                        "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/1.png\" alt=\" \" class=\"img-responsive\">\n" +
-                        "\t\t\t\t\t\t\t\t\t\t</div>\n" +
-                        "\t\t\t\t\t\t\t\t\t\t<div class=\"clearfix\"> </div>\n" +
-                        "\t\t\t\t\t\t\t\t\t</div>\n" +
-                        "\t\t\t\t\t\t\t\t</div>\n" +
-                        "\t\t\t\t\t\t\t</div>\n" +
-                        "\t\t\t\t\t\t\t<h4><a class=\"name\" href=\"single.jsp\">" + menu[j + 3 * i].name + "</a></h4>\n" +
-                        "\t\t\t\t\t\t\t<p></p>\n" +
-                        "\t\t\t\t\t\t\t<div class=\"simpleCart_shelfItem products-right-grid1-add-cart\">\n" +
-                        "\t\t\t\t\t\t\t\t<p><i>￥"+Math.round(menu[j + 3 * i].price/0.8)+"</i> <span class=\"price\">￥" + menu[j + 3 * i].price + "</span><a class=\"add\" style='cursor: pointer'>加入购物车</a></p>\n" +
-                        "\t\t\t\t\t\t\t</div>\n" +
-                        "\t\t\t\t\t\t\t<div hidden>"+menu[j+3*i].serialNumber+"</div>" +
-                        "\t\t\t\t\t\t</div>";
-                }
-                output += "</div>";
-            }
-            output += "<div class=\"clearfix\"> </div>";
-            $('#products-right-grids-bottom').html(output);
-        }
-    });
-
-    //商品提交至购物车
-    function updateCart(price, name, qty, serialNumber, e) {
-        $.ajax({
-            url:"cart",
-            method:"post",
-            data:{
-                "price":price,
-                "name":name,
-                "qty":qty,
-                "serialNumber":serialNumber
-            },
-            success:function(result) {
-                if(result==="true") {
-                    layer.tips('添加购物车成功',$(e), {
-                        tips: 3
-                    });
-                } else{
-                    layer.tips('添加购物车失败',$(e), {
-                        tips: 3
-                    });
-                }
-            }
-        });
-    }
-
-    //点击加入购物车事件
+    var price;
+    var name;
+    var qty = 1;
+    var serialNumber;
     $(function() {
         layui.use("layer" , function () {
             var layer = layui.layer;
         });
-        var price;
-        var name;
-        var qty = 1;
-        var serialNumber;
+        $.ajax({
+            url: "drink",
+            method: "get",
+            success: function (result) {
+                var menu = $.parseJSON(result);
+                var output = "";
+                for (var i = 0; i < 3; i++) {
+                    output += "<div class=\"col-md-4 products-right-grids-bottom-grid\">";
+                    for (var j = 0; j < 3; j++) {
+                        output += "<div class=\"new-collections-grid1 products-right-grid1 animated wow slideInUp\" data-wow-delay=\".5s\">\n" +
+                            "\t\t\t\t\t\t\t<div class=\"new-collections-grid1-image\">\n" +
+                            "\t\t\t\t\t\t\t\t<a href=\"single.jsp\" class=\"product-image\"><img src=\"" + menu[j + 3 * i].pictureUrl + "\" alt=\" \" class=\"img-responsive\"></a>\n" +
+                            "\t\t\t\t\t\t\t\t<div class=\"new-collections-grid1-image-pos products-right-grids-pos\">\n" +
+                            "\t\t\t\t\t\t\t\t\t<a href=\"single.jsp\">详细信息</a>\n" +
+                            "\t\t\t\t\t\t\t\t</div>\n" +
+                            "\t\t\t\t\t\t\t\t<div class=\"new-collections-grid1-right products-right-grids-pos-right\">\n" +
+                            "\t\t\t\t\t\t\t\t\t<div class=\"rating\">\n" +
+                            "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
+                            "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/2.png\" alt=\" \" class=\"img-responsive\">\n" +
+                            "\t\t\t\t\t\t\t\t\t\t</div>\n" +
+                            "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
+                            "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/2.png\" alt=\" \" class=\"img-responsive\">\n" +
+                            "\t\t\t\t\t\t\t\t\t\t</div>\n" +
+                            "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
+                            "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/2.png\" alt=\" \" class=\"img-responsive\">\n" +
+                            "\t\t\t\t\t\t\t\t\t\t</div>\n" +
+                            "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
+                            "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/2.png\" alt=\" \" class=\"img-responsive\">\n" +
+                            "\t\t\t\t\t\t\t\t\t\t</div>\n" +
+                            "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
+                            "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/2.png\" alt=\" \" class=\"img-responsive\">\n" +
+                            "\t\t\t\t\t\t\t\t\t\t</div>\n" +
+                            "\t\t\t\t\t\t\t\t\t\t<div class=\"clearfix\"> </div>\n" +
+                            "\t\t\t\t\t\t\t\t\t</div>\n" +
+                            "\t\t\t\t\t\t\t\t</div>\n" +
+                            "\t\t\t\t\t\t\t</div>\n" +
+                            "\t\t\t\t\t\t\t<h4><a class=\"name\" href=\"single.jsp\">" + menu[j + 3 * i].name + "</a></h4>\n" +
+                            "\t\t\t\t\t\t\t<p></p>\n" +
+                            "\t\t\t\t\t\t\t<div class=\"simpleCart_shelfItem products-right-grid1-add-cart\">\n" +
+                            "\t\t\t\t\t\t\t\t<p><i>￥"+Math.round(menu[j + 3 * i].price/0.8)+"</i> <span class=\"price\">￥" + menu[j + 3 * i].price + "</span><a class=\"add\" style='cursor: pointer'>加入购物车</a></p>\n" +
+                            "\t\t\t\t\t\t\t</div>\n" +
+                            "\t\t\t\t\t\t\t<div hidden>"+menu[j+3*i].serialNumber+"</div>" +
+                            "\t\t\t\t\t\t</div>";
+                    }
+                    output += "</div>";
+                }
+                output += "<div class=\"clearfix\"> </div>";
+                $('#products-right-grids-bottom').html(output);
+            }
+        });
         $('#products-right-grids-bottom').bind("click", function(e) {
-            price = e.target.previousSibling.innerText;
-            price = price.slice(1,3);
-            name = e.target.parentNode.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.firstChild.innerText;
-            serialNumber = e.target.parentNode.parentNode.nextSibling.nextSibling.innerText;
-            updateCart(price, name, qty, serialNumber, e.target);
+            var selector = e.target.innerText;
+            if(selector === "加入购物车") {
+                <%if(!hasLogin){%>
+                layer.msg("请先登录" , {icon:4, time:2000},function () {
+                    window.location.href ="login.jsp";
+                });
+                return;
+                <%}%>
+                price = e.target.previousSibling.innerText;
+                price = price.slice(1, 3);
+                name = e.target.parentNode.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.firstChild.innerText;
+                serialNumber = e.target.parentNode.parentNode.nextSibling.nextSibling.innerText;
+                updateCart(price, name, qty, serialNumber, e.target);
+            }
         });
         $("#add1").bind("click",function() {
+            <%if(!hasLogin){%>
+            layer.msg("请先登录" , {icon:4, time:2000},function () {
+                window.location.href ="login.jsp";
+            });
+            return;
+            <%}%>
             price = 22;
             name = "摩卡";
             serialNumber = "0001";
             updateCart(price, name, qty, serialNumber, this);
         });
         $("#add2").bind("click",function() {
+            <%if(!hasLogin){%>
+            layer.msg("请先登录" , {icon:4, time:2000},function () {
+                window.location.href ="login.jsp";
+            });
+            return;
+            <%}%>
             price = 18;
             name = "拿铁";
             serialNumber = "0002";
             updateCart(price, name, qty, serialNumber, this);
         });
         $("#add3").bind("click",function() {
+            <%if(!hasLogin){%>
+            layer.msg("请先登录" , {icon:4, time:2000},function () {
+                window.location.href ="login.jsp";
+            });
+            return;
+            <%}%>
             price = 27;
             name = "馥芮白";
             serialNumber = "0003";
             updateCart(price, name, qty, serialNumber, this);
         });
-    });
-</script>
-
-
-<%--
-<script type='text/javascript'>
-$(window).load(function () {
-    $("#slider-range").slider({
-        range: true,
-        min: 0,
-        max: 500,
-        values: [0, 100],
-        slide: function (event, ui) {
-            $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-        }
-    });
-    $("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
-
-
-});
-</script>
-<script type="text/javascript" src="JS/jquery-ui.min.js"></script>
-
-<script type="text/javascript" src="js/parabola.js"></script>
-<script type="text/javascript">
-    $(".quick_links_panel li").mouseenter(function () {
-        $(this).children(".mp_tooltip").animate({left: -92, queue: true});
-        $(this).children(".mp_tooltip").css("visibility", "visible");
-        $(this).children(".ibar_login_box").css("display", "block");
-    });
-    $(".quick_links_panel li").mouseleave(function () {
-        $(this).children(".mp_tooltip").css("visibility", "hidden");
-        $(this).children(".mp_tooltip").animate({left: -121, queue: true});
-        $(this).children(".ibar_login_box").css("display", "none");
-    });
-    $(".quick_toggle li").mouseover(function () {
-        $(this).children(".mp_qrcode").show();
-    });
-    $(".quick_toggle li").mouseleave(function () {
-        $(this).children(".mp_qrcode").hide();
-    });
-
-    // 元素以及其他一些变量
-    var eleFlyElement = document.querySelector("#flyItem"), eleShopCart = document.querySelector("#shopCart");
-    var numberItem = 0;
-    // 抛物线运动
-    var myParabola = funParabola(eleFlyElement, eleShopCart, {
-        speed: 400, //抛物线速度
-        curvature: 0.0008, //控制抛物线弧度
-        complete: function () {
-            eleFlyElement.style.visibility = "hidden";
-            eleShopCart.querySelector("span").innerHTML = ++numberItem;
-        }
-    });
-    // 绑定点击事件
-    if (eleFlyElement && eleShopCart) {
-
-        [].slice.call(document.getElementsByClassName("btnCart")).forEach(function (button) {
-            button.addEventListener("click", function (event) {
-                // 滚动大小
-                var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft || 0,
-                    scrollTop = document.documentElement.scrollTop || document.body.scrollTop || 0;
-                eleFlyElement.style.left = event.clientX + scrollLeft + "px";
-                eleFlyElement.style.top = event.clientY + scrollTop + "px";
-                eleFlyElement.style.visibility = "visible";
-
-                // 需要重定位
-                myParabola.position().move();
+        //商品提交至购物车
+        function updateCart(price, name, qty, serialNumber, e) {
+            $.ajax({
+                url:"cart",
+                method:"post",
+                data:{
+                    "price":price,
+                    "name":name,
+                    "qty":qty,
+                    "serialNumber":serialNumber
+                },
+                success:function(result) {
+                    if(result==="true") {
+                        layer.tips('添加购物车成功',$(e), {
+                            tips: 3
+                        });
+                    } else{
+                        layer.tips('添加购物车失败',$(e), {
+                            tips: 3
+                        });
+                    }
+                }
             });
-        });
-    }
+        }
+    });
 </script>
---%>
 
 <html>
 <head>
@@ -280,7 +232,7 @@ $(window).load(function () {
                             <li><a href="drinks.jsp">&nbsp;饮料</a></li>
                             <li><a href="desserts.jsp">&nbsp;甜品</a></li>
                             <li><a href="meals.jsp">&nbsp;主食</a></li>
-                            <li><a href="mailto:cesarean@foxmail.com">&nbsp;联系我们</a></li>
+                            <li><a href="mail.jsp">&nbsp;联系我们</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -309,17 +261,6 @@ $(window).load(function () {
 <div class="products">
     <div class="container">
         <div class="col-md-4 products-left">
-            <!--
-            <div class="filter-price animated wow slideInUp" data-wow-delay=".5s">
-                <h3>价格范围</h3>
-                <ul class="dropdown-menu1">
-                    <li><a href="">
-                        <div id="slider-range"></div>
-                        <input type="text" id="amount" style="border: 0"/>
-                    </a></li>
-                </ul>
-            </div>
-            -->
             <div class="categories animated wow slideInUp" data-wow-delay=".5s" style="margin-top: 0">
                 <h3>菜单</h3>
                 <ul class="cate">
@@ -550,68 +491,5 @@ $(window).load(function () {
         </div>
     </div>
 </div>
-
-<!--右侧贴边导航quick_links.js控制-->
-<!--
-<div class="mui-mbar-tabs">
-    <div class="quick_link_mian">
-        <div class="quick_links_panel">
-            <div id="quick_links" class="quick_links">
-                <li>
-                    <a href="#" class="my_qlinks"><i class="setting"></i></a>
-                    <div class="ibar_login_box status_login">
-                        <div class="avatar_box">
-                            <p class="avatar_imgbox"><img src="images/portrait.jpg"/></p>
-                            <ul class="user_info">
-                                <li>用户名：Hu</li>
-                                <li>级&nbsp;别：普通会员</li>
-                            </ul>
-                        </div>
-                        <div class="login_btnbox">
-                            <a href="#" class="login_order">我的订单</a>
-                            <a href="#" class="login_favorite">我的收藏</a>
-                        </div>
-                        <i class="icon_arrow_white"></i>
-                    </div>
-                </li>
-                <li id="shopCart">
-                    <a href="#" class="message_list"><i class="message"></i>
-                        <div class="span">购物车</div>
-                        <span class="cart_num">1</span></a>
-                </li>
-                <li>
-                    <a href="#" class="history_list"><i class="view"></i></a>
-                    <div class="mp_tooltip" style=" visibility:hidden;">我的资产<i class="icon_arrow_right_black"></i></div>
-                </li>
-                <li>
-                    <a href="#" class="mpbtn_histroy"><i class="zuji"></i></a>
-                    <div class="mp_tooltip">我的足迹<i class="icon_arrow_right_black"></i></div>
-                </li>
-                <li>
-                    <a href="#" class="mpbtn_wdsc"><i class="wdsc"></i></a>
-                    <div class="mp_tooltip">我的收藏<i class="icon_arrow_right_black"></i></div>
-                </li>
-                <li>
-                    <a href="#" class="mpbtn_recharge"><i class="chongzhi"></i></a>
-                    <div class="mp_tooltip">我要充值<i class="icon_arrow_right_black"></i></div>
-                </li>
-            </div>
-            <div class="quick_toggle">
-                <li>
-                    <a href="#"><i class="kfzx"></i></a>
-                    <div class="mp_tooltip">客服中心<i class="icon_arrow_right_black"></i></div>
-                </li>
-                <li>
-                    <a href="#none"><i class="mpbtn_qrcode"></i></a>
-                    <div class="mp_qrcode" style="display:none;"><img src="images/qrcode.png" width="130" height="150"/><i
-                            class="icon_arrow_white"></i></div>
-                </li>
-                <li><a href="#top" class="return_top"><i class="top"></i></a></li>
-            </div>
-        </div>
-        <div id="quick_links_pop" class="quick_links_pop hide"></div>
-    </div>
-</div>
--->
 </body>
 </html>

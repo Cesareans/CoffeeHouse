@@ -145,7 +145,7 @@
                             <li><a href="drinks.jsp">&nbsp;饮料</a></li>
                             <li><a href="desserts.jsp">&nbsp;甜品</a></li>
                             <li><a href="meals.jsp">&nbsp;主食</a></li>
-                            <li><a href="mailto:cesarean@foxmail.com">&nbsp;联系我们</a></li>
+                            <li><a href="mail.jsp">&nbsp;联系我们</a></li>
                         </ul>
                     </div>
                 </nav>
