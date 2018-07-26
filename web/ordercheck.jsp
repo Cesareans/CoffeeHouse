@@ -225,9 +225,6 @@
 
         </div>
 
-        <script src="JS/base.min.js"></script>
-        <script type="text/javascript" src="JS/address_all.js"></script>
-        <script type="text/javascript" src="JS/checkout.min.js"></script>
     </div>
 
     <div class="clearfix"></div>
