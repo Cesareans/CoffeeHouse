@@ -21,13 +21,11 @@
 <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
 <script src="JS/wow.min.js"></script>
 <script src="JS/bootstrap-3.1.1.min.js"></script>
-<script src="JS/classie.js"></script>
-<script src="JS/uisearch.js"></script>
 
 <%
     String userTel = ((String) session.getAttribute("usertel"));
     boolean hasLogin = false;
-    if(userTel != null){
+    if (userTel != null) {
         hasLogin = true;
     }
 %>
@@ -36,94 +34,32 @@
     addEventListener("load", function () {
         setTimeout(hideURLbar, 0);
     }, false);
+
     function hideURLbar() {
         window.scrollTo(0, 1);
     }
 </script>
+
 <script>
     new WOW().init();
-    new UISearch( document.getElementById( 'sb-search' ) );
-</script>
-<script type='text/javascript'>//<![CDATA[
-$(window).load(function(){
-    $( "#slider-range" ).slider({
-        range: true,
-        min: 0,
-        max: 500,
-        values: [ 0, 100 ],
-        slide: function( event, ui ) {  $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-        }
-    });
-    $("#amount").val( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
-});
-</script>
-<script type="text/javascript">
-    $(".quick_links_panel li").mouseenter(function(){
-        $(this).children(".mp_tooltip").animate({left:-92,queue:true});
-        $(this).children(".mp_tooltip").css("visibility","visible");
-        $(this).children(".ibar_login_box").css("display","block");
-    });
-    $(".quick_links_panel li").mouseleave(function(){
-        $(this).children(".mp_tooltip").css("visibility","hidden");
-        $(this).children(".mp_tooltip").animate({left:-121,queue:true});
-        $(this).children(".ibar_login_box").css("display","none");
-    });
-    $(".quick_toggle li").mouseover(function(){
-        $(this).children(".mp_qrcode").show();
-    });
-    $(".quick_toggle li").mouseleave(function(){
-        $(this).children(".mp_qrcode").hide();
-    });
-
-    // 元素以及其他一些变量
-    var eleFlyElement = document.querySelector("#flyItem"), eleShopCart = document.querySelector("#shopCart");
-    var numberItem = 0;
-    // 抛物线运动
-    var myParabola = funParabola(eleFlyElement, eleShopCart, {
-        speed: 400, //抛物线速度
-        curvature: 0.0008, //控制抛物线弧度
-        complete: function() {
-            eleFlyElement.style.visibility = "hidden";
-            eleShopCart.querySelector("span").innerHTML = ++numberItem;
-        }
-    });
-    // 绑定点击事件
-    if (eleFlyElement && eleShopCart) {
-
-        [].slice.call(document.getElementsByClassName("btnCart")).forEach(function(button) {
-            button.addEventListener("click", function(event) {
-                // 滚动大小
-                var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft || 0,
-                    scrollTop = document.documentElement.scrollTop || document.body.scrollTop || 0;
-                eleFlyElement.style.left = event.clientX + scrollLeft + "px";
-                eleFlyElement.style.top = event.clientY + scrollTop + "px";
-                eleFlyElement.style.visibility = "visible";
-
-                // 需要重定位
-                myParabola.position().move();
-            });
-        });
-    }
-</script>
-<script>
-    $(function() {
-        $('#products-right-grids-bottom').bind("click", function(e) {
+    $(function () {
+        $('#products-right-grids-bottom').bind("click", function (e) {
             var node = e.target.parentNode;
             var price = node.firstChild.nextSibling.nextSibling.innerText;
-            price = price.slice(1,3);
+            price = price.slice(1, 3);
             var name = e.target.parentNode.parentNode.previousElementSibling.previousElementSibling.innerText;
             var serialNumber = node.parentNode.nextSibling.firstChild.nextSibling.innerText;
             $.ajax({
-                url:"cart",
-                method:"post",
-                data:{
-                    "price":price,
-                    "name":name,
-                    "qty":1,
-                    "serialNumber":serialNumber
+                url: "cart",
+                method: "post",
+                data: {
+                    "price": price,
+                    "name": name,
+                    "qty": 1,
+                    "serialNumber": serialNumber
                 },
-                success:function(result) {
-                    if(result==="true") alert("添加购物车成功!");
+                success: function (result) {
+                    if (result === "true") alert("添加购物车成功!");
                     else alert("添加失败!");
                 }
             });
@@ -169,7 +105,7 @@ $(window).load(function(){
                         "\t\t\t\t\t\t\t<h4><a href=\"single.jsp\">" + menu[j + 3 * i].name + "</a></h4>\n" +
                         "\t\t\t\t\t\t\t<p></p>\n" +
                         "\t\t\t\t\t\t\t<div class=\"simpleCart_shelfItem products-right-grid1-add-cart\">\n" +
-                        "\t\t\t\t\t\t\t\t<p><i>￥"+Math.round(menu[j + 3 * i].price/0.8)+"</i> <span class=\"item_price\">￥" + menu[j + 3 * i].price + "</span><a class=\"item_add\" href=\"####\">加入购物车</a></p>\n" +
+                        "\t\t\t\t\t\t\t\t<p><i>￥" + Math.round(menu[j + 3 * i].price / 0.8) + "</i> <span class=\"item_price\">￥" + menu[j + 3 * i].price + "</span><a class=\"item_add\" href=\"####\">加入购物车</a></p>\n" +
                         "\t\t\t\t\t\t\t</div>\n" +
                         "\t\t\t\t\t\t</div>";
                 }
@@ -180,21 +116,86 @@ $(window).load(function(){
         }
     });
 </script>
+
+<!--
+<script type='text/javascript'>//<![CDATA[
+$(window).load(function(){
+$( "#slider-range" ).slider({
+range: true,
+min: 0,
+max: 500,
+values: [ 0, 100 ],
+slide: function( event, ui ) { $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+}
+});
+$("#amount").val( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+});
+</script>
+<script type="text/javascript">
+$(".quick_links_panel li").mouseenter(function(){
+$(this).children(".mp_tooltip").animate({left:-92,queue:true});
+$(this).children(".mp_tooltip").css("visibility","visible");
+$(this).children(".ibar_login_box").css("display","block");
+});
+$(".quick_links_panel li").mouseleave(function(){
+$(this).children(".mp_tooltip").css("visibility","hidden");
+$(this).children(".mp_tooltip").animate({left:-121,queue:true});
+$(this).children(".ibar_login_box").css("display","none");
+});
+$(".quick_toggle li").mouseover(function(){
+$(this).children(".mp_qrcode").show();
+});
+$(".quick_toggle li").mouseleave(function(){
+$(this).children(".mp_qrcode").hide();
+});
+
+// 元素以及其他一些变量
+var eleFlyElement = document.querySelector("#flyItem"), eleShopCart = document.querySelector("#shopCart");
+var numberItem = 0;
+// 抛物线运动
+var myParabola = funParabola(eleFlyElement, eleShopCart, {
+speed: 400, //抛物线速度
+curvature: 0.0008, //控制抛物线弧度
+complete: function() {
+eleFlyElement.style.visibility = "hidden";
+eleShopCart.querySelector("span").innerHTML = ++numberItem;
+}
+});
+// 绑定点击事件
+if (eleFlyElement && eleShopCart) {
+
+[].slice.call(document.getElementsByClassName("btnCart")).forEach(function(button) {
+button.addEventListener("click", function(event) {
+// 滚动大小
+var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft || 0,
+scrollTop = document.documentElement.scrollTop || document.body.scrollTop || 0;
+eleFlyElement.style.left = event.clientX + scrollLeft + "px";
+eleFlyElement.style.top = event.clientY + scrollTop + "px";
+eleFlyElement.style.visibility = "visible";
+
+// 需要重定位
+myParabola.position().move();
+});
+});
+}
+</script>
+-->
 <html>
 <head>
-	<title>甜品 | 西西弗斯咖啡屋</title>
+    <title>甜品 | 西西弗斯咖啡屋</title>
 </head>
 <body>
 <div class="header">
     <div class="container">
         <div class="header-grid">
             <div class="header-grid-left animated wow slideInLeft" data-wow-delay=".5s">
-                <%if(hasLogin){%>
+                <%if (hasLogin) {%>
                 <ul>
-                    <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a></li>
+                    <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a>
+                    </li>
                     <li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="register.jsp">退出</a></li>
                 </ul>
-                <%}else{%>
+                <%} else {%>
                 <ul>
                     <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.jsp">登录</a></li>
                     <li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.jsp">注册</a></li>
@@ -258,266 +259,252 @@ $(window).load(function(){
     </div>
 </div>
 
-	<div class="breadcrumbs">
-		<div class="container">
-			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
-				<li><a href="index.jsp"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
-				<li class="active">甜品</li>
-			</ol>
-		</div>
-	</div>
-	<div class="products">
-		<div class="container">
-			<div class="col-md-4 products-left">
-				<div class="filter-price animated wow slideInUp" data-wow-delay=".5s">
-					<h3>价格范围</h3>
-					<ul class="dropdown-menu1">
-							<li><a href="">								               
-							<div id="slider-range"></div>							
-							<input type="text" id="amount" style="border: 0" />
-							</a></li>	
-					</ul>
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+            <li><a href="index.jsp"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
+            <li class="active">甜品</li>
+        </ol>
+    </div>
+</div>
+<div class="products">
+    <div class="container">
+        <div class="col-md-4 products-left">
+            <div class="categories animated wow slideInUp" data-wow-delay=".5s" style="margin-top: 0">
+            <h3>菜单</h3>
+            <ul class="cate">
+                <li><a href="furniture.html">季度精选</a> <span>(15)</span></li>
+                <li><a href="furniture.html">全部</a> <span>(16)</span></li>
+                <ul>
+                    <li><a href="furniture.html">烘焙</a> <span>(2)</span></li>
+                    <li><a href="furniture.html">蛋糕</a> <span>(5)</span></li>
+                    <li><a href="furniture.html">酸奶</a> <span>(0)</span></li>
+                    <li><a href="furniture.html">早安新一天</a> <span>(1)</span></li>
+                </ul>
+            </ul>
+        </div>
+        <div class="new-products animated wow slideInUp" data-wow-delay=".5s">
+            <h3>新品上市</h3>
+            <div class="new-products-grids">
+                <div class="new-products-grid">
+                    <div class="new-products-grid-left">
+                        <a href="single.jsp"><img src="images/新品1.jpg" alt=" " class="img-responsive"/></a>
+                    </div>
+                    <div class="new-products-grid-right">
+                        <h4><a href="single.jsp">法式闪电泡芙</a></h4>
+                        <div class="rating">
+                            <div class="rating-left">
+                                <img src="images/2.png" alt=" " class="img-responsive">
+                            </div>
+                            <div class="rating-left">
+                                <img src="images/2.png" alt=" " class="img-responsive">
+                            </div>
+                            <div class="rating-left">
+                                <img src="images/2.png" alt=" " class="img-responsive">
+                            </div>
+                            <div class="rating-left">
+                                <img src="images/2.png" alt=" " class="img-responsive">
+                            </div>
+                            <div class="rating-left">
+                                <img src="images/2.png" alt=" " class="img-responsive">
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="simpleCart_shelfItem new-products-grid-right-add-cart">
+                            <p><span class="item_price">$35</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="new-products-grid">
+                    <div class="new-products-grid-left">
+                        <a href="single.jsp"><img src="images/新品2.jpg" alt=" " class="img-responsive"/></a>
+                    </div>
+                    <div class="new-products-grid-right">
+                        <h4><a href="single.jsp">浓醇三重黑巧克力蛋糕</a></h4>
+                        <div class="rating">
+                            <div class="rating-left">
+                                <img src="images/2.png" alt=" " class="img-responsive">
+                            </div>
+                            <div class="rating-left">
+                                <img src="images/2.png" alt=" " class="img-responsive">
+                            </div>
+                            <div class="rating-left">
+                                <img src="images/2.png" alt=" " class="img-responsive">
+                            </div>
+                            <div class="rating-left">
+                                <img src="images/2.png" alt=" " class="img-responsive">
+                            </div>
+                            <div class="rating-left">
+                                <img src="images/1.png" alt=" " class="img-responsive">
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="simpleCart_shelfItem new-products-grid-right-add-cart">
+                            <p><span class="item_price">$35</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="new-products-grid">
+                    <div class="new-products-grid-left">
+                        <a href="single.jsp"><img src="images/新品3.jpg" alt=" " class="img-responsive"/></a>
+                    </div>
+                    <div class="new-products-grid-right">
+                        <h4><a href="single.jsp">香浓巧克力麦芬</a></h4>
+                        <div class="rating">
+                            <div class="rating-left">
+                                <img src="images/2.png" alt=" " class="img-responsive">
+                            </div>
+                            <div class="rating-left">
+                                <img src="images/2.png" alt=" " class="img-responsive">
+                            </div>
+                            <div class="rating-left">
+                                <img src="images/2.png" alt=" " class="img-responsive">
+                            </div>
+                            <div class="rating-left">
+                                <img src="images/2.png" alt=" " class="img-responsive">
+                            </div>
+                            <div class="rating-left">
+                                <img src="images/1.png" alt=" " class="img-responsive">
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="simpleCart_shelfItem new-products-grid-right-add-cart">
+                            <p><span class="item_price">$28</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="men-position animated wow slideInUp" data-wow-delay=".5s">
+            <a href="single.jsp"><img src="images/星级烘焙.png" alt=" " class="img-responsive"/></a>
+        </div>
+    </div>
+    <div class="col-md-8 products-right">
+        <div class="products-right-grid">
+            <div class="products-right-grids-position animated wow slideInRight" data-wow-delay=".5s">
+                <img src="images/甜品主页1.jpg" alt=" " class="img-responsive"/>
+                <div class="products-right-grids-position1">
+                    <h4>不只是甜品<br>更是一种生活方式</h4>
+                    <p>灵感源自美国西海岸饮食文化，精选来自世界各地的高品质原料，造型有趣，始于经典又融入现代流行元素，每一款都藏着小转折和小惊喜。
+                        气息香醇可人，轻咬一口，满口酥软与幸福感，唤醒夏日的慵懒，给味蕾带来层层惊喜。</p>
+                </div>
+            </div>
+        </div>
+        <%--菜单内容-JS生成--%>
+        <div class="products-right-grids-bottom animated wow zoomIn" id="products-right-grids-bottom"
+             data-wow-delay=".5s" style="margin-top: 42px"></div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+</div>
 
-						<script type="text/javascript" src="JS/jquery-ui.min.js"></script>
-					 <!---->
-				</div>
-				<div class="categories animated wow slideInUp" data-wow-delay=".5s">
-					<h3>菜单</h3>
-					<ul class="cate">
-						<li><a href="furniture.html">季度精选</a> <span>(15)</span></li>
-						<li><a href="furniture.html">全部</a> <span>(16)</span></li>
-							<ul>
-								<li><a href="furniture.html">烘焙</a> <span>(2)</span></li>
-								<li><a href="furniture.html">蛋糕</a> <span>(5)</span></li>
-								<li><a href="furniture.html">酸奶</a> <span>(0)</span></li>
-								<li><a href="furniture.html">早安新一天</a> <span>(1)</span></li>
-							</ul>
-					</ul>
-				</div>
-				<div class="new-products animated wow slideInUp" data-wow-delay=".5s">
-					<h3>新品上市</h3>
-					<div class="new-products-grids">
-						<div class="new-products-grid">
-							<div class="new-products-grid-left">
-								<a href="single.jsp"><img src="images/新品1.jpg" alt=" " class="img-responsive" /></a>
-							</div>
-							<div class="new-products-grid-right">
-								<h4><a href="single.jsp">法式闪电泡芙</a></h4>
-								<div class="rating">
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="clearfix"> </div>
-								</div>
-								<div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-									<p> <span class="item_price">$35</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a></p>
-								</div>
-							</div>
-							<div class="clearfix"> </div>
-						</div>
-						<div class="new-products-grid">
-							<div class="new-products-grid-left">
-								<a href="single.jsp"><img src="images/新品2.jpg" alt=" " class="img-responsive" /></a>
-							</div>
-							<div class="new-products-grid-right">
-								<h4><a href="single.jsp">浓醇三重黑巧克力蛋糕</a></h4>
-								<div class="rating">
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/1.png" alt=" " class="img-responsive">
-									</div>
-									<div class="clearfix"> </div>
-								</div>
-								<div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-									<p> <span class="item_price">$35</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a></p>
-								</div>
-							</div>
-							<div class="clearfix"> </div>
-						</div>
-						<div class="new-products-grid">
-							<div class="new-products-grid-left">
-								<a href="single.jsp"><img src="images/新品3.jpg" alt=" " class="img-responsive" /></a>
-							</div>
-							<div class="new-products-grid-right">
-								<h4><a href="single.jsp">香浓巧克力麦芬</a></h4>
-								<div class="rating">
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/2.png" alt=" " class="img-responsive">
-									</div>
-									<div class="rating-left">
-										<img src="images/1.png" alt=" " class="img-responsive">
-									</div>
-									<div class="clearfix"> </div>
-								</div>
-								<div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-									<p> <span class="item_price">$28</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a></p>
-								</div>
-							</div>
-							<div class="clearfix"> </div>
-						</div>
-					</div>
-				</div>
-				<div class="men-position animated wow slideInUp" data-wow-delay=".5s">
-					<a href="single.jsp"><img src="images/星级烘焙.png" alt=" " class="img-responsive" /></a>
-					<div class="men-position-pos">
-						<h4>星级烘焙</h4>
-						<h5><span>5</span>折起</h5>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-8 products-right">
-				<div class="products-right-grid">
-					<div class="products-right-grids animated wow slideInRight" data-wow-delay=".5s">
-						<div class="sorting">
-							<select id="country" onchange="change_country(this.value)" class="frm-field required sect">
-								<option value="null">默认排序方式</option>
-								<option value="null">按销量排序</option>
-								<option value="null">按价格排序</option>
-							</select>
-						</div>
-						<div class="clearfix"> </div>
-					</div>
-					<div class="products-right-grids-position animated wow slideInRight" data-wow-delay=".5s">
-						<img src="images/甜品主页1.jpg" alt=" " class="img-responsive" />
-						<div class="products-right-grids-position1">
-							<h4>不只是甜品<br>更是一种生活方式</h4>
-							<p>灵感源自美国西海岸饮食文化，精选来自世界各地的高品质原料，造型有趣，始于经典又融入现代流行元素，每一款都藏着小转折和小惊喜。
-								气息香醇可人，轻咬一口，满口酥软与幸福感，唤醒夏日的慵懒，给味蕾带来层层惊喜。</p>
-						</div>
-					</div>
-				</div>
-				<%--菜单内容-JS生成--%>
-				<div class="products-right-grids-bottom animated wow zoomIn" id="products-right-grids-bottom" data-wow-delay=".5s" style="margin-top: 42px"></div>
-			</div>
-			<div class="clearfix"> </div>
-		</div>
-	</div>
-
-	<div class="footer">
-		<div class="container">
-			<div class="footer-grids">
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".5s">
-					<h3>关于我们</h3>
-					<p>西西弗斯咖啡屋是除“居住空间”和“职场”以外的第三空间。优雅舒适的环境，以及独一无二的香醇咖啡和法式浪漫餐点，让你与生活的繁琐保持距离。
-						<span>这里是属于每个人的第三空间，他们不在西西弗斯，就在去西西弗斯的路上。</span></p>
-				</div>
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
-					<h3>联系我们</h3>
-					<ul>
-						<li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>白城沙滩，思明区，厦门市<span>福建省</span></li>
-						<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:info@example.com">cesarean@foxmail.com
-						</a></li>
-						<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+178 5971 0072</li>
-					</ul>
-				</div>
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".7s">
-					<h3>门店展示</h3>
-					<div class="footer-grid-left">
-						<a href="index.jsp"><img src="images/店面1.png" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.jsp"><img src="images/店面2.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.jsp"><img src="images/店面3.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.jsp"><img src="images/店面4.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.jsp"><img src="images/店面1.png" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.jsp"><img src="images/店面2.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.jsp"><img src="images/店面3.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.jsp"><img src="images/店面4.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.jsp"><img src="images/店面1.png" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.jsp"><img src="images/店面2.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.jsp"><img src="images/店面3.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="footer-grid-left">
-						<a href="index.jsp"><img src="images/店面4.jpg" alt=" " class="img-responsive" /></a>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".8s">
-					<h3>相关博客</h3>
-					<div class="footer-grid-sub-grids">
-						<div class="footer-grid-sub-grid-left">
-							<a href="https://www.starbucks.com.cn/coffee-blog/the-origin-of-coffee-and-its-cultivation/"><img src="images/博客1.jpg" alt=" " class="img-responsive" /></a>
-						</div>
-						<div class="footer-grid-sub-grid-right">
-							<h4><a href="https://www.starbucks.com.cn/coffee-blog/the-origin-of-coffee-and-its-cultivation/">咖啡的起源与培植</a></h4>
-							<p>Posted On 5/7/2018</p>
-						</div>
-						<div class="clearfix"> </div>
-					</div>
-					<div class="footer-grid-sub-grids">
-						<div class="footer-grid-sub-grid-left">
-							<a href="https://www.starbucks.com.cn/coffee-blog/history-of-coffee/"><img src="images/博客2.jpg" alt=" " class="img-responsive" /></a>
-						</div>
-						<div class="footer-grid-sub-grid-right">
-							<h4><a href="https://www.starbucks.com.cn/coffee-blog/history-of-coffee/">咖啡的历史</a></h4>
-							<p>Posted On 5/7/2018</p>
-						</div>
-						<div class="clearfix"> </div>
-					</div>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-			<div class="footer-logo animated wow slideInUp" data-wow-delay=".5s">
-				<h2><a href="index.jsp">西西弗斯咖啡屋<span>心意，从这一杯开始</span></a></h2>
-			</div>
-			<div class="copy-right animated wow slideInUp" data-wow-delay=".5s">
-				<p>Copyright ©2018 Sisyphus. All Rights Reserved.</p>
-			</div>
-		</div>
-	</div>
+<div class="footer">
+    <div class="container">
+        <div class="footer-grids">
+            <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".5s">
+                <h3>关于我们</h3>
+                <p>西西弗斯咖啡屋是除“居住空间”和“职场”以外的第三空间。优雅舒适的环境，以及独一无二的香醇咖啡和法式浪漫餐点，让你与生活的繁琐保持距离。
+                    <span>这里是属于每个人的第三空间，他们不在西西弗斯，就在去西西弗斯的路上。</span></p>
+            </div>
+            <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
+                <h3>联系我们</h3>
+                <ul>
+                    <li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>白城沙滩，思明区，厦门市<span>福建省</span>
+                    </li>
+                    <li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a
+                            href="mailto:info@example.com">cesarean@foxmail.com
+                    </a></li>
+                    <li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+178 5971 0072</li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".7s">
+                <h3>门店展示</h3>
+                <div class="footer-grid-left">
+                    <a href="index.jsp"><img src="images/店面1.png" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.jsp"><img src="images/店面2.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.jsp"><img src="images/店面3.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.jsp"><img src="images/店面4.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.jsp"><img src="images/店面1.png" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.jsp"><img src="images/店面2.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.jsp"><img src="images/店面3.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.jsp"><img src="images/店面4.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.jsp"><img src="images/店面1.png" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.jsp"><img src="images/店面2.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.jsp"><img src="images/店面3.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="footer-grid-left">
+                    <a href="index.jsp"><img src="images/店面4.jpg" alt=" " class="img-responsive"/></a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".8s">
+                <h3>相关博客</h3>
+                <div class="footer-grid-sub-grids">
+                    <div class="footer-grid-sub-grid-left">
+                        <a href="https://www.starbucks.com.cn/coffee-blog/the-origin-of-coffee-and-its-cultivation/"><img
+                                src="images/博客1.jpg" alt=" " class="img-responsive"/></a>
+                    </div>
+                    <div class="footer-grid-sub-grid-right">
+                        <h4>
+                            <a href="https://www.starbucks.com.cn/coffee-blog/the-origin-of-coffee-and-its-cultivation/">咖啡的起源与培植</a>
+                        </h4>
+                        <p>Posted On 5/7/2018</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="footer-grid-sub-grids">
+                    <div class="footer-grid-sub-grid-left">
+                        <a href="https://www.starbucks.com.cn/coffee-blog/history-of-coffee/"><img src="images/博客2.jpg"
+                                                                                                   alt=" "
+                                                                                                   class="img-responsive"/></a>
+                    </div>
+                    <div class="footer-grid-sub-grid-right">
+                        <h4><a href="https://www.starbucks.com.cn/coffee-blog/history-of-coffee/">咖啡的历史</a></h4>
+                        <p>Posted On 5/7/2018</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="footer-logo animated wow slideInUp" data-wow-delay=".5s">
+            <h2><a href="index.jsp">西西弗斯咖啡屋<span>心意，从这一杯开始</span></a></h2>
+        </div>
+        <div class="copy-right animated wow slideInUp" data-wow-delay=".5s">
+            <p>Copyright ©2018 Sisyphus. All Rights Reserved.</p>
+        </div>
+    </div>
+</div>
 <!-- //footer -->
 
 <!--右侧贴边导航quick_links.js控制-->
+<!--
 <div class="mui-mbar-tabs">
 	<div class="quick_link_mian">
 		<div class="quick_links_panel">
@@ -574,7 +561,7 @@ $(window).load(function(){
 		<div id="quick_links_pop" class="quick_links_pop hide"></div>
 	</div>
 </div>
-
+-->
 
 
 </body>
