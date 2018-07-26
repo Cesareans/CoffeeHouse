@@ -33,8 +33,7 @@ public class DBCart {
         }
     }
 
-    public String getNewSN()
-    {
+    public String getNewSN() {
         ArrayList<Integer> SNs = new ArrayList<>();
         String sn = "";
         try {
@@ -47,13 +46,14 @@ public class DBCart {
             rs.close();
             psm.close();
 
-            int SN=0;
-            for(Integer i : SNs){
-                if(SN < i)
+            int SN = 0;
+            for (Integer i : SNs) {
+                if (SN < i)
                     SN = i;
             }
             SN++;
-            sn=String.format("%06d",SN);
+            if (SNs.size() > 0)
+                sn = String.format("%06d", SN);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -125,11 +125,10 @@ public class DBCart {
         return getUserCart(usertel) != null;
     }
 
-    private boolean haveCartMSN(String cartSN,String MSN)
-    {
+    private boolean haveCartMSN(String cartSN, String MSN) {
         boolean result = false;
         try {
-            psm = con.prepareStatement("select distinct mealSerialNumber from cart where cartSN="+"'"+cartSN+"' and mealSerialNumber ="+"'"+MSN+"'");
+            psm = con.prepareStatement("select distinct mealSerialNumber from cart where cartSN=" + "'" + cartSN + "' and mealSerialNumber =" + "'" + MSN + "'");
             rs = psm.executeQuery();
             ArrayList<String> MSNs = new ArrayList<String>();
             result = rs.next();
@@ -141,6 +140,7 @@ public class DBCart {
         }
         return result;
     }
+
     public boolean insertNewCart(String user, String mealSerialNumber, int qty) {
         boolean result = false;
         try {
@@ -148,7 +148,7 @@ public class DBCart {
             PreparedStatement stmt = con.prepareStatement(sqlInset);
             DBOrder o = new DBOrder();
             String sn = getNewSN();
-            if(sn.equals(""))
+            if (sn.equals(""))
                 sn = o.getNewSN();
             stmt.setString(1, sn);
             stmt.setString(2, user);
@@ -162,7 +162,8 @@ public class DBCart {
         }
         return result;
     }
-    public boolean insertNewItem(String cartSN , String userTel , String mealSerialNumber, int qty ){
+
+    public boolean insertNewItem(String cartSN, String userTel, String mealSerialNumber, int qty) {
         boolean result = false;
         try {
             String sqlInset = "insert into cart(cartSN,userTel,mealSerialNumber,qty) values(?, ?, ?, ?)";
@@ -227,15 +228,12 @@ public class DBCart {
         String cartSN = "";
         if (haveCart(usertel)) {
             cartSN = getCartSNByUser(usertel);
-            if(haveCartMSN(cartSN,mealSN))
-            {
-                if(updateCartQty(cartSN,mealSN,newQty))
-                    result=true;
-            }
-            else
-            {
-                if(insertNewItem(cartSN,usertel,mealSN,newQty))
-                    result=true;
+            if (haveCartMSN(cartSN, mealSN)) {
+                if (updateCartQty(cartSN, mealSN, newQty))
+                    result = true;
+            } else {
+                if (insertNewItem(cartSN, usertel, mealSN, newQty))
+                    result = true;
             }
         } else {
             if (insertNewCart(usertel, mealSN, newQty))
