@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,11 +25,20 @@
 <script src="JS/wow.min.js"></script>
 <script src="JS/bootstrap-3.1.1.min.js"></script>
 
+
 <style>
     .layui-form-radio>i:hover, .layui-form-radioed>i {
         color: #cb754b;
     }
 </style>
+
+<%
+    String userTel = ((String) session.getAttribute("usertel"));
+    boolean hasLogin = false;
+    if(userTel != null){
+        hasLogin = true;
+    }
+%>
 <script type="application/x-javascript">
     addEventListener("load", function () {
         setTimeout(hideURLbar, 0);
@@ -110,13 +120,17 @@
     <div class="container">
         <div class="header-grid">
             <div class="header-grid-left animated wow slideInLeft" data-wow-delay=".5s">
+                <%if(hasLogin){%>
                 <ul>
-                    <li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a
-                            href="mailto:info@example.com">cesarean@foxmail.com</a></li>
-                    <li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+178 <span>5971</span> 0072</li>
+                    <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a></li>
+                    <li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="register.html">退出</a></li>
+                </ul>
+                <%}else{%>
+                <ul>
                     <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a href="login.html">登录</a></li>
                     <li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="register.html">注册</a></li>
                 </ul>
+                <%}%>
             </div>
             <div class="header-grid-right animated wow slideInRight" data-wow-delay=".5s">
                 <ul class="social-icons">
@@ -129,10 +143,10 @@
             <div class="clearfix"></div>
         </div>
         <div class="logo-nav">
-            <div class="logo-nav-left animated wow zoomIn" data-wow-delay=".5s">
-                <h1><a href="index.html">西西弗斯咖啡屋 </a></h1><span font-size="5px">心意，从这一杯开始</span>
+            <div class="logo-nav-left animated wow slideInLeft" data-wow-delay=".5s">
+                <h1><a href="index.jsp">西西弗斯咖啡屋 </a></h1><span font-size="5px">心意，从这一杯开始</span>
             </div>
-            <div class="logo-nav-left1">
+            <div class="logo-nav-left1 animated wow zoomIn"  data-wow-delay=".5s">
                 <nav class="navbar navbar-default">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header nav_2">
@@ -146,34 +160,16 @@
                     </div>
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                         <ul class="nav navbar-nav">&emsp;
-                            <li><a href="index.html">&emsp;&emsp;&emsp;&emsp;主页</a></li>
-                            <li><a href="products.html">&nbsp;饮料</a></li>
-                            <li><a href="furniture.html">&nbsp;甜品</a></li>
-                            <li><a href="short-codes.html">&nbsp;主食</a></li>
-                            <li><a href="mail.html">&nbsp;联系我们</a></li>
+                            <li><a href="index.jsp">&emsp;&emsp;&emsp;&emsp;主页</a></li>
+                            <li><a href="drinks.html">&nbsp;饮料</a></li>
+                            <li><a href="desserts.html">&nbsp;甜品</a></li>
+                            <li><a href="meals.html">&nbsp;主食</a></li>
+                            <li><a href="mailto:cesarean@foxmail.com">&nbsp;联系我们</a></li>
                         </ul>
                     </div>
                 </nav>
             </div>
-            <div class="logo-nav-right">
-                <div class="search-box">
-                    <div id="sb-search" class="sb-search">
-                        <form>
-                            <input class="sb-search-input" placeholder="请输入搜索内容..." type="search" id="search">
-                            <input class="sb-search-submit" type="submit" value="">
-                            <span class="sb-icon-search"> </span>
-                        </form>
-                    </div>
-                </div>
-                <!-- search-scripts -->
-                <script src="JS/classie.js"></script>
-                <script src="JS/uisearch.js"></script>
-                <script>
-                    new UISearch(document.getElementById('sb-search'));
-                </script>
-                <!-- //search-scripts -->
-            </div>
-            <div class="header-right">
+            <div class="header-right animated wow slideInRight" data-wow-delay=".5s">
                 <div class="cart box_1">
                     <a href="checkout.html">
                         <h3>
@@ -198,7 +194,7 @@
 <div class="breadcrumbs">
     <div class="container">
         <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
-            <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
+            <li><a href="index.jsp"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
             <li class="active">个人信息</li>
         </ol>
     </div>
@@ -211,11 +207,11 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
                 <ul>
-                    <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.html">个人信息</a></li>
+                    <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a></li>
                     <p><br></p>
-                    <li><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i><a href="information.html">历史订单</a></li>
+                    <li><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i><a href="information.jsp">历史订单</a></li>
                     <p><br></p>
-                    <li><i class="glyphicon glyphicon-cog" aria-hidden="true"></i><a href="information.html">其他设置</a></li>
+                    <li><i class="glyphicon glyphicon-cog" aria-hidden="true"></i><a href="information.jsp">其他设置</a></li>
                 </ul>
             </div>
 
@@ -283,40 +279,40 @@
             <div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".7s">
                 <h3>门店展示</h3>
                 <div class="footer-grid-left">
-                    <a href="index.html"><img src="images/店面1.png" alt=" " class="img-responsive"/></a>
+                    <a href="index.jsp"><img src="images/店面1.png" alt=" " class="img-responsive"/></a>
                 </div>
                 <div class="footer-grid-left">
-                    <a href="index.html"><img src="images/店面2.jpg" alt=" " class="img-responsive"/></a>
+                    <a href="index.jsp"><img src="images/店面2.jpg" alt=" " class="img-responsive"/></a>
                 </div>
                 <div class="footer-grid-left">
-                    <a href="index.html"><img src="images/店面3.jpg" alt=" " class="img-responsive"/></a>
+                    <a href="index.jsp"><img src="images/店面3.jpg" alt=" " class="img-responsive"/></a>
                 </div>
                 <div class="footer-grid-left">
-                    <a href="index.html"><img src="images/店面4.jpg" alt=" " class="img-responsive"/></a>
+                    <a href="index.jsp"><img src="images/店面4.jpg" alt=" " class="img-responsive"/></a>
                 </div>
                 <div class="footer-grid-left">
-                    <a href="index.html"><img src="images/店面1.png" alt=" " class="img-responsive"/></a>
+                    <a href="index.jsp"><img src="images/店面1.png" alt=" " class="img-responsive"/></a>
                 </div>
                 <div class="footer-grid-left">
-                    <a href="index.html"><img src="images/店面2.jpg" alt=" " class="img-responsive"/></a>
+                    <a href="index.jsp"><img src="images/店面2.jpg" alt=" " class="img-responsive"/></a>
                 </div>
                 <div class="footer-grid-left">
-                    <a href="index.html"><img src="images/店面3.jpg" alt=" " class="img-responsive"/></a>
+                    <a href="index.jsp"><img src="images/店面3.jpg" alt=" " class="img-responsive"/></a>
                 </div>
                 <div class="footer-grid-left">
-                    <a href="index.html"><img src="images/店面4.jpg" alt=" " class="img-responsive"/></a>
+                    <a href="index.jsp"><img src="images/店面4.jpg" alt=" " class="img-responsive"/></a>
                 </div>
                 <div class="footer-grid-left">
-                    <a href="index.html"><img src="images/店面1.png" alt=" " class="img-responsive"/></a>
+                    <a href="index.jsp"><img src="images/店面1.png" alt=" " class="img-responsive"/></a>
                 </div>
                 <div class="footer-grid-left">
-                    <a href="index.html"><img src="images/店面2.jpg" alt=" " class="img-responsive"/></a>
+                    <a href="index.jsp"><img src="images/店面2.jpg" alt=" " class="img-responsive"/></a>
                 </div>
                 <div class="footer-grid-left">
-                    <a href="index.html"><img src="images/店面3.jpg" alt=" " class="img-responsive"/></a>
+                    <a href="index.jsp"><img src="images/店面3.jpg" alt=" " class="img-responsive"/></a>
                 </div>
                 <div class="footer-grid-left">
-                    <a href="index.html"><img src="images/店面4.jpg" alt=" " class="img-responsive"/></a>
+                    <a href="index.jsp"><img src="images/店面4.jpg" alt=" " class="img-responsive"/></a>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -351,7 +347,7 @@
             <div class="clearfix"></div>
         </div>
         <div class="footer-logo animated wow slideInUp" data-wow-delay=".5s">
-            <h2><a href="index.html">西西弗斯咖啡屋<span>心意，从这一杯开始</span></a></h2>
+            <h2><a href="index.jsp">西西弗斯咖啡屋<span>心意，从这一杯开始</span></a></h2>
         </div>
         <div class="copy-right animated wow slideInUp" data-wow-delay=".5s">
             <p>Copyright ©2018 Sisyphus. All Rights Reserved.</p>

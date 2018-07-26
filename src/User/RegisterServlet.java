@@ -31,6 +31,6 @@ public class RegisterServlet extends HttpServlet {
         DBUser dbuser = new DBUser();
         dbuser.insertNewUser(regUsertel, regPassword);
 
-        response.sendRedirect("information.html");
+        response.sendRedirect("information.jsp");
     }
 }
