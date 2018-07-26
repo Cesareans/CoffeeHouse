@@ -39,30 +39,8 @@
 </script>
 <script>
     new WOW().init();
-	$(function() {
-        $('#products-right-grids-bottom').bind("click", function(e) {
-              var price = e.target.previousSibling.innerText;
-              price = price.slice(1,3);
-              var name = e.target.parentNode.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.firstChild.innerText;
-			  var serialNumber = e.target.parentNode.parentNode.nextSibling.nextSibling.innerText;
-			  $.ajax({
-                  url:"cart",
-                  method:"post",
-                  data:{
-                      "price":price,
-                      "name":name,
-                      "qty":1,
-                      "serialNumber":serialNumber
-                  },
-                  success:function(result) {
-                      if(result==="true") alert("添加购物车成功!");
-                      else alert("添加失败!");
-                  }
-              });
-        });
-	});
 
-	//显示菜单
+    //显示菜单
     $.ajax({
         url: "meal",
         method: "get",
@@ -104,7 +82,7 @@
                         "\t\t\t\t\t\t\t<div class=\"simpleCart_shelfItem products-right-grid1-add-cart\">\n" +
                         "\t\t\t\t\t\t\t\t<p><i>￥"+Math.round(menu[j + 3 * i].price/0.8)+"</i> <span class=\"price\">￥" + menu[j + 3 * i].price + "</span><a class=\"add\" style='cursor: pointer'>加入购物车</a></p>\n" +
                         "\t\t\t\t\t\t\t</div>\n" +
-						"\t\t\t\t\t\t\t<div hidden>"+menu[j+3*i].serialNumber+"</div>" +
+                        "\t\t\t\t\t\t\t<div hidden>"+menu[j+3*i].serialNumber+"</div>" +
                         "\t\t\t\t\t\t</div>";
                 }
                 output += "</div>";
@@ -113,9 +91,64 @@
             $('#products-right-grids-bottom').html(output);
         }
     });
+
+    //商品提交至购物车
+    function updateCart(price, name, qty, serialNumber) {
+        $.ajax({
+            url:"cart",
+            method:"post",
+            data:{
+                "price":price,
+                "name":name,
+                "qty":qty,
+                "serialNumber":serialNumber
+            },
+            success:function(result) {
+                if(result==="true") alert("添加购物车成功!");
+                else alert("添加失败!");
+            }
+        });
+    }
+
+    //点击加入购物车事件
+	$(function() {
+        var price;
+        var name;
+        var qty = 1;
+        var serialNumber;
+	    //添加至购物车
+        $('#products-right-grids-bottom').bind("click", function(e) {
+              price = e.target.previousSibling.innerText;
+              price = price.slice(1,3);
+              name = e.target.parentNode.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.firstChild.innerText;
+			  serialNumber = e.target.parentNode.parentNode.nextSibling.nextSibling.innerText;
+			  updateCart(price, name, qty, serialNumber);
+        });
+        $("#add1").bind("click",function()
+        {
+            price = 32;
+            name = "培根蛋可颂堡";
+            serialNumber = "0010";
+            updateCart(price, name, qty, serialNumber);
+        });
+
+        $("#add2").bind("click",function()
+        {
+            price = 25;
+            name = "蜜汁培根蛋卷";
+            serialNumber = "0011";
+            updateCart(price, name, qty, serialNumber);
+        });
+
+        $("#add3").bind("click",function()
+        {
+            price = 38;
+            name = "培根蛋可颂堡"
+            serialNumber = "0012";
+            updateCart(price, name, qty, serialNumber);
+        });
+	});
 </script>
-
-
 <!--
 <script type="text/javascript" src="JS/parabola.js"></script>
 <script type="text/javascript">
@@ -180,7 +213,7 @@ myParabola.position().move();
 				<%if(hasLogin){%>
 				<ul>
 					<li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a></li>
-					<li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="register.jsp">退出</a></li>
+					<li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="logout">退出</a></li>
 				</ul>
 				<%}else{%>
 				<ul>
@@ -203,7 +236,7 @@ myParabola.position().move();
 			<div class="logo-nav-left animated wow slideInLeft" data-wow-delay=".5s">
 				<h1><a href="index.jsp">西西弗斯咖啡屋 </a></h1><span font-size="5px">心意，从这一杯开始</span>
 			</div>
-			<div class="logo-nav-left1 animated wow zoomIn" data-wow-delay=".5s">
+			<div class="logo-nav-left1 animated wow zoomIn"  data-wow-delay=".5s">
 				<nav class="navbar navbar-default">
 					<!-- Brand and toggle get grouped for better mobile display -->
 					<div class="navbar-header nav_2">
@@ -237,7 +270,6 @@ myParabola.position().move();
 							<img src="images/bag.png" alt=""/>
 						</h3>
 					</a>
-					<p><a href="javascript:;" class="simpleCart_empty">清空购物车</a></p>
 					<div class="clearfix"></div>
 				</div>
 			</div>
@@ -298,7 +330,7 @@ myParabola.position().move();
 								<div class="clearfix"> </div>
 							</div>
 							<div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-								<p> <span class="item_price">$32</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a></p>
+								<p> <span class="item_price">￥32.00</span><a id="add1" href="javascript:;" class="add_cart_large btnCart">加入购物车</a></p>
 							</div>
 						</div>
 						<div class="clearfix"> </div>
@@ -328,7 +360,7 @@ myParabola.position().move();
 								<div class="clearfix"> </div>
 							</div>
 							<div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-								<p> <span class="item_price">$45</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a></p>
+								<p> <span class="item_price">￥25</span><a href="javascript:;" id="add2" class="add_cart_large btnCart">加入购物车</a></p>
 							</div>
 						</div>
 						<div class="clearfix"> </div>
@@ -358,7 +390,7 @@ myParabola.position().move();
 								<div class="clearfix"> </div>
 							</div>
 							<div class="simpleCart_shelfItem new-products-grid-right-add-cart">
-								<p> <span class="item_price">$48</span><a href="javascript:;" class="add_cart_large btnCart">加入购物车</a></p>
+								<p> <span class="item_price">￥38</span><a href="javascript:;" id="add3" class="add_cart_large btnCart">加入购物车</a></p>
 							</div>
 						</div>
 						<div class="clearfix"> </div>

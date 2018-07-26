@@ -25,7 +25,8 @@ public class LoginSession {
 
     public static void terminateSession(HttpServletRequest request)
     {
-        request.removeAttribute("usertel");
-        request.removeAttribute("password");
+        HttpSession session = request.getSession();
+        session.removeAttribute("usertel");
+        session.removeAttribute("password");
     }
 }

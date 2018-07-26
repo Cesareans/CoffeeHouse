@@ -51,7 +51,7 @@
 				<%if(hasLogin){%>
 				<ul>
 					<li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a></li>
-					<li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="register.jsp">退出</a></li>
+					<li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="logout">退出</a></li>
 				</ul>
 				<%}else{%>
 				<ul>
@@ -74,7 +74,7 @@
 			<div class="logo-nav-left animated wow slideInLeft" data-wow-delay=".5s">
 				<h1><a href="index.jsp">西西弗斯咖啡屋 </a></h1><span font-size="5px">心意，从这一杯开始</span>
 			</div>
-			<div class="logo-nav-left1 animated wow zoomIn" data-wow-delay=".5s">
+			<div class="logo-nav-left1 animated wow zoomIn"  data-wow-delay=".5s">
 				<nav class="navbar navbar-default">
 					<!-- Brand and toggle get grouped for better mobile display -->
 					<div class="navbar-header nav_2">
@@ -108,7 +108,6 @@
 							<img src="images/bag.png" alt=""/>
 						</h3>
 					</a>
-					<p><a href="javascript:;" class="simpleCart_empty">清空购物车</a></p>
 					<div class="clearfix"></div>
 				</div>
 			</div>

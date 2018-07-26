@@ -123,7 +123,7 @@
                 <%if(hasLogin){%>
                 <ul>
                     <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a></li>
-                    <li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="/logout">退出</a></li>
+                    <li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="logout">退出</a></li>
                 </ul>
                 <%}else{%>
                 <ul>
