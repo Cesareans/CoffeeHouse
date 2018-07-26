@@ -99,7 +99,7 @@
                 url: "userinfo",
                 data: $("#profileForm").serialize(),
                 success: function (result) {
-                    if (result == null || result === "false") {
+                    if (result == null || result === "false"||!checkmail) {
                         alert("个人信息完善失败!请检查信息的合法性");
                     } else if (result === "true") {
                         alert("个人信息完善成功!");
