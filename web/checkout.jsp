@@ -56,7 +56,13 @@
             var cart = $.parseJSON(result);
             var menu = cart["menu"];
             var items = cart["items"];
+            if(items === null){
+                $("#number").text(0);
+                return;
+            }
+
             list = items["orderlist"];
+
             $("#number").text(list.length);
             totalNumber = list.length;
             for (var i = 0; i < list.length; i++) {
@@ -171,11 +177,13 @@
                         var cart = $.parseJSON(result);
                         var menu = cart["menu"];
                         var items = cart["items"];
-                        list = items["orderlist"];
-                        if(totalNumber===0)
+                        if(items === undefined || items === null){
                             $("#number").text(0);
-                        else
-                            $("#number").text(list.length);
+                            return;
+                        }
+
+                        list = items["orderlist"];
+                        $("#number").text(list.length);
                         for (var i = 0; i < list.length; i++) {
                             for (var j = 0; j < menu.length; j++) {
                                 if (list[i].mealSerialNumber === menu[j].serialNumber) {
