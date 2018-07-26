@@ -76,10 +76,10 @@
                             "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/2.png\" alt=\" \" class=\"img-responsive\">\n" +
                             "\t\t\t\t\t\t\t\t\t\t</div>\n" +
                             "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
-                            "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/1.png\" alt=\" \" class=\"img-responsive\">\n" +
+                            "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/2.png\" alt=\" \" class=\"img-responsive\">\n" +
                             "\t\t\t\t\t\t\t\t\t\t</div>\n" +
                             "\t\t\t\t\t\t\t\t\t\t<div class=\"rating-left\">\n" +
-                            "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/1.png\" alt=\" \" class=\"img-responsive\">\n" +
+                            "\t\t\t\t\t\t\t\t\t\t\t<img src=\"images/2.png\" alt=\" \" class=\"img-responsive\">\n" +
                             "\t\t\t\t\t\t\t\t\t\t</div>\n" +
                             "\t\t\t\t\t\t\t\t\t\t<div class=\"clearfix\"> </div>\n" +
                             "\t\t\t\t\t\t\t\t\t</div>\n" +
@@ -269,12 +269,12 @@
 			<div class="categories animated wow slideInUp" data-wow-delay=".5s" style="margin-top: 0">
 				<h3>菜单</h3>
 				<ul class="cate">
-					<li><a href="short-codes.html">季度精选</a> <span>(3)</span></li>
-					<li><a href="short-codes.html">全部</a> <span>(8)</span></li>
+					<li><a href="">季度精选</a> <span>(3)</span></li>
+					<li><a href="">全部</a> <span>(8)</span></li>
 					<ul>
-						<li><a href="short-codes.html">三明治、帕尼尼、卷</a> <span>(5)</span></li>
-						<li><a href="short-codes.html">意大利面</a> <span>(1)</span></li>
-						<li><a href="short-codes.html">法式牛排</a> <span>(2)</span></li>
+						<li><a href="">三明治、帕尼尼、卷</a> <span>(5)</span></li>
+						<li><a href="">意大利面</a> <span>(1)</span></li>
+						<li><a href="">法式牛排</a> <span>(2)</span></li>
 					</ul>
 				</ul>
 			</div>
@@ -331,7 +331,7 @@
 									<img src="images/2.png" alt=" " class="img-responsive">
 								</div>
 								<div class="rating-left">
-									<img src="images/1.png" alt=" " class="img-responsive">
+									<img src="images/2.png" alt=" " class="img-responsive">
 								</div>
 								<div class="clearfix"> </div>
 							</div>
@@ -361,7 +361,7 @@
 									<img src="images/2.png" alt=" " class="img-responsive">
 								</div>
 								<div class="rating-left">
-									<img src="images/1.png" alt=" " class="img-responsive">
+									<img src="images/2.png" alt=" " class="img-responsive">
 								</div>
 								<div class="clearfix"> </div>
 							</div>

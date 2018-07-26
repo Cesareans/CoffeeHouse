@@ -29,15 +29,13 @@ public class LoginFilter implements Filter {
             }
 
         }else {//前台
-            if (uri.endsWith("index.jsp") || uri.endsWith("login.jsp") || uri.endsWith("register.jsp") || uri.endsWith("/")) {
-                chain.doFilter(req, resp);
-                return;
-            }
-            //判断用户是否登陆
-            HttpSession session = ((HttpServletRequest) req).getSession();
-            String usertel = ((String) session.getAttribute("usertel"));
-            if (usertel == null) {
-                ((HttpServletResponse) resp).sendRedirect("login.jsp");
+            if (uri.endsWith("information.jsp") || uri.endsWith("checkout.jsp") || uri.endsWith("order.jsp") || uri.endsWith("ordercheck.jsp") ) {
+                //判断用户是否登陆
+                HttpSession session = ((HttpServletRequest) req).getSession();
+                String usertel = ((String) session.getAttribute("usertel"));
+                if (usertel == null) {
+                    ((HttpServletResponse) resp).sendRedirect("login.jsp");
+                }
             }
         }
 

@@ -121,7 +121,8 @@
 		<div class="container">
 			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
 				<li><a href="index.jsp"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
-				<li class="active">商品详情</li>
+				<li class="active">饮料</li>
+                <li class="active">摩卡</li>
 			</ol>
 		</div>
 	</div>

@@ -201,7 +201,7 @@
                         <img src="images/3.jpg" alt=" " class="img-responsive"/>
                     </div>
                     <div class="grid-left-grid1-pos">
-                        <p>classic<br>special<span>romantic</span></p>
+                        <p>古典<br>特别<span>浪漫</span></p>
                     </div>
                 </div>
             </div>
