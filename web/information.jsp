@@ -99,9 +99,9 @@
                 url: "userinfo",
                 data: $("#profileForm").serialize(),
                 success: function (result) {
-                    if (result == null || result === "false"||!checkmail) {
+                    if (result == null || result === "false") {
                         alert("个人信息完善失败!请检查信息的合法性");
-                    } else if (result === "true"&&checkmail) {
+                    } else if (result === "true") {
                         alert("个人信息完善成功!");
                     }
                 }
@@ -123,7 +123,7 @@
                 <%if(hasLogin){%>
                 <ul>
                     <li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="information.jsp">个人信息</a></li>
-                    <li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="register.jsp">退出</a></li>
+                    <li><i class="glyphicon glyphicon-log-out" aria-hidden="true"></i><a href="/logout">退出</a></li>
                 </ul>
                 <%}else{%>
                 <ul>
@@ -180,7 +180,6 @@
                             <img src="images/bag.png" alt=""/>
                         </h3>
                     </a>
-                    <p><a href="javascript:;" class="simpleCart_empty">清空购物车</a></p>
                     <div class="clearfix"></div>
                 </div>
             </div>
@@ -228,7 +227,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">性别：</label>
                         <div class="layui-input-block">
-                            <input name="gender" type="radio" value="男" title="男" checked>
+                            <input name="gender" type="radio" value="男" title="男">
                             <input name="gender" type="radio" value="女" title="女">
                             <input name="gender" type="radio" value="保密" title="保密">
                         </div>

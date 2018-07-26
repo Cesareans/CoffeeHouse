@@ -65,8 +65,6 @@
                  var menu = order["menu"];
                  var orderinfo = order["order"][0];
                  var items = orderinfo["orderlist"];
-                 console.log(menu);
-                 console.log(items);
                  for (var i = 0; i < items.length; i++) {
                      for (var j = 0; j < menu.length; j++) {
                          if (items[i].mealSerialNumber === menu[j].serialNumber) {
@@ -75,13 +73,17 @@
                          }
                      }
                  }
-                 console.log(items);
+                 var totalprice = 0;
+                 for(var l = 0; l<items.length; l++)
+                 {
+                     totalprice+=items[l].quantity*items[l].mealPrice;
+                 }
                  for(var k = 0; k<items.length; k++) {
                       output+="<dd class=\"item clearfix\">\n" +
                           "                                <div class=\"item-row\">\n" +
                           "                                    <div class=\"col col-1\">\n" +
                           "                                        <div class=\"g-pic\">\n" +
-                          "                                            <img src=\""+ items[k].pictureUrl+"\" srcset=\"images/卡布奇诺.jpg\" width=\"40\" height=\"40\"/>\n" +
+                          "                                            <img src=\""+ items[k].pictureUrl+"\" srcset=\""+ items[k].pictureUrl+"\" width=\"40\" height=\"40\"/>\n" +
                           "                                        </div>\n" +
                           "                                        <div class=\"g-info\">\n" +
                           "                                            <a href=\"#\">"+items[k].mealName+"</a>\n" +
@@ -89,12 +91,31 @@
                           "                                    </div>\n" +
                           "\n" +
                           "                                    <div class=\"col col-2\">￥"+(items[k].mealPrice).toFixed(2)+"</div>\n" +
-                          "                                    <div class=\"col col-3\">￥"+(items[k].quantity*items[k].mealPrice).toFixed(2)+"</div>\n" +
-                          "                                    <div class=\"col col-4\">39元</div>\n" +
+                          "                                    <div class=\"col col-3\">"+items[k].quantity+"</div>\n" +
+                          "                                    <div class=\"col col-4\">￥"+(items[k].quantity*items[k].mealPrice).toFixed(2)+"</div>\n" +
                           "                                </div>\n" +
                           "                            </dd>";
                  }
-                 $("#")
+                 output+="</dl>\n" +
+                     "                        <div class=\"checkout-count clearfix\">\n" +
+                     "                            <!-- checkout-count-extend -->\n" +
+                     "                            <div class=\"checkout-price\">\n" +
+                     "                                <p class=\"checkout-total\">应付总额：<span><strong id=\"totalPrice\">￥"+totalprice+"</strong></span></p>\n" +
+                     "                            </div>\n" +
+                     "                            <!--  -->\n" +
+                     "                        </div>\n" +
+                     "                    </div>\n" +
+                     "                    <!-- 商品清单 END -->\n" +
+                     "                    <input type=\"hidden\" id=\"couponType\" name=\"Checkout[couponsType]\">\n" +
+                     "                    <input type=\"hidden\" id=\"couponValue\" name=\"Checkout[couponsValue]\">\n" +
+                     "                    <div class=\"checkout-confirm\">\n" +
+                     "\n" +
+                     "                        <a href=\"checkout.jsp\" class=\"btn btn-lineDakeLight btn-back-cart\">返回购物车</a>\n" +
+                     "                        <a href=\"order.jsp\" type=\"submit\" class=\"btn btn-primary\" id=\"checkoutToPay\">立即下单</a>\n" +
+                     "                    </div>\n" +
+                     "                </div>\n" +
+                     "            </div>";
+                 $("#goodlist").html(output);
              }
 
          });
@@ -197,90 +218,8 @@
     <div class="container">
         <div class="checkout-box-ft">
             <!-- 商品清单 -->
-            <form>
-            <div id="checkoutGoodsList" class="checkout-goods-box">
-                <div class="xm-box">
-                    <div class="box-hd">
-                        <h2 class="title">确认订单信息</h2>
-                        <h2 class="title"><br></h2>
-                    </div>
-                    <div class="box-bd">
-                        <dl class="checkout-goods-list">
-                            <dt class="clearfix">
-                                <span class="col col-1"><h4>商品名称</h4></span>
-                                <span class="col col-2"><h4>购买价格</h4></span>
-                                <span class="col col-3"><h4>购买数量</h4></span>
-                                <span class="col col-4"><h4>小计</h4></span>
-                            </dt>
-                            <dd class="item clearfix">
-                                <div class="item-row">
-                                    <div class="col col-1">
-                                        <div class="g-pic">
-                                            <img src="images/卡布奇诺.jpg" srcset="images/卡布奇诺.jpg" width="40" height="40"/>
-                                        </div>
-                                        <div class="g-info">
-                                            <a href="#">卡布奇诺</a>
-                                        </div>
-                                    </div>
+            <form id="goodlist">
 
-                                    <div class="col col-2">39元</div>
-                                    <div class="col col-3">1</div>
-                                    <div class="col col-4">39元</div>
-                                </div>
-                            </dd>
-                            <dd class="item clearfix">
-                                <div class="item-row">
-                                    <div class="col col-1">
-                                        <div class="g-pic">
-                                            <img src="images/美式咖啡.jpg" srcset="images/美式咖啡.jpg" width="40" height="40"/>
-                                        </div>
-                                        <div class="g-info">
-                                            <a href="#">美式咖啡 </a>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-2">49元</div>
-                                    <div class="col col-3">1</div>
-                                    <div class="col col-4">49元</div>
-                                </div>
-                            </dd>
-                            <dd class="item clearfix">
-                                <div class="item-row">
-                                    <div class="col col-1">
-                                        <div class="g-pic">
-                                            <img src="images/焦糖玛奇朵.jpg" srcset="images/焦糖玛奇朵.jpg" width="40"
-                                                 height="40"/>
-                                        </div>
-                                        <div class="g-info">
-                                            <a href="#">
-                                                焦糖玛奇朵 </a>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-2">39元</div>
-                                    <div class="col col-3">4</div>
-                                    <div class="col col-4">156元</div>
-                                </div>
-                            </dd>
-                        </dl>
-                        <div class="checkout-count clearfix">
-                            <!-- checkout-count-extend -->
-                            <div class="checkout-price">
-                                <p class="checkout-total">应付总额：<span><strong id="totalPrice">244</strong>元</span></p>
-                            </div>
-                            <!--  -->
-                        </div>
-                    </div>
-                    <!-- 商品清单 END -->
-                    <input type="hidden" id="couponType" name="Checkout[couponsType]">
-                    <input type="hidden" id="couponValue" name="Checkout[couponsValue]">
-                    <div class="checkout-confirm">
-
-                        <a href="checkout.jsp" class="btn btn-lineDakeLight btn-back-cart">返回购物车</a>
-                        <a href="order.jsp" input type="submit" class="btn btn-primary" id="checkoutToPay">立即下单</a>
-                    </div>
-                </div>
-            </div>
 
             </form>
 
