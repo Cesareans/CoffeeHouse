@@ -38,6 +38,7 @@ public class UserInfoServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=utf-8;");
         PrintWriter pw = response.getWriter();
         DBUser dbuser = new DBUser();
         HttpSession session = request.getSession();

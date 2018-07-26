@@ -41,12 +41,11 @@
     new WOW().init();
 	$(function() {
         $('#products-right-grids-bottom').bind("click", function(e) {
-              var node = e.target.parentNode;
-              var price = node.firstChild.nextSibling.nextSibling.innerText;
+              var price = e.target.previousSibling.innerText;
               price = price.slice(1,3);
-              var name = e.target.parentNode.parentNode.previousElementSibling.previousElementSibling.innerText;
-			  var serialNumber = node.parentNode.nextSibling.firstChild.nextSibling.innerText;
-              $.ajax({
+              var name = e.target.parentNode.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.firstChild.innerText;
+			  var serialNumber = e.target.parentNode.parentNode.nextSibling.nextSibling.innerText;
+			  $.ajax({
                   url:"cart",
                   method:"post",
                   data:{
@@ -63,6 +62,7 @@
         });
 	});
 
+	//显示菜单
     $.ajax({
         url: "meal",
         method: "get",
@@ -102,7 +102,7 @@
                         "\t\t\t\t\t\t\t<h4><a class=\"name\" href=\"single.jsp\">" + menu[j + 3 * i].name + "</a></h4>\n" +
                         "\t\t\t\t\t\t\t<p></p>\n" +
                         "\t\t\t\t\t\t\t<div class=\"simpleCart_shelfItem products-right-grid1-add-cart\">\n" +
-                        "\t\t\t\t\t\t\t\t<p><i>￥"+Math.round(menu[j + 3 * i].price/0.8)+"</i> <span class=\"price\">￥" + menu[j + 3 * i].price + "</span><a class=\"add\" href='####'>加入购物车</input></p>\n" +
+                        "\t\t\t\t\t\t\t\t<p><i>￥"+Math.round(menu[j + 3 * i].price/0.8)+"</i> <span class=\"price\">￥" + menu[j + 3 * i].price + "</span><a class=\"add\" style='cursor: pointer'>加入购物车</a></p>\n" +
                         "\t\t\t\t\t\t\t</div>\n" +
 						"\t\t\t\t\t\t\t<div hidden>"+menu[j+3*i].serialNumber+"</div>" +
                         "\t\t\t\t\t\t</div>";

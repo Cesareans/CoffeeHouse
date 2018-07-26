@@ -18,5 +18,6 @@ public class LogoutServlet extends HttpServlet {
     }
     private void processRequest(HttpServletRequest request , HttpServletResponse response) throws  ServletException , IOException{
         LoginSession.terminateSession(request);
+        response.sendRedirect("login.jsp");
     }
 }

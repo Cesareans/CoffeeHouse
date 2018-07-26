@@ -66,6 +66,7 @@
         });
     });
 
+    //显示菜单
     $.ajax({
         url: "dessert",
         method: "get",
@@ -106,7 +107,9 @@
                         "\t\t\t\t\t\t\t<p></p>\n" +
                         "\t\t\t\t\t\t\t<div class=\"simpleCart_shelfItem products-right-grid1-add-cart\">\n" +
                         "\t\t\t\t\t\t\t\t<p><i>￥" + Math.round(menu[j + 3 * i].price / 0.8) + "</i> <span class=\"item_price\">￥" + menu[j + 3 * i].price + "</span><a class=\"item_add\" href=\"####\">加入购物车</a></p>\n" +
+                        "\t\t\t\t\t\t\t\t<p><i>￥"+Math.round(menu[j + 3 * i].price/0.8)+"</i> <span class=\"price\">￥" + menu[j + 3 * i].price + "</span><a class=\"add\" style='cursor: pointer'>加入购物车</a></p>\n" +
                         "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t<div hidden>"+menu[j+3*i].serialNumber+"</div>" +
                         "\t\t\t\t\t\t</div>";
                 }
                 output += "</div>";

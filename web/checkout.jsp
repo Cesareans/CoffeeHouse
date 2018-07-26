@@ -41,6 +41,12 @@
 <script>
     new WOW().init();
     var list;
+    var node;
+    var qty;
+    var Node;
+    var total;
+    var totalNode;
+    var serialNumber;
     //获取购物车表中的信息并显示
     $.ajax({
         url: "cart",
@@ -98,7 +104,7 @@
                     "    <td class=\"invert\">￥" + (list[k].price * list[k].quantity).toFixed(2) + "</td>\n" +
                     "    <td class=\"invert\">\n" +
                     "        <div class=\"rem\">\n" +
-                    "            <div class=\"close1\"> </div>\n" +
+                    "            <div class=\"close1\">*</div>\n" +
                     "        </div>\n" +
                     "    </td>\n" +
                     "</tr>";
@@ -108,14 +114,8 @@
     });
 
     $(function () {
-        //改变购买数量
+        //改变购买数量以及删除商品
         $("#cart").bind("click", function (e) {
-            var node;
-            var qty;
-            var Node;
-            var total;
-            var totalNode;
-            var serialNumber;
             if (e.target.innerText === "+") {
                 node = e.target.previousSibling.previousSibling.firstChild;
                 qty = (Number)(node.innerText);
@@ -144,19 +144,93 @@
                 $(totalNode).text("￥"+total.toFixed(2));
                 updateQty(qty, serialNumber);
             }
-            else if(e.target.innerText===" "){
+            else if(e.target.innerText==="*"){
+                Node = e.target.parentNode.parentNode.parentNode.firstChild.nextSibling.innerText;
+                serialNumber = list[Node-1].mealSerialNumber;
+                var row = e.target.parentNode.parentNode.parentNode;
+
+                $(row).fadeOut('slow', function () {
+                    $(row).remove();
+                });
+
+                $.ajax({
+                    url:"delete",
+                    method:"post",
+                    data:{
+                        "serialNumber":serialNumber
+                    },
+                    success:function(result) {}
+                });
+
+                $.ajax({
+                    url: "cart",
+                    method: "get",
+                    success: function (result) {
+                        var cart = $.parseJSON(result);
+                        var menu = cart["menu"];
+                        var items = cart["items"];
+                        list = items["orderlist"];
+                        $("#number").text(list.length);
+
+                        for (var i = 0; i < list.length; i++) {
+                            for (var j = 0; j < menu.length; j++) {
+                                if (list[i].mealSerialNumber === menu[j].serialNumber) {
+                                    list[i].name = menu[j].name;
+                                    list[i].pictureUrl = menu[j].pictureUrl;
+                                    list[i].price = menu[j].price;
+                                    break;
+                                }
+                            }
+                        }
+                        var output = "<thead>\n" +
+                            "                <tr>\n" +
+                            "                    <th>序号</th>\n" +
+                            "                    <th>商品</th>\n" +
+                            "                    <th>数量</th>\n" +
+                            "                    <th>商品姓名</th>\n" +
+                            "                    <th>单价</th>\n" +
+                            "                    <th>总价</th>\n" +
+                            "                    <th>删除</th>\n" +
+                            "                </tr>\n" +
+                            "          </thead>";
+                        for (var k = 0; k < list.length; k++) {
+                            output += "<tr>\n" +
+                                "    <td class=\"invert\">" + (k + 1) + "</td>\n" +
+                                "\t\n" +
+                                "    <td class=\"invert-image\">\n" +
+                                "\t\t<a href=\"single.jsp\">\n" +
+                                "\t\t\t<img src=\"" + list[k].pictureUrl + "\" alt=\" \" class=\"img-responsive\"/>\n" +
+                                "\t\t</a>\n" +
+                                "    </td>\n" +
+                                "\t\n" +
+                                "    <td class=\"invert\">\n" +
+                                "        <div class=\"quantity\">\n" +
+                                "            <div class=\"quantity-select\">\n" +
+                                "                <div class=\"entry value-minus\" disabled='true'>-</div>\n" +
+                                "                <div class=\"entry value\"><span>" + list[k].quantity + "</span></div>\n" +
+                                "                <div id='plus' class=\"entry value-plus active\">+</div>\n" +
+                                "            </div>\n" +
+                                "        </div>\n" +
+                                "    </td>\n" +
+                                "\t\n" +
+                                "    <td class=\"invert\">" + list[k].name + "</td>\n" +
+                                "    <td class=\"invert\">￥" + (list[k].price).toFixed(2) + "</td>\n" +
+                                "    <td class=\"invert\">￥" + (list[k].price * list[k].quantity).toFixed(2) + "</td>\n" +
+                                "    <td class=\"invert\">\n" +
+                                "        <div class=\"rem\">\n" +
+                                "            <div class=\"close1\">*</div>\n" +
+                                "        </div>\n" +
+                                "    </td>\n" +
+                                "</tr>";
+                        }
+                        $("#cart").html(output);
+                    }
+                });
+
 
             }
         });
 
-        //删除商品
-        $(document).ready(function (c) {
-            $('.close1').on('click', function (c) {
-                $('.rem1').fadeOut('slow', function (c) {
-                    $('.rem1').remove();
-                });
-            });
-        });
 
         //提交订单,转为订单
         $("#ordercheck").bind("click", function() {
@@ -280,16 +354,6 @@
             </table>
         </div>
         <div class="checkout-left">
-            <div class="checkout-left-basket animated wow slideInLeft" data-wow-delay=".5s">
-                <h4>总计</h4>
-                <ul id="total">
-                    <li>法式闪电泡芙 <span>29.00</span><span>￥</span></li>
-                    <li>浓醇三重黑巧克力蛋糕 <span>29.00</span><span>￥</span></li>
-                    <li>香浓巧克力麦芬 <span>29.00</span><span>￥</span></li>
-                    <li>配送费 <span>4.00</span><span>￥</span></li>
-                    <li>总计 <span>29.00</span><span>￥</span></li>
-                </ul>
-            </div>
             <div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">
                 <a href="index.jsp"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>返回点餐</a>
                 <a href="ordercheck.jsp" id="ordercheck">
