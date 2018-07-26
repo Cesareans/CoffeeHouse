@@ -247,31 +247,6 @@
 <div class="products">
 	<div class="container">
 		<div class="col-md-4 products-left">
-			<div class="filter-price animated wow slideInUp" data-wow-delay=".5s">
-				<h3>价格范围</h3>
-				<ul class="dropdown-menu1">
-					<li><a href="">
-						<div id="slider-range"></div>
-						<input type="text" id="amount" style="border: 0" />
-					</a></li>
-				</ul>
-				<script type='text/javascript'>//<![CDATA[
-                $(window).load(function(){
-                    $( "#slider-range" ).slider({
-                        range: true,
-                        min: 0,
-                        max: 500,
-                        values: [ 0, 100 ],
-                        slide: function( event, ui ) {  $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-                        }
-                    });
-                    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
-
-
-                });
-				</script>
-				<script type="text/javascript" src="JS/jquery-ui.min.js"></script>
-			</div>
 			<div class="categories animated wow slideInUp" data-wow-delay=".5s">
 				<h3>菜单</h3>
 				<ul class="cate">
@@ -389,16 +364,6 @@
 		</div>
 		<div class="col-md-8 products-right">
 			<div class="products-right-grid">
-				<div class="products-right-grids animated wow slideInRight" data-wow-delay=".5s">
-					<div class="sorting">
-						<select id="country" onchange="change_country(this.value)" class="frm-field required sect">
-							<option value="null">默认排序方式</option>
-							<option value="null">按销量排序</option>
-							<option value="null">按价格排序</option>
-						</select>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
 				<div class="products-right-grids-position animated wow slideInRight" data-wow-delay=".5s">
 					<img src="images/主食主页2.png" alt=" " class="img-responsive" />
 					<div class="products-right-grids-position1">
@@ -409,28 +374,9 @@
 				</div>
 			</div>
 
-			<div class="products-right-grids-bottom" id="products-right-grids-bottom">
-			</div>
+			<%--菜单内容-JS生成--%>
+			<div class="products-right-grids-bottom animated wow zoomIn" id="products-right-grids-bottom" data-wow-delay=".5s" style="margin-top: 42px"></div>
 
-			<nav class="numbering animated wow slideInRight" data-wow-delay=".5s">
-				<ul class="pagination paging">
-					<li>
-						<a href="#" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
-						</a>
-					</li>
-					<li class="active"><a href="#">1<span class="sr-only">(current)</span></a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-					<li>
-						<a href="#" aria-label="Next">
-							<span aria-hidden="true">&raquo;</span>
-						</a>
-					</li>
-				</ul>
-			</nav>
 
 		</div>
 		<div class="clearfix"> </div>

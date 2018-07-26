@@ -61,27 +61,40 @@
              method:"get",
              success:function(result) {
                  var order = $.parseJSON(result);
-                 var orderlist = order["orderlist"];
-                 console.log(orderlist);
-
-                 for(var i = 0; i<order.length; i++) {
+                 console.log(order);
+                 var menu = order["menu"];
+                 var orderinfo = order["order"][0];
+                 var items = orderinfo["orderlist"];
+                 console.log(menu);
+                 console.log(items);
+                 for (var i = 0; i < items.length; i++) {
+                     for (var j = 0; j < menu.length; j++) {
+                         if (items[i].mealSerialNumber === menu[j].serialNumber) {
+                             items[i].pictureUrl = menu[j].pictureUrl;
+                             break;
+                         }
+                     }
+                 }
+                 console.log(items);
+                 for(var k = 0; k<items.length; k++) {
                       output+="<dd class=\"item clearfix\">\n" +
                           "                                <div class=\"item-row\">\n" +
                           "                                    <div class=\"col col-1\">\n" +
                           "                                        <div class=\"g-pic\">\n" +
-                          "                                            <img src=\"images/卡布奇诺.jpg\" srcset=\"images/卡布奇诺.jpg\" width=\"40\" height=\"40\"/>\n" +
+                          "                                            <img src=\""+ items[k].pictureUrl+"\" srcset=\"images/卡布奇诺.jpg\" width=\"40\" height=\"40\"/>\n" +
                           "                                        </div>\n" +
                           "                                        <div class=\"g-info\">\n" +
-                          "                                            <a href=\"#\">卡布奇诺</a>\n" +
+                          "                                            <a href=\"#\">"+items[k].mealName+"</a>\n" +
                           "                                        </div>\n" +
                           "                                    </div>\n" +
                           "\n" +
-                          "                                    <div class=\"col col-2\">39元</div>\n" +
-                          "                                    <div class=\"col col-3\">1</div>\n" +
+                          "                                    <div class=\"col col-2\">￥"+(items[k].mealPrice).toFixed(2)+"</div>\n" +
+                          "                                    <div class=\"col col-3\">￥"+(items[k].quantity*items[k].mealPrice).toFixed(2)+"</div>\n" +
                           "                                    <div class=\"col col-4\">39元</div>\n" +
                           "                                </div>\n" +
                           "                            </dd>";
                  }
+                 $("#")
              }
 
          });
