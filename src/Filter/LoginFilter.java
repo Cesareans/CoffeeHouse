@@ -17,7 +17,7 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         String uri = ((HttpServletRequest) req).getRequestURI();
         if(uri.startsWith("/admin")){//后台
-            if(uri.endsWith("login.jsp")){
+            if(uri.endsWith("login.html")){
                 chain.doFilter(req,resp);
                 return;
             }
@@ -25,7 +25,7 @@ public class LoginFilter implements Filter {
             HttpSession session = ((HttpServletRequest) req).getSession();
             String admin = ((String) session.getAttribute("adminName"));
             if(admin == null){
-                ((HttpServletResponse) resp).sendRedirect("admin-login.jsp");
+                ((HttpServletResponse) resp).sendRedirect("admin-login.html");
             }
 
         }else {//前台
